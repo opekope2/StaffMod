@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "avm_staff",
+  "version": "${version}",
+  "name": "Staff Mod from AvM Shorts",
+  "description": "Staff from Animation vs Minecraft Shorts",
+  "authors": [
+    "opekope2"
+  ],
+  "contact": {
+    "homepage": "https://github.com/opekope2/StaffMod",
+    "issues": "https://github.com/opekope2/StaffMod/issues",
+    "sources": "https://github.com/opekope2/StaffMod"
+  },
+  "license": "MIT",
+  "icon": "assets/avm_staff/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.Initializer"
+      }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.ModName"
+      }
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${fabricloader}",
+    "fabric-item-api-v1": "*",
+    "fabric-key-binding-api-v1": "*",
+    "fabric-lifecycle-events-v1": "*",
+    "fabric-model-loading-api-v1": "*",
+    "fabric-networking-api-v1": "*",
+    "fabric-renderer-api-v1": "*",
+    "fabric-language-kotlin": ">=${fabric_language_kotlin}",
+    "minecraft": ">=${minecraft}",
+    "java": ">=${java}"
+  }
+}
