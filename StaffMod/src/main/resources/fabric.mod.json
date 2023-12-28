@@ -31,12 +31,7 @@
   },
   "depends": {
     "fabricloader": ">=${fabricloader}",
-    "fabric-item-api-v1": "*",
-    "fabric-key-binding-api-v1": "*",
-    "fabric-lifecycle-events-v1": "*",
-    "fabric-model-loading-api-v1": "*",
-    "fabric-networking-api-v1": "*",
-    "fabric-renderer-api-v1": "*",
+    "fabric-api": ">=${fabric_api}",
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=${minecraft}",
     "java": ">=${java}"
