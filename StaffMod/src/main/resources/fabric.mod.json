@@ -19,7 +19,7 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.Initializer"
+        "value": "opekope2.avm_staff.StaffMod"
       }
     ],
     "client": [
