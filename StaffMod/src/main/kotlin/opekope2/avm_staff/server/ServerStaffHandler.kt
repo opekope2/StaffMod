@@ -1,10 +1,11 @@
 package opekope2.avm_staff.server
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
-import opekope2.avm_staff.StaffMod
+import opekope2.avm_staff.StaffMod.STAFF_ITEM
 import opekope2.avm_staff.packet.AddBlockToStaffC2SPacket
 import opekope2.avm_staff.packet.RemoveBlockFromStaffC2SPacket
 import opekope2.avm_staff.util.addBlock
@@ -18,9 +19,7 @@ object ServerStaffHandler {
         player: ServerPlayerEntity,
         responseSender: PacketSender
     ) {
-        val inventory = player.inventory
-
-        val (staffStack, blockStack) = findStaffAndBlockStack(inventory) ?: return
+        val (staffStack, blockStack) = findStaffAndBlockStack(player) ?: return
 
         if (blockStack.isEmpty) return
         if (staffStack.hasBlock) return
@@ -32,9 +31,8 @@ object ServerStaffHandler {
         player: ServerPlayerEntity,
         responseSender: PacketSender
     ) {
+        val (staffStack, blockSlot) = findStaffStackAndBlockSlot(player) ?: return
         val inventory = player.inventory
-
-        val (staffStack, blockSlot) = findStaffStackAndBlockSlot(inventory) ?: return
         val blockStack = inventory.getStack(blockSlot)
 
         if (!staffStack.hasBlock) return
@@ -54,28 +52,28 @@ object ServerStaffHandler {
         return canCombine && totalCount <= item.maxCount && totalCount <= maxCountPerStack
     }
 
-    private fun findStaffStackAndBlockSlot(inventory: PlayerInventory): Pair<ItemStack, Int>? {
-        val mainStack = inventory.mainHandStack
-        val offStack = inventory.offHand[0]
+    private fun findStaffStackAndBlockSlot(player: PlayerEntity): Pair<ItemStack, Int>? {
+        val mainStack = player.mainHandStack
+        val offStack = player.offHandStack
 
         return when {
-            mainStack.isOf(StaffMod.STAFF_ITEM) && !offStack.isOf(StaffMod.STAFF_ITEM) ->
+            mainStack.isOf(STAFF_ITEM) && !offStack.isOf(STAFF_ITEM) ->
                 mainStack to PlayerInventory.OFF_HAND_SLOT
 
-            offStack.isOf(StaffMod.STAFF_ITEM) && !mainStack.isOf(StaffMod.STAFF_ITEM) ->
-                offStack to inventory.selectedSlot
+            offStack.isOf(STAFF_ITEM) && !mainStack.isOf(STAFF_ITEM) ->
+                offStack to player.inventory.selectedSlot
 
             else -> null
         }
     }
 
-    private fun findStaffAndBlockStack(inventory: PlayerInventory): Pair<ItemStack, ItemStack>? {
-        val mainStack = inventory.mainHandStack
-        val offStack = inventory.offHand[0]
+    private fun findStaffAndBlockStack(player: PlayerEntity): Pair<ItemStack, ItemStack>? {
+        val mainStack = player.mainHandStack
+        val offStack = player.offHandStack
 
         return when {
-            mainStack.isOf(StaffMod.STAFF_ITEM) && !offStack.isOf(StaffMod.STAFF_ITEM) -> mainStack to offStack
-            offStack.isOf(StaffMod.STAFF_ITEM) && !mainStack.isOf(StaffMod.STAFF_ITEM) -> offStack to mainStack
+            mainStack.isOf(STAFF_ITEM) && !offStack.isOf(STAFF_ITEM) -> mainStack to offStack
+            offStack.isOf(STAFF_ITEM) && !mainStack.isOf(STAFF_ITEM) -> offStack to mainStack
             else -> null
         }
     }
