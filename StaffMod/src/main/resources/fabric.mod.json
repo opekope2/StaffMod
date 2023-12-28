@@ -25,7 +25,7 @@
     "client": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.ModName"
+        "value": "opekope2.avm_staff.client.StaffModClient"
       }
     ]
   },
