@@ -13,8 +13,8 @@ import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.util.InputUtil
 import opekope2.avm_staff.StaffMod.MOD_ID
 import opekope2.avm_staff.model.StaffItemModel
-import opekope2.avm_staff.packet.AddBlockToStaffC2SPacket
-import opekope2.avm_staff.packet.RemoveBlockFromStaffC2SPacket
+import opekope2.avm_staff.packet.c2s.AddBlockToStaffC2SPacket
+import opekope2.avm_staff.packet.c2s.RemoveBlockFromStaffC2SPacket
 import opekope2.avm_staff.util.staffHasItem
 import org.lwjgl.glfw.GLFW
 

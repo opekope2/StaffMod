@@ -9,8 +9,8 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.item.StaffItem
-import opekope2.avm_staff.packet.AddBlockToStaffC2SPacket
-import opekope2.avm_staff.packet.RemoveBlockFromStaffC2SPacket
+import opekope2.avm_staff.packet.c2s.AddBlockToStaffC2SPacket
+import opekope2.avm_staff.packet.c2s.RemoveBlockFromStaffC2SPacket
 import opekope2.avm_staff.server.ServerStaffHandler
 
 @Suppress("unused")

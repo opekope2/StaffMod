@@ -1,4 +1,4 @@
-package opekope2.avm_staff.packet
+package opekope2.avm_staff.packet.c2s
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -11,7 +11,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.StaffMod.MOD_ID
 
-class RemoveBlockFromStaffC2SPacket() : FabricPacket {
+class AddBlockToStaffC2SPacket() : FabricPacket {
     constructor(buf: PacketByteBuf) : this()
 
     override fun write(buf: PacketByteBuf) {
@@ -24,13 +24,13 @@ class RemoveBlockFromStaffC2SPacket() : FabricPacket {
 
     companion object {
         @JvmStatic
-        val TYPE: PacketType<RemoveBlockFromStaffC2SPacket> = PacketType.create(
-            Identifier(MOD_ID, "remove_block_from_staff"),
-            ::RemoveBlockFromStaffC2SPacket
+        val TYPE: PacketType<AddBlockToStaffC2SPacket> = PacketType.create(
+            Identifier(MOD_ID, "add_block_to_staff"),
+            ::AddBlockToStaffC2SPacket
         )
 
         @JvmStatic
-        fun registerGlobalReceiver(handler: PlayPacketHandler<RemoveBlockFromStaffC2SPacket>): Boolean {
+        fun registerGlobalReceiver(handler: PlayPacketHandler<AddBlockToStaffC2SPacket>): Boolean {
             return ServerPlayNetworking.registerGlobalReceiver(TYPE, handler)
         }
     }
