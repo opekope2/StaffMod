@@ -16,8 +16,8 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
-import opekope2.avm_staff.util.hasBlock
-import opekope2.avm_staff.util.readBlock
+import opekope2.avm_staff.util.staffHasItem
+import opekope2.avm_staff.util.staffItem
 import org.joml.Vector3f
 import java.util.function.Supplier
 
@@ -30,11 +30,10 @@ class StaffItemModel(model: BakedModel) : ForwardingBakedModel() {
     override fun emitItemQuads(stack: ItemStack, randomSupplier: Supplier<Random>, context: RenderContext) {
         super.emitItemQuads(stack, randomSupplier, context)
 
-        if (!stack.hasBlock) return
+        if (!stack.staffHasItem) return
 
-        val blockStack = stack.readBlock()
-
-        val item = blockStack.item as? BlockItem
+        val itemStack = stack.staffItem
+        val item = itemStack?.item as? BlockItem
         if (item == null) {
             // TODO render item model
             context.pushTransform(::transformBlockIntoStaff)

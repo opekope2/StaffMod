@@ -15,7 +15,7 @@ import opekope2.avm_staff.StaffMod.MOD_ID
 import opekope2.avm_staff.model.StaffItemModel
 import opekope2.avm_staff.packet.AddBlockToStaffC2SPacket
 import opekope2.avm_staff.packet.RemoveBlockFromStaffC2SPacket
-import opekope2.avm_staff.util.hasBlock
+import opekope2.avm_staff.util.staffHasItem
 import org.lwjgl.glfw.GLFW
 
 @Suppress("unused")
@@ -53,7 +53,7 @@ object StaffModClient : ClientModInitializer {
 
             val player = client.player ?: return
 
-            if (player.mainHandStack.hasBlock || player.offHandStack.hasBlock) {
+            if (player.mainHandStack.staffHasItem || player.offHandStack.staffHasItem) {
                 RemoveBlockFromStaffC2SPacket().send()
             } else {
                 AddBlockToStaffC2SPacket().send()

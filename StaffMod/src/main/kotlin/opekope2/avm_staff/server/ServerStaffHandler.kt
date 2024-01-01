@@ -8,10 +8,8 @@ import net.minecraft.server.network.ServerPlayerEntity
 import opekope2.avm_staff.StaffMod.STAFF_ITEM
 import opekope2.avm_staff.packet.AddBlockToStaffC2SPacket
 import opekope2.avm_staff.packet.RemoveBlockFromStaffC2SPacket
-import opekope2.avm_staff.util.addBlock
-import opekope2.avm_staff.util.hasBlock
-import opekope2.avm_staff.util.readBlock
-import opekope2.avm_staff.util.removeBlock
+import opekope2.avm_staff.util.staffHasItem
+import opekope2.avm_staff.util.staffItem
 
 object ServerStaffHandler {
     fun addBlockToStaff(
@@ -19,11 +17,11 @@ object ServerStaffHandler {
         player: ServerPlayerEntity,
         responseSender: PacketSender
     ) {
-        val (staffStack, blockStack) = findStaffAndBlockStack(player) ?: return
+        val (staffStack, itemStack) = findStaffAndItemStack(player) ?: return
 
-        if (blockStack.isEmpty) return
-        if (staffStack.hasBlock) return
-        staffStack.addBlock(blockStack)
+        if (itemStack.isEmpty) return
+        if (staffStack.staffHasItem) return
+        staffStack.staffItem = itemStack
     }
 
     fun removeBlockFromStaff(
@@ -31,17 +29,14 @@ object ServerStaffHandler {
         player: ServerPlayerEntity,
         responseSender: PacketSender
     ) {
-        val (staffStack, blockSlot) = findStaffStackAndBlockSlot(player) ?: return
+        val (staffStack, itemSlot) = findStaffStackAndItemSlot(player) ?: return
         val inventory = player.inventory
-        val blockStack = inventory.getStack(blockSlot)
+        val itemStack = inventory.getStack(itemSlot)
+        val staffItem = staffStack.staffItem ?: return
 
-        if (!staffStack.hasBlock) return
-
-        val staffBlockStack = staffStack.readBlock()
-
-        if (blockStack.canAccept(staffBlockStack, inventory.maxCountPerStack)) {
-            inventory.insertStack(blockSlot, staffBlockStack)
-            staffStack.removeBlock()
+        if (itemStack.canAccept(staffItem, inventory.maxCountPerStack)) {
+            inventory.insertStack(itemSlot, staffItem)
+            staffStack.staffItem = null
         }
     }
 
@@ -52,7 +47,7 @@ object ServerStaffHandler {
         return canCombine && totalCount <= item.maxCount && totalCount <= maxCountPerStack
     }
 
-    private fun findStaffStackAndBlockSlot(player: PlayerEntity): Pair<ItemStack, Int>? {
+    private fun findStaffStackAndItemSlot(player: PlayerEntity): Pair<ItemStack, Int>? {
         val mainStack = player.mainHandStack
         val offStack = player.offHandStack
 
@@ -67,7 +62,7 @@ object ServerStaffHandler {
         }
     }
 
-    private fun findStaffAndBlockStack(player: PlayerEntity): Pair<ItemStack, ItemStack>? {
+    private fun findStaffAndItemStack(player: PlayerEntity): Pair<ItemStack, ItemStack>? {
         val mainStack = player.mainHandStack
         val offStack = player.offHandStack
 
