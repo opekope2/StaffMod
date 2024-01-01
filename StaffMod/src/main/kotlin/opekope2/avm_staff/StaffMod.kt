@@ -2,6 +2,9 @@ package opekope2.avm_staff
 
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.minecraft.item.ItemGroups
+import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
@@ -21,6 +24,12 @@ object StaffMod : ModInitializer {
     )
 
     override fun onInitialize() {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register { entries ->
+            entries.addAfter(Items.NETHERITE_HOE, STAFF_ITEM)
+        }
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register { entries ->
+            entries.addAfter(Items.TRIDENT, STAFF_ITEM)
+        }
         AddBlockToStaffC2SPacket.registerGlobalReceiver(ServerStaffHandler::addBlockToStaff)
         RemoveBlockFromStaffC2SPacket.registerGlobalReceiver(ServerStaffHandler::removeBlockFromStaff)
     }
