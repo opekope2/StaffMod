@@ -19,13 +19,13 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.StaffMod"
+        "value": "opekope2.avm_staff.internal.StaffMod"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.client.StaffModClient"
+        "value": "opekope2.avm_staff.internal.client.StaffModClient"
       }
     ]
   },

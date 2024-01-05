@@ -1,4 +1,7 @@
-package opekope2.avm_staff.client
+// Copyright (c) 2023-2024 opekope2
+// Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
+
+package opekope2.avm_staff.internal.client
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.EnvType
@@ -11,11 +14,11 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.util.InputUtil
-import opekope2.avm_staff.StaffMod.MOD_ID
-import opekope2.avm_staff.model.StaffItemModel
-import opekope2.avm_staff.packet.c2s.AddBlockToStaffC2SPacket
-import opekope2.avm_staff.packet.c2s.RemoveBlockFromStaffC2SPacket
-import opekope2.avm_staff.util.staffHasItem
+import opekope2.avm_staff.internal.StaffMod.MOD_ID
+import opekope2.avm_staff.internal.model.StaffItemModel
+import opekope2.avm_staff.internal.packet.c2s.AddBlockToStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.RemoveBlockFromStaffC2SPacket
+import opekope2.avm_staff.util.isItemInStaff
 import org.lwjgl.glfw.GLFW
 
 @Suppress("unused")
@@ -53,7 +56,7 @@ object StaffModClient : ClientModInitializer {
 
             val player = client.player ?: return
 
-            if (player.mainHandStack.staffHasItem || player.offHandStack.staffHasItem) {
+            if (player.mainHandStack.isItemInStaff || player.offHandStack.isItemInStaff) {
                 RemoveBlockFromStaffC2SPacket().send()
             } else {
                 AddBlockToStaffC2SPacket().send()

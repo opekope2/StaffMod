@@ -1,4 +1,7 @@
-package opekope2.avm_staff.packet.c2s
+// Copyright (c) 2023-2024 opekope2
+// Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
+
+package opekope2.avm_staff.internal.packet.c2s
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -9,10 +12,10 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.PlayPacketHandler
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.StaffMod.MOD_ID
+import opekope2.avm_staff.internal.StaffMod.MOD_ID
 
 class RemoveBlockFromStaffC2SPacket() : FabricPacket {
-    constructor(buf: PacketByteBuf) : this()
+    constructor(@Suppress("UNUSED_PARAMETER") buf: PacketByteBuf) : this()
 
     override fun write(buf: PacketByteBuf) {
     }

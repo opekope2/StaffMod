@@ -1,17 +1,21 @@
-package opekope2.avm_staff.server
+// Copyright (c) 2023-2024 opekope2
+// Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
+
+package opekope2.avm_staff.internal.server
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
-import opekope2.avm_staff.StaffMod.STAFF_ITEM
-import opekope2.avm_staff.packet.c2s.AddBlockToStaffC2SPacket
-import opekope2.avm_staff.packet.c2s.RemoveBlockFromStaffC2SPacket
-import opekope2.avm_staff.util.staffHasItem
-import opekope2.avm_staff.util.staffItem
+import opekope2.avm_staff.internal.StaffMod.STAFF_ITEM
+import opekope2.avm_staff.internal.packet.c2s.AddBlockToStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.RemoveBlockFromStaffC2SPacket
+import opekope2.avm_staff.util.isItemInStaff
+import opekope2.avm_staff.util.itemInStaff
 
-object ServerStaffHandler {
+object StaffPacketHandler {
+    @Suppress("UNUSED_PARAMETER")
     fun addBlockToStaff(
         packet: AddBlockToStaffC2SPacket,
         player: ServerPlayerEntity,
@@ -20,10 +24,11 @@ object ServerStaffHandler {
         val (staffStack, itemStack) = findStaffAndItemStack(player) ?: return
 
         if (itemStack.isEmpty) return
-        if (staffStack.staffHasItem) return
-        staffStack.staffItem = itemStack
+        if (staffStack.isItemInStaff) return
+        staffStack.itemInStaff = itemStack
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun removeBlockFromStaff(
         packet: RemoveBlockFromStaffC2SPacket,
         player: ServerPlayerEntity,
@@ -32,11 +37,11 @@ object ServerStaffHandler {
         val (staffStack, itemSlot) = findStaffStackAndItemSlot(player) ?: return
         val inventory = player.inventory
         val itemStack = inventory.getStack(itemSlot)
-        val staffItem = staffStack.staffItem ?: return
+        val staffItem = staffStack.itemInStaff ?: return
 
         if (itemStack.canAccept(staffItem, inventory.maxCountPerStack)) {
             inventory.insertStack(itemSlot, staffItem)
-            staffStack.staffItem = null
+            staffStack.itemInStaff = null
         }
     }
 
