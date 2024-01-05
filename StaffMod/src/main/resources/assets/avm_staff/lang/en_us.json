@@ -1,5 +1,6 @@
 {
   "item.avm_staff.staff": "Staff",
+  "item.avm_staff.staff.with_item": "Staff with %s",
   "key.categories.avm_staff": "Staff Mod",
   "key.avm_staff.add_remove_staff_block": "Add/remove staff block"
 }
