@@ -12,8 +12,8 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.internal.packet.c2s.AddBlockToStaffC2SPacket
-import opekope2.avm_staff.internal.packet.c2s.RemoveBlockFromStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.AddItemToStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.server.StaffPacketHandler
 
 @Suppress("unused")
@@ -34,7 +34,7 @@ object StaffMod : ModInitializer {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register { entries ->
             entries.addAfter(Items.TRIDENT, STAFF_ITEM)
         }
-        AddBlockToStaffC2SPacket.registerGlobalReceiver(StaffPacketHandler::addBlockToStaff)
-        RemoveBlockFromStaffC2SPacket.registerGlobalReceiver(StaffPacketHandler::removeBlockFromStaff)
+        AddItemToStaffC2SPacket.registerGlobalReceiver(StaffPacketHandler::addBlockToStaff)
+        RemoveItemFromStaffC2SPacket.registerGlobalReceiver(StaffPacketHandler::removeBlockFromStaff)
     }
 }

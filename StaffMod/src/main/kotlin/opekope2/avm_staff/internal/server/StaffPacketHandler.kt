@@ -9,15 +9,15 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import opekope2.avm_staff.internal.StaffMod.STAFF_ITEM
-import opekope2.avm_staff.internal.packet.c2s.AddBlockToStaffC2SPacket
-import opekope2.avm_staff.internal.packet.c2s.RemoveBlockFromStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.AddItemToStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
 
 object StaffPacketHandler {
     @Suppress("UNUSED_PARAMETER")
     fun addBlockToStaff(
-        packet: AddBlockToStaffC2SPacket,
+        packet: AddItemToStaffC2SPacket,
         player: ServerPlayerEntity,
         responseSender: PacketSender
     ) {
@@ -30,7 +30,7 @@ object StaffPacketHandler {
 
     @Suppress("UNUSED_PARAMETER")
     fun removeBlockFromStaff(
-        packet: RemoveBlockFromStaffC2SPacket,
+        packet: RemoveItemFromStaffC2SPacket,
         player: ServerPlayerEntity,
         responseSender: PacketSender
     ) {

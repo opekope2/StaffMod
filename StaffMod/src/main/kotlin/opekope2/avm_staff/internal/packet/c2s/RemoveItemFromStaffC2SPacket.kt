@@ -14,7 +14,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.internal.StaffMod.MOD_ID
 
-class RemoveBlockFromStaffC2SPacket() : FabricPacket {
+class RemoveItemFromStaffC2SPacket() : FabricPacket {
     constructor(@Suppress("UNUSED_PARAMETER") buf: PacketByteBuf) : this()
 
     override fun write(buf: PacketByteBuf) {
@@ -27,13 +27,13 @@ class RemoveBlockFromStaffC2SPacket() : FabricPacket {
 
     companion object {
         @JvmStatic
-        val TYPE: PacketType<RemoveBlockFromStaffC2SPacket> = PacketType.create(
-            Identifier(MOD_ID, "remove_block_from_staff"),
-            ::RemoveBlockFromStaffC2SPacket
+        val TYPE: PacketType<RemoveItemFromStaffC2SPacket> = PacketType.create(
+            Identifier(MOD_ID, "remove_item_from_staff"),
+            ::RemoveItemFromStaffC2SPacket
         )
 
         @JvmStatic
-        fun registerGlobalReceiver(handler: PlayPacketHandler<RemoveBlockFromStaffC2SPacket>): Boolean {
+        fun registerGlobalReceiver(handler: PlayPacketHandler<RemoveItemFromStaffC2SPacket>): Boolean {
             return ServerPlayNetworking.registerGlobalReceiver(TYPE, handler)
         }
     }

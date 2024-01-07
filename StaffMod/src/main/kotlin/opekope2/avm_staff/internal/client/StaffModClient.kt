@@ -16,8 +16,8 @@ import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.util.InputUtil
 import opekope2.avm_staff.internal.StaffMod.MOD_ID
 import opekope2.avm_staff.internal.model.StaffItemModel
-import opekope2.avm_staff.internal.packet.c2s.AddBlockToStaffC2SPacket
-import opekope2.avm_staff.internal.packet.c2s.RemoveBlockFromStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.AddItemToStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.util.isItemInStaff
 import org.lwjgl.glfw.GLFW
 
@@ -57,9 +57,9 @@ object StaffModClient : ClientModInitializer {
             val player = client.player ?: return
 
             if (player.mainHandStack.isItemInStaff || player.offHandStack.isItemInStaff) {
-                RemoveBlockFromStaffC2SPacket().send()
+                RemoveItemFromStaffC2SPacket().send()
             } else {
-                AddBlockToStaffC2SPacket().send()
+                AddItemToStaffC2SPacket().send()
             }
         }
     }
