@@ -34,6 +34,7 @@ object StaffPacketHandler {
         player: ServerPlayerEntity,
         responseSender: PacketSender
     ) {
+        if (player.isUsingItem) return
         val (staffStack, itemSlot) = findStaffStackAndItemSlot(player) ?: return
         val inventory = player.inventory
         val itemStack = inventory.getStack(itemSlot)
