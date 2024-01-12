@@ -3,6 +3,7 @@
 
 package opekope2.avm_staff.internal
 
+import com.mojang.serialization.Codec
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
@@ -21,7 +22,12 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import opekope2.avm_staff.api.config.IConfiguration
+import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
+import opekope2.avm_staff.api.initializer.IStaffModInitializer
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.internal.item.StaffItemHandlers
 import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket
@@ -55,6 +61,9 @@ object StaffMod : ModInitializer {
         AttackBlockCallback.EVENT.register(::handleBlockAttackEvent)
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
 
+        FabricLoader.getInstance().invokeEntrypoints("avm-staff", IStaffModInitializer::class.java) { entryPoint ->
+            entryPoint.onInitializeStaffMod(StaffModInitializationContext)
+        }
     }
 
     private fun handleBlockAttackEvent(
@@ -85,5 +94,16 @@ object StaffMod : ModInitializer {
 
         return staffStack.itemInStaff?.handlerOfItem?.attackEntity(staffStack, world, player, target, hand)
             ?: ActionResult.PASS
+    }
+
+    private object StaffModInitializationContext : IStaffModInitializationContext {
+        override fun <TConfig : IConfiguration<TProfile>, TProfile : Any> registerStaffItemHandler(
+            itemInStaff: Identifier,
+            handler: StaffItemHandler,
+            configurationCodec: Codec<TConfig>,
+            profileCodec: Codec<TProfile>
+        ): Boolean {
+            return StaffItemHandlers.register(itemInStaff, handler, configurationCodec)
+        }
     }
 }
