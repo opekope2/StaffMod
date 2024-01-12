@@ -4,5 +4,8 @@
   "compatibilityLevel": "JAVA_${java}",
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "MinecraftClientMixin"
+  ]
 }

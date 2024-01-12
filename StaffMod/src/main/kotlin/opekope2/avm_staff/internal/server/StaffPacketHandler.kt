@@ -8,9 +8,13 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import opekope2.avm_staff.internal.StaffMod.STAFF_ITEM
 import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket
+import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.hasHandlerOfItem
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
@@ -46,6 +50,19 @@ object StaffPacketHandler {
             inventory.insertStack(itemSlot, staffItem)
             staffStack.itemInStaff = null
         }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun attack(packet: StaffAttackC2SPacket, player: ServerPlayerEntity, responseSender: PacketSender): ActionResult {
+        val staffStack = player.mainHandStack
+        if (!staffStack.isOf(STAFF_ITEM)) return ActionResult.PASS
+
+        return staffStack.itemInStaff?.handlerOfItem?.attack(
+            staffStack,
+            player.world,
+            player,
+            Hand.MAIN_HAND
+        ) ?: ActionResult.PASS
     }
 
     private fun ItemStack.canAccept(other: ItemStack, maxCountPerStack: Int): Boolean {
