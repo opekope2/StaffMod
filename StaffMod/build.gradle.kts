@@ -1,9 +1,14 @@
+// Copyright (c) 2024 opekope2
+// Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
+
 plugins {
     id("fabric-loom")
     kotlin("jvm")
 }
 
-base { archivesName.set(project.extra["archives_base_name"] as String) }
+base {
+    archivesName = project.extra["archives_base_name"] as String
+}
 
 version = project.extra["mod_version"] as String
 group = project.extra["maven_group"] as String
@@ -31,7 +36,7 @@ tasks {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()
         targetCompatibility = javaVersion.toString()
-        options.release.set(javaVersion.toString().toInt())
+        options.release = javaVersion.toString().toInt()
     }
 
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -70,7 +75,7 @@ tasks {
 
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion.toString()))
+            languageVersion = JavaLanguageVersion.of(javaVersion.toString())
         }
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
