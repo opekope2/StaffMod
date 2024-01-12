@@ -1,7 +1,7 @@
 // Copyright (c) 2023-2024 opekope2
 // Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
 
-package opekope2.avm_staff.internal.packet.c2s
+package opekope2.avm_staff.internal.packet.c2s.play
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

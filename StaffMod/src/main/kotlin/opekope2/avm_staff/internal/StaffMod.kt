@@ -12,8 +12,8 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.internal.packet.c2s.AddItemToStaffC2SPacket
-import opekope2.avm_staff.internal.packet.c2s.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.server.StaffPacketHandler
 
 @Suppress("unused")

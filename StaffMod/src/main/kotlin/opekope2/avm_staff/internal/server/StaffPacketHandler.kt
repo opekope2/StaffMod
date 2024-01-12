@@ -9,8 +9,8 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import opekope2.avm_staff.internal.StaffMod.STAFF_ITEM
-import opekope2.avm_staff.internal.packet.c2s.AddItemToStaffC2SPacket
-import opekope2.avm_staff.internal.packet.c2s.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
 
