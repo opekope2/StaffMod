@@ -29,6 +29,10 @@
       }
     ]
   },
+  "mixins": [
+    "avm_staff.mixins.json"
+  ],
+  "accessWidener": "avm_staff.accesswidener",
   "depends": {
     "fabricloader": ">=${fabricloader}",
     "fabric-api": ">=${fabric_api}",
