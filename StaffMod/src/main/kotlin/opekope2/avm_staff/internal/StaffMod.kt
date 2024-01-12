@@ -4,12 +4,14 @@
 package opekope2.avm_staff.internal
 
 import com.mojang.serialization.Codec
+import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemGroups
@@ -70,6 +72,15 @@ object StaffMod : ModInitializer {
 
         FabricLoader.getInstance().invokeEntrypoints("avm-staff", IStaffModInitializer::class.java) { entryPoint ->
             entryPoint.onInitializeStaffMod(StaffModInitializationContext)
+        }
+
+        if (!ConfigurationHolder.tryLoadLocalConfiguration()) {
+            if (FabricLoader.getInstance().environmentType == EnvType.SERVER) {
+                // Prevent server startup with invalid config
+                throw ConfigurationHolder.localConfigurationLoadException!!
+            } else {
+                // TODO show warning toast on client
+            }
         }
     }
 
