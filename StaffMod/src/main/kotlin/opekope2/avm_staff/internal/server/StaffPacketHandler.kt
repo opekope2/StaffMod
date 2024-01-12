@@ -11,6 +11,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import opekope2.avm_staff.internal.StaffMod.STAFF_ITEM
 import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.util.hasHandlerOfItem
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
 
@@ -24,6 +25,7 @@ object StaffPacketHandler {
         val (staffStack, itemStack) = findStaffAndItemStack(player) ?: return
 
         if (itemStack.isEmpty) return
+        if (!itemStack.hasHandlerOfItem) return
         if (staffStack.isItemInStaff) return
         staffStack.itemInStaff = itemStack
     }
