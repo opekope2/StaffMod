@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemGroups
@@ -22,6 +23,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import opekope2.avm_staff.api.config.ConfigurationHolder
 import opekope2.avm_staff.api.config.IConfiguration
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.initializer.IStaffModInitializer
@@ -31,6 +33,7 @@ import opekope2.avm_staff.internal.item.StaffItemHandlers
 import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket
+import opekope2.avm_staff.internal.packet.s2c.configure.ConfigureStaffModS2CPacket
 import opekope2.avm_staff.internal.server.StaffPacketHandler
 import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.itemInStaff
@@ -60,6 +63,10 @@ object StaffMod : ModInitializer {
 
         AttackBlockCallback.EVENT.register(::handleBlockAttackEvent)
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
+
+        ServerConfigurationConnectionEvents.CONFIGURE.register { handler, server ->
+            ConfigureStaffModS2CPacket(ConfigurationHolder.localConfiguration).send(handler)
+        }
 
         FabricLoader.getInstance().invokeEntrypoints("avm-staff", IStaffModInitializer::class.java) { entryPoint ->
             entryPoint.onInitializeStaffMod(StaffModInitializationContext)
