@@ -118,8 +118,7 @@ object StaffMod : ModInitializer {
         override fun <TConfig : IConfiguration<TProfile>, TProfile : Any> registerStaffItemHandler(
             itemInStaff: Identifier,
             handler: StaffItemHandler,
-            configurationCodec: Codec<TConfig>,
-            profileCodec: Codec<TProfile>
+            configurationCodec: Codec<TConfig>
         ): Boolean {
             return StaffItemHandlers.register(itemInStaff, handler, configurationCodec)
         }
