@@ -19,16 +19,20 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.StaffMod"
+        "value": "opekope2.avm_staff.internal.StaffMod"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.client.StaffModClient"
+        "value": "opekope2.avm_staff.internal.client.StaffModClient"
       }
     ]
   },
+  "mixins": [
+    "avm_staff.mixins.json"
+  ],
+  "accessWidener": "avm_staff.accesswidener",
   "depends": {
     "fabricloader": ">=${fabricloader}",
     "fabric-api": ">=${fabric_api}",

@@ -1,4 +1,7 @@
-package opekope2.avm_staff.client
+// Copyright (c) 2023-2024 opekope2
+// Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
+
+package opekope2.avm_staff.internal.client
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.EnvType
@@ -7,15 +10,20 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier
+import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationConnectionEvents
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.network.ClientCommonNetworkHandler
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.util.InputUtil
-import opekope2.avm_staff.StaffMod.MOD_ID
-import opekope2.avm_staff.model.StaffItemModel
-import opekope2.avm_staff.packet.AddBlockToStaffC2SPacket
-import opekope2.avm_staff.packet.RemoveBlockFromStaffC2SPacket
-import opekope2.avm_staff.util.hasBlock
+import opekope2.avm_staff.api.config.ConfigurationHolder
+import opekope2.avm_staff.internal.StaffMod.MOD_ID
+import opekope2.avm_staff.internal.model.StaffItemModel
+import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
+import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.internal.packet.s2c.configure.ConfigureStaffModS2CPacket
+import opekope2.avm_staff.util.isItemInStaff
 import org.lwjgl.glfw.GLFW
 
 @Suppress("unused")
@@ -34,6 +42,16 @@ object StaffModClient : ClientModInitializer {
     override fun onInitializeClient() {
         ModelLoadingPlugin.register(::modelLoadingPlugin)
         ClientTickEvents.END_CLIENT_TICK.register(::handleStaffKeybind)
+        ClientConfigurationConnectionEvents.DISCONNECT.register(::onDisconnect)
+        ClientPlayConnectionEvents.DISCONNECT.register(::onDisconnect)
+        ConfigureStaffModS2CPacket.registerGlobalReceiver { packet, responseSender ->
+            ConfigurationHolder.remoteConfiguration = packet.configuration
+        }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun onDisconnect(handler: ClientCommonNetworkHandler, client: MinecraftClient) {
+        ConfigurationHolder.remoteConfiguration = null
     }
 
     private fun modelLoadingPlugin(pluginContext: ModelLoadingPlugin.Context) {
@@ -53,10 +71,10 @@ object StaffModClient : ClientModInitializer {
 
             val player = client.player ?: return
 
-            if (player.mainHandStack.hasBlock || player.offHandStack.hasBlock) {
-                RemoveBlockFromStaffC2SPacket().send()
+            if (player.mainHandStack.isItemInStaff || player.offHandStack.isItemInStaff) {
+                RemoveItemFromStaffC2SPacket().send()
             } else {
-                AddBlockToStaffC2SPacket().send()
+                AddItemToStaffC2SPacket().send()
             }
         }
     }

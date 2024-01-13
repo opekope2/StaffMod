@@ -1,4 +1,7 @@
-package opekope2.avm_staff.packet
+// Copyright (c) 2023-2024 opekope2
+// Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
+
+package opekope2.avm_staff.internal.packet.c2s.play
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -9,10 +12,10 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.PlayPacketHandler
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.StaffMod.MOD_ID
+import opekope2.avm_staff.internal.StaffMod.MOD_ID
 
-class RemoveBlockFromStaffC2SPacket() : FabricPacket {
-    constructor(buf: PacketByteBuf) : this()
+class RemoveItemFromStaffC2SPacket() : FabricPacket {
+    constructor(@Suppress("UNUSED_PARAMETER") buf: PacketByteBuf) : this()
 
     override fun write(buf: PacketByteBuf) {
     }
@@ -24,13 +27,13 @@ class RemoveBlockFromStaffC2SPacket() : FabricPacket {
 
     companion object {
         @JvmStatic
-        val TYPE: PacketType<RemoveBlockFromStaffC2SPacket> = PacketType.create(
-            Identifier(MOD_ID, "remove_block_from_staff"),
-            ::RemoveBlockFromStaffC2SPacket
+        val TYPE: PacketType<RemoveItemFromStaffC2SPacket> = PacketType.create(
+            Identifier(MOD_ID, "remove_item_from_staff"),
+            ::RemoveItemFromStaffC2SPacket
         )
 
         @JvmStatic
-        fun registerGlobalReceiver(handler: PlayPacketHandler<RemoveBlockFromStaffC2SPacket>): Boolean {
+        fun registerGlobalReceiver(handler: PlayPacketHandler<RemoveItemFromStaffC2SPacket>): Boolean {
             return ServerPlayNetworking.registerGlobalReceiver(TYPE, handler)
         }
     }

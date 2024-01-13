@@ -1,0 +1,67 @@
+name: Build project
+
+on:
+  workflow_call:
+    inputs:
+      build-project:
+        type: boolean
+      test-project:
+        type: boolean
+      build-docs:
+        type: boolean
+      upload-output:
+        type: boolean
+
+jobs:
+  build:
+    name: Build project
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: JDK setup
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Build project
+        if: inputs.build-project
+        run: ./gradlew build -x test
+      - name: Test project
+        if: inputs.test-project
+        run: ./gradlew test
+      - name: Build documentation
+        if: inputs.build-docs
+        run: ./gradlew dokkaHtml
+      - name: Build documentation (Java syntax)
+        if: inputs.build-docs
+        run: ./gradlew dokkaHtml -PjavaSyntax
+      - name: Upload build output
+        if: inputs.build-project && inputs.upload-output && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: jars
+          path: |
+            StaffMod/build/libs/*.jar
+          if-no-files-found: error
+      - name: Upload documentation output
+        if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: kdoc
+          path: StaffMod/build/docs/kotlinHtml
+          if-no-files-found: error
+      - name: Upload documentation output (Java syntax)
+        if: inputs.build-docs && inputs.upload-output && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: javadoc
+          path: StaffMod/build/docs/javaHtml
+          if-no-files-found: error
