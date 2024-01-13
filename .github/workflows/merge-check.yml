@@ -1,0 +1,14 @@
+name: Check mergeability
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  merge-check:
+    name: Check mergeability
+    uses: ./.github/workflows/build.yml
+    with:
+      build-project: true
+      test-project: true
