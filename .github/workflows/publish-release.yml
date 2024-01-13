@@ -48,8 +48,8 @@ jobs:
 
           name: Staff Mod ${{ github.ref_name }}
           files: |
-            dist/StaffMod/build/libs/!(*-@(dev|sources|javadoc)).jar
-            dist/StaffMod/build/libs/*-@(dev|sources|javadoc).jar
+            dist/!(*-@(dev|sources|javadoc)).jar
+            dist/*-@(dev|sources|javadoc).jar
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
           java: ${{ steps.load-versions.outputs.JAVA_VERSION }}
