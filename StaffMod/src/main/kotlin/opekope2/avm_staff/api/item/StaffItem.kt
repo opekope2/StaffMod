@@ -28,12 +28,14 @@ import java.util.stream.Stream
  * Staff item.
  */
 class StaffItem(settings: Settings) : Item(settings) {
+    private val ItemStack?.handlerOfItemOrDefault: StaffItemHandler
+        get() = this?.handlerOfItem ?: StaffItemHandler.DEFAULT
+
     override fun getAttributeModifiers(
         stack: ItemStack,
         slot: EquipmentSlot
     ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return stack.itemInStaff?.handlerOfItem?.getAttributeModifiers(stack, slot)
-            ?: super.getAttributeModifiers(stack, slot)
+        return stack.itemInStaff.handlerOfItemOrDefault.getAttributeModifiers(stack, slot)
     }
 
     override fun onItemEntityDestroyed(entity: ItemEntity) {
@@ -43,41 +45,39 @@ class StaffItem(settings: Settings) : Item(settings) {
     }
 
     override fun getMaxUseTime(stack: ItemStack): Int {
-        return stack.itemInStaff?.handlerOfItem?.maxUseTime ?: super.getMaxUseTime(stack)
+        return stack.itemInStaff.handlerOfItemOrDefault.maxUseTime
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val staffStack = user.getStackInHand(hand)
-        return staffStack.itemInStaff?.handlerOfItem?.use(staffStack, world, user, hand) ?: super.use(world, user, hand)
+        return staffStack.itemInStaff.handlerOfItemOrDefault.use(staffStack, world, user, hand)
     }
 
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
-        stack.itemInStaff?.handlerOfItem?.usageTick(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.handlerOfItemOrDefault.usageTick(stack, world, user, remainingUseTicks)
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        stack.itemInStaff?.handlerOfItem?.onStoppedUsing(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.handlerOfItemOrDefault.onStoppedUsing(stack, world, user, remainingUseTicks)
     }
 
     override fun finishUsing(stack: ItemStack, world: World, user: LivingEntity): ItemStack {
-        return stack.itemInStaff?.handlerOfItem?.finishUsing(stack, world, user)
-            ?: super.finishUsing(stack, world, user)
+        return stack.itemInStaff.handlerOfItemOrDefault.finishUsing(stack, world, user)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        return context.stack.itemInStaff?.handlerOfItem?.useOnBlock(
+        return context.stack.itemInStaff.handlerOfItemOrDefault.useOnBlock(
             context.stack,
             context.world,
             context.player ?: return ActionResult.PASS,
             context.blockPos,
             context.side,
             context.hand
-        ) ?: super.useOnBlock(context)
+        )
     }
 
     override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
-        return stack.itemInStaff?.handlerOfItem?.useOnEntity(stack, user.world, user, entity, hand)
-            ?: super.useOnEntity(stack, user, entity, hand)
+        return stack.itemInStaff.handlerOfItemOrDefault.useOnEntity(stack, user.world, user, entity, hand)
     }
 
     override fun getName(stack: ItemStack): Text {

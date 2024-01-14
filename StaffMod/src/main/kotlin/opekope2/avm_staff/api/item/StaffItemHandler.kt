@@ -14,6 +14,7 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -27,6 +28,8 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.initializer.IStaffModInitializer
+import opekope2.avm_staff.util.attackDamage
+import opekope2.avm_staff.util.attackSpeed
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -348,6 +351,19 @@ abstract class StaffItemHandler {
         staffStack: ItemStack,
         slot: EquipmentSlot
     ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return ImmutableMultimap.of()
+        return if (slot == EquipmentSlot.MAINHAND) DEFAULT_ATTRIBUTE_MODIFIERS
+        else ImmutableMultimap.of()
+    }
+
+    companion object {
+        private val DEFAULT_ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
+            EntityAttributes.GENERIC_ATTACK_DAMAGE,
+            attackDamage(4.0),
+            EntityAttributes.GENERIC_ATTACK_SPEED,
+            attackSpeed(2.0)
+        )
+
+        @JvmField
+        val DEFAULT: StaffItemHandler = object : StaffItemHandler() {}
     }
 }
