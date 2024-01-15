@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
-import com.mojang.serialization.Codec
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.BoneMealItem
 import net.minecraft.item.ItemStack
@@ -30,7 +29,6 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.config.IConfiguration
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 
@@ -67,18 +65,9 @@ class BoneBlockItemHandler : StaffItemHandler() {
         return ActionResult.success(world.isClient)
     }
 
-    // TODO
-    private class Configuration : IConfiguration<Unit>
-
     companion object {
-        private val CONFIG_CODEC: Codec<Configuration> = Codec.unit(::Configuration)
-
         fun registerStaffItemHandler(context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(
-                Identifier("bone_block"),
-                BoneBlockItemHandler(),
-                CONFIG_CODEC
-            )
+            context.registerStaffItemHandler(Identifier("bone_block"), BoneBlockItemHandler())
         }
     }
 }

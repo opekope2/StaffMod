@@ -75,5 +75,5 @@ val ItemStack.hasHandlerOfItem: Boolean
 val ItemStack.handlerOfItem: StaffItemHandler?
     get() {
         val itemId = Registries.ITEM.getId(item)
-        return StaffItemHandlers[itemId]?.staffHandler
+        return StaffItemHandlers[itemId]
     }

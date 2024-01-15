@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
-import com.mojang.serialization.Codec
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.thrown.SnowballEntity
@@ -29,7 +28,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import opekope2.avm_staff.api.config.IConfiguration
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 
@@ -66,18 +64,9 @@ class SnowBlockItemHandler : StaffItemHandler() {
         })
     }
 
-    // TODO
-    private class Configuration : IConfiguration<Unit>
-
     companion object {
-        private val CONFIG_CODEC: Codec<Configuration> = Codec.unit(::Configuration)
-
         fun registerStaffItemHandler(context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(
-                Identifier("snow_block"),
-                SnowBlockItemHandler(),
-                CONFIG_CODEC
-            )
+            context.registerStaffItemHandler(Identifier("snow_block"), SnowBlockItemHandler())
         }
     }
 }

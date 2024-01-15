@@ -18,10 +18,7 @@
 
 package opekope2.avm_staff.api.initializer
 
-import com.mojang.serialization.Codec
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.config.Configuration
-import opekope2.avm_staff.api.config.IConfiguration
 import opekope2.avm_staff.api.item.StaffItemHandler
 
 /**
@@ -33,12 +30,7 @@ interface IStaffModInitializationContext {
      *
      * @param itemInStaff           The item ID to register a handler for
      * @param handler               The handler, which processes staff interactions, while the [registered item][itemInStaff] is in it
-     * @param configurationCodec    The codec for the configuration in [Configuration.itemConfigurations]
      * @return `true`, if the registration was successful, `false`, if the item was already registered
      */
-    fun <TConfig : IConfiguration<TProfile>, TProfile : Any> registerStaffItemHandler(
-        itemInStaff: Identifier,
-        handler: StaffItemHandler,
-        configurationCodec: Codec<TConfig>
-    ): Boolean
+    fun registerStaffItemHandler(itemInStaff: Identifier, handler: StaffItemHandler): Boolean
 }
