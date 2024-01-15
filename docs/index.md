@@ -7,4 +7,6 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/opekope2/StaffMod?color=7F52FF&logo=kotlin)
 [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffe-Ko--fi-f16061?logo=ko-fi)](https://ko-fi.com/opekope2)
 
-Welcome to AvM Staff Mod documentation! There's nothing much here, yet, check back later.
+Welcome to AvM Staff Mod documentation!
+
+[See what's in this mod](staff.md)

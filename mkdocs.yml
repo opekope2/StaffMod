@@ -1,10 +1,12 @@
 site_name: Staff Mod documentation
 repo_url: https://github.com/opekope2/StaffMod
-copyright: © 2023-2024 opekope2
+copyright: © 2023-2024 opekope2. Staff Mod is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.
 theme:
   name: material
   icon:
     repo: fontawesome/brands/github
+    admonition:
+      experiment: material/test-tube
   palette:
     scheme: slate
   features:
@@ -12,6 +14,8 @@ theme:
     - content.code.copy
 nav:
   - Home: index.md
+  - Staff: staff.md
+  - For developers: developers.md
   - API docs:
     - Latest: kdoc/latest
     #CI_KDOC_PLACEHOLDER
@@ -33,4 +37,6 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.superfences
   - pymdownx.caret
+extra_css:
+  - stylesheets/admonitions.css
 use_directory_urls: false
