@@ -1,6 +1,3 @@
-// Copyright (c) 2024 opekope2
-// Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
-
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
@@ -57,9 +54,8 @@ tasks {
     }
 
     jar {
-        from(rootDir.resolve("LICENSE")) {
-            rename { "${it}_${base.archivesName.get()}" }
-        }
+        from(rootDir.resolve("COPYING"))
+        from(rootDir.resolve("COPYING.LESSER"))
     }
 
     processResources {
@@ -100,7 +96,6 @@ tasks {
             if (project.hasProperty("javaSyntax")) "docs/javaHtml"
             else "docs/kotlinHtml"
         )
-
 
         pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
             footerMessage = "© 2023-${Year.now().value} opekope2. ${project.extra["mojank_eula_compliance_footer"]}"

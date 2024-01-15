@@ -1,6 +1,3 @@
-// Copyright (c) 2024 opekope2
-// Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
-
 pluginManagement {
     repositories {
         maven("https://maven.fabricmc.net") { name = "Fabric" }

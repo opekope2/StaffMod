@@ -1,16 +1,28 @@
-// Copyright (c) 2023-2024 opekope2
-// Staff Mod is licensed under the MIT license: https://github.com/opekope2/StaffMod/blob/main/LICENSE
+/*
+ * AvM Staff Mod
+ * Copyright (c) 2023-2024 opekope2
+ *
+ * This mod is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This mod is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this mod. If not, see <https://www.gnu.org/licenses/>.
+ */
 
 package opekope2.avm_staff.internal
 
-import com.mojang.serialization.Codec
-import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
-import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -25,8 +37,6 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
-import opekope2.avm_staff.api.config.ConfigurationHolder
-import opekope2.avm_staff.api.config.IConfiguration
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.initializer.IStaffModInitializer
 import opekope2.avm_staff.api.item.StaffItem
@@ -35,7 +45,6 @@ import opekope2.avm_staff.internal.item.StaffItemHandlers
 import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket
-import opekope2.avm_staff.internal.packet.s2c.configure.ConfigureStaffModS2CPacket
 import opekope2.avm_staff.internal.server.StaffPacketHandler
 import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.itemInStaff
@@ -66,21 +75,8 @@ object StaffMod : ModInitializer {
         AttackBlockCallback.EVENT.register(::handleBlockAttackEvent)
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
 
-        ServerConfigurationConnectionEvents.CONFIGURE.register { handler, server ->
-            ConfigureStaffModS2CPacket(ConfigurationHolder.localConfiguration).send(handler)
-        }
-
         FabricLoader.getInstance().invokeEntrypoints("avm-staff", IStaffModInitializer::class.java) { entryPoint ->
             entryPoint.onInitializeStaffMod(StaffModInitializationContext)
-        }
-
-        if (!ConfigurationHolder.tryLoadLocalConfiguration()) {
-            if (FabricLoader.getInstance().environmentType == EnvType.SERVER) {
-                // Prevent server startup with invalid config
-                throw ConfigurationHolder.localConfigurationLoadException!!
-            } else {
-                // TODO show warning toast on client
-            }
         }
     }
 
@@ -115,12 +111,8 @@ object StaffMod : ModInitializer {
     }
 
     private object StaffModInitializationContext : IStaffModInitializationContext {
-        override fun <TConfig : IConfiguration<TProfile>, TProfile : Any> registerStaffItemHandler(
-            itemInStaff: Identifier,
-            handler: StaffItemHandler,
-            configurationCodec: Codec<TConfig>
-        ): Boolean {
-            return StaffItemHandlers.register(itemInStaff, handler, configurationCodec)
+        override fun registerStaffItemHandler(itemInStaff: Identifier, handler: StaffItemHandler): Boolean {
+            return StaffItemHandlers.register(itemInStaff, handler)
         }
     }
 }
