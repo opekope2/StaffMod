@@ -7,5 +7,7 @@ import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 
 @Suppress("unused")
 fun register(context: IStaffModInitializationContext) {
+    BoneBlockItemHandler.registerStaffItemHandler(context)
+
     SnowBlockItemHandler.registerStaffItemHandler(context)
 }
