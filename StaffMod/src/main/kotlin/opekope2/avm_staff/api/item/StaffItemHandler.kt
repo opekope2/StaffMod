@@ -366,12 +366,12 @@ abstract class StaffItemHandler {
         staffStack: ItemStack,
         slot: EquipmentSlot
     ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return if (slot == EquipmentSlot.MAINHAND) DEFAULT_ATTRIBUTE_MODIFIERS
+        return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
         else ImmutableMultimap.of()
     }
 
     companion object {
-        private val DEFAULT_ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
+        private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
             attackDamage(4.0),
             EntityAttributes.GENERIC_ATTACK_SPEED,
