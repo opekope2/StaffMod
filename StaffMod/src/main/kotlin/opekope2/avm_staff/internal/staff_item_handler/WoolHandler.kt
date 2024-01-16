@@ -18,9 +18,15 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
+import com.google.common.collect.ImmutableMultimap
+import com.google.common.collect.Multimap
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttribute
+import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
@@ -39,6 +45,8 @@ import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.mixin.IMinecraftClientAccessorMixin
+import opekope2.avm_staff.util.attackDamage
+import opekope2.avm_staff.util.attackSpeed
 
 class WoolHandler(wool: Identifier, carpet: Identifier) : StaffItemHandler() {
     private val woolState = (Registries.ITEM[wool] as BlockItem).block.defaultState
@@ -88,7 +96,22 @@ class WoolHandler(wool: Identifier, carpet: Identifier) : StaffItemHandler() {
         return ActionResult.SUCCESS
     }
 
+    override fun getAttributeModifiers(
+        staffStack: ItemStack,
+        slot: EquipmentSlot
+    ): Multimap<EntityAttribute, EntityAttributeModifier> {
+        return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
+        else super.getAttributeModifiers(staffStack, slot)
+    }
+
     companion object {
+        private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
+            EntityAttributes.GENERIC_ATTACK_DAMAGE,
+            attackDamage(2.0),
+            EntityAttributes.GENERIC_ATTACK_SPEED,
+            attackSpeed(2.0)
+        )
+
         fun registerStaffItemHandler(
             item: Identifier,
             wool: Identifier,
