@@ -31,7 +31,7 @@ import net.minecraft.world.World
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 
-class SnowBlockItemHandler : StaffItemHandler() {
+class SnowBlockHandler : StaffItemHandler() {
     override val maxUseTime = 72000
 
     override fun use(
@@ -66,7 +66,7 @@ class SnowBlockItemHandler : StaffItemHandler() {
 
     companion object {
         fun registerStaffItemHandler(context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(Identifier("snow_block"), SnowBlockItemHandler())
+            context.registerStaffItemHandler(Identifier("snow_block"), SnowBlockHandler())
         }
     }
 }

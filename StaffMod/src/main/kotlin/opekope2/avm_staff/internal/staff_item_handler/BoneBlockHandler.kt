@@ -32,7 +32,7 @@ import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 
-class BoneBlockItemHandler : StaffItemHandler() {
+class BoneBlockHandler : StaffItemHandler() {
     override fun useOnBlock(
         staffStack: ItemStack,
         world: World,
@@ -67,7 +67,7 @@ class BoneBlockItemHandler : StaffItemHandler() {
 
     companion object {
         fun registerStaffItemHandler(context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(Identifier("bone_block"), BoneBlockItemHandler())
+            context.registerStaffItemHandler(Identifier("bone_block"), BoneBlockHandler())
         }
     }
 }
