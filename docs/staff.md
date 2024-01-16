@@ -34,12 +34,26 @@
 
 ### Snow block
 
-* **Right click (hold)**: Start shooting snowballs every game tick at 80m/s (4m/gt) speed.
+* **Right click (hold)**: Starts shooting snowballs every game tick at 80m/s (4m/gt) speed.
 
 !!! experiment "Heads up"
     The speed is not yet finalized, and will be balanced in a later release.
     If you have suggestions about snow block features or balancing,
     [join the discussion here](https://github.com/opekope2/StaffMod/discussions/4).
+
+### Wool (any color)
+
+* **Attack Damage**: 2 (❤️)
+* **Attack Speed**: 2
+
+* **Right click (click or hold)**: Places a wool on the wall or ceiling at the crosshair, or a carpet on the ground.
+
+!!! note
+    A staff with wool block can't be used to place wool or carpet on existing wool blocks or carpets. This is by design.
+
+!!! experiment "Heads up"
+    If you have suggestions about wool features or balancing,
+    [join the discussion here](https://github.com/opekope2/StaffMod/discussions/5).
 
 ### More to come
 
