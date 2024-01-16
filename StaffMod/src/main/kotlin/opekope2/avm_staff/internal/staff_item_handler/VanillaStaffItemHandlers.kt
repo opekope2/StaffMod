@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
+import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 
 @Suppress("unused")
@@ -25,4 +26,21 @@ fun register(context: IStaffModInitializationContext) {
     BoneBlockHandler.registerStaffItemHandler(context)
 
     SnowBlockHandler.registerStaffItemHandler(context)
+
+    WoolHandler.registerStaffItemHandler(Identifier("white_wool"), Identifier("white_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("orange_wool"), Identifier("orange_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("magenta_wool"), Identifier("magenta_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("light_blue_wool"), Identifier("light_blue_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("yellow_wool"), Identifier("yellow_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("lime_wool"), Identifier("lime_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("pink_wool"), Identifier("pink_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("gray_wool"), Identifier("gray_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("light_gray_wool"), Identifier("light_gray_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("cyan_wool"), Identifier("cyan_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("purple_wool"), Identifier("purple_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("blue_wool"), Identifier("blue_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("brown_wool"), Identifier("brown_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("green_wool"), Identifier("green_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("red_wool"), Identifier("red_carpet"), context)
+    WoolHandler.registerStaffItemHandler(Identifier("black_wool"), Identifier("black_carpet"), context)
 }
