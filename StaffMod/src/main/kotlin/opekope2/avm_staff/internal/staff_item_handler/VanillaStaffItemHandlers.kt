@@ -25,6 +25,8 @@ import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 fun register(context: IStaffModInitializationContext) {
     BoneBlockHandler.registerStaffItemHandler(context)
 
+    MagmaBlockHandler.registerStaffItemHandler(context)
+
     SnowBlockHandler.registerStaffItemHandler(context)
 
     WoolHandler.registerStaffItemHandler(Identifier("white_wool"), Identifier("white_carpet"), context)
