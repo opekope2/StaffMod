@@ -24,6 +24,7 @@ import net.minecraft.entity.projectile.thrown.SnowballEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
@@ -45,19 +46,25 @@ class SnowBlockHandler : StaffItemHandler() {
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (world.isClient) return
+        throwSnowball(world, user)
+    }
 
+    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
+        throwSnowball(world, attacker)
+        return ActionResult.SUCCESS
+    }
+
+    private fun throwSnowball(world: World, user: LivingEntity) {
         world.playSound(
-            null,
-            user.x,
-            user.y,
-            user.z,
+            user,
+            user.blockPos,
             SoundEvents.ENTITY_SNOWBALL_THROW,
             SoundCategory.NEUTRAL,
             0.5f,
             0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
         )
 
+        if (world.isClient) return
         world.spawnEntity(SnowballEntity(world, user).apply {
             // TODO speed
             setVelocity(user, user.pitch, user.yaw, 0f, 4f, 1f)
