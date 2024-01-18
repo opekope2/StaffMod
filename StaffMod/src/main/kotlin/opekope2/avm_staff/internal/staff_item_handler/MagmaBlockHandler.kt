@@ -18,21 +18,28 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
+import com.google.common.collect.ImmutableMultimap
+import com.google.common.collect.Multimap
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttribute
+import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.projectile.thrown.SnowballEntity
+import net.minecraft.entity.projectile.SmallFireballEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.util.*
 
-class SnowBlockHandler : StaffItemHandler() {
+class MagmaBlockHandler : StaffItemHandler() {
     override val maxUseTime = 72000
 
     override fun use(
@@ -46,34 +53,59 @@ class SnowBlockHandler : StaffItemHandler() {
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        throwSnowball(world, user)
+        if ((remainingUseTicks and 1) == 0) {
+            shootFireball(world, user)
+        }
     }
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
-        throwSnowball(world, attacker)
+        shootFireball(world, attacker)
         return ActionResult.SUCCESS
     }
 
-    private fun throwSnowball(world: World, user: LivingEntity) {
-        world.playSound(
-            user,
-            user.blockPos,
-            SoundEvents.ENTITY_SNOWBALL_THROW,
-            SoundCategory.NEUTRAL,
-            0.5f,
-            0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
-        )
+    override fun attackEntity(
+        staffStack: ItemStack,
+        world: World,
+        attacker: LivingEntity,
+        target: Entity,
+        hand: Hand
+    ): ActionResult {
+        if (!world.isClient) {
+            target.setOnFireFor(8) // TODO duration
+        }
+
+        return ActionResult.PASS
+    }
+
+    private fun shootFireball(world: World, user: LivingEntity) {
+        world.syncWorldEvent(user as? PlayerEntity, WorldEvents.BLAZE_SHOOTS, user.blockPos, 0)
 
         if (world.isClient) return
-        world.spawnEntity(SnowballEntity(world, user).apply {
-            // TODO speed
-            setVelocity(user, user.pitch, user.yaw, 0f, 4f, 1f)
+
+        val (x, y, z) = user.rotationVector
+        world.spawnEntity(SmallFireballEntity(world, user, x, y, z).apply {
+            setPosition(user.x, user.eyeY - 0.1, user.z)
         })
     }
 
+    override fun getAttributeModifiers(
+        staffStack: ItemStack,
+        slot: EquipmentSlot
+    ): Multimap<EntityAttribute, EntityAttributeModifier> {
+        return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
+        else super.getAttributeModifiers(staffStack, slot)
+    }
+
     companion object {
+        private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
+            EntityAttributes.GENERIC_ATTACK_DAMAGE,
+            attackDamage(2.5),
+            EntityAttributes.GENERIC_ATTACK_SPEED,
+            attackSpeed(2.0)
+        )
+
         fun registerStaffItemHandler(context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(Identifier("snow_block"), SnowBlockHandler())
+            context.registerStaffItemHandler(Identifier("magma_block"), MagmaBlockHandler())
         }
     }
 }
