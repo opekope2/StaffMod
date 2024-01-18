@@ -99,7 +99,7 @@ class MagmaBlockHandler : StaffItemHandler() {
     companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
-            attackDamage(2.5),
+            attackDamage(5.0),
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(2.0)
         )
