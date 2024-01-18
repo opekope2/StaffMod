@@ -20,6 +20,7 @@ package opekope2.avm_staff.internal.staff_item_handler
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttribute
@@ -60,6 +61,20 @@ class MagmaBlockHandler : StaffItemHandler() {
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
         shootFireball(world, attacker)
         return ActionResult.SUCCESS
+    }
+
+    override fun attackEntity(
+        staffStack: ItemStack,
+        world: World,
+        attacker: LivingEntity,
+        target: Entity,
+        hand: Hand
+    ): ActionResult {
+        if (!world.isClient) {
+            target.setOnFireFor(8) // TODO duration
+        }
+
+        return ActionResult.PASS
     }
 
     private fun shootFireball(world: World, user: LivingEntity) {
