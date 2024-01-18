@@ -32,9 +32,22 @@
     If you have suggestions about bone block features or balancing,
     [join the discussion here](https://github.com/opekope2/StaffMod/discussions/7).
 
+### Magma block
+
+* **Attack Damage**: 5 (❤️❤️💔) + 8s of burning (same as [Fire Aspect II](https://minecraft.wiki/w/Fire_Aspect))
+* **Attack Speed**: 2
+
+* **Left click**: Shoots a single fireball.
+* **Right click (hold)**: Starts shooting fireballs every other game tick.
+
+!!! experiment "Heads up"
+    If you have suggestions about magma block features or balancing,
+    [join the discussion here](https://github.com/opekope2/StaffMod/discussions/17).
+
 ### Snow block
 
-* **Right click (hold)**: Starts shooting snowballs every game tick at 80m/s (4m/gt) speed.
+* **Left click**: Throws a single snowball at 80m/s (4m/gt).
+* **Right click (hold)**: Starts throwing snowballs every game tick at 80m/s (4m/gt) speed.
 
 !!! experiment "Heads up"
     The speed is not yet finalized, and will be balanced in a later release.
