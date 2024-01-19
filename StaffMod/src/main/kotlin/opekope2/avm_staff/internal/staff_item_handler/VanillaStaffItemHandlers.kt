@@ -18,11 +18,16 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
+import net.minecraft.item.Items
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 
 @Suppress("unused")
 fun register(context: IStaffModInitializationContext) {
+    AnvilHandler.registerStaffItemHandler(Identifier("anvil"), Items.CHIPPED_ANVIL::getDefaultStack, context)
+    AnvilHandler.registerStaffItemHandler(Identifier("chipped_anvil"), Items.DAMAGED_ANVIL::getDefaultStack, context)
+    AnvilHandler.registerStaffItemHandler(Identifier("damaged_anvil"), { null }, context)
+
     BoneBlockHandler.registerStaffItemHandler(context)
 
     MagmaBlockHandler.registerStaffItemHandler(context)

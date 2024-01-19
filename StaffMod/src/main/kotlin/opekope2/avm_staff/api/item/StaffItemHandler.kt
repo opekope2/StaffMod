@@ -51,6 +51,7 @@ import opekope2.avm_staff.util.attackSpeed
  *
  * @see IStaffModInitializer
  * @see IStaffModInitializationContext.registerStaffItemHandler
+ * @see IAdvancedStaffItemHandler
  */
 abstract class StaffItemHandler {
     /**
