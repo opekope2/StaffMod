@@ -23,6 +23,19 @@
 
 ## Supported items in the staff
 
+### Anvil, chipped anvil, damaged anvil
+
+* **Attack Damage**: 40 (❤️×20)
+* **Attack Speed**: 0.25
+* **Movement Speed**: -100% (also applies, if held in off hand)
+
+When attacking an entity, the anvil has a 12% chance of being damaged. On each attack, the staff plays the [`anvil landed`](https://minecraft.wiki/w/Anvil#Unique) sound.
+
+!!! experiment "Heads up"
+    More features are planned for anvils, like instabreaking some blocks, while unable to breaking every other block, or reducing jumping strength.
+    If you have suggestions about bone block features or balancing,
+    [join the discussion here](https://github.com/opekope2/StaffMod/discussions/16).
+
 ### Bone block
 
 * **Right click**: Fertilizes the crop or ground the same way a bone meal does.
