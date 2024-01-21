@@ -21,6 +21,7 @@ package opekope2.avm_staff.api.item.renderer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess
+import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel
 import net.fabricmc.fabric.api.renderer.v1.model.ModelHelper
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
@@ -41,15 +42,17 @@ import java.util.function.Supplier
  */
 @Environment(EnvType.CLIENT)
 abstract class StaffBlockStateRenderer : IStaffItemRenderer {
+    private val transform: RenderContext.QuadTransform by lazy { Transformation(scale, offset) }
+
     /**
-     * Gets the scale of the [block state][getBlockState] to render. Applied before [transform].
+     * Gets the scale of the [block state][getBlockState] to render. Applied before [offset].
      */
     abstract val scale: Float
 
     /**
      * Gets the offset of the [block state][getBlockState] to render. Applied after [scale].
      */
-    abstract val transform: Vector3fc
+    abstract val offset: Vector3fc
 
     /**
      * Gets the block state to render into the staff.
@@ -57,16 +60,7 @@ abstract class StaffBlockStateRenderer : IStaffItemRenderer {
     abstract fun getBlockState(staffStack: ItemStack): BlockState
 
     override fun emitItemQuads(staffStack: ItemStack, randomSupplier: Supplier<Random>, context: RenderContext) {
-        context.pushTransform { quadView ->
-            val vec = Vector3f()
-            for (i in 0 until 4) {
-                val pos = quadView.copyPos(i, vec)
-                pos *= scale
-                pos += transform
-                quadView.pos(i, pos)
-            }
-            true
-        }
+        context.pushTransform(transform)
 
         val state = getBlockState(staffStack)
         if (state.renderType != BlockRenderType.MODEL) {
@@ -91,6 +85,26 @@ abstract class StaffBlockStateRenderer : IStaffItemRenderer {
         }
 
         context.popTransform()
+    }
+
+    /**
+     * A [RenderContext.QuadTransform], which scales each quad to [scale], and then offsets them by [offset].
+     *
+     * @param scale     The size multiplier of each quad
+     * @param offset    The position modifier of each quad
+     */
+    @Environment(EnvType.CLIENT)
+    class Transformation(private val scale: Float, private val offset: Vector3fc) : RenderContext.QuadTransform {
+        override fun transform(quadView: MutableQuadView): Boolean {
+            val vec = Vector3f()
+            for (i in 0 until 4) {
+                val pos = quadView.copyPos(i, vec)
+                pos *= scale
+                pos += offset
+                quadView.pos(i, pos)
+            }
+            return true
+        }
     }
 
     @Environment(EnvType.CLIENT)

@@ -32,9 +32,10 @@ import org.joml.Vector3f
 @Environment(EnvType.CLIENT)
 abstract class InsideStaffBlockStateRenderer : StaffBlockStateRenderer() {
     override val scale: Float
-        get() = 7f / 16f
+        get() = SCALE
 
-    override val transform = Vector3f(9f / 16f / 2f, 22f / 16f, (16f - 7f) / 16f / 2f)
+    override val offset: Vector3f
+        get() = OFFSET
 
     @Environment(EnvType.CLIENT)
     private class ConstantBlockStateRenderer(private val blockState: BlockState) :
@@ -50,6 +51,17 @@ abstract class InsideStaffBlockStateRenderer : StaffBlockStateRenderer() {
 
     @Environment(EnvType.CLIENT)
     companion object {
+        /**
+         * Scale matching the staff's block holding space.
+         */
+        const val SCALE = 7f / 16f
+
+        /**
+         * Offset of the staff's block holding space.
+         */
+        @JvmField
+        val OFFSET = Vector3f(9f / 16f / 2f, 22f / 16f, (16f - 7f) / 16f / 2f)
+
         /**
          * Returns an [InsideStaffBlockStateRenderer], which always renders the given [BlockState].
          *

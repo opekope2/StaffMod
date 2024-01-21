@@ -25,6 +25,7 @@ import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItem
+import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
@@ -42,13 +43,17 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.initializer.IStaffModInitializer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
+import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
+import opekope2.avm_staff.api.item.renderer.StaffBlockStateRenderer
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
+import java.util.function.Supplier
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -386,10 +391,23 @@ abstract class StaffItemHandler {
     }
 
     object FallbackStaffHandler : StaffItemHandler() {
-        private val BAKED_MODEL_MANAGER = MinecraftClient.getInstance().bakedModelManager
+        override val staffItemRenderer = object : IStaffItemRenderer {
+            private val BAKED_MODEL_MANAGER = MinecraftClient.getInstance().bakedModelManager
 
-        override val staffItemRenderer = IStaffItemRenderer { staffStack, randomSupplier, context ->
-            BAKED_MODEL_MANAGER.missingModel.emitItemQuads(staffStack, randomSupplier, context)
+            private val transformation = StaffBlockStateRenderer.Transformation(
+                InsideStaffBlockStateRenderer.SCALE,
+                InsideStaffBlockStateRenderer.OFFSET
+            )
+
+            override fun emitItemQuads(
+                staffStack: ItemStack,
+                randomSupplier: Supplier<Random>,
+                context: RenderContext
+            ) {
+                context.pushTransform(transformation)
+                BAKED_MODEL_MANAGER.missingModel.emitItemQuads(staffStack, randomSupplier, context)
+                context.popTransform()
+            }
         }
     }
 
