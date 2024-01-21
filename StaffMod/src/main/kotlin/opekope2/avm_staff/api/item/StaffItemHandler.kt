@@ -20,6 +20,8 @@ package opekope2.avm_staff.api.item
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItem
@@ -43,6 +45,7 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.initializer.IStaffModInitializer
+import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 
@@ -59,6 +62,12 @@ abstract class StaffItemHandler {
      */
     open val maxUseTime: Int
         get() = 0
+
+    /**
+     * The renderer of the item added to the staff, which renders the item as part of the staff model.
+     */
+    @get: Environment(EnvType.CLIENT)
+    abstract val staffItemRenderer: IStaffItemRenderer
 
     /**
      * Called on both the client and the server by Minecraft when the player uses the staff.
