@@ -26,6 +26,7 @@ import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItem
 import net.minecraft.advancement.criterion.Criteria
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -380,6 +381,18 @@ abstract class StaffItemHandler {
         else ImmutableMultimap.of()
     }
 
+    object EmptyStaffHandler : StaffItemHandler() {
+        override val staffItemRenderer = IStaffItemRenderer { _, _, _ -> }
+    }
+
+    object FallbackStaffHandler : StaffItemHandler() {
+        private val BAKED_MODEL_MANAGER = MinecraftClient.getInstance().bakedModelManager
+
+        override val staffItemRenderer = IStaffItemRenderer { staffStack, randomSupplier, context ->
+            BAKED_MODEL_MANAGER.missingModel.emitItemQuads(staffStack, randomSupplier, context)
+        }
+    }
+
     companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
@@ -387,8 +400,5 @@ abstract class StaffItemHandler {
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(2.0)
         )
-
-        @JvmField
-        val DEFAULT: StaffItemHandler = object : StaffItemHandler() {}
     }
 }

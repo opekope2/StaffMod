@@ -44,7 +44,8 @@ import java.util.stream.Stream
  */
 class StaffItem(settings: Settings) : Item(settings) {
     private val ItemStack?.handlerOfItemOrDefault: StaffItemHandler
-        get() = this?.handlerOfItem ?: StaffItemHandler.DEFAULT
+        get() = if (this == null) StaffItemHandler.EmptyStaffHandler
+        else handlerOfItem ?: StaffItemHandler.FallbackStaffHandler
 
     override fun getAttributeModifiers(
         stack: ItemStack,
