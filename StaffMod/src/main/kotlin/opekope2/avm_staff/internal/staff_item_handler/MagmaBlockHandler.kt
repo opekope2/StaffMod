@@ -28,19 +28,25 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
+import net.minecraft.item.BlockItem
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
+import net.minecraft.registry.Registries
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
 import opekope2.avm_staff.util.*
 
 class MagmaBlockHandler : StaffItemHandler() {
     override val maxUseTime = 72000
+
+    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(Items.MAGMA_BLOCK as BlockItem)
 
     override fun use(
         staffStack: ItemStack,
@@ -104,8 +110,8 @@ class MagmaBlockHandler : StaffItemHandler() {
             attackSpeed(2.0)
         )
 
-        fun registerStaffItemHandler(context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(Identifier("magma_block"), MagmaBlockHandler())
+        fun registerStaffItemHandler(magmaBlockItem: Item, context: IStaffModInitializationContext) {
+            context.registerStaffItemHandler(Registries.ITEM.getId(magmaBlockItem), MagmaBlockHandler())
         }
     }
 }

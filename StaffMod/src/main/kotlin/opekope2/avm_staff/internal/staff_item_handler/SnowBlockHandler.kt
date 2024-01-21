@@ -21,19 +21,25 @@ package opekope2.avm_staff.internal.staff_item_handler
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.thrown.SnowballEntity
+import net.minecraft.item.BlockItem
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
+import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
 
 class SnowBlockHandler : StaffItemHandler() {
     override val maxUseTime = 72000
+
+    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(Items.SNOW_BLOCK as BlockItem)
 
     override fun use(
         staffStack: ItemStack,
@@ -72,8 +78,8 @@ class SnowBlockHandler : StaffItemHandler() {
     }
 
     companion object {
-        fun registerStaffItemHandler(context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(Identifier("snow_block"), SnowBlockHandler())
+        fun registerStaffItemHandler(snowBlockItem: Item, context: IStaffModInitializationContext) {
+            context.registerStaffItemHandler(Registries.ITEM.getId(snowBlockItem), SnowBlockHandler())
         }
     }
 }
