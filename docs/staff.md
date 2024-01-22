@@ -45,6 +45,21 @@ When attacking an entity, the anvil has a 12% chance of being damaged. On each a
     If you have suggestions about bone block features or balancing,
     [join the discussion here](https://github.com/opekope2/StaffMod/discussions/7).
 
+### Furnace, blast furnace, smoker
+
+* **Attack Damage**: 5 (❤️❤️💔)
+* **Attack Speed**: 2
+
+* **Right click (hold)**: Ignites the furnace, and start a timer called `BurnTime`. This timer will increase by 1 each game tick.  
+  Each game tick, the furnace tries to smelt the closest item 1.75 blocks in front of the player (±0.5 blocks in each axis).
+  The smelting will only be successful, if the item can be smelted in the given furnace, and its count doesn't exceed `BurnTime`.
+  If the smelting is successful, the whole stack will be smelted, XP will be dropped according to the vanilla furnace algorithm, and
+  `BurnTime` will be decreased by the amount of items smelted.  
+  If right click is released, `BurnTime` will be reset.
+
+!!! experiment "Heads up"
+    If you have suggestions about furnaces, [join the discussion here](https://github.com/opekope2/StaffMod/discussions/14).
+
 ### Magma block
 
 * **Attack Damage**: 5 (❤️❤️💔) + 8s of burning (same as [Fire Aspect II](https://minecraft.wiki/w/Fire_Aspect))
