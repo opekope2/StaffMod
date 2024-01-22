@@ -372,6 +372,25 @@ abstract class StaffItemHandler {
     }
 
     /**
+     * Called on the client side by Fabric API, when the NBT of the held item gets updated.
+     *
+     * @param oldStaffStack The previous item stack
+     * @param newStaffStack The updated item stack
+     * @param player        The holder of [oldStaffStack]
+     * @param hand          The hand of [player], in which the [old staff][oldStaffStack] is
+     * @return true to play the update/equip animation, false to skip it
+     * @see FabricItem.allowNbtUpdateAnimation
+     */
+    open fun allowNbtUpdateAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        player: PlayerEntity,
+        hand: Hand
+    ): Boolean {
+        return true
+    }
+
+    /**
      * Gets the attribute modifiers (damage, attack speed, etc.) of the staff when held.
      *
      * @param staffStack    The staff item stack (not the item in the staff)
