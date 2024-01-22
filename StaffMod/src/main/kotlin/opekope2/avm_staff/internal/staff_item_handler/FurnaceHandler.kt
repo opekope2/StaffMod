@@ -18,14 +18,20 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
+import com.google.common.collect.ImmutableMultimap
+import com.google.common.collect.Multimap
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity
 import net.minecraft.client.MinecraftClient
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttribute
+import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SingleStackInventory
 import net.minecraft.item.BlockItem
@@ -154,6 +160,14 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         return false
     }
 
+    override fun getAttributeModifiers(
+        staffStack: ItemStack,
+        slot: EquipmentSlot
+    ): Multimap<EntityAttribute, EntityAttributeModifier> {
+        return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
+        else super.getAttributeModifiers(staffStack, slot)
+    }
+
     @Environment(EnvType.CLIENT)
     private class FurnaceRenderer(private val litState: BlockState, private val unlitState: BlockState) :
         InsideStaffBlockStateRenderer() {
@@ -179,6 +193,12 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         private const val BURN_TIME_KEY = "BurnTime"
         private val PARTICLE_MANAGER by lazy { MinecraftClient.getInstance().particleManager }
         private val SMELTING_BOX = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
+        private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
+            EntityAttributes.GENERIC_ATTACK_DAMAGE,
+            attackDamage(5.0),
+            EntityAttributes.GENERIC_ATTACK_SPEED,
+            attackSpeed(2.0)
+        )
 
         fun <TRecipe : AbstractCookingRecipe> registerStaffItemHandler(
             furnaceItem: BlockItem,
