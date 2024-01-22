@@ -20,6 +20,8 @@ package opekope2.avm_staff.internal.staff_item_handler
 
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Items
+import net.minecraft.recipe.RecipeType
+import net.minecraft.sound.SoundEvents
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 
 @Suppress("unused")
@@ -30,6 +32,15 @@ fun register(context: IStaffModInitializationContext) {
 
     BoneBlockHandler.registerStaffItemHandler(Items.BONE_BLOCK, context)
 
+    FurnaceHandler.registerStaffItemHandler(
+        Items.FURNACE as BlockItem, RecipeType.SMELTING, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, context
+    )
+    FurnaceHandler.registerStaffItemHandler(
+        Items.BLAST_FURNACE as BlockItem, RecipeType.BLASTING, SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE, context
+    )
+    FurnaceHandler.registerStaffItemHandler(
+        Items.SMOKER as BlockItem, RecipeType.SMOKING, SoundEvents.BLOCK_SMOKER_SMOKE, context
+    )
 
     MagmaBlockHandler.registerStaffItemHandler(Items.MAGMA_BLOCK, context)
 
