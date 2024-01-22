@@ -36,7 +36,6 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -44,13 +43,16 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
 import opekope2.avm_staff.mixin.IMinecraftClientAccessorMixin
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 
-class WoolHandler(wool: Identifier, carpet: Identifier) : StaffItemHandler() {
-    private val woolState = (Registries.ITEM[wool] as BlockItem).block.defaultState
-    private val carpetState = (Registries.ITEM[carpet] as BlockItem).block.defaultState
+class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler() {
+    private val woolState = woolItem.block.defaultState
+    private val carpetState = carpetItem.block.defaultState
+
+    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(woolItem)
 
     override fun useOnBlock(
         staffStack: ItemStack,
@@ -113,16 +115,11 @@ class WoolHandler(wool: Identifier, carpet: Identifier) : StaffItemHandler() {
         )
 
         fun registerStaffItemHandler(
-            item: Identifier,
-            wool: Identifier,
-            carpet: Identifier,
+            woolItem: BlockItem,
+            carpetItem: BlockItem,
             context: IStaffModInitializationContext
         ) {
-            context.registerStaffItemHandler(item, WoolHandler(wool, carpet))
-        }
-
-        fun registerStaffItemHandler(wool: Identifier, carpet: Identifier, context: IStaffModInitializationContext) {
-            registerStaffItemHandler(wool, wool, carpet, context)
+            context.registerStaffItemHandler(Registries.ITEM.getId(woolItem), WoolHandler(woolItem, carpetItem))
         }
     }
 }

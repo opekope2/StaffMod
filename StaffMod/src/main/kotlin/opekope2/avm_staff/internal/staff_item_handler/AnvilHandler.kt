@@ -27,21 +27,27 @@ import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.BlockItem
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.IAdvancedStaffItemHandler
 import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.equipTime
 import opekope2.avm_staff.util.itemInStaff
 import java.util.*
 
-class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffItemHandler(), IAdvancedStaffItemHandler {
+class AnvilHandler(anvilItem: BlockItem, private val damagedStackFactory: () -> ItemStack?) : StaffItemHandler(),
+    IAdvancedStaffItemHandler {
+    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(anvilItem)
+
     override fun attackEntity(
         staffStack: ItemStack,
         world: World,
@@ -109,11 +115,14 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffIte
         )
 
         fun registerStaffItemHandler(
-            item: Identifier,
-            damagedStackFactory: () -> ItemStack?,
+            anvilItem: BlockItem,
+            damagedItem: Item?,
             context: IStaffModInitializationContext
         ) {
-            context.registerStaffItemHandler(item, AnvilHandler(damagedStackFactory))
+            context.registerStaffItemHandler(
+                Registries.ITEM.getId(anvilItem),
+                AnvilHandler(anvilItem) { damagedItem?.defaultStack }
+            )
         }
     }
 }

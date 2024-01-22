@@ -18,36 +18,52 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
+import net.minecraft.item.BlockItem
 import net.minecraft.item.Items
-import net.minecraft.util.Identifier
+import net.minecraft.recipe.RecipeType
+import net.minecraft.sound.SoundEvents
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 
 @Suppress("unused")
 fun register(context: IStaffModInitializationContext) {
-    AnvilHandler.registerStaffItemHandler(Identifier("anvil"), Items.CHIPPED_ANVIL::getDefaultStack, context)
-    AnvilHandler.registerStaffItemHandler(Identifier("chipped_anvil"), Items.DAMAGED_ANVIL::getDefaultStack, context)
-    AnvilHandler.registerStaffItemHandler(Identifier("damaged_anvil"), { null }, context)
+    AnvilHandler.registerStaffItemHandler(Items.ANVIL as BlockItem, Items.CHIPPED_ANVIL, context)
+    AnvilHandler.registerStaffItemHandler(Items.CHIPPED_ANVIL as BlockItem, Items.DAMAGED_ANVIL, context)
+    AnvilHandler.registerStaffItemHandler(Items.DAMAGED_ANVIL as BlockItem, null, context)
 
-    BoneBlockHandler.registerStaffItemHandler(context)
+    BoneBlockHandler.registerStaffItemHandler(Items.BONE_BLOCK, context)
 
-    MagmaBlockHandler.registerStaffItemHandler(context)
+    FurnaceHandler.registerStaffItemHandler(
+        Items.FURNACE as BlockItem, RecipeType.SMELTING, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, context
+    )
+    FurnaceHandler.registerStaffItemHandler(
+        Items.BLAST_FURNACE as BlockItem, RecipeType.BLASTING, SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE, context
+    )
+    FurnaceHandler.registerStaffItemHandler(
+        Items.SMOKER as BlockItem, RecipeType.SMOKING, SoundEvents.BLOCK_SMOKER_SMOKE, context
+    )
 
-    SnowBlockHandler.registerStaffItemHandler(context)
+    MagmaBlockHandler.registerStaffItemHandler(Items.MAGMA_BLOCK, context)
 
-    WoolHandler.registerStaffItemHandler(Identifier("white_wool"), Identifier("white_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("orange_wool"), Identifier("orange_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("magenta_wool"), Identifier("magenta_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("light_blue_wool"), Identifier("light_blue_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("yellow_wool"), Identifier("yellow_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("lime_wool"), Identifier("lime_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("pink_wool"), Identifier("pink_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("gray_wool"), Identifier("gray_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("light_gray_wool"), Identifier("light_gray_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("cyan_wool"), Identifier("cyan_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("purple_wool"), Identifier("purple_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("blue_wool"), Identifier("blue_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("brown_wool"), Identifier("brown_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("green_wool"), Identifier("green_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("red_wool"), Identifier("red_carpet"), context)
-    WoolHandler.registerStaffItemHandler(Identifier("black_wool"), Identifier("black_carpet"), context)
+    SnowBlockHandler.registerStaffItemHandler(Items.SNOW_BLOCK, context)
+
+    WoolHandler.registerStaffItemHandler(Items.WHITE_WOOL as BlockItem, Items.WHITE_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.ORANGE_WOOL as BlockItem, Items.ORANGE_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.MAGENTA_WOOL as BlockItem, Items.MAGENTA_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(
+        Items.LIGHT_BLUE_WOOL as BlockItem, Items.LIGHT_BLUE_CARPET as BlockItem, context
+    )
+    WoolHandler.registerStaffItemHandler(Items.YELLOW_WOOL as BlockItem, Items.YELLOW_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.LIME_WOOL as BlockItem, Items.LIME_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.PINK_WOOL as BlockItem, Items.PINK_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.GRAY_WOOL as BlockItem, Items.GRAY_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(
+        Items.LIGHT_GRAY_WOOL as BlockItem, Items.LIGHT_GRAY_CARPET as BlockItem, context
+    )
+    WoolHandler.registerStaffItemHandler(Items.CYAN_WOOL as BlockItem, Items.CYAN_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.PURPLE_WOOL as BlockItem, Items.PURPLE_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.BLUE_WOOL as BlockItem, Items.BLUE_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.BROWN_WOOL as BlockItem, Items.BROWN_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.GREEN_WOOL as BlockItem, Items.GREEN_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.RED_WOOL as BlockItem, Items.RED_CARPET as BlockItem, context)
+    WoolHandler.registerStaffItemHandler(Items.BLACK_WOOL as BlockItem, Items.BLACK_CARPET as BlockItem, context)
 }

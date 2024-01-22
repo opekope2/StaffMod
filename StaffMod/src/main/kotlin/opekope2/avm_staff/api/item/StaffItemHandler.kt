@@ -20,10 +20,14 @@ package opekope2.avm_staff.api.item
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItem
+import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.advancement.criterion.Criteria
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -39,12 +43,17 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.initializer.IStaffModInitializer
+import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
+import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
+import opekope2.avm_staff.api.item.renderer.StaffBlockStateRenderer
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
+import java.util.function.Supplier
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -59,6 +68,12 @@ abstract class StaffItemHandler {
      */
     open val maxUseTime: Int
         get() = 0
+
+    /**
+     * The renderer of the item added to the staff, which renders the item as part of the staff model.
+     */
+    @get: Environment(EnvType.CLIENT)
+    abstract val staffItemRenderer: IStaffItemRenderer
 
     /**
      * Called on both the client and the server by Minecraft when the player uses the staff.
@@ -357,6 +372,25 @@ abstract class StaffItemHandler {
     }
 
     /**
+     * Called on the client side by Fabric API, when the NBT of the held item gets updated.
+     *
+     * @param oldStaffStack The previous item stack
+     * @param newStaffStack The updated item stack
+     * @param player        The holder of [oldStaffStack]
+     * @param hand          The hand of [player], in which the [old staff][oldStaffStack] is
+     * @return true to play the update/equip animation, false to skip it
+     * @see FabricItem.allowNbtUpdateAnimation
+     */
+    open fun allowNbtUpdateAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        player: PlayerEntity,
+        hand: Hand
+    ): Boolean {
+        return true
+    }
+
+    /**
      * Gets the attribute modifiers (damage, attack speed, etc.) of the staff when held.
      *
      * @param staffStack    The staff item stack (not the item in the staff)
@@ -371,6 +405,31 @@ abstract class StaffItemHandler {
         else ImmutableMultimap.of()
     }
 
+    object EmptyStaffHandler : StaffItemHandler() {
+        override val staffItemRenderer = IStaffItemRenderer { _, _, _ -> }
+    }
+
+    object FallbackStaffHandler : StaffItemHandler() {
+        override val staffItemRenderer = object : IStaffItemRenderer {
+            private val BAKED_MODEL_MANAGER = MinecraftClient.getInstance().bakedModelManager
+
+            private val transformation = StaffBlockStateRenderer.Transformation(
+                InsideStaffBlockStateRenderer.SCALE,
+                InsideStaffBlockStateRenderer.OFFSET
+            )
+
+            override fun emitItemQuads(
+                staffStack: ItemStack,
+                randomSupplier: Supplier<Random>,
+                context: RenderContext
+            ) {
+                context.pushTransform(transformation)
+                BAKED_MODEL_MANAGER.missingModel.emitItemQuads(staffStack, randomSupplier, context)
+                context.popTransform()
+            }
+        }
+    }
+
     companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
@@ -378,8 +437,5 @@ abstract class StaffItemHandler {
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(2.0)
         )
-
-        @JvmField
-        val DEFAULT: StaffItemHandler = object : StaffItemHandler() {}
     }
 }

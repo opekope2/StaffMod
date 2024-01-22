@@ -44,7 +44,21 @@ import java.util.stream.Stream
  */
 class StaffItem(settings: Settings) : Item(settings) {
     private val ItemStack?.handlerOfItemOrDefault: StaffItemHandler
-        get() = this?.handlerOfItem ?: StaffItemHandler.DEFAULT
+        get() = if (this == null) StaffItemHandler.EmptyStaffHandler
+        else handlerOfItem ?: StaffItemHandler.FallbackStaffHandler
+
+    override fun allowNbtUpdateAnimation(
+        player: PlayerEntity,
+        hand: Hand,
+        oldStack: ItemStack,
+        newStack: ItemStack
+    ): Boolean {
+        val oldHandler = oldStack.itemInStaff.handlerOfItemOrDefault
+        val newHandler = newStack.itemInStaff.handlerOfItemOrDefault
+
+        return if (oldHandler !== newHandler) true
+        else oldHandler.allowNbtUpdateAnimation(oldStack, newStack, player, hand)
+    }
 
     override fun getAttributeModifiers(
         stack: ItemStack,

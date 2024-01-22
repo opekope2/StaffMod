@@ -19,11 +19,10 @@
 package opekope2.avm_staff.internal.staff_item_handler
 
 import net.minecraft.entity.LivingEntity
-import net.minecraft.item.BoneMealItem
-import net.minecraft.item.ItemStack
+import net.minecraft.item.*
+import net.minecraft.registry.Registries
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
@@ -31,8 +30,11 @@ import net.minecraft.world.WorldEvents
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
 
 class BoneBlockHandler : StaffItemHandler() {
+    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(Items.BONE_BLOCK as BlockItem)
+
     override fun useOnBlock(
         staffStack: ItemStack,
         world: World,
@@ -66,8 +68,8 @@ class BoneBlockHandler : StaffItemHandler() {
     }
 
     companion object {
-        fun registerStaffItemHandler(context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(Identifier("bone_block"), BoneBlockHandler())
+        fun registerStaffItemHandler(boneBlockItem: Item, context: IStaffModInitializationContext) {
+            context.registerStaffItemHandler(Registries.ITEM.getId(boneBlockItem), BoneBlockHandler())
         }
     }
 }
