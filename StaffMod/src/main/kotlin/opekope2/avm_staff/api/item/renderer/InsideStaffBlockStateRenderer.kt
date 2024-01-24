@@ -60,7 +60,7 @@ abstract class InsideStaffBlockStateRenderer : StaffBlockStateRenderer() {
          * Offset of the staff's block holding space.
          */
         @JvmField
-        val OFFSET = Vector3f(9f / 16f / 2f, 22f / 16f, (16f - 7f) / 16f / 2f)
+        val OFFSET = Vector3f((16f - 7f) / 16f / 2f, 22f / 16f, (16f - 7f) / 16f / 2f)
 
         /**
          * Returns an [InsideStaffBlockStateRenderer], which always renders the given [BlockState].
