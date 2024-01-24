@@ -24,7 +24,6 @@ import net.minecraft.entity.projectile.thrown.SnowballEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -62,7 +61,7 @@ class SnowBlockHandler : StaffItemHandler() {
             user,
             user.blockPos,
             SoundEvents.ENTITY_SNOWBALL_THROW,
-            SoundCategory.NEUTRAL,
+            user.soundCategory,
             0.5f,
             0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
         )
