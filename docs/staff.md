@@ -36,6 +36,19 @@ When attacking an entity, the anvil has a 12% chance of being damaged. On each a
     If you have suggestions about bone block features or balancing,
     [join the discussion here](https://github.com/opekope2/StaffMod/discussions/16).
 
+### Bell
+
+* **Attack Damage**: 8 (❤️❤️❤️❤️)
+* **Attack Speed**: 1.5
+
+* **Attack entity**: Vanilla attack behavior + rings the bell
+* **Right click**: Rings the bell. Please note that as of now, this doesn't send villagers home, and doesn't make raiders glow, the bell just plays an audible noise.
+
+!!! experiment "Heads up"
+    More features are planned for bell, like the features a vanilla bell block has.
+    If you have suggestions about bell features or balancing,
+    [join the discussion here](https://github.com/opekope2/StaffMod/discussions/21).
+
 ### Bone block
 
 * **Right click**: Fertilizes the crop or ground the same way a bone meal does.
