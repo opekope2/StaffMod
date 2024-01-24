@@ -44,7 +44,7 @@ import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
-import opekope2.avm_staff.mixin.IMinecraftClientAccessorMixin
+import opekope2.avm_staff.mixin.IMinecraftClientMixin
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 
@@ -64,7 +64,7 @@ class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler
     ): ActionResult {
         if (world.isClient && user is ClientPlayerEntity) {
             // Allow fast block placement
-            (MinecraftClient.getInstance() as IMinecraftClientAccessorMixin).setItemUseCooldown(0)
+            (MinecraftClient.getInstance() as IMinecraftClientMixin).setItemUseCooldown(0)
         }
 
         val originalState = world.getBlockState(target)

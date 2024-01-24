@@ -6,11 +6,11 @@
     "defaultRequire": 1
   },
   "client": [
-    "IMinecraftClientAccessorMixin",
+    "IMinecraftClientMixin",
     "MinecraftClientMixin"
   ],
   "mixins": [
-    "IAbstractFurnaceBlockEntityInvokerMixin",
+    "IAbstractFurnaceBlockEntityMixin",
     "LivingEntityMixin"
   ]
 }
