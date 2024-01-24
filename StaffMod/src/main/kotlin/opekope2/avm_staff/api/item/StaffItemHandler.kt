@@ -40,6 +40,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.stat.Stats
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -433,5 +434,40 @@ abstract class StaffItemHandler {
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(2.0)
         )
+
+        private val staffItemsHandlers = mutableMapOf<Identifier, StaffItemHandler>()
+
+        /**
+         * Registers a [StaffItemHandler] for the given [item ID][staffItem].
+         *
+         * @param staffItem The item ID to register a handler for. This is the item, which can be inserted into the staff
+         * @param handler   The staff item handler, which processes staff interactions, while the [registered item][staffItem]
+         *                  is inserted into it
+         * @return `true`, if the registration was successful, `false`, if the item was already registered
+         */
+        @JvmStatic
+        fun register(staffItem: Identifier, handler: StaffItemHandler): Boolean {
+            if (staffItem in staffItemsHandlers) return false
+
+            staffItemsHandlers[staffItem] = handler
+            return true
+        }
+
+        /**
+         * Checks, if a staff item handler for the [given item][staffItem] is registered.
+         *
+         * @param staffItem The item ID, which can be inserted into the staff
+         */
+        @JvmStatic
+        operator fun contains(staffItem: Identifier): Boolean = staffItem in staffItemsHandlers
+
+        /**
+         * Gets the registered staff item handler for the [given item][staffItem] or `null`, if no staff item handler was
+         * registered.
+         *
+         * @param staffItem The item ID, which can be inserted into the staff
+         */
+        @JvmStatic
+        operator fun get(staffItem: Identifier): StaffItemHandler? = staffItemsHandlers[staffItem]
     }
 }
