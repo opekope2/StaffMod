@@ -20,18 +20,16 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.StaffMod"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.staff_item_handler.VanillaStaffItemHandlersKt::register"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.client.StaffModClient"
-      }
-    ],
-    "avm-staff": [
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.staff_item_handler.VanillaStaffItemHandlersKt::register"
       }
     ]
   },

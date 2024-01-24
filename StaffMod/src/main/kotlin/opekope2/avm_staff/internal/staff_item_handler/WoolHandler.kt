@@ -31,7 +31,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
@@ -41,10 +40,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
-import opekope2.avm_staff.mixin.IMinecraftClientAccessorMixin
+import opekope2.avm_staff.mixin.IMinecraftClientMixin
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 
@@ -64,7 +62,7 @@ class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler
     ): ActionResult {
         if (world.isClient && user is ClientPlayerEntity) {
             // Allow fast block placement
-            (MinecraftClient.getInstance() as IMinecraftClientAccessorMixin).setItemUseCooldown(0)
+            (MinecraftClient.getInstance() as IMinecraftClientMixin).setItemUseCooldown(0)
         }
 
         val originalState = world.getBlockState(target)
@@ -106,20 +104,12 @@ class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler
         else super.getAttributeModifiers(staffStack, slot)
     }
 
-    companion object {
+    private companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
             attackDamage(2.0),
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(2.0)
         )
-
-        fun registerStaffItemHandler(
-            woolItem: BlockItem,
-            carpetItem: BlockItem,
-            context: IStaffModInitializationContext
-        ) {
-            context.registerStaffItemHandler(Registries.ITEM.getId(woolItem), WoolHandler(woolItem, carpetItem))
-        }
     }
 }

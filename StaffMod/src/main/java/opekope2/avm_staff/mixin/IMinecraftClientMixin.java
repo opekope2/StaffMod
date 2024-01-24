@@ -18,16 +18,12 @@
 
 package opekope2.avm_staff.mixin;
 
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(AbstractFurnaceBlockEntity.class)
-public interface IAbstractFurnaceBlockEntityInvokerMixin {
-    @Invoker
-    static void invokeDropExperience(ServerWorld world, Vec3d pos, int multiplier, float experience) {
-        throw new AssertionError();
-    }
+@Mixin(MinecraftClient.class)
+public interface IMinecraftClientMixin {
+    @Accessor
+    void setItemUseCooldown(int value);
 }

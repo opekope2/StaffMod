@@ -16,21 +16,18 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.api.initializer
+package opekope2.avm_staff.mixin;
 
-import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.item.StaffItemHandler
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.Vec3d;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;
 
-/**
- * Initialization context for [IStaffModInitializer].
- */
-interface IStaffModInitializationContext {
-    /**
-     * Registers a [StaffItemHandler].
-     *
-     * @param itemInStaff           The item ID to register a handler for
-     * @param handler               The handler, which processes staff interactions, while the [registered item][itemInStaff] is in it
-     * @return `true`, if the registration was successful, `false`, if the item was already registered
-     */
-    fun registerStaffItemHandler(itemInStaff: Identifier, handler: StaffItemHandler): Boolean
+@Mixin(AbstractFurnaceBlockEntity.class)
+public interface IAbstractFurnaceBlockEntityMixin {
+    @Invoker
+    static void invokeDropExperience(ServerWorld world, Vec3d pos, int multiplier, float experience) {
+        throw new AssertionError();
+    }
 }

@@ -22,17 +22,13 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.thrown.SnowballEntity
 import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.registry.Registries
-import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
 
@@ -65,7 +61,7 @@ class SnowBlockHandler : StaffItemHandler() {
             user,
             user.blockPos,
             SoundEvents.ENTITY_SNOWBALL_THROW,
-            SoundCategory.NEUTRAL,
+            user.soundCategory,
             0.5f,
             0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
         )
@@ -75,11 +71,5 @@ class SnowBlockHandler : StaffItemHandler() {
             // TODO speed
             setVelocity(user, user.pitch, user.yaw, 0f, 4f, 1f)
         })
-    }
-
-    companion object {
-        fun registerStaffItemHandler(snowBlockItem: Item, context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(Registries.ITEM.getId(snowBlockItem), SnowBlockHandler())
-        }
     }
 }

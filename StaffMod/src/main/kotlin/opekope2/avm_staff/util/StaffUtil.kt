@@ -24,7 +24,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.Registries
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.internal.item.StaffItemHandlers
 
 /**
  * NBT key
@@ -65,7 +64,7 @@ val ItemStack.hasHandlerOfItem: Boolean
     @JvmName("hasHandlerOfStaff")
     get() {
         val itemId = Registries.ITEM.getId(item)
-        return itemId in StaffItemHandlers
+        return itemId in StaffItemHandler
     }
 
 /**
@@ -75,5 +74,5 @@ val ItemStack.hasHandlerOfItem: Boolean
 val ItemStack.handlerOfItem: StaffItemHandler?
     get() {
         val itemId = Registries.ITEM.getId(item)
-        return StaffItemHandlers[itemId]
+        return StaffItemHandler[itemId]
     }
