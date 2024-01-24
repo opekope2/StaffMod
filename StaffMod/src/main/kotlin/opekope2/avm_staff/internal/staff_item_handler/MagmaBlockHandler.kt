@@ -29,16 +29,13 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
 import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.registry.Registries
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
 import opekope2.avm_staff.util.*
@@ -102,16 +99,12 @@ class MagmaBlockHandler : StaffItemHandler() {
         else super.getAttributeModifiers(staffStack, slot)
     }
 
-    companion object {
+    private companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
             attackDamage(5.0),
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(2.0)
         )
-
-        fun registerStaffItemHandler(magmaBlockItem: Item, context: IStaffModInitializationContext) {
-            context.registerStaffItemHandler(Registries.ITEM.getId(magmaBlockItem), MagmaBlockHandler())
-        }
     }
 }

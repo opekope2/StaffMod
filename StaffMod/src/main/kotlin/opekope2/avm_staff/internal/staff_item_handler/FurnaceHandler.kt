@@ -38,7 +38,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.recipe.AbstractCookingRecipe
 import net.minecraft.recipe.RecipeType
-import net.minecraft.registry.Registries
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -46,7 +45,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
-import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
@@ -188,7 +186,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         override fun asBlockEntity(): Nothing = throw UnsupportedOperationException()
     }
 
-    companion object {
+    private companion object {
         private const val LIT_KEY = "Lit"
         private const val BURN_TIME_KEY = "BurnTime"
         private val PARTICLE_MANAGER by lazy { MinecraftClient.getInstance().particleManager }
@@ -199,17 +197,5 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(2.0)
         )
-
-        fun <TRecipe : AbstractCookingRecipe> registerStaffItemHandler(
-            furnaceItem: BlockItem,
-            recipeType: RecipeType<TRecipe>,
-            smeltSound: SoundEvent,
-            context: IStaffModInitializationContext
-        ) {
-            context.registerStaffItemHandler(
-                Registries.ITEM.getId(furnaceItem),
-                FurnaceHandler(furnaceItem, recipeType, smeltSound)
-            )
-        }
     }
 }

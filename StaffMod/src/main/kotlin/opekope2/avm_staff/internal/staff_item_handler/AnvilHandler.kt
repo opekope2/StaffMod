@@ -28,14 +28,11 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
 import opekope2.avm_staff.api.item.IAdvancedStaffItemHandler
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
@@ -87,8 +84,8 @@ class AnvilHandler(anvilItem: BlockItem, private val damagedStackFactory: () -> 
 
     override fun disablesShield() = true
 
-    companion object {
-        val MOVEMENT_SPEED_MODIFIER_ID: UUID = UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750d")
+    private companion object {
+        private val MOVEMENT_SPEED_MODIFIER_ID: UUID = UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750d")
 
         private val MAIN_HAND_ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
@@ -113,16 +110,5 @@ class AnvilHandler(anvilItem: BlockItem, private val damagedStackFactory: () -> 
                 EntityAttributeModifier.Operation.MULTIPLY_TOTAL
             )
         )
-
-        fun registerStaffItemHandler(
-            anvilItem: BlockItem,
-            damagedItem: Item?,
-            context: IStaffModInitializationContext
-        ) {
-            context.registerStaffItemHandler(
-                Registries.ITEM.getId(anvilItem),
-                AnvilHandler(anvilItem) { damagedItem?.defaultStack }
-            )
-        }
     }
 }
