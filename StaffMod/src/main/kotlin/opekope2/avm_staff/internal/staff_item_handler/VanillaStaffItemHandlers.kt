@@ -36,6 +36,8 @@ fun register() {
     CHIPPED_ANVIL.registerHandler(AnvilHandler(CHIPPED_ANVIL as BlockItem, DAMAGED_ANVIL::getDefaultStack))
     DAMAGED_ANVIL.registerHandler(AnvilHandler(DAMAGED_ANVIL as BlockItem) { null })
 
+    BELL.registerHandler(BellBlockHandler())
+
     BONE_BLOCK.registerHandler(BoneBlockHandler())
 
     FURNACE.registerHandler(
