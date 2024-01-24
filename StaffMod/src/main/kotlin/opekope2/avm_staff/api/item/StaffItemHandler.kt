@@ -46,8 +46,6 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.initializer.IStaffModInitializationContext
-import opekope2.avm_staff.api.initializer.IStaffModInitializer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
 import opekope2.avm_staff.api.item.renderer.StaffBlockStateRenderer
@@ -58,8 +56,6 @@ import java.util.function.Supplier
 /**
  * Provides functionality for a staff, when an item is inserted into it.
  *
- * @see IStaffModInitializer
- * @see IStaffModInitializationContext.registerStaffItemHandler
  * @see IAdvancedStaffItemHandler
  */
 abstract class StaffItemHandler {
