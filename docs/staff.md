@@ -73,6 +73,18 @@ When attacking an entity, the anvil has a 12% chance of being damaged. On each a
 !!! experiment "Heads up"
     If you have suggestions about furnaces, [join the discussion here](https://github.com/opekope2/StaffMod/discussions/14).
 
+### Lightning rod
+
+* **Attack Damage**: 4 (❤️❤️)
+* **Attack Speed**: 2
+
+* **Right click**: Right click on a block to summon a lightning bolt during thunder. The block (specifically, the block neighboring it
+  on the cicked side) needs to have sky light level 15 (just like vanila lightning rod) to summon the lightning.
+
+!!! experiment "Heads up"
+    There are more features of the lightning bolt, like sending villagers to their houses, or making raiders glow.
+    If you have suggestions about lightning rod, [join the discussion here](https://github.com/opekope2/StaffMod/discussions/23).
+
 ### Magma block
 
 * **Attack Damage**: 5 (❤️❤️💔) + 8s of burning (same as [Fire Aspect II](https://minecraft.wiki/w/Fire_Aspect))
