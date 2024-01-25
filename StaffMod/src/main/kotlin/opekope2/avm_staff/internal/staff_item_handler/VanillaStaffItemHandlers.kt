@@ -50,6 +50,8 @@ fun register() {
         FurnaceHandler(SMOKER as BlockItem, RecipeType.SMOKING, SoundEvents.BLOCK_SMOKER_SMOKE)
     )
 
+    LIGHTNING_ROD.registerHandler(LightningRodHandler())
+
     MAGMA_BLOCK.registerHandler(MagmaBlockHandler())
 
     SNOW_BLOCK.registerHandler(SnowBlockHandler())
