@@ -112,7 +112,7 @@ When attacking an entity, the anvil has a 12% chance of being damaged. On each a
 
 !!! experiment "Heads up"
     There are more features of the TNT to discuss, like manually triggering an explosion. If you have suggestions about TNT features or balancing,
-    [join the discussion here](https://github.com/opekope2/StaffMod/discussions/4).
+    [join the discussion here](https://github.com/opekope2/StaffMod/discussions/25).
 
 ### Wool (any color)
 
