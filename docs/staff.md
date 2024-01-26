@@ -5,6 +5,8 @@
 * **Attack Damage**: 4 (❤️❤️)
 * **Attack Speed**: 2 (faster than any vanilla weapon)
 
+Every staff has these stats, unless noted otherwise
+
 !!! experiment "Heads up"
     If you have suggestions about the staff item, or ideas about balancing it for survival gameplay,
     [join the discussion here](https://github.com/opekope2/StaffMod/discussions/6).
@@ -74,9 +76,6 @@ When attacking an entity, the anvil has a 12% chance of being damaged. On each a
     If you have suggestions about furnaces, [join the discussion here](https://github.com/opekope2/StaffMod/discussions/14).
 
 ### Lightning rod
-
-* **Attack Damage**: 4 (❤️❤️)
-* **Attack Speed**: 2
 
 * **Right click**: Right click on a block to summon a lightning bolt during thunder. The block (specifically, the block neighboring it
   on the cicked side) needs to have sky light level 15 (just like vanila lightning rod) to summon the lightning.
