@@ -56,6 +56,8 @@ fun register() {
 
     SNOW_BLOCK.registerHandler(SnowBlockHandler())
 
+    TNT.registerHandler(TntHandler())
+
     WHITE_WOOL.registerHandler(WoolHandler(WHITE_WOOL as BlockItem, WHITE_CARPET as BlockItem))
     ORANGE_WOOL.registerHandler(WoolHandler(ORANGE_WOOL as BlockItem, ORANGE_CARPET as BlockItem))
     MAGENTA_WOOL.registerHandler(WoolHandler(MAGENTA_WOOL as BlockItem, MAGENTA_CARPET as BlockItem))

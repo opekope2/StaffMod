@@ -11,6 +11,7 @@
   ],
   "mixins": [
     "IAbstractFurnaceBlockEntityMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "TntEntityMixin"
   ]
 }
