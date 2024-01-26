@@ -5,28 +5,22 @@ import java.net.URL
 import java.time.Year
 
 plugins {
-    id("fabric-loom")
-    kotlin("jvm")
     id("org.jetbrains.dokka")
 }
 
-base {
-    archivesName = project.extra["archives_base_name"] as String
+architectury {
+    common("fabric", "forge")
 }
-
-version = project.extra["mod_version"] as String
-group = project.extra["maven_group"] as String
 
 repositories {}
 
 dependencies {
-    minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
-    mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, classifier = "v2")
-    modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
-    modImplementation("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_version"] as String)
-    modImplementation(
-        "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
-    )
+    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
+    // Do NOT use other classes from fabric loader
+    modImplementation("net.fabricmc", "fabric-loader", project.extra["fabric_loader_version"] as String)
+    // TODO REMOVE FABRIC API FROM COMMON PROJECT AFTER FINISHED PORTING! STAFF MOD WILL CRASH ON FORGE!
+    modImplementation("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_api_version"] as String)
+    modApi("dev.architectury", "architectury", project.extra["architectury_api_version"] as String)
 
     if (project.hasProperty("javaSyntax")) {
         dokkaPlugin("org.jetbrains.dokka", "kotlin-as-java-plugin", project.extra["dokka_version"] as String)
@@ -38,57 +32,6 @@ loom {
 }
 
 tasks {
-    val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
-
-    withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion.toString()
-        targetCompatibility = javaVersion.toString()
-        options.release = javaVersion.toString().toInt()
-    }
-
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = javaVersion.toString()
-        }
-    }
-
-    jar {
-        from(rootDir.resolve("COPYING"))
-        from(rootDir.resolve("COPYING.LESSER"))
-    }
-
-    processResources {
-        filesMatching("fabric.mod.json") {
-            expand(
-                mutableMapOf(
-                    "version" to project.extra["mod_version"] as String,
-                    "fabricloader" to project.extra["loader_version"] as String,
-                    "fabric_api" to project.extra["fabric_version"] as String,
-                    "fabric_language_kotlin" to project.extra["fabric_language_kotlin_version"] as String,
-                    "minecraft" to project.extra["minecraft_version"] as String,
-                    "java" to project.extra["java_version"] as String
-                )
-            )
-        }
-        filesMatching("*.mixins.json") {
-            expand(
-                mutableMapOf(
-                    "java" to project.extra["java_version"] as String
-                )
-            )
-        }
-    }
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(javaVersion.toString())
-        }
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-        withSourcesJar()
-    }
-
     dokkaHtml {
         moduleName = "Staff Mod"
         moduleVersion = version as String
@@ -130,7 +73,7 @@ tasks {
                 packageListUrl = URL("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/element-list")
             }
             externalDocumentationLink {
-                val fabricVersion = project.extra["fabric_version"]
+                val fabricVersion = project.extra["fabric_api_version"]
                 url = URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/")
                 packageListUrl = URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/element-list")
             }

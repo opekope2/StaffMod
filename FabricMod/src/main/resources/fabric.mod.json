@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "avm_staff",
-  "version": "${version}",
+  "version": "$version",
   "name": "Staff Mod (AvM Shorts)",
   "description": "Staff from Animation vs Minecraft Shorts",
   "authors": [
@@ -36,12 +36,11 @@
   "mixins": [
     "avm_staff.mixins.json"
   ],
-  "accessWidener": "avm_staff.accesswidener",
   "depends": {
-    "fabricloader": ">=${fabricloader}",
-    "fabric-api": ">=${fabric_api}",
-    "fabric-language-kotlin": ">=${fabric_language_kotlin}",
-    "minecraft": ">=${minecraft}",
-    "java": ">=${java}"
+    "fabric-api": ">=$fabric_api",
+    "fabric-language-kotlin": ">=$fabric_language_kotlin",
+    "architectury": ">=$architectury",
+    "minecraft": ">=$minecraft",
+    "java": ">=$java"
   }
 }
