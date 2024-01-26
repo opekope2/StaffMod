@@ -106,6 +106,14 @@ When attacking an entity, the anvil has a 12% chance of being damaged. On each a
     If you have suggestions about snow block features or balancing,
     [join the discussion here](https://github.com/opekope2/StaffMod/discussions/4).
 
+### TNT
+
+* **Left click**: Launches a TNT forward at 20m/s (1m/gt), which explodes, if it comes into contact with a block or entity, except its launcher.
+
+!!! experiment "Heads up"
+    There are more features of the TNT to discuss, like manually triggering an explosion. If you have suggestions about TNT features or balancing,
+    [join the discussion here](https://github.com/opekope2/StaffMod/discussions/4).
+
 ### Wool (any color)
 
 * **Attack Damage**: 2 (❤️)
