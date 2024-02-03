@@ -38,6 +38,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
 import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket
@@ -51,7 +52,7 @@ object StaffMod : ModInitializer, IStaffMod {
     override val staffItem: StaffItem = Registry.register(
         Registries.ITEM,
         Identifier(MOD_ID, "staff"),
-        StaffItem(FabricItemSettings().maxCount(1))
+        FabricStaffItem(FabricItemSettings().maxCount(1))
     )
 
     override fun onInitialize() {

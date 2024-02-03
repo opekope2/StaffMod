@@ -18,12 +18,8 @@
 
 package opekope2.avm_staff.api.item
 
-import com.google.common.collect.Multimap
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -34,35 +30,21 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+import opekope2.avm_staff.api.item.StaffItem.Companion.forCurrentLoader
+import opekope2.avm_staff.internal.platform.createStaffItem
 import opekope2.avm_staff.util.handlerOfItemOrFallback
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
 import java.util.stream.Stream
 
 /**
- * Staff item.
+ * Staff item dispatching functionality to [StaffItemHandler] without loader specific functionality.
+ * Implementing `FabricItem` or `IForgeItem` (on the appropriate loader) is highly recommended when extending the class
+ * to pass loader-specific functionality to [StaffItemHandler].
+ *
+ * @see forCurrentLoader
  */
-class StaffItem(settings: Settings) : Item(settings) {
-    override fun allowNbtUpdateAnimation(
-        player: PlayerEntity,
-        hand: Hand,
-        oldStack: ItemStack,
-        newStack: ItemStack
-    ): Boolean {
-        val oldHandler = oldStack.itemInStaff.handlerOfItemOrDefault
-        val newHandler = newStack.itemInStaff.handlerOfItemOrDefault
-
-        return if (oldHandler !== newHandler) true
-        else oldHandler.allowNbtUpdateAnimation(oldStack, newStack, player, hand)
-    }
-
-    override fun getAttributeModifiers(
-        stack: ItemStack,
-        slot: EquipmentSlot
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return stack.itemInStaff.handlerOfItemOrDefault.getAttributeModifiers(stack, slot)
-    }
-
+abstract class StaffItem(settings: Settings) : Item(settings) {
     override fun onItemEntityDestroyed(entity: ItemEntity) {
         val staffStack = entity.stack
         val staffItem = staffStack.itemInStaff ?: return
