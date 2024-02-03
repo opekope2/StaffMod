@@ -29,13 +29,14 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import opekope2.avm_staff.IStaffMod;
 import opekope2.avm_staff.api.item.StaffItemHandler;
-import opekope2.avm_staff.internal.StaffMod;
 import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket;
 import opekope2.avm_staff.util.StaffUtil;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -45,6 +46,9 @@ import java.util.Objects;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin {
+    @Unique
+    private static final IStaffMod staffMod$impl = IStaffMod.get();
+
     @Shadow
     @Nullable
     public ClientPlayerEntity player;
@@ -76,7 +80,7 @@ public abstract class MinecraftClientMixin {
         assert world != null;
         assert crosshairTarget != null;
 
-        if (!itemStack.isOf(StaffMod.STAFF_ITEM)) return;
+        if (!itemStack.isOf(staffMod$impl.getStaffItem())) return;
 
         ItemStack itemInStaff = StaffUtil.getItemInStaff(itemStack);
         if (itemInStaff == null) return;
@@ -116,7 +120,7 @@ public abstract class MinecraftClientMixin {
         assert player != null;
         assert world != null;
 
-        if (!itemStack.isOf(StaffMod.STAFF_ITEM)) return;
+        if (!itemStack.isOf(staffMod$impl.getStaffItem())) return;
 
         ItemStack itemInStaff = StaffUtil.getItemInStaff(itemStack);
         if (itemInStaff == null) return;

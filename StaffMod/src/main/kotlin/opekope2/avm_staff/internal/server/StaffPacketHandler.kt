@@ -25,7 +25,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import opekope2.avm_staff.internal.StaffMod.STAFF_ITEM
+import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket
@@ -35,6 +35,8 @@ import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
 
 object StaffPacketHandler {
+    private val staffMod: IStaffMod = IStaffMod.get()
+
     @Suppress("UNUSED_PARAMETER")
     fun addBlockToStaff(
         packet: AddItemToStaffC2SPacket,
@@ -70,7 +72,7 @@ object StaffPacketHandler {
     @Suppress("UNUSED_PARAMETER")
     fun attack(packet: StaffAttackC2SPacket, player: ServerPlayerEntity, responseSender: PacketSender): ActionResult {
         val staffStack = player.mainHandStack
-        if (!staffStack.isOf(STAFF_ITEM)) return ActionResult.PASS
+        if (!staffStack.isOf(staffMod.staffItem)) return ActionResult.PASS
 
         return staffStack.itemInStaff?.handlerOfItem?.attack(
             staffStack,
@@ -92,10 +94,10 @@ object StaffPacketHandler {
         val offStack = player.offHandStack
 
         return when {
-            mainStack.isOf(STAFF_ITEM) && !offStack.isOf(STAFF_ITEM) ->
+            mainStack.isOf(staffMod.staffItem) && !offStack.isOf(staffMod.staffItem) ->
                 mainStack to PlayerInventory.OFF_HAND_SLOT
 
-            offStack.isOf(STAFF_ITEM) && !mainStack.isOf(STAFF_ITEM) ->
+            offStack.isOf(staffMod.staffItem) && !mainStack.isOf(staffMod.staffItem) ->
                 offStack to player.inventory.selectedSlot
 
             else -> null
@@ -107,8 +109,8 @@ object StaffPacketHandler {
         val offStack = player.offHandStack
 
         return when {
-            mainStack.isOf(STAFF_ITEM) && !offStack.isOf(STAFF_ITEM) -> mainStack to offStack
-            offStack.isOf(STAFF_ITEM) && !mainStack.isOf(STAFF_ITEM) -> offStack to mainStack
+            mainStack.isOf(staffMod.staffItem) && !offStack.isOf(staffMod.staffItem) -> mainStack to offStack
+            offStack.isOf(staffMod.staffItem) && !mainStack.isOf(staffMod.staffItem) -> offStack to mainStack
             else -> null
         }
     }
