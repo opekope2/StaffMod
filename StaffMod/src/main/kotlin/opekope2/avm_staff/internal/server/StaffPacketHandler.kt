@@ -18,17 +18,16 @@
 
 package opekope2.avm_staff.internal.server
 
-import net.fabricmc.fabric.api.networking.v1.PacketSender
+import dev.architectury.networking.NetworkManager.PacketContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import opekope2.avm_staff.IStaffMod
-import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
-import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
-import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.StaffAttackC2SPacket
 import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.hasHandlerOfItem
 import opekope2.avm_staff.util.isItemInStaff
@@ -38,11 +37,8 @@ object StaffPacketHandler {
     private val staffMod: IStaffMod = IStaffMod.get()
 
     @Suppress("UNUSED_PARAMETER")
-    fun addBlockToStaff(
-        packet: AddItemToStaffC2SPacket,
-        player: ServerPlayerEntity,
-        responseSender: PacketSender
-    ) {
+    fun addBlockToStaff(packet: AddItemToStaffC2SPacket, context: PacketContext) {
+        val player = context.player
         val (staffStack, itemStack) = findStaffAndItemStack(player) ?: return
 
         if (itemStack.isEmpty) return
@@ -52,12 +48,10 @@ object StaffPacketHandler {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun removeBlockFromStaff(
-        packet: RemoveItemFromStaffC2SPacket,
-        player: ServerPlayerEntity,
-        responseSender: PacketSender
-    ) {
+    fun removeBlockFromStaff(packet: RemoveItemFromStaffC2SPacket, context: PacketContext) {
+        val player = context.player
         if (player.isUsingItem) return
+
         val (staffStack, itemSlot) = findStaffStackAndItemSlot(player) ?: return
         val inventory = player.inventory
         val itemStack = inventory.getStack(itemSlot)
@@ -70,7 +64,8 @@ object StaffPacketHandler {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun attack(packet: StaffAttackC2SPacket, player: ServerPlayerEntity, responseSender: PacketSender): ActionResult {
+    fun attack(packet: StaffAttackC2SPacket, context: PacketContext): ActionResult {
+        val player = context.player
         val staffStack = player.mainHandStack
         if (!staffStack.isOf(staffMod.staffItem)) return ActionResult.PASS
 

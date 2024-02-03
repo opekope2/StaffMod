@@ -31,7 +31,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import opekope2.avm_staff.IStaffMod;
 import opekope2.avm_staff.api.item.StaffItemHandler;
-import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket;
+import opekope2.avm_staff.internal.networking.c2s.play.StaffAttackC2SPacket;
 import opekope2.avm_staff.util.StaffUtil;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;

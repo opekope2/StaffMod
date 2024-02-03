@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2023-2024 opekope2
+ * Copyright (c) 2024 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,40 +16,29 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.packet.c2s.play
+package opekope2.avm_staff.internal.networking.c2s.play
 
+import dev.architectury.networking.NetworkChannel
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
-import net.fabricmc.fabric.api.networking.v1.FabricPacket
-import net.fabricmc.fabric.api.networking.v1.PacketType
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.PlayPacketHandler
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
+import opekope2.avm_staff.internal.networking.IPacket
+import opekope2.avm_staff.internal.networking.PacketRegistrar
 import opekope2.avm_staff.util.MOD_ID
 
-class AddItemToStaffC2SPacket() : FabricPacket {
+class StaffAttackC2SPacket() : IPacket {
     constructor(@Suppress("UNUSED_PARAMETER") buf: PacketByteBuf) : this()
 
     override fun write(buf: PacketByteBuf) {
     }
 
-    override fun getType() = TYPE
-
     @Environment(EnvType.CLIENT)
-    fun send() = ClientPlayNetworking.send(this)
+    fun send() = channel.sendToServer(this)
 
-    companion object {
-        @JvmStatic
-        val TYPE: PacketType<AddItemToStaffC2SPacket> = PacketType.create(
-            Identifier(MOD_ID, "add_item_to_staff"),
-            ::AddItemToStaffC2SPacket
-        )
-
-        @JvmStatic
-        fun registerGlobalReceiver(handler: PlayPacketHandler<AddItemToStaffC2SPacket>): Boolean {
-            return ServerPlayNetworking.registerGlobalReceiver(TYPE, handler)
-        }
-    }
+    companion object : PacketRegistrar<StaffAttackC2SPacket>(
+        NetworkChannel.create(Identifier(MOD_ID, "remove_item_from_staff")),
+        StaffAttackC2SPacket::class.java,
+        ::StaffAttackC2SPacket
+    )
 }

@@ -39,10 +39,6 @@ import net.minecraft.world.World
 import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
-import opekope2.avm_staff.internal.packet.c2s.play.AddItemToStaffC2SPacket
-import opekope2.avm_staff.internal.packet.c2s.play.RemoveItemFromStaffC2SPacket
-import opekope2.avm_staff.internal.packet.c2s.play.StaffAttackC2SPacket
-import opekope2.avm_staff.internal.server.StaffPacketHandler
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.itemInStaff
@@ -62,10 +58,6 @@ object StaffMod : ModInitializer, IStaffMod {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register { entries ->
             entries.addAfter(Items.TRIDENT, staffItem)
         }
-
-        AddItemToStaffC2SPacket.registerGlobalReceiver(StaffPacketHandler::addBlockToStaff)
-        RemoveItemFromStaffC2SPacket.registerGlobalReceiver(StaffPacketHandler::removeBlockFromStaff)
-        StaffAttackC2SPacket.registerGlobalReceiver(StaffPacketHandler::attack)
 
         AttackBlockCallback.EVENT.register(::handleBlockAttackEvent)
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
