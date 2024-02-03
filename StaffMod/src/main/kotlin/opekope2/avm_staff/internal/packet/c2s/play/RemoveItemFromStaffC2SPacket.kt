@@ -27,7 +27,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.PlayPacketHandler
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.internal.StaffMod.MOD_ID
+import opekope2.avm_staff.util.MOD_ID
 
 class RemoveItemFromStaffC2SPacket() : FabricPacket {
     constructor(@Suppress("UNUSED_PARAMETER") buf: PacketByteBuf) : this()

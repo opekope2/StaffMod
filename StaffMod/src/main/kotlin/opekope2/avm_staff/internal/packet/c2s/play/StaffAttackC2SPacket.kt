@@ -26,7 +26,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketType
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.internal.StaffMod
+import opekope2.avm_staff.util.MOD_ID
 
 class StaffAttackC2SPacket() : FabricPacket {
     constructor(buf: PacketByteBuf) : this()
@@ -42,7 +42,7 @@ class StaffAttackC2SPacket() : FabricPacket {
     companion object {
         @JvmStatic
         val TYPE: PacketType<StaffAttackC2SPacket> = PacketType.create(
-            Identifier(StaffMod.MOD_ID, "staff_attack"),
+            Identifier(MOD_ID, "staff_attack"),
             ::StaffAttackC2SPacket
         )
 
