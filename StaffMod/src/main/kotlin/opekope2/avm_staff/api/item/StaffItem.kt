@@ -30,7 +30,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import opekope2.avm_staff.api.item.StaffItem.Companion.forCurrentLoader
+import opekope2.avm_staff.api.item.StaffItem.Companion.createWithCurrentLoaderFunctionality
 import opekope2.avm_staff.internal.platform.createStaffItem
 import opekope2.avm_staff.util.handlerOfItemOrFallback
 import opekope2.avm_staff.util.isItemInStaff
@@ -42,7 +42,7 @@ import java.util.stream.Stream
  * Implementing `FabricItem` or `IForgeItem` (on the appropriate loader) is highly recommended when extending the class
  * to pass loader-specific functionality to [StaffItemHandler].
  *
- * @see forCurrentLoader
+ * @see createWithCurrentLoaderFunctionality
  */
 abstract class StaffItem(settings: Settings) : Item(settings) {
     override fun onItemEntityDestroyed(entity: ItemEntity) {
@@ -96,5 +96,17 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
     override fun getTranslationKey(stack: ItemStack): String {
         return if (stack.isItemInStaff) "$translationKey.with_item"
         else super.getTranslationKey(stack)
+    }
+
+    companion object {
+        /**
+         * Creates an instance of [StaffItem] with functionality implemented on the current loader.
+         *
+         * @param settings  The item settings to pass to the constructor
+         */
+        @JvmStatic
+        fun createWithCurrentLoaderFunctionality(settings: Settings): StaffItem {
+            return createStaffItem(settings)
+        }
     }
 }
