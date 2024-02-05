@@ -118,11 +118,12 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         world: World
     ): ItemEntity? {
         val smeltingPosition = user.eyePos + user.rotationVector.normalize() * 1.75
-        val items = world.getEntitiesByClass(ItemEntity::class.java, SMELTING_BOX.offset(smeltingPosition)) { true }
+        val items = world.getEntitiesByClass(ItemEntity::class.java, SMELTING_VOLUME.offset(smeltingPosition)) { true }
         val closest = items.minByOrNull { (smeltingPosition - it.pos).lengthSquared() }
         return closest
     }
 
+    @Environment(EnvType.CLIENT)
     private fun playSmeltingEffects(world: World, itemToSmelt: ItemEntity) {
         if (Math.random() >= 0.1) return
 
@@ -133,8 +134,9 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val ry = Math.random() * 0.5
         val rz = Math.random() * 0.25 - 0.25 / 2
 
-        PARTICLE_MANAGER.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
-        PARTICLE_MANAGER.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        val particleManager = MinecraftClient.getInstance().particleManager
+        particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
@@ -189,8 +191,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     private companion object {
         private const val LIT_KEY = "Lit"
         private const val BURN_TIME_KEY = "BurnTime"
-        private val PARTICLE_MANAGER by lazy { MinecraftClient.getInstance().particleManager }
-        private val SMELTING_BOX = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
+        private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
             attackDamage(5.0),
