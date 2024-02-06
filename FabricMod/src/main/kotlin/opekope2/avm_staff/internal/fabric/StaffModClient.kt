@@ -39,8 +39,8 @@ import org.lwjgl.glfw.GLFW
 @Suppress("unused")
 @Environment(EnvType.CLIENT)
 object StaffModClient : ClientModInitializer {
-    @JvmStatic
-    val ADD_REMOVE_KEYBIND = KeyBindingHelper.registerKeyBinding(
+    @JvmField
+    val ADD_REMOVE_KEYBINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(
         KeyBinding(
             "key.avm_staff.add_remove_staff_block",
             InputUtil.Type.KEYSYM,
@@ -51,7 +51,7 @@ object StaffModClient : ClientModInitializer {
 
     override fun onInitializeClient() {
         ModelLoadingPlugin.register(::modelLoadingPlugin)
-        ClientTickEvents.END_CLIENT_TICK.register(::handleStaffKeybind)
+        ClientTickEvents.END_CLIENT_TICK.register(::handleStaffKeybinding)
     }
 
     private fun modelLoadingPlugin(pluginContext: ModelLoadingPlugin.Context) {
@@ -65,9 +65,9 @@ object StaffModClient : ClientModInitializer {
         else StaffItemModel(model)
     }
 
-    private fun handleStaffKeybind(client: MinecraftClient) {
-        if (ADD_REMOVE_KEYBIND.isPressed) {
-            ADD_REMOVE_KEYBIND.isPressed = false
+    private fun handleStaffKeybinding(client: MinecraftClient) {
+        if (ADD_REMOVE_KEYBINDING.isPressed) {
+            ADD_REMOVE_KEYBINDING.isPressed = false
 
             val player = client.player ?: return
 
