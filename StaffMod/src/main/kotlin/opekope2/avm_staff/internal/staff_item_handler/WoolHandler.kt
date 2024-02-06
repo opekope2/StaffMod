@@ -41,16 +41,20 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
+import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
 import opekope2.avm_staff.mixin.IMinecraftClientMixin
+import opekope2.avm_staff.util.TRANSFORM_INTO_STAFF
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
+import opekope2.avm_staff.util.getTransformedModel
 
 class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler() {
     private val woolState = woolItem.block.defaultState
     private val carpetState = carpetItem.block.defaultState
 
-    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(woolItem)
+    override val itemModelProvider = ReloadableSingleBakedModelProvider {
+        woolItem.block.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
+    }
 
     override fun useOnBlock(
         staffStack: ItemStack,

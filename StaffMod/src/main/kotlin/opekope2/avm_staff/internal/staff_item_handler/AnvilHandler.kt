@@ -35,15 +35,15 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.item.IAdvancedStaffItemHandler
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
-import opekope2.avm_staff.util.attackDamage
-import opekope2.avm_staff.util.equipTime
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
+import opekope2.avm_staff.util.*
 import java.util.*
 
 class AnvilHandler(anvilItem: BlockItem, private val damagedStackFactory: () -> ItemStack?) : StaffItemHandler(),
     IAdvancedStaffItemHandler {
-    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(anvilItem)
+    override val itemModelProvider = ReloadableSingleBakedModelProvider {
+        anvilItem.block.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
+    }
 
     override fun attackEntity(
         staffStack: ItemStack,

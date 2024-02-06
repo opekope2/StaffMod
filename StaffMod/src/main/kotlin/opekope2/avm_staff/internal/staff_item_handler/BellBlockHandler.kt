@@ -22,12 +22,14 @@ import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView
-import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter
-import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
-import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.render.model.BakedModel
+import net.minecraft.client.render.model.BakedQuad
+import net.minecraft.client.render.model.BasicBakedModel
+import net.minecraft.client.render.model.json.ModelOverrideList
+import net.minecraft.client.render.model.json.ModelTransformation
+import net.minecraft.client.render.model.json.Transformation
+import net.minecraft.client.texture.Sprite
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -41,18 +43,17 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
-import net.minecraft.util.math.random.Random
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
-import opekope2.avm_staff.api.item.renderer.StaffBlockStateRenderer
+import opekope2.avm_staff.api.item.model.IReloadableBakedModelProvider
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
+import opekope2.avm_staff.util.getBakedQuads
 import org.joml.Vector3f
-import java.util.function.Supplier
 
 class BellBlockHandler : StaffItemHandler() {
-    override val staffItemRenderer: IStaffItemRenderer = BellRenderer()
+    override val itemModelProvider: IReloadableBakedModelProvider = ReloadableBellModelProvider()
 
     override fun use(
         staffStack: ItemStack,
@@ -93,68 +94,44 @@ class BellBlockHandler : StaffItemHandler() {
     }
 
     @Environment(EnvType.CLIENT)
-    private class BellRenderer : IStaffItemRenderer, VertexConsumer {
-        private val transform: StaffBlockStateRenderer.Transformation
-            get() = StaffBlockStateRenderer.Transformation(
-                7f / 9f,
-                Vector3f((9f - 7f) / 9f / 2f, (22f - 3f) / 16f, (9f - 7f) / 9f / 2f)
+    private class ReloadableBellModelProvider : IReloadableBakedModelProvider {
+        private lateinit var model: BakedModel
+
+        private val bellSprite: Sprite
+            get() = BellBlockEntityRenderer.BELL_BODY_TEXTURE.sprite
+
+        override fun getModel(staffStack: ItemStack): BakedModel = model
+
+        override fun reload() {
+            val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().getChild("bell_body")
+            val quads = bellModel.getBakedQuads(bellSprite, transformation)
+            model = BasicBakedModel(
+                quads,
+                createEmptyFaceQuads(),
+                true,
+                false,
+                false,
+                bellSprite,
+                ModelTransformation.NONE,
+                ModelOverrideList.EMPTY
+            )
+        }
+
+        private companion object {
+            private val transformation = Transformation(
+                Vector3f(),
+                Vector3f((9f - 7f) / 9f / 2f, (22f - 3f) / 16f, (9f - 7f) / 9f / 2f),
+                Vector3f(7f / 9f)
             )
 
-        private val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().getChild("bell_body")
-        private val bellSprite by lazy { BellBlockEntityRenderer.BELL_BODY_TEXTURE.sprite }
-
-        private var emitter: QuadEmitter? = null
-        private var vertex = 0
-
-        override fun emitItemQuads(staffStack: ItemStack, randomSupplier: Supplier<Random>, context: RenderContext) {
-            context.pushTransform(transform)
-
-            emitter = context.emitter
-            bellModel.render(MatrixStack(), this, 0, 0) // Light and overlay are ignored
-            emitter = null
-
-            context.popTransform()
-        }
-
-        override fun vertex(x: Double, y: Double, z: Double): VertexConsumer {
-            emitter!!.pos(vertex, x.toFloat(), y.toFloat(), z.toFloat())
-            return this
-        }
-
-        override fun color(red: Int, green: Int, blue: Int, alpha: Int): VertexConsumer {
-            emitter!!.color(vertex, (alpha shl 24) or (red shl 16) or (green shl 8) or blue)
-            return this
-        }
-
-        override fun texture(u: Float, v: Float): VertexConsumer {
-            emitter!!.uv(vertex, u, v)
-            return this
-        }
-
-        override fun overlay(u: Int, v: Int): VertexConsumer {
-            return this
-        }
-
-        override fun light(u: Int, v: Int): VertexConsumer {
-            return this
-        }
-
-        override fun normal(x: Float, y: Float, z: Float): VertexConsumer {
-            emitter!!.normal(vertex, x, y, z)
-            return this
-        }
-
-        override fun next() {
-            if (++vertex == 4) {
-                emitter!!.spriteBake(bellSprite, MutableQuadView.BAKE_NORMALIZED).emit()
-                vertex = 0
-            }
-        }
-
-        override fun fixedColor(red: Int, green: Int, blue: Int, alpha: Int) {
-        }
-
-        override fun unfixColor() {
+            private fun createEmptyFaceQuads(): Map<Direction, List<BakedQuad>> = mapOf(
+                Direction.DOWN to listOf(),
+                Direction.UP to listOf(),
+                Direction.NORTH to listOf(),
+                Direction.SOUTH to listOf(),
+                Direction.WEST to listOf(),
+                Direction.EAST to listOf(),
+            )
         }
     }
 

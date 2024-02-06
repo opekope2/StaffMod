@@ -18,8 +18,8 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
-import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.client.render.model.json.Transformation
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
@@ -29,13 +29,14 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
-import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
-import opekope2.avm_staff.api.item.renderer.StaffBlockStateRenderer
+import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
+import opekope2.avm_staff.util.getTransformedModel
 import org.joml.Vector3f
 
 class LightningRodHandler : StaffItemHandler() {
-    override val staffItemRenderer: IStaffItemRenderer = LightningRodRenderer()
+    override val itemModelProvider = ReloadableSingleBakedModelProvider {
+        Blocks.LIGHTNING_ROD.defaultState.getTransformedModel(transformation)
+    }
 
     override fun useOnBlock(
         staffStack: ItemStack,
@@ -66,11 +67,11 @@ class LightningRodHandler : StaffItemHandler() {
         return ActionResult.SUCCESS
     }
 
-    private class LightningRodRenderer : StaffBlockStateRenderer() {
-        override val scale: Float
-            get() = InsideStaffBlockStateRenderer.SCALE
-        override val offset: Vector3f = InsideStaffBlockStateRenderer.OFFSET.add(0f, 10f / 16f, 0f, Vector3f())
-
-        override fun getBlockState(staffStack: ItemStack): BlockState = Blocks.LIGHTNING_ROD.defaultState
+    private companion object {
+        private val transformation = Transformation(
+            Vector3f(),
+            Vector3f((16f - 7f) / 16f / 2f, 32f / 16f, (16f - 7f) / 16f / 2f),
+            Vector3f(7f / 16f)
+        )
     }
 }

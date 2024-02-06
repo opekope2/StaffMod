@@ -25,6 +25,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.model.BakedModel
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -46,8 +47,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
-import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
+import opekope2.avm_staff.api.item.model.IReloadableBakedModelProvider
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityMixin
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
@@ -59,7 +59,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 ) : StaffItemHandler() {
     override val maxUseTime = 72000
 
-    override val staffItemRenderer: IStaffItemRenderer = FurnaceRenderer(
+    override val itemModelProvider: IReloadableBakedModelProvider = ReloadableFurnaceModelProvider(
         furnaceItem.block.defaultState.with(AbstractFurnaceBlock.LIT, true),
         furnaceItem.block.defaultState
     )
@@ -169,11 +169,20 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     @Environment(EnvType.CLIENT)
-    private class FurnaceRenderer(private val litState: BlockState, private val unlitState: BlockState) :
-        InsideStaffBlockStateRenderer() {
-        override fun getBlockState(staffStack: ItemStack) =
-            if (staffStack.nbt?.getBoolean(LIT_KEY) == true) litState
-            else unlitState
+    private class ReloadableFurnaceModelProvider(private val litState: BlockState, private val unlitState: BlockState) :
+        IReloadableBakedModelProvider {
+        private lateinit var litModel: BakedModel
+        private lateinit var unlitModel: BakedModel
+
+        override fun getModel(staffStack: ItemStack): BakedModel {
+            return if (staffStack.nbt?.getBoolean(LIT_KEY) == true) litModel
+            else unlitModel
+        }
+
+        override fun reload() {
+            litModel = litState.getTransformedModel(TRANSFORM_INTO_STAFF)
+            unlitModel = unlitState.getTransformedModel(TRANSFORM_INTO_STAFF)
+        }
     }
 
     private class ItemEntityInventory(private val itemEntity: ItemEntity) : SingleStackInventory {
