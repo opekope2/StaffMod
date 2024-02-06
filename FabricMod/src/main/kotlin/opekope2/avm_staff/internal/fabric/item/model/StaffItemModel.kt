@@ -16,38 +16,32 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.model
+package opekope2.avm_staff.internal.fabric.item.model
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel
+import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.random.Random
-import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.util.handlerOfItem
+import opekope2.avm_staff.util.handlerOfItemOrFallback
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
 import java.util.function.Supplier
 
 @Environment(EnvType.CLIENT)
-class StaffItemModel(model: BakedModel) : ForwardingBakedModel() {
-    init {
-        super.wrapped = model
-    }
-
+class StaffItemModel(original: BakedModel) : BakedModel by original {
     override fun emitItemQuads(stack: ItemStack, randomSupplier: Supplier<Random>, context: RenderContext) {
         super.emitItemQuads(stack, randomSupplier, context)
 
         if (!stack.isItemInStaff) return
 
         val itemStack = stack.itemInStaff
-        val handler: StaffItemHandler =
-            if (itemStack == null) StaffItemHandler.EmptyStaffHandler
-            else itemStack.handlerOfItem ?: StaffItemHandler.FallbackStaffHandler
+        val handler = itemStack.handlerOfItemOrFallback
 
-        handler.staffItemRenderer.emitItemQuads(stack, randomSupplier, context)
+        val model = handler.itemModelProvider.getModel(stack) as FabricBakedModel
+        model.emitItemQuads(stack, randomSupplier, context)
     }
 
     override fun isVanillaAdapter() = false

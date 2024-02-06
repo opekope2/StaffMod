@@ -25,9 +25,13 @@ import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItem
-import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.model.BuiltinBakedModel
+import net.minecraft.client.render.model.json.ModelOverrideList
+import net.minecraft.client.render.model.json.ModelTransformation
+import net.minecraft.client.texture.MissingSprite
+import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -44,15 +48,14 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
-import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
-import opekope2.avm_staff.api.item.renderer.StaffBlockStateRenderer
+import opekope2.avm_staff.api.item.model.IReloadableBakedModelProvider
+import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
+import opekope2.avm_staff.util.TRANSFORM_INTO_STAFF
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
-import java.util.function.Supplier
+import opekope2.avm_staff.util.transform
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -67,10 +70,10 @@ abstract class StaffItemHandler {
         get() = 0
 
     /**
-     * The renderer of the item added to the staff, which renders the item as part of the staff model.
+     * The model provider of the item added to the staff.
      */
     @get: Environment(EnvType.CLIENT)
-    abstract val staffItemRenderer: IStaffItemRenderer
+    abstract val itemModelProvider: IReloadableBakedModelProvider
 
     /**
      * Called on both the client and the server by Minecraft when the player uses the staff.
@@ -403,27 +406,16 @@ abstract class StaffItemHandler {
     }
 
     object EmptyStaffHandler : StaffItemHandler() {
-        override val staffItemRenderer = IStaffItemRenderer { _, _, _ -> }
+        override val itemModelProvider = ReloadableSingleBakedModelProvider {
+            val atlas = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
+            val sprite = atlas.apply(MissingSprite.getMissingSpriteId())
+            BuiltinBakedModel(ModelTransformation.NONE, ModelOverrideList.EMPTY, sprite, false)
+        }
     }
 
     object FallbackStaffHandler : StaffItemHandler() {
-        override val staffItemRenderer = object : IStaffItemRenderer {
-            private val BAKED_MODEL_MANAGER = MinecraftClient.getInstance().bakedModelManager
-
-            private val transformation = StaffBlockStateRenderer.Transformation(
-                InsideStaffBlockStateRenderer.SCALE,
-                InsideStaffBlockStateRenderer.OFFSET
-            )
-
-            override fun emitItemQuads(
-                staffStack: ItemStack,
-                randomSupplier: Supplier<Random>,
-                context: RenderContext
-            ) {
-                context.pushTransform(transformation)
-                BAKED_MODEL_MANAGER.missingModel.emitItemQuads(staffStack, randomSupplier, context)
-                context.popTransform()
-            }
+        override val itemModelProvider = ReloadableSingleBakedModelProvider {
+            MinecraftClient.getInstance().bakedModelManager.missingModel.transform(null, TRANSFORM_INTO_STAFF)
         }
     }
 
@@ -469,5 +461,16 @@ abstract class StaffItemHandler {
          */
         @JvmStatic
         operator fun get(staffItem: Identifier): StaffItemHandler? = staffItemsHandlers[staffItem]
+
+        /**
+         * @suppress
+         */
+        @JvmStatic
+        @Deprecated("For internal use only")
+        fun reloadModels() {
+            for ((_, handler) in staffItemsHandlers) {
+                handler.itemModelProvider.reload()
+            }
+        }
     }
 }
