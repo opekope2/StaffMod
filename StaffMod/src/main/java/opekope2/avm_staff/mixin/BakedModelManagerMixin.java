@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.mixin.fabric;
+package opekope2.avm_staff.mixin;
 
 import net.minecraft.client.render.model.BakedModelManager;
 import opekope2.avm_staff.api.item.StaffItemHandler;
@@ -25,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-// Forge parity lite
 @Mixin(BakedModelManager.class)
 public abstract class BakedModelManagerMixin {
     @Inject(method = "upload", at = @At("TAIL"))

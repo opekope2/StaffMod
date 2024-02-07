@@ -38,8 +38,7 @@
     ]
   },
   "mixins": [
-    "avm_staff.mixins.json",
-    "avm_staff_fabric.mixins.json"
+    "avm_staff.mixins.json"
   ],
   "depends": {
     "fabric-api": ">=$fabric_api",
