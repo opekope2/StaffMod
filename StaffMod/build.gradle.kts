@@ -5,31 +5,23 @@ import java.net.URL
 import java.time.Year
 
 plugins {
-    id("fabric-loom")
-    kotlin("jvm")
     id("org.jetbrains.dokka")
 }
 
-base {
-    archivesName = project.extra["archives_base_name"] as String
+architectury {
+    common("fabric", "forge")
 }
-
-version = project.extra["mod_version"] as String
-group = project.extra["maven_group"] as String
 
 repositories {}
 
 dependencies {
-    minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
-    mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, classifier = "v2")
-    modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
-    modImplementation("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_version"] as String)
-    modImplementation(
-        "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
-    )
+    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
+    // Do NOT use other classes from fabric loader
+    modImplementation("net.fabricmc", "fabric-loader", project.gradleProperty("fabric_loader_version"))
+    modApi("dev.architectury", "architectury", project.gradleProperty("architectury_api_version"))
 
     if (project.hasProperty("javaSyntax")) {
-        dokkaPlugin("org.jetbrains.dokka", "kotlin-as-java-plugin", project.extra["dokka_version"] as String)
+        dokkaPlugin("org.jetbrains.dokka", "kotlin-as-java-plugin", project.gradleProperty("dokka_version"))
     }
 }
 
@@ -38,57 +30,6 @@ loom {
 }
 
 tasks {
-    val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
-
-    withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion.toString()
-        targetCompatibility = javaVersion.toString()
-        options.release = javaVersion.toString().toInt()
-    }
-
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = javaVersion.toString()
-        }
-    }
-
-    jar {
-        from(rootDir.resolve("COPYING"))
-        from(rootDir.resolve("COPYING.LESSER"))
-    }
-
-    processResources {
-        filesMatching("fabric.mod.json") {
-            expand(
-                mutableMapOf(
-                    "version" to project.extra["mod_version"] as String,
-                    "fabricloader" to project.extra["loader_version"] as String,
-                    "fabric_api" to project.extra["fabric_version"] as String,
-                    "fabric_language_kotlin" to project.extra["fabric_language_kotlin_version"] as String,
-                    "minecraft" to project.extra["minecraft_version"] as String,
-                    "java" to project.extra["java_version"] as String
-                )
-            )
-        }
-        filesMatching("*.mixins.json") {
-            expand(
-                mutableMapOf(
-                    "java" to project.extra["java_version"] as String
-                )
-            )
-        }
-    }
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(javaVersion.toString())
-        }
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-        withSourcesJar()
-    }
-
     dokkaHtml {
         moduleName = "Staff Mod"
         moduleVersion = version as String
@@ -98,7 +39,7 @@ tasks {
         )
 
         pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-            footerMessage = "© 2023-${Year.now().value} opekope2. ${project.extra["mojank_eula_compliance_footer"]}"
+            footerMessage = "© 2023-${Year.now().value} opekope2. ${project.gradleProperty("mojank_eula_compliance_footer")}"
             separateInheritedMembers = true
         }
 
@@ -125,19 +66,23 @@ tasks {
             }
 
             externalDocumentationLink {
-                val mappingsVersion = project.extra["yarn_mappings"]
+                val mappingsVersion = project.gradleProperty("yarn_mappings")
                 url = URL("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/")
                 packageListUrl = URL("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/element-list")
             }
             externalDocumentationLink {
-                val fabricVersion = project.extra["fabric_version"]
+                val fabricVersion = project.gradleProperty("fabric_api_version")
                 url = URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/")
                 packageListUrl = URL("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/element-list")
+            }
+            externalDocumentationLink{
+                url = URL("https://joml-ci.github.io/JOML/apidocs/")
+                packageListUrl = URL("https://joml-ci.github.io/JOML/apidocs/element-list")
             }
 
             // Apply these last, otherwise the other options get ignored
             // You don't want to know how many hours I spent on this...
-            jdkVersion = project.extra["java_version"] as Int
+            jdkVersion = project.gradleProperty("java_version").toInt()
             languageVersion = System.getProperty("kotlin_version")
         }
     }

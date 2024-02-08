@@ -18,12 +18,8 @@
 
 package opekope2.avm_staff.api.item
 
-import com.google.common.collect.Multimap
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -34,39 +30,21 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import opekope2.avm_staff.util.handlerOfItem
+import opekope2.avm_staff.api.item.StaffItem.Companion.createWithCurrentLoaderFunctionality
+import opekope2.avm_staff.internal.platform.createStaffItem
+import opekope2.avm_staff.util.handlerOfItemOrFallback
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
 import java.util.stream.Stream
 
 /**
- * Staff item.
+ * Staff item dispatching functionality to [StaffItemHandler] without loader specific functionality.
+ * Implementing `FabricItem` or `IForgeItem` (on the appropriate loader) is highly recommended when extending the class
+ * to pass loader-specific functionality to [StaffItemHandler].
+ *
+ * @see createWithCurrentLoaderFunctionality
  */
-class StaffItem(settings: Settings) : Item(settings) {
-    private val ItemStack?.handlerOfItemOrDefault: StaffItemHandler
-        get() = if (this == null) StaffItemHandler.EmptyStaffHandler
-        else handlerOfItem ?: StaffItemHandler.FallbackStaffHandler
-
-    override fun allowNbtUpdateAnimation(
-        player: PlayerEntity,
-        hand: Hand,
-        oldStack: ItemStack,
-        newStack: ItemStack
-    ): Boolean {
-        val oldHandler = oldStack.itemInStaff.handlerOfItemOrDefault
-        val newHandler = newStack.itemInStaff.handlerOfItemOrDefault
-
-        return if (oldHandler !== newHandler) true
-        else oldHandler.allowNbtUpdateAnimation(oldStack, newStack, player, hand)
-    }
-
-    override fun getAttributeModifiers(
-        stack: ItemStack,
-        slot: EquipmentSlot
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return stack.itemInStaff.handlerOfItemOrDefault.getAttributeModifiers(stack, slot)
-    }
-
+abstract class StaffItem(settings: Settings) : Item(settings) {
     override fun onItemEntityDestroyed(entity: ItemEntity) {
         val staffStack = entity.stack
         val staffItem = staffStack.itemInStaff ?: return
@@ -74,28 +52,28 @@ class StaffItem(settings: Settings) : Item(settings) {
     }
 
     override fun getMaxUseTime(stack: ItemStack): Int {
-        return stack.itemInStaff.handlerOfItemOrDefault.maxUseTime
+        return stack.itemInStaff.handlerOfItemOrFallback.maxUseTime
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val staffStack = user.getStackInHand(hand)
-        return staffStack.itemInStaff.handlerOfItemOrDefault.use(staffStack, world, user, hand)
+        return staffStack.itemInStaff.handlerOfItemOrFallback.use(staffStack, world, user, hand)
     }
 
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
-        stack.itemInStaff.handlerOfItemOrDefault.usageTick(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.handlerOfItemOrFallback.usageTick(stack, world, user, remainingUseTicks)
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        stack.itemInStaff.handlerOfItemOrDefault.onStoppedUsing(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.handlerOfItemOrFallback.onStoppedUsing(stack, world, user, remainingUseTicks)
     }
 
     override fun finishUsing(stack: ItemStack, world: World, user: LivingEntity): ItemStack {
-        return stack.itemInStaff.handlerOfItemOrDefault.finishUsing(stack, world, user)
+        return stack.itemInStaff.handlerOfItemOrFallback.finishUsing(stack, world, user)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        return context.stack.itemInStaff.handlerOfItemOrDefault.useOnBlock(
+        return context.stack.itemInStaff.handlerOfItemOrFallback.useOnBlock(
             context.stack,
             context.world,
             context.player ?: return ActionResult.PASS,
@@ -106,7 +84,7 @@ class StaffItem(settings: Settings) : Item(settings) {
     }
 
     override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
-        return stack.itemInStaff.handlerOfItemOrDefault.useOnEntity(stack, user.world, user, entity, hand)
+        return stack.itemInStaff.handlerOfItemOrFallback.useOnEntity(stack, user.world, user, entity, hand)
     }
 
     override fun getName(stack: ItemStack): Text {
@@ -118,5 +96,17 @@ class StaffItem(settings: Settings) : Item(settings) {
     override fun getTranslationKey(stack: ItemStack): String {
         return if (stack.isItemInStaff) "$translationKey.with_item"
         else super.getTranslationKey(stack)
+    }
+
+    companion object {
+        /**
+         * Creates an instance of [StaffItem] with functionality implemented on the current loader.
+         *
+         * @param settings  The item settings to pass to the constructor
+         */
+        @JvmStatic
+        fun createWithCurrentLoaderFunctionality(settings: Settings): StaffItem {
+            return createStaffItem(settings)
+        }
     }
 }

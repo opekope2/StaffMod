@@ -18,11 +18,10 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
+import net.minecraft.block.Blocks
 import net.minecraft.entity.LivingEntity
-import net.minecraft.item.BlockItem
 import net.minecraft.item.BoneMealItem
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -31,10 +30,14 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
+import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
+import opekope2.avm_staff.util.TRANSFORM_INTO_STAFF
+import opekope2.avm_staff.util.getTransformedModel
 
 class BoneBlockHandler : StaffItemHandler() {
-    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(Items.BONE_BLOCK as BlockItem)
+    override val itemModelProvider = ReloadableSingleBakedModelProvider {
+        Blocks.BONE_BLOCK.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
+    }
 
     override fun useOnBlock(
         staffStack: ItemStack,
