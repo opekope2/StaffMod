@@ -45,12 +45,14 @@ loom {
         extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
 
         mixinConfig("avm_staff.mixins.json")
+        mixinConfig("avm_staff_forge.mixins.json")
     }
 }
 
 tasks {
     jar {
         archiveClassifier = "dev"
+        from(projectDir.resolve("Fabric.license"))
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))
     }
