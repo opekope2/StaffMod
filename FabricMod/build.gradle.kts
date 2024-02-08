@@ -29,15 +29,15 @@ repositories {
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
-    modImplementation("net.fabricmc", "fabric-loader", project.extra["fabric_loader_version"] as String)
-    modImplementation("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_api_version"] as String)
-    modApi("dev.architectury", "architectury-fabric", project.extra["architectury_api_version"] as String)
+    modImplementation("net.fabricmc", "fabric-loader", project.gradleProperty("fabric_loader_version"))
+    modImplementation("net.fabricmc.fabric-api", "fabric-api", project.gradleProperty("fabric_api_version"))
+    modApi("dev.architectury", "architectury-fabric", project.gradleProperty("architectury_api_version"))
 
     common(project(":StaffMod", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(":StaffMod", configuration = "transformProductionFabric")) { isTransitive = false }
 
     modImplementation(
-        "net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String
+        "net.fabricmc", "fabric-language-kotlin", project.gradleProperty("fabric_language_kotlin_version")
     )
 }
 
@@ -59,12 +59,12 @@ tasks {
         filesMatching("fabric.mod.json") {
             expand(
                 mutableMapOf(
-                    "version" to project.extra["mod_version"] as String,
-                    "fabric_api" to project.extra["fabric_api_version"] as String,
-                    "fabric_language_kotlin" to project.extra["fabric_language_kotlin_version"] as String,
-                    "architectury" to project.extra["architectury_api_version"] as String,
-                    "minecraft" to project.extra["minecraft_version"] as String,
-                    "java" to project.extra["java_version"] as String
+                    "version" to version,
+                    "fabric_api" to project.gradleProperty("fabric_api_version"),
+                    "fabric_language_kotlin" to project.gradleProperty("fabric_language_kotlin_version"),
+                    "architectury" to project.gradleProperty("architectury_api_version"),
+                    "minecraft" to project.gradleProperty("minecraft_version"),
+                    "java" to project.gradleProperty("java_version")
                 )
             )
         }

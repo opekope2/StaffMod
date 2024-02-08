@@ -28,13 +28,13 @@ repositories {
 }
 
 dependencies {
-    forge("net.minecraftforge", "forge", project.extra["forge_version"] as String)
-    modApi("dev.architectury", "architectury-forge", project.extra["architectury_api_version"] as String)
+    forge("net.minecraftforge", "forge", project.gradleProperty("forge_version"))
+    modApi("dev.architectury", "architectury-forge", project.gradleProperty("architectury_api_version"))
 
     common(project(":StaffMod", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(":StaffMod", configuration = "transformProductionForge")) { isTransitive = false }
 
-    implementation("thedarkcolour", "kotlinforforge", project.extra["kotlin_for_forge_version"] as String)
+    implementation("thedarkcolour", "kotlinforforge", project.gradleProperty("kotlin_for_forge_version"))
 }
 
 loom {
@@ -64,12 +64,12 @@ tasks {
         filesMatching("META-INF/mods.toml") {
             expand(
                 mutableMapOf(
-                    "version" to project.extra["mod_version"] as String,
-                    "forge" to project.extra["forge_version"] as String,
-                    "kotlin_for_forge" to project.extra["kotlin_for_forge_version"] as String,
-                    "architectury" to project.extra["architectury_api_version"] as String,
-                    "minecraft" to project.extra["minecraft_version"] as String,
-                    "java" to project.extra["java_version"] as String
+                    "version" to version,
+                    "forge" to project.gradleProperty("forge_version"),
+                    "kotlin_for_forge" to project.gradleProperty("kotlin_for_forge_version"),
+                    "architectury" to project.gradleProperty("architectury_api_version"),
+                    "minecraft" to project.gradleProperty("minecraft_version"),
+                    "java" to project.gradleProperty("java_version")
                 )
             )
         }

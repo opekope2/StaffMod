@@ -8,7 +8,7 @@ plugins {
 }
 
 architectury {
-    minecraft = rootProject.extra["minecraft_version"] as String
+    minecraft = rootProject.gradleProperty("minecraft_version")
 }
 
 repositories {
@@ -17,7 +17,7 @@ repositories {
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.dokka", "dokka-base", project.extra["dokka_version"] as String)
+        classpath("org.jetbrains.dokka", "dokka-base", project.gradleProperty("dokka_version"))
     }
 }
 
@@ -25,8 +25,8 @@ subprojects {
     apply(plugin = "dev.architectury.loom")
 
     dependencies {
-        "minecraft"("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
-        "mappings"("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, classifier = "v2")
+        "minecraft"("com.mojang", "minecraft", project.gradleProperty("minecraft_version"))
+        "mappings"("net.fabricmc", "yarn", project.gradleProperty("yarn_mappings"), classifier = "v2")
     }
 }
 
@@ -35,14 +35,15 @@ allprojects {
     apply(plugin = "kotlin")
     apply(plugin = "architectury-plugin")
 
-    val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
+    val javaVersion = JavaVersion.toVersion(project.gradleProperty("java_version").toInt())
 
     base {
-        archivesName = rootProject.extra["archives_name"] as String
+        archivesName = rootProject.gradleProperty("archives_name")
     }
 
-    version = rootProject.extra["mod_version"] as String
-    group = rootProject.extra["maven_group"] as String
+    val suffix = if (hasGradleProperty("loom.platform")) "+${gradleProperty("loom.platform")}" else ""
+    version = rootProject.gradleProperty("mod_version") + suffix
+    group = rootProject.gradleProperty("maven_group")
 
     repositories {
         // Add repositories to retrieve artifacts from in here.
