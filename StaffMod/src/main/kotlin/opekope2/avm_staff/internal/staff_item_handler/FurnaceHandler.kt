@@ -94,7 +94,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val stackToSmelt = itemToSmelt?.stack ?: return
         if (burnTime < stackToSmelt.count) return
 
-        val inventory = ItemEntityInventory(itemToSmelt) // TODO pool
+        val inventory = ItemEntityInventory(itemToSmelt)
         val recipe = world.recipeManager.getFirstMatch(recipeType, inventory, world).getOrNull()?.value ?: return
         val resultItem = recipe.getResult(world.registryManager).copyWithCount(stackToSmelt.count)
 
