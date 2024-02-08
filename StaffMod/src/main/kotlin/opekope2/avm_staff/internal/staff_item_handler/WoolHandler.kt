@@ -72,7 +72,7 @@ class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler
         val originalState = world.getBlockState(target)
         if (originalState.isIn(BlockTags.WOOL) || originalState.isIn(BlockTags.WOOL_CARPETS)) return ActionResult.FAIL
 
-        val woolPlaceContext = ItemPlacementContext(
+        val woolPlaceContext = WoolPlacementContext(
             world,
             user as? PlayerEntity,
             hand,
@@ -107,6 +107,14 @@ class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler
         return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
         else super.getAttributeModifiers(staffStack, slot)
     }
+
+    private class WoolPlacementContext(
+        world: World,
+        playerEntity: PlayerEntity?,
+        hand: Hand,
+        itemStack: ItemStack,
+        blockHitResult: BlockHitResult
+    ) : ItemPlacementContext(world, playerEntity, hand, itemStack, blockHitResult)
 
     private companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
