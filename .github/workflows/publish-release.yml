@@ -52,8 +52,8 @@ jobs:
 
           name: Staff Mod ${{ github.ref_name }} for Fabric
           files: |
-            dist/fabric/!(*-@(dev|sources|javadoc)).jar
-            dist/fabric/*-@(dev|sources|javadoc).jar
+            dist/fabric/!(*-@(dev|dev-shadow|sources|javadoc)).jar
+            dist/fabric/*-@(dev|dev-shadow|sources|javadoc).jar
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
           java: ${{ steps.load-versions.outputs.JAVA_VERSION }}
@@ -69,8 +69,8 @@ jobs:
 
           name: Staff Mod ${{ github.ref_name }} for Forge
           files: |
-            dist/forge/!(*-@(dev|sources|javadoc)).jar
-            dist/forge/*-@(dev|sources|javadoc).jar
+            dist/forge/!(*-@(dev|dev-shadow|sources|javadoc)).jar
+            dist/forge/*-@(dev|dev-shadow|sources|javadoc).jar
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
           java: ${{ steps.load-versions.outputs.JAVA_VERSION }}

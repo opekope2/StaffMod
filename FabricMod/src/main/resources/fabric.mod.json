@@ -46,5 +46,12 @@
     "architectury": ">=$architectury",
     "minecraft": ">=$minecraft",
     "java": ">=$java"
+  },
+  "custom": {
+    "mc-publish": {
+      "dependencies": [
+        "architectury-api@$architectury"
+      ]
+    }
   }
 }
