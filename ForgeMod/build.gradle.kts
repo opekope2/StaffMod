@@ -54,12 +54,6 @@ tasks {
         archiveClassifier = "dev"
     }
 
-    remapJar {
-        from(projectDir.resolve("Fabric.license"))
-        from(rootDir.resolve("COPYING"))
-        from(rootDir.resolve("COPYING.LESSER"))
-    }
-
     processResources {
         filesMatching("META-INF/mods.toml") {
             expand(
@@ -81,6 +75,10 @@ tasks {
 
         configurations = listOf(shadowCommon)
         archiveClassifier = "dev-shadow"
+
+        from(rootDir.resolve("COPYING"))
+        from(rootDir.resolve("COPYING.LESSER"))
+        from(projectDir.resolve("Fabric.license"))
     }
 
     remapJar {
@@ -88,6 +86,10 @@ tasks {
         inputFile.set(shadowJar.get().archiveFile)
         injectAccessWidener = true
         archiveClassifier = null
+
+        from(rootDir.resolve("COPYING"))
+        from(rootDir.resolve("COPYING.LESSER"))
+        from(projectDir.resolve("Fabric.license"))
     }
 
     sourcesJar {

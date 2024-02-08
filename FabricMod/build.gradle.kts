@@ -50,11 +50,6 @@ tasks {
         archiveClassifier = "dev"
     }
 
-    remapJar {
-        from(rootDir.resolve("COPYING"))
-        from(rootDir.resolve("COPYING.LESSER"))
-    }
-
     processResources {
         filesMatching("fabric.mod.json") {
             expand(
@@ -75,6 +70,9 @@ tasks {
 
         configurations = listOf(shadowCommon)
         archiveClassifier = "dev-shadow"
+
+        from(rootDir.resolve("COPYING"))
+        from(rootDir.resolve("COPYING.LESSER"))
     }
 
     remapJar {
@@ -82,6 +80,9 @@ tasks {
         inputFile.set(shadowJar.get().archiveFile)
         injectAccessWidener = true
         archiveClassifier = null
+
+        from(rootDir.resolve("COPYING"))
+        from(rootDir.resolve("COPYING.LESSER"))
     }
 
     sourcesJar {
