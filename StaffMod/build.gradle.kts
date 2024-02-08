@@ -18,8 +18,6 @@ dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
     modImplementation("net.fabricmc", "fabric-loader", project.extra["fabric_loader_version"] as String)
-    // TODO REMOVE FABRIC API FROM COMMON PROJECT AFTER FINISHED PORTING! STAFF MOD WILL CRASH ON FORGE!
-    modCompileOnly("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_api_version"] as String)
     modApi("dev.architectury", "architectury", project.extra["architectury_api_version"] as String)
 
     if (project.hasProperty("javaSyntax")) {

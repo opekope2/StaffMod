@@ -22,9 +22,6 @@ import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback
-import net.fabricmc.fabric.api.item.v1.FabricItem
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.model.BuiltinBakedModel
@@ -312,7 +309,6 @@ abstract class StaffItemHandler {
      * @param target        The block the [attacker] attacked
      * @param side          The side of the [block][target], which was attacked
      * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
-     * @see AttackBlockCallback
      */
     open fun attackBlock(
         staffStack: ItemStack,
@@ -359,7 +355,6 @@ abstract class StaffItemHandler {
      * @param attacker      The entity, which attacked with the staff
      * @param target        The entity the [attacker] attacked
      * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
-     * @see AttackEntityCallback
      */
     open fun attackEntity(
         staffStack: ItemStack,
@@ -379,7 +374,6 @@ abstract class StaffItemHandler {
      * @param player        The holder of [oldStaffStack]
      * @param hand          The hand of [player], in which the [old staff][oldStaffStack] is
      * @return true to play the update/equip animation, false to skip it
-     * @see FabricItem.allowNbtUpdateAnimation
      */
     open fun allowNbtUpdateAnimation(
         oldStaffStack: ItemStack,
@@ -395,7 +389,6 @@ abstract class StaffItemHandler {
      *
      * @param staffStack    The staff item stack (not the item in the staff)
      * @param slot          The slot the staff is equipped in
-     * @see FabricItem.getAttributeModifiers
      */
     open fun getAttributeModifiers(
         staffStack: ItemStack,
