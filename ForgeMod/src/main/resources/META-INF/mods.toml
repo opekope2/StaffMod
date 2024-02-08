@@ -42,3 +42,9 @@ mandatory = true
 versionRange = "[$architectury,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[mc-publish]
+dependencies = [
+    "architectury-api@$architectury",
+    "kotlin-for-forge@$kotlin_for_forge"
+]
