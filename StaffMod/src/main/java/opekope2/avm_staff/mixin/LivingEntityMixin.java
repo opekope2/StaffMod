@@ -20,9 +20,9 @@ package opekope2.avm_staff.mixin;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import opekope2.avm_staff.IStaffMod;
 import opekope2.avm_staff.api.item.IAdvancedStaffItemHandler;
 import opekope2.avm_staff.api.item.StaffItemHandler;
-import opekope2.avm_staff.internal.StaffMod;
 import opekope2.avm_staff.util.StaffUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,7 +38,7 @@ public abstract class LivingEntityMixin {
     @Inject(method = "disablesShield", at = @At("HEAD"), cancellable = true)
     public void disableShield(CallbackInfoReturnable<Boolean> cir) {
         ItemStack mainHandStack = getMainHandStack();
-        if (!mainHandStack.isOf(StaffMod.STAFF_ITEM)) return;
+        if (!mainHandStack.isOf(IStaffMod.get().getStaffItem())) return;
 
         ItemStack itemInStaff = StaffUtil.getItemInStaff(mainHandStack);
         if (itemInStaff == null) return;

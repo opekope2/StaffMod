@@ -25,6 +25,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.model.BakedModel
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -46,8 +47,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
-import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
+import opekope2.avm_staff.api.item.model.IReloadableBakedModelProvider
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityMixin
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
@@ -59,7 +59,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 ) : StaffItemHandler() {
     override val maxUseTime = 72000
 
-    override val staffItemRenderer: IStaffItemRenderer = FurnaceRenderer(
+    override val itemModelProvider: IReloadableBakedModelProvider = ReloadableFurnaceModelProvider(
         furnaceItem.block.defaultState.with(AbstractFurnaceBlock.LIT, true),
         furnaceItem.block.defaultState
     )
@@ -94,7 +94,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val stackToSmelt = itemToSmelt?.stack ?: return
         if (burnTime < stackToSmelt.count) return
 
-        val inventory = ItemEntityInventory(itemToSmelt) // TODO pool
+        val inventory = ItemEntityInventory(itemToSmelt)
         val recipe = world.recipeManager.getFirstMatch(recipeType, inventory, world).getOrNull()?.value ?: return
         val resultItem = recipe.getResult(world.registryManager).copyWithCount(stackToSmelt.count)
 
@@ -118,11 +118,12 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         world: World
     ): ItemEntity? {
         val smeltingPosition = user.eyePos + user.rotationVector.normalize() * 1.75
-        val items = world.getEntitiesByClass(ItemEntity::class.java, SMELTING_BOX.offset(smeltingPosition)) { true }
+        val items = world.getEntitiesByClass(ItemEntity::class.java, SMELTING_VOLUME.offset(smeltingPosition)) { true }
         val closest = items.minByOrNull { (smeltingPosition - it.pos).lengthSquared() }
         return closest
     }
 
+    @Environment(EnvType.CLIENT)
     private fun playSmeltingEffects(world: World, itemToSmelt: ItemEntity) {
         if (Math.random() >= 0.1) return
 
@@ -133,8 +134,9 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val ry = Math.random() * 0.5
         val rz = Math.random() * 0.25 - 0.25 / 2
 
-        PARTICLE_MANAGER.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
-        PARTICLE_MANAGER.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        val particleManager = MinecraftClient.getInstance().particleManager
+        particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
@@ -158,6 +160,14 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         return false
     }
 
+    override fun allowReequipAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        selectedSlotChanged: Boolean
+    ): Boolean {
+        return selectedSlotChanged
+    }
+
     override fun getAttributeModifiers(
         staffStack: ItemStack,
         slot: EquipmentSlot
@@ -167,11 +177,20 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     @Environment(EnvType.CLIENT)
-    private class FurnaceRenderer(private val litState: BlockState, private val unlitState: BlockState) :
-        InsideStaffBlockStateRenderer() {
-        override fun getBlockState(staffStack: ItemStack) =
-            if (staffStack.nbt?.getBoolean(LIT_KEY) == true) litState
-            else unlitState
+    private class ReloadableFurnaceModelProvider(private val litState: BlockState, private val unlitState: BlockState) :
+        IReloadableBakedModelProvider {
+        private lateinit var litModel: BakedModel
+        private lateinit var unlitModel: BakedModel
+
+        override fun getModel(staffStack: ItemStack): BakedModel {
+            return if (staffStack.nbt?.getBoolean(LIT_KEY) == true) litModel
+            else unlitModel
+        }
+
+        override fun reload() {
+            litModel = litState.getTransformedModel(TRANSFORM_INTO_STAFF)
+            unlitModel = unlitState.getTransformedModel(TRANSFORM_INTO_STAFF)
+        }
     }
 
     private class ItemEntityInventory(private val itemEntity: ItemEntity) : SingleStackInventory {
@@ -189,8 +208,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     private companion object {
         private const val LIT_KEY = "Lit"
         private const val BURN_TIME_KEY = "BurnTime"
-        private val PARTICLE_MANAGER by lazy { MinecraftClient.getInstance().particleManager }
-        private val SMELTING_BOX = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
+        private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
             attackDamage(5.0),

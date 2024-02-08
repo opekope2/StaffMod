@@ -76,3 +76,12 @@ val ItemStack.handlerOfItem: StaffItemHandler?
         val itemId = Registries.ITEM.getId(item)
         return StaffItemHandler[itemId]
     }
+
+/**
+ * Returns the handler of the given item stack, if available, a dummy one if not, and the empty staff handler if the
+ * item stack is `null`.
+ * This item stack is not the staff item stack, but the one can be inserted into the staff.
+ */
+val ItemStack?.handlerOfItemOrFallback: StaffItemHandler
+    get() = if (this == null) StaffItemHandler.EmptyStaffHandler
+    else handlerOfItem ?: StaffItemHandler.FallbackStaffHandler

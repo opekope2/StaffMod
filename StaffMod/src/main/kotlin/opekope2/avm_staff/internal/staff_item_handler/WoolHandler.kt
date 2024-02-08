@@ -41,16 +41,20 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
+import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
 import opekope2.avm_staff.mixin.IMinecraftClientMixin
+import opekope2.avm_staff.util.TRANSFORM_INTO_STAFF
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
+import opekope2.avm_staff.util.getTransformedModel
 
 class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler() {
     private val woolState = woolItem.block.defaultState
     private val carpetState = carpetItem.block.defaultState
 
-    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(woolItem)
+    override val itemModelProvider = ReloadableSingleBakedModelProvider {
+        woolItem.block.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
+    }
 
     override fun useOnBlock(
         staffStack: ItemStack,
@@ -68,7 +72,7 @@ class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler
         val originalState = world.getBlockState(target)
         if (originalState.isIn(BlockTags.WOOL) || originalState.isIn(BlockTags.WOOL_CARPETS)) return ActionResult.FAIL
 
-        val woolPlaceContext = ItemPlacementContext(
+        val woolPlaceContext = WoolPlacementContext(
             world,
             user as? PlayerEntity,
             hand,
@@ -103,6 +107,14 @@ class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler
         return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
         else super.getAttributeModifiers(staffStack, slot)
     }
+
+    private class WoolPlacementContext(
+        world: World,
+        playerEntity: PlayerEntity?,
+        hand: Hand,
+        itemStack: ItemStack,
+        blockHitResult: BlockHitResult
+    ) : ItemPlacementContext(world, playerEntity, hand, itemStack, blockHitResult)
 
     private companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(

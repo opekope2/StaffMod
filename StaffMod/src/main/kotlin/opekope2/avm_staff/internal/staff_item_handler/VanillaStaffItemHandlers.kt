@@ -31,7 +31,7 @@ private fun Item.registerHandler(handler: StaffItemHandler) {
 }
 
 @Suppress("unused")
-fun register() {
+fun registerVanillaStaffItemHandlers() {
     ANVIL.registerHandler(AnvilHandler(ANVIL as BlockItem, CHIPPED_ANVIL::getDefaultStack))
     CHIPPED_ANVIL.registerHandler(AnvilHandler(CHIPPED_ANVIL as BlockItem, DAMAGED_ANVIL::getDefaultStack))
     DAMAGED_ANVIL.registerHandler(AnvilHandler(DAMAGED_ANVIL as BlockItem) { null })

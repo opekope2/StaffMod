@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "avm_staff",
+  "version": "$version",
+  "name": "Staff Mod (AvM Shorts)",
+  "description": "Staff from Animation vs Minecraft Shorts",
+  "authors": [
+    "opekope2"
+  ],
+  "contact": {
+    "homepage": "https://github.com/opekope2/StaffMod",
+    "issues": "https://github.com/opekope2/StaffMod/issues",
+    "sources": "https://github.com/opekope2/StaffMod"
+  },
+  "license": "LGPL-3.0-or-later",
+  "icon": "assets/avm_staff/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.fabric.StaffMod"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.InitializerKt::initializeNetworking"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.staff_item_handler.VanillaStaffItemHandlersKt::registerVanillaStaffItemHandlers"
+      }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.fabric.StaffModClient"
+      }
+    ]
+  },
+  "mixins": [
+    "avm_staff.mixins.json"
+  ],
+  "depends": {
+    "fabric-api": ">=$fabric_api",
+    "fabric-language-kotlin": ">=$fabric_language_kotlin",
+    "architectury": ">=$architectury",
+    "minecraft": ">=$minecraft",
+    "java": ">=$java"
+  }
+}

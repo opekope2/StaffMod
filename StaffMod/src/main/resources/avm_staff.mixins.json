@@ -1,11 +1,13 @@
 {
   "required": true,
   "package": "opekope2.avm_staff.mixin",
-  "compatibilityLevel": "JAVA_${java}",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
+    "BakedModelManagerMixin",
     "IMinecraftClientMixin",
     "MinecraftClientMixin"
   ],

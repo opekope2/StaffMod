@@ -20,6 +20,7 @@ package opekope2.avm_staff.internal.staff_item_handler
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
+import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -28,22 +29,22 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
-import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.renderer.InsideStaffBlockStateRenderer
+import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
 import opekope2.avm_staff.util.*
 
 class MagmaBlockHandler : StaffItemHandler() {
     override val maxUseTime = 72000
 
-    override val staffItemRenderer = InsideStaffBlockStateRenderer.forBlockItem(Items.MAGMA_BLOCK as BlockItem)
+    override val itemModelProvider = ReloadableSingleBakedModelProvider {
+        Blocks.MAGMA_BLOCK.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
+    }
 
     override fun use(
         staffStack: ItemStack,
