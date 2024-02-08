@@ -245,7 +245,8 @@ abstract class StaffItemHandler {
     }
 
     /**
-     * Called on both the client and the server by Staff Mod, when an entity attacks nothing (left clicks on air).
+     * Called on both the client and the server by Staff Mod, when an entity attacks nothing (left clicks on air) with
+     * a staff.
      *
      * On the logical client, the return values have the following meaning:
      *
@@ -272,7 +273,8 @@ abstract class StaffItemHandler {
     }
 
     /**
-     * Called on both the client and the server by Fabric API, when an entity attacks a block.
+     * Called on both the client and the server by Fabric API (Fabric) or Staff Mod (Forge),when an entity attacks a
+     * block with a staff.
      *
      * On the logical client, the return values have the following meaning:
      *
@@ -322,7 +324,8 @@ abstract class StaffItemHandler {
     }
 
     /**
-     * Called on both the client by Staff Mod and the server by Fabric API, when an entity attacks an entity.
+     * Called on both the client by Staff Mod and the server by Fabric API (Fabric) or Staff Mod (Forge), when an entity
+     * attacks an entity with a staff.
      *
      * On the logical client, the return values have the following meaning:
      *
@@ -382,6 +385,22 @@ abstract class StaffItemHandler {
         hand: Hand
     ): Boolean {
         return true
+    }
+
+    /**
+     * Called on the client side by Forge, when the NBT of the held item gets updated.
+     *
+     * @param oldStaffStack         The previous item stack
+     * @param newStaffStack         The updated item stack
+     * @param selectedSlotChanged   If the selected hotbar slot was changed
+     * @return true to play the update/equip animation, false to skip it
+     */
+    open fun allowReequipAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        selectedSlotChanged: Boolean
+    ): Boolean {
+        return oldStaffStack != newStaffStack
     }
 
     /**

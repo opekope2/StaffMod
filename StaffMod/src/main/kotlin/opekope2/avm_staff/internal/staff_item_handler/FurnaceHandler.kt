@@ -160,6 +160,14 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         return false
     }
 
+    override fun allowReequipAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        selectedSlotChanged: Boolean
+    ): Boolean {
+        return selectedSlotChanged
+    }
+
     override fun getAttributeModifiers(
         staffStack: ItemStack,
         slot: EquipmentSlot
