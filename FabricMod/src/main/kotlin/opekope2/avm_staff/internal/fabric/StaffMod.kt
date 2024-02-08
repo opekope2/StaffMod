@@ -30,15 +30,13 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.EntityHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.internal.event_handler.attackBlock
+import opekope2.avm_staff.internal.event_handler.attackEntity
 import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.handlerOfItem
-import opekope2.avm_staff.util.itemInStaff
 
 @Suppress("unused")
 object StaffMod : ModInitializer, IStaffMod {
@@ -49,22 +47,8 @@ object StaffMod : ModInitializer, IStaffMod {
     )
 
     override fun onInitialize() {
-        AttackBlockCallback.EVENT.register(::handleBlockAttackEvent)
+        AttackBlockCallback.EVENT.register(::attackBlock)
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
-    }
-
-    private fun handleBlockAttackEvent(
-        player: PlayerEntity,
-        world: World,
-        hand: Hand,
-        target: BlockPos,
-        direction: Direction
-    ): ActionResult {
-        val staffStack = player.getStackInHand(hand)
-        if (!staffStack.isOf(staffItem)) return ActionResult.PASS
-
-        return staffStack.itemInStaff?.handlerOfItem?.attackBlock(staffStack, world, player, target, direction, hand)
-            ?: ActionResult.PASS
     }
 
     private fun handleEntityAttackEvent(
@@ -72,14 +56,10 @@ object StaffMod : ModInitializer, IStaffMod {
         world: World,
         hand: Hand,
         target: Entity,
-        hit: EntityHitResult?
+        @Suppress("UNUSED_PARAMETER") hit: EntityHitResult?
     ): ActionResult {
-        if (world.isClient) return ActionResult.PASS // Handled with Staff Mod mixin
+        if (world.isClient) return ActionResult.PASS // Handled with mixin
 
-        val staffStack = player.getStackInHand(hand)
-        if (!staffStack.isOf(staffItem)) return ActionResult.PASS
-
-        return staffStack.itemInStaff?.handlerOfItem?.attackEntity(staffStack, world, player, target, hand)
-            ?: ActionResult.PASS
+        return attackEntity(player, world, hand, target)
     }
 }
