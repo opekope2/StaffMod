@@ -52,6 +52,9 @@ loom {
 tasks {
     jar {
         archiveClassifier = "dev"
+    }
+
+    remapJar {
         from(projectDir.resolve("Fabric.license"))
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))

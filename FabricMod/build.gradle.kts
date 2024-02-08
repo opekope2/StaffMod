@@ -48,6 +48,9 @@ loom {
 tasks {
     jar {
         archiveClassifier = "dev"
+    }
+
+    remapJar {
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))
     }
