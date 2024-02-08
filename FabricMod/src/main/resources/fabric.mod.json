@@ -27,7 +27,7 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.staff_item_handler.VanillaStaffItemHandlersKt::register"
+        "value": "opekope2.avm_staff.internal.staff_item_handler.VanillaStaffItemHandlersKt::registerVanillaStaffItemHandlers"
       }
     ],
     "client": [
