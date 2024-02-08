@@ -25,7 +25,10 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.client.render.model.BakedModel
+import net.minecraft.item.ItemGroups
+import net.minecraft.item.Items
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.fabric.item.model.StaffItemModel
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
@@ -35,6 +38,13 @@ import opekope2.avm_staff.util.MOD_ID
 @Environment(EnvType.CLIENT)
 object StaffModClient : ClientModInitializer {
     override fun onInitializeClient() {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register { entries ->
+            entries.addAfter(Items.NETHERITE_HOE, StaffMod.staffItem)
+        }
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register { entries ->
+            entries.addAfter(Items.TRIDENT, StaffMod.staffItem)
+        }
+
         ModelLoadingPlugin.register(::modelLoadingPlugin)
 
         KeyBindingHelper.registerKeyBinding(ADD_REMOVE_KEYBINDING)

@@ -22,11 +22,8 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemGroups
-import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.ActionResult
@@ -52,13 +49,6 @@ object StaffMod : ModInitializer, IStaffMod {
     )
 
     override fun onInitialize() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register { entries ->
-            entries.addAfter(Items.NETHERITE_HOE, staffItem)
-        }
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register { entries ->
-            entries.addAfter(Items.TRIDENT, staffItem)
-        }
-
         AttackBlockCallback.EVENT.register(::handleBlockAttackEvent)
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
     }
