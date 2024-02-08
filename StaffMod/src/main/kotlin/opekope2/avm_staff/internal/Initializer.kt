@@ -18,13 +18,15 @@
 
 package opekope2.avm_staff.internal
 
+import opekope2.avm_staff.internal.event_handler.addBlockToStaff
+import opekope2.avm_staff.internal.event_handler.attack
+import opekope2.avm_staff.internal.event_handler.removeBlockFromStaff
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.StaffAttackC2SPacket
-import opekope2.avm_staff.internal.server.StaffPacketHandler
 
 fun initializeNetworking() {
-    AddItemToStaffC2SPacket.registerHandler(StaffPacketHandler::addBlockToStaff)
-    RemoveItemFromStaffC2SPacket.registerHandler(StaffPacketHandler::removeBlockFromStaff)
-    StaffAttackC2SPacket.registerHandler(StaffPacketHandler::attack)
+    AddItemToStaffC2SPacket.registerHandler(::addBlockToStaff)
+    RemoveItemFromStaffC2SPacket.registerHandler(::removeBlockFromStaff)
+    StaffAttackC2SPacket.registerHandler(::attack)
 }
