@@ -1,0 +1,44 @@
+modLoader = "kotlinforforge"
+loaderVersion = "[$kotlin_for_forge,)"
+issueTrackerURL = "https://github.com/opekope2/StaffMod/issues"
+license = "LGPL-3.0-or-later"
+
+[[mods]]
+modId = "avm_staff"
+version = "$version"
+displayName = "Staff Mod (AvM Shorts)"
+authors = "opekope2"
+description = '''
+Staff from Animation vs Minecraft Shorts
+'''
+logoFile = "assets/avm_staff/icon.png"
+features = { java_version = "[$java,)" }
+displayURL = "https://opekope2.github.io/StaffMod"
+
+[[dependencies.avm_staff]]
+modId = "forge"
+mandatory = true
+versionRange = "[$forge,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.avm_staff]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[$minecraft,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.avm_staff]]
+modId = "kotlinforforge"
+mandatory = true
+versionRange = "[$kotlin_for_forge,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.avm_staff]]
+modId = "architectury"
+mandatory = true
+versionRange = "[$architectury,)"
+ordering = "AFTER"
+side = "BOTH"

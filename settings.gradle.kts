@@ -17,5 +17,6 @@ pluginManagement {
 
 include(
     "StaffMod",
-    "FabricMod"
+    "FabricMod",
+    "ForgeMod"
 )
