@@ -19,14 +19,6 @@
 package opekope2.avm_staff.api.item
 
 /**
- * Provides additional functionality for a staff, when an item is inserted into it. To make use of the extra
- * functionalities, implement this interface alongside [StaffItemHandler].
- *
- * @see StaffItemHandler
+ * A [StaffItemHandler] implementing this interface disables the attacked entity's shield.
  */
-interface IAdvancedStaffItemHandler {
-    /**
-     * Returns if the current item should disable the shield of the attacked entity.
-     */
-    fun disablesShield(): Boolean = false
-}
+interface IDisablesShield

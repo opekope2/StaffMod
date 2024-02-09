@@ -33,14 +33,14 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.item.IAdvancedStaffItemHandler
+import opekope2.avm_staff.api.item.IDisablesShield
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
 import opekope2.avm_staff.util.*
 import java.util.*
 
 class AnvilHandler(anvilItem: BlockItem, private val damagedStackFactory: () -> ItemStack?) : StaffItemHandler(),
-    IAdvancedStaffItemHandler {
+    IDisablesShield {
     override val itemModelProvider = ReloadableSingleBakedModelProvider {
         anvilItem.block.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
     }
@@ -81,8 +81,6 @@ class AnvilHandler(anvilItem: BlockItem, private val damagedStackFactory: () -> 
             else -> super.getAttributeModifiers(staffStack, slot)
         }
     }
-
-    override fun disablesShield() = true
 
     private companion object {
         private val MOVEMENT_SPEED_MODIFIER_ID: UUID = UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750d")

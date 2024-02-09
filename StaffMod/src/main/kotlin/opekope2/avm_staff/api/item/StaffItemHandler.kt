@@ -57,7 +57,7 @@ import opekope2.avm_staff.util.transform
 /**
  * Provides functionality for a staff, when an item is inserted into it.
  *
- * @see IAdvancedStaffItemHandler
+ * @see IDisablesShield
  */
 abstract class StaffItemHandler {
     /**
