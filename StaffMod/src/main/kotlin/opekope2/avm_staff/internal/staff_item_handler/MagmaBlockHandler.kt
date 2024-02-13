@@ -88,7 +88,7 @@ class MagmaBlockHandler : StaffItemHandler() {
 
         val (x, y, z) = user.rotationVector
         world.spawnEntity(SmallFireballEntity(world, user, x, y, z).apply {
-            setPosition(user.x, user.eyeY - 0.1, user.z)
+            setPosition(user.approximateStaffTipPosition)
         })
     }
 
