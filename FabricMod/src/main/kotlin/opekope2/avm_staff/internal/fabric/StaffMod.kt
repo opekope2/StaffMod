@@ -26,8 +26,11 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -50,6 +53,8 @@ object StaffMod : ModInitializer, IStaffMod {
 
     override val isPhysicalClient: Boolean
         get() = FabricLoader.getInstance().environmentType == EnvType.CLIENT
+
+    override val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "staffs"))
 
     override fun onInitialize() {
         AttackBlockCallback.EVENT.register(::attackBlock)

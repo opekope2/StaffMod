@@ -19,6 +19,9 @@
 package opekope2.avm_staff.internal.forge
 
 import net.minecraft.item.Item
+import net.minecraft.registry.tag.ItemTags
+import net.minecraft.registry.tag.TagKey
+import net.minecraft.util.Identifier
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.registries.DeferredRegister
@@ -51,6 +54,8 @@ object StaffMod : IStaffMod {
 
     override val isPhysicalClient: Boolean
         get() = DIST.isClient
+
+    override val staffsTag: TagKey<Item> = ItemTags.create(Identifier(MOD_ID, "staffs"))
 
     private fun initialize() {
         ITEMS.register(MOD_BUS)
