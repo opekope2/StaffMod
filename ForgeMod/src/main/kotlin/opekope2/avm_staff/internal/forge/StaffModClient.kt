@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.forge
 
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.item.ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
 import net.minecraft.item.ItemGroups
@@ -32,10 +33,12 @@ import net.minecraftforge.common.MinecraftForge.EVENT_BUS
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.forge.item.model.StaffItemModel
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.platform.forge.getStaffMod
+import opekope2.avm_staff.internal.registerModelPredicateProviders
 import opekope2.avm_staff.util.MOD_ID
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
@@ -44,6 +47,13 @@ object StaffModClient {
     fun initializeClient() {
         MOD_BUS.register(this)
         EVENT_BUS.register(javaClass)
+    }
+
+    @SubscribeEvent
+    fun initializeClient(event: FMLClientSetupEvent) {
+        event.enqueueWork {
+            registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
+        }
     }
 
     @SubscribeEvent

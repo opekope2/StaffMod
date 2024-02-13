@@ -27,11 +27,13 @@ import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.client.render.model.BakedModel
+import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.item.ItemGroups
 import net.minecraft.item.Items
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.fabric.item.model.StaffItemModel
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
+import opekope2.avm_staff.internal.registerModelPredicateProviders
 import opekope2.avm_staff.util.MOD_ID
 
 @Suppress("unused")
@@ -50,6 +52,8 @@ object StaffModClient : ClientModInitializer {
         KeyBindingHelper.registerKeyBinding(ADD_REMOVE_KEYBINDING)
 
         ClientTickEvents.END_CLIENT_TICK.register(::handleKeyBindings)
+
+        registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
     }
 
     private fun modelLoadingPlugin(pluginContext: ModelLoadingPlugin.Context) {
