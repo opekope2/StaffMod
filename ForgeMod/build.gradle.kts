@@ -31,6 +31,11 @@ dependencies {
     forge("net.minecraftforge", "forge", project.gradleProperty("forge_version"))
     modApi("dev.architectury", "architectury-forge", project.gradleProperty("architectury_api_version"))
 
+    compileOnly(
+        annotationProcessor("io.github.llamalad7", "mixinextras-common", project.gradleProperty("mixin_extras_version"))
+    )
+    implementation(include("io.github.llamalad7", "mixinextras-forge", project.gradleProperty("mixin_extras_version")))
+
     common(project(":StaffMod", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(":StaffMod", configuration = "transformProductionForge")) { isTransitive = false }
 
