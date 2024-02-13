@@ -20,13 +20,11 @@ package opekope2.avm_staff.mixin;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.world.World;
 import opekope2.avm_staff.api.entity.IImpactTnt;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -43,10 +41,6 @@ public abstract class TntEntityMixin extends Entity implements IImpactTnt {
 
     @Shadow
     protected abstract void explode();
-
-    @Shadow
-    @Nullable
-    public abstract LivingEntity getOwner();
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     private void initDataTracker(CallbackInfo ci) {
@@ -78,8 +72,7 @@ public abstract class TntEntityMixin extends Entity implements IImpactTnt {
 
         boolean explode = horizontalCollision || verticalCollision;
         if (!explode) {
-            Entity owner = getOwner();
-            List<Entity> collisions = getWorld().getOtherEntities(this, getBoundingBox(), entity -> entity != owner);
+            List<Entity> collisions = getWorld().getOtherEntities(this, getBoundingBox(), entity -> true);
             explode = !collisions.isEmpty();
 
             for (Entity collider : collisions) {
@@ -93,7 +86,7 @@ public abstract class TntEntityMixin extends Entity implements IImpactTnt {
         if (!explode) return;
 
         if (!getWorld().isClient) {
-            // Server sends EntitiesDestroyS2CPacket to client, because TntEntity.getOwner() isn't available on the client.
+            // Server sends EntitiesDestroyS2CPacket to client, because the position desync makes collision detection unreliable
             discard();
             explode();
         }

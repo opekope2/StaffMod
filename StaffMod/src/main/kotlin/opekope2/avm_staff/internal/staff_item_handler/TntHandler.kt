@@ -31,8 +31,7 @@ import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.entity.IImpactTnt
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
-import opekope2.avm_staff.util.TRANSFORM_INTO_STAFF
-import opekope2.avm_staff.util.getTransformedModel
+import opekope2.avm_staff.util.*
 
 class TntHandler : StaffItemHandler() {
     override val itemModelProvider = ReloadableSingleBakedModelProvider {
@@ -42,9 +41,10 @@ class TntHandler : StaffItemHandler() {
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
         if (world.isClient) return ActionResult.SUCCESS
 
+        val (x, y, z) = attacker.approximateStaffTipPosition
         world.spawnEntity(
-            TntEntity(world, attacker.x, attacker.eyeY, attacker.z, attacker).apply {
-                velocity = attacker.rotationVector.normalize()
+            TntEntity(world, x, y, z, attacker).apply {
+                velocity = attacker.rotationVector + attacker.velocity
                 @Suppress("KotlinConstantConditions") // IImpactTnt is ducked into TntEntity
                 (this as IImpactTnt).explodeOnImpact(true)
                 world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f)
