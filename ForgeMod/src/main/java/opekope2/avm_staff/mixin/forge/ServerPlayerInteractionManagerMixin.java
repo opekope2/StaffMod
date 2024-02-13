@@ -28,7 +28,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import opekope2.avm_staff.internal.event_handler.StaffAttackHandler;
+import opekope2.avm_staff.internal.event_handler.StaffAttackHandlerKt;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -50,7 +50,7 @@ public abstract class ServerPlayerInteractionManagerMixin {
     public void startBlockBreak(BlockPos pos, PlayerActionC2SPacket.Action playerAction, Direction direction, int worldHeight, int i, CallbackInfo info) {
         if (playerAction != PlayerActionC2SPacket.Action.START_DESTROY_BLOCK) return;
 
-        ActionResult result = StaffAttackHandler.attackBlock(player, world, Hand.MAIN_HAND, pos, direction);
+        ActionResult result = StaffAttackHandlerKt.attackBlock(player, world, Hand.MAIN_HAND, pos, direction);
 
         if (result == ActionResult.PASS) return;
 
