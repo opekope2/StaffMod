@@ -32,6 +32,11 @@ interface IStaffMod {
      */
     val staffItem: StaffItem
 
+    /**
+     * Returns if Staff Mod is running on the physical client.
+     */
+    val isPhysicalClient: Boolean
+
     companion object Holder {
         /**
          * Gets the currently running loader-specific Staff Mod instance.
