@@ -30,8 +30,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
-import opekope2.avm_staff.util.TRANSFORM_INTO_STAFF
-import opekope2.avm_staff.util.getTransformedModel
+import opekope2.avm_staff.util.*
 
 class SnowBlockHandler : StaffItemHandler() {
     override val maxUseTime = 72000
@@ -70,7 +69,10 @@ class SnowBlockHandler : StaffItemHandler() {
         )
 
         if (world.isClient) return
-        world.spawnEntity(SnowballEntity(world, user).apply {
+
+        val (x, y, z) = user.approximateStaffTipPosition
+        world.spawnEntity(SnowballEntity(world, x, y, z).apply {
+            owner = user
             // TODO speed
             setVelocity(user, user.pitch, user.yaw, 0f, 4f, 1f)
         })
