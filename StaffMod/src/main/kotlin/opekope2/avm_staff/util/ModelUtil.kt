@@ -21,22 +21,24 @@
 package opekope2.avm_staff.util
 
 import net.minecraft.block.BlockState
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.render.model.BakedQuad
 import net.minecraft.client.render.model.BasicBakedModel
+import net.minecraft.client.render.model.UnbakedModel
 import net.minecraft.client.render.model.json.Transformation
 import net.minecraft.client.texture.MissingSprite
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.texture.SpriteAtlasTexture
+import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import opekope2.avm_staff.internal.platform.getQuadBakerVertexConsumer
 import org.joml.Vector3f
 import java.util.function.Consumer
+import java.util.function.Function
 
 /**
  * The transform of an item in the default position of the staff.
@@ -48,26 +50,6 @@ val TRANSFORM_INTO_STAFF = Transformation(
     Vector3f(7f / 16f)
 )
 
-/**
- * Gets the missing sprite from the block atlas.
- */
-val missingSprite: Sprite
-    get() {
-        val atlas = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
-        return atlas.apply(MissingSprite.getMissingSpriteId())
-    }
-
-private val BlockState.model
-    get() = MinecraftClient.getInstance().blockRenderManager.getModel(this)
-
-/**
- * Creates a transformed model based on the model of the block state.
- *
- * @param transformation    The transformation to apply to the model
- */
-fun BlockState.getTransformedModel(transformation: Transformation): BakedModel =
-    model.transform(this, transformation)
-
 private val cullFaces = arrayOf(*Direction.values(), null)
 
 /**
@@ -75,11 +57,19 @@ private val cullFaces = arrayOf(*Direction.values(), null)
  *
  * @param blockState        Passed to [BakedModel.getQuads]
  * @param transformation    The transformation to apply to the model
+ * @param textureGetter     Function from [UnbakedModel.bake] used to obtain the missing sprite
  */
-fun BakedModel.transform(blockState: BlockState?, transformation: Transformation): BakedModel {
+fun BakedModel.transform(
+    blockState: BlockState?,
+    transformation: Transformation,
+    textureGetter: Function<SpriteIdentifier, Sprite>
+): BakedModel {
     val matrices = MatrixStack()
     transformation.apply(false, matrices)
     val random = Random.create()
+    val missingSprite = textureGetter.apply(
+        SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, MissingSprite.getMissingSpriteId())
+    )
 
     val quads = mutableMapOf<Direction?, MutableList<BakedQuad>>()
     for (cullFace in cullFaces) {
