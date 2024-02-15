@@ -23,13 +23,12 @@ import com.google.common.collect.Multimap
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
-import net.minecraft.client.render.model.BakedModel
-import net.minecraft.client.render.model.BakedQuad
-import net.minecraft.client.render.model.BasicBakedModel
+import net.minecraft.client.render.model.*
 import net.minecraft.client.render.model.json.ModelOverrideList
 import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.Transformation
 import net.minecraft.client.texture.Sprite
+import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -42,19 +41,23 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.IReloadableBakedModelProvider
+import opekope2.avm_staff.api.item.model.IStaffItemBakedModel
+import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
+import opekope2.avm_staff.api.item.model.StaffItemBakedModel
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.getBakedQuads
+import opekope2.avm_staff.util.transform
 import org.joml.Vector3f
+import java.util.function.Function
+import java.util.function.Supplier
 
 class BellBlockHandler : StaffItemHandler() {
-    override val itemModelProvider: IReloadableBakedModelProvider = ReloadableBellModelProvider()
-
     override fun use(
         staffStack: ItemStack,
         world: World,
@@ -94,18 +97,23 @@ class BellBlockHandler : StaffItemHandler() {
     }
 
     @Environment(EnvType.CLIENT)
-    private class ReloadableBellModelProvider : IReloadableBakedModelProvider {
-        private lateinit var model: BakedModel
+    private class BellUnbakedModel : IStaffItemUnbakedModel {
+        override fun getModelDependencies() = setOf<Identifier>()
 
-        private val bellSprite: Sprite
-            get() = BellBlockEntityRenderer.BELL_BODY_TEXTURE.sprite
+        override fun setParents(modelLoader: Function<Identifier, UnbakedModel>?) {
+        }
 
-        override fun getModel(staffStack: ItemStack): BakedModel = model
-
-        override fun reload() {
+        override fun bake(
+            baker: Baker,
+            textureGetter: Function<SpriteIdentifier, Sprite>,
+            rotationContainer: ModelBakeSettings,
+            modelId: Identifier,
+            transformation: Transformation
+        ): IStaffItemBakedModel {
+            val bellSprite = textureGetter.apply(BellBlockEntityRenderer.BELL_BODY_TEXTURE)
             val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().getChild("bell_body")
-            val quads = bellModel.getBakedQuads(bellSprite, transformation)
-            model = BasicBakedModel(
+            val quads = bellModel.getBakedQuads(bellSprite, bellTransformation)
+            val baked = BasicBakedModel(
                 quads,
                 createEmptyFaceQuads(),
                 true,
@@ -115,13 +123,15 @@ class BellBlockHandler : StaffItemHandler() {
                 ModelTransformation.NONE,
                 ModelOverrideList.EMPTY
             )
+
+            return StaffItemBakedModel(baked.transform(null, transformation, textureGetter))
         }
 
         private companion object {
-            private val transformation = Transformation(
+            private val bellTransformation = Transformation(
                 Vector3f(),
-                Vector3f((9f - 7f) / 9f / 2f, (22f - 3f) / 16f, (9f - 7f) / 9f / 2f),
-                Vector3f(7f / 9f)
+                Vector3f(-3.5f / 9f, -4f / 9f, -3.5f / 9f),
+                Vector3f(16f / 9f)
             )
 
             private fun createEmptyFaceQuads(): Map<Direction, List<BakedQuad>> = mapOf(
@@ -135,12 +145,16 @@ class BellBlockHandler : StaffItemHandler() {
         }
     }
 
-    private companion object {
+    companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
             attackDamage(8.0),
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(1.5)
         )
+
+        val modelSupplierFactory: Supplier<Supplier<out IStaffItemUnbakedModel>> = Supplier {
+            Supplier(::BellUnbakedModel)
+        }
     }
 }

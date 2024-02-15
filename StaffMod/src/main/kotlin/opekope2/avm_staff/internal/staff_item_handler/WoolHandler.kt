@@ -20,6 +20,7 @@ package opekope2.avm_staff.internal.staff_item_handler
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
+import net.minecraft.block.Block
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.EquipmentSlot
@@ -28,7 +29,6 @@ import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.tag.BlockTags
@@ -41,20 +41,13 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
 import opekope2.avm_staff.mixin.IMinecraftClientMixin
-import opekope2.avm_staff.util.TRANSFORM_INTO_STAFF
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
-import opekope2.avm_staff.util.getTransformedModel
 
-class WoolHandler(woolItem: BlockItem, carpetItem: BlockItem) : StaffItemHandler() {
-    private val woolState = woolItem.block.defaultState
-    private val carpetState = carpetItem.block.defaultState
-
-    override val itemModelProvider = ReloadableSingleBakedModelProvider {
-        woolItem.block.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
-    }
+class WoolHandler(woolBlock: Block, carpetBlock: Block) : StaffItemHandler() {
+    private val woolState = woolBlock.defaultState
+    private val carpetState = carpetBlock.defaultState
 
     override fun useOnBlock(
         staffStack: ItemStack,

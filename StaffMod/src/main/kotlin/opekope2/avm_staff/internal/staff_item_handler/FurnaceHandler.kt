@@ -23,9 +23,17 @@ import com.google.common.collect.Multimap
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractFurnaceBlock
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.block.BlockModels
 import net.minecraft.client.render.model.BakedModel
+import net.minecraft.client.render.model.Baker
+import net.minecraft.client.render.model.ModelBakeSettings
+import net.minecraft.client.render.model.UnbakedModel
+import net.minecraft.client.render.model.json.Transformation
+import net.minecraft.client.texture.Sprite
+import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -34,7 +42,6 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SingleStackInventory
-import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.recipe.AbstractCookingRecipe
@@ -43,26 +50,24 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.IReloadableBakedModelProvider
+import opekope2.avm_staff.api.item.model.IStaffItemBakedModel
+import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityMixin
 import opekope2.avm_staff.util.*
+import java.util.function.Function
+import java.util.function.Supplier
 import kotlin.jvm.optionals.getOrNull
 
 class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
-    furnaceItem: BlockItem,
     private val recipeType: RecipeType<TRecipe>,
     private val smeltSound: SoundEvent
 ) : StaffItemHandler() {
     override val maxUseTime = 72000
-
-    override val itemModelProvider: IReloadableBakedModelProvider = ReloadableFurnaceModelProvider(
-        furnaceItem.block.defaultState.with(AbstractFurnaceBlock.LIT, true),
-        furnaceItem.block.defaultState
-    )
 
     override fun use(
         staffStack: ItemStack,
@@ -117,7 +122,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         user: LivingEntity,
         world: World
     ): ItemEntity? {
-        val smeltingPosition = user.eyePos + user.rotationVector.normalize() * 1.75
+        val smeltingPosition = user.approximateStaffItemPosition
         val items = world.getEntitiesByClass(ItemEntity::class.java, SMELTING_VOLUME.offset(smeltingPosition)) { true }
         val closest = items.minByOrNull { (smeltingPosition - it.pos).lengthSquared() }
         return closest
@@ -177,19 +182,40 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     @Environment(EnvType.CLIENT)
-    private class ReloadableFurnaceModelProvider(private val litState: BlockState, private val unlitState: BlockState) :
-        IReloadableBakedModelProvider {
-        private lateinit var litModel: BakedModel
-        private lateinit var unlitModel: BakedModel
+    private class FurnaceUnbakedModel(private val unlitState: BlockState, private val litState: BlockState) :
+        IStaffItemUnbakedModel {
+        private val litStateId = BlockModels.getModelId(litState)
+        private val unlitStateId = BlockModels.getModelId(unlitState)
+        private val dependencies = setOf(litStateId, unlitStateId)
 
+        override fun getModelDependencies() = dependencies
+
+        override fun setParents(modelLoader: Function<Identifier, UnbakedModel>?) {
+        }
+
+        override fun bake(
+            baker: Baker,
+            textureGetter: Function<SpriteIdentifier, Sprite>,
+            rotationContainer: ModelBakeSettings,
+            modelId: Identifier,
+            transformation: Transformation
+        ): IStaffItemBakedModel? {
+            val unlitModel = baker.bake(unlitStateId, rotationContainer) ?: return null
+            val litModel = baker.bake(litStateId, rotationContainer) ?: return null
+
+            return FurnaceBakedModel(
+                unlitModel.transform(unlitState, transformation, textureGetter),
+                litModel.transform(litState, transformation, textureGetter)
+            )
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    private class FurnaceBakedModel(private val unlitModel: BakedModel, private val litModel: BakedModel) :
+        BakedModel by unlitModel, IStaffItemBakedModel {
         override fun getModel(staffStack: ItemStack): BakedModel {
             return if (staffStack.nbt?.getBoolean(LIT_KEY) == true) litModel
             else unlitModel
-        }
-
-        override fun reload() {
-            litModel = litState.getTransformedModel(TRANSFORM_INTO_STAFF)
-            unlitModel = unlitState.getTransformedModel(TRANSFORM_INTO_STAFF)
         }
     }
 
@@ -205,7 +231,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         override fun asBlockEntity(): Nothing = throw UnsupportedOperationException()
     }
 
-    private companion object {
+    companion object {
         private const val LIT_KEY = "Lit"
         private const val BURN_TIME_KEY = "BurnTime"
         private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
@@ -215,5 +241,14 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(2.0)
         )
+
+        fun getModelSupplierFactory(furnaceBlock: Block): Supplier<Supplier<out IStaffItemUnbakedModel>> = Supplier {
+            Supplier {
+                FurnaceUnbakedModel(
+                    furnaceBlock.defaultState,
+                    furnaceBlock.defaultState.with(AbstractFurnaceBlock.LIT, true)
+                )
+            }
+        }
     }
 }

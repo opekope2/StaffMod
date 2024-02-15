@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
-import net.minecraft.block.Blocks
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.thrown.SnowballEntity
@@ -29,15 +28,13 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
-import opekope2.avm_staff.util.*
+import opekope2.avm_staff.util.approximateStaffTipPosition
+import opekope2.avm_staff.util.component1
+import opekope2.avm_staff.util.component2
+import opekope2.avm_staff.util.component3
 
 class SnowBlockHandler : StaffItemHandler() {
     override val maxUseTime = 72000
-
-    override val itemModelProvider = ReloadableSingleBakedModelProvider {
-        Blocks.SNOW_BLOCK.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
-    }
 
     override fun use(
         staffStack: ItemStack,
