@@ -26,13 +26,14 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
-import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.item.ModelPredicateProviderRegistry
+import net.minecraft.client.render.model.UnbakedModel
+import net.minecraft.client.render.model.json.JsonUnbakedModel
 import net.minecraft.item.ItemGroups
 import net.minecraft.item.Items
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
-import opekope2.avm_staff.internal.fabric.item.model.StaffItemModel
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
+import opekope2.avm_staff.internal.fabric.item.model.UnbakedFabricStaffItemModel
 import opekope2.avm_staff.internal.registerModelPredicateProviders
 import opekope2.avm_staff.util.MOD_ID
 
@@ -57,13 +58,16 @@ object StaffModClient : ClientModInitializer {
     }
 
     private fun modelLoadingPlugin(pluginContext: ModelLoadingPlugin.Context) {
-        pluginContext.modifyModelAfterBake().register(::modifyModelAfterBake)
+        pluginContext.modifyModelBeforeBake().register(::modifyModelBeforeBake)
     }
 
-    private fun modifyModelAfterBake(model: BakedModel?, context: ModelModifier.AfterBake.Context): BakedModel? {
-        val id = context.id()
+    private fun modifyModelBeforeBake(model: UnbakedModel, context: ModelModifier.BeforeBake.Context): UnbakedModel {
+        if (context.id().namespace != MOD_ID) return model
 
-        return if (model == null || id.namespace != MOD_ID || id.path != "staff") model
-        else StaffItemModel(model)
+        return when (context.id().path) {
+            // TODO hardcoded paths
+            "staff", "item/staff_in_use" -> UnbakedFabricStaffItemModel(model as JsonUnbakedModel) // FIXME
+            else -> model
+        }
     }
 }

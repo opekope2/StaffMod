@@ -24,24 +24,29 @@ import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.random.Random
-import opekope2.avm_staff.util.handlerOfItemOrFallback
+import opekope2.avm_staff.api.item.model.IStaffItemBakedModel
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
 import java.util.function.Supplier
 
 @Environment(EnvType.CLIENT)
-class StaffItemModel(original: BakedModel) : BakedModel by original {
+class BakedFabricStaffItemModel(
+    original: BakedModel,
+    private val itemModels: Map<Identifier, IStaffItemBakedModel>,
+    private val missingModel: BakedModel
+) : BakedModel by original {
     override fun emitItemQuads(stack: ItemStack, randomSupplier: Supplier<Random>, context: RenderContext) {
         super.emitItemQuads(stack, randomSupplier, context)
 
         if (!stack.isItemInStaff) return
 
-        val itemStack = stack.itemInStaff
-        val handler = itemStack.handlerOfItemOrFallback
+        val itemStack = stack.itemInStaff ?: return
 
-        val model = handler.itemModelProvider.getModel(stack) as FabricBakedModel
-        model.emitItemQuads(stack, randomSupplier, context)
+        val model = itemModels[Registries.ITEM.getId(itemStack.item)]?.getModel(stack) ?: missingModel
+        (model as FabricBakedModel).emitItemQuads(stack, randomSupplier, context)
     }
 
     override fun isVanillaAdapter() = false
