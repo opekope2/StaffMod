@@ -18,23 +18,18 @@
 
 package opekope2.avm_staff.api.item.model
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.item.ItemStack
 
 /**
- * [BakedModel] provider for a given staff item stack.
+ * A [BakedModel] of an item, which can be placed into the staff.
  */
-interface IReloadableBakedModelProvider {
+@Environment(EnvType.CLIENT)
+interface IStaffItemBakedModel : BakedModel {
     /**
-     * Gets the model of the item in the Staff.
-     *
-     * @param staffStack    The staff item stack (not the item in the staff)
+     * Gets a model for the given [staff item stack][staffStack].
      */
-    fun getModel(staffStack: ItemStack): BakedModel
-
-    /**
-     * Reloads the model(s) returned by [getModel].
-     * Called after the game initially loads or reloads the resources.
-     */
-    fun reload()
+    fun getModel(staffStack: ItemStack): BakedModel = this
 }

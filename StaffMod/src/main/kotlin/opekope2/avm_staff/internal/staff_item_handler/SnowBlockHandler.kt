@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
-import net.minecraft.block.Blocks
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.thrown.SnowballEntity
@@ -29,16 +28,13 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
-import opekope2.avm_staff.util.TRANSFORM_INTO_STAFF
-import opekope2.avm_staff.util.getTransformedModel
+import opekope2.avm_staff.util.approximateStaffTipPosition
+import opekope2.avm_staff.util.component1
+import opekope2.avm_staff.util.component2
+import opekope2.avm_staff.util.component3
 
 class SnowBlockHandler : StaffItemHandler() {
     override val maxUseTime = 72000
-
-    override val itemModelProvider = ReloadableSingleBakedModelProvider {
-        Blocks.SNOW_BLOCK.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
-    }
 
     override fun use(
         staffStack: ItemStack,
@@ -70,7 +66,10 @@ class SnowBlockHandler : StaffItemHandler() {
         )
 
         if (world.isClient) return
-        world.spawnEntity(SnowballEntity(world, user).apply {
+
+        val (x, y, z) = user.approximateStaffTipPosition
+        world.spawnEntity(SnowballEntity(world, x, y, z).apply {
+            owner = user
             // TODO speed
             setVelocity(user, user.pitch, user.yaw, 0f, 4f, 1f)
         })

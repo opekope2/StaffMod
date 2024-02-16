@@ -16,20 +16,16 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.mixin;
+package opekope2.avm_staff.api.item.model
 
-import net.minecraft.client.render.model.BakedModelManager;
-import opekope2.avm_staff.api.item.StaffItemHandler;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.render.model.BakedModel
 
-@Mixin(BakedModelManager.class)
-public abstract class BakedModelManagerMixin {
-    @Inject(method = "upload", at = @At("TAIL"))
-    @SuppressWarnings("deprecation")
-    void upload(CallbackInfo ci) {
-        StaffItemHandler.reloadModels(); // Shhh - this is internal use
-    }
-}
+/**
+ * Default implementation of [IStaffItemBakedModel], which returns itself as a model for each block state.
+ *
+ * @param blockStateModel   The model of a block state. [BakedModel] implementation is delegated to it
+ */
+@Environment(EnvType.CLIENT)
+class StaffItemBakedModel(blockStateModel: BakedModel) : BakedModel by blockStateModel, IStaffItemBakedModel

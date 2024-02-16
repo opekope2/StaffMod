@@ -20,7 +20,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import opekope2.avm_staff.internal.event_handler.StaffAttackHandler;
+import opekope2.avm_staff.internal.event_handler.StaffAttackHandlerKt;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,7 +32,7 @@ public class ServerPlayerEntityMixin {
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
     public void onPlayerInteractEntity(Entity target, CallbackInfo info) {
         ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
-        ActionResult result = StaffAttackHandler.attackEntity(player, player.getEntityWorld(), Hand.MAIN_HAND, target);
+        ActionResult result = StaffAttackHandlerKt.attackEntity(player, player.getEntityWorld(), Hand.MAIN_HAND, target);
 
         if (result != ActionResult.PASS) {
             info.cancel();

@@ -27,24 +27,19 @@ import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.item.IAdvancedStaffItemHandler
+import opekope2.avm_staff.api.item.IDisablesShield
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
-import opekope2.avm_staff.util.*
+import opekope2.avm_staff.util.attackDamage
+import opekope2.avm_staff.util.equipTime
+import opekope2.avm_staff.util.itemInStaff
 import java.util.*
 
-class AnvilHandler(anvilItem: BlockItem, private val damagedStackFactory: () -> ItemStack?) : StaffItemHandler(),
-    IAdvancedStaffItemHandler {
-    override val itemModelProvider = ReloadableSingleBakedModelProvider {
-        anvilItem.block.defaultState.getTransformedModel(TRANSFORM_INTO_STAFF)
-    }
-
+class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffItemHandler(), IDisablesShield {
     override fun attackEntity(
         staffStack: ItemStack,
         world: World,
@@ -81,8 +76,6 @@ class AnvilHandler(anvilItem: BlockItem, private val damagedStackFactory: () -> 
             else -> super.getAttributeModifiers(staffStack, slot)
         }
     }
-
-    override fun disablesShield() = true
 
     private companion object {
         private val MOVEMENT_SPEED_MODIFIER_ID: UUID = UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750d")

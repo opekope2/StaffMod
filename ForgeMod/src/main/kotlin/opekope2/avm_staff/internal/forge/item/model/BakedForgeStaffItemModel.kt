@@ -22,12 +22,21 @@ import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
+import net.minecraft.util.Identifier
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.model.BakedModelWrapper
-import opekope2.avm_staff.util.handlerOfItemOrFallback
+import net.minecraftforge.registries.ForgeRegistries
+import opekope2.avm_staff.api.item.model.IStaffItemBakedModel
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
 
-class StaffItemModel(original: BakedModel) : BakedModelWrapper<BakedModel>(original) {
+@OnlyIn(Dist.CLIENT)
+class BakedForgeStaffItemModel(
+    original: BakedModel,
+    private val itemModels: Map<Identifier, IStaffItemBakedModel>,
+    private val missingModel: BakedModel
+) : BakedModelWrapper<BakedModel>(original) {
     override fun applyTransform(
         cameraTransformType: ModelTransformationMode,
         poseStack: MatrixStack,
@@ -38,13 +47,12 @@ class StaffItemModel(original: BakedModel) : BakedModelWrapper<BakedModel>(origi
         return this
     }
 
-    override fun getRenderPasses(itemStack: ItemStack, fabulous: Boolean): MutableList<BakedModel> {
-        if (!itemStack.isItemInStaff) return mutableListOf(this)
+    override fun getRenderPasses(stack: ItemStack, fabulous: Boolean): MutableList<BakedModel> {
+        if (!stack.isItemInStaff) return mutableListOf(this)
 
-        val staffItemStack = itemStack.itemInStaff
-        val handler = staffItemStack.handlerOfItemOrFallback
+        val itemStack = stack.itemInStaff ?: return mutableListOf(this)
 
-        val model = handler.itemModelProvider.getModel(itemStack)
+        val model = itemModels[ForgeRegistries.ITEMS.getKey(itemStack.item)]?.getModel(stack) ?: missingModel
         return mutableListOf(this, model)
     }
 }

@@ -29,7 +29,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import opekope2.avm_staff.internal.event_handler.StaffAttackHandler;
+import opekope2.avm_staff.internal.event_handler.StaffAttackHandlerKt;
 import opekope2.avm_staff.internal.networking.c2s.play.StaffAttackC2SPacket;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -75,7 +75,7 @@ public abstract class MinecraftClientMixin {
         assert crosshairTarget != null;
 
         Entity target = ((EntityHitResult) crosshairTarget).getEntity();
-        ActionResult result = StaffAttackHandler.attackEntity(player, world, Hand.MAIN_HAND, target);
+        ActionResult result = StaffAttackHandlerKt.attackEntity(player, world, Hand.MAIN_HAND, target);
         switch (result) {
             case SUCCESS -> {
                 Objects.requireNonNull(getNetworkHandler())
@@ -107,7 +107,7 @@ public abstract class MinecraftClientMixin {
 
         ItemStack stackInHand = player.getStackInHand(Hand.MAIN_HAND);
 
-        ActionResult result = StaffAttackHandler.attack(stackInHand, world, player, Hand.MAIN_HAND);
+        ActionResult result = StaffAttackHandlerKt.attack(stackInHand, world, player, Hand.MAIN_HAND);
         switch (result) {
             case SUCCESS -> {
                 new StaffAttackC2SPacket().send();

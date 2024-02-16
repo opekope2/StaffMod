@@ -18,6 +18,8 @@
 
 package opekope2.avm_staff
 
+import net.minecraft.item.Item
+import net.minecraft.registry.tag.TagKey
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.platform.getStaffMod
 
@@ -31,6 +33,16 @@ interface IStaffMod {
      * Due to how Forge registries work, *always* use this getter instead of storing the result.
      */
     val staffItem: StaffItem
+
+    /**
+     * Returns if Staff Mod is running on the physical client.
+     */
+    val isPhysicalClient: Boolean
+
+    /**
+     * Gets the [TagKey] containing all the staffs.
+     */
+    val staffsTag: TagKey<Item>
 
     companion object Holder {
         /**

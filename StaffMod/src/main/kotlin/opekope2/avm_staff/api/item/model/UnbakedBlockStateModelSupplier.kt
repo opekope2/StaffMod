@@ -18,20 +18,17 @@
 
 package opekope2.avm_staff.api.item.model
 
-import net.minecraft.client.render.model.BakedModel
-import net.minecraft.item.ItemStack
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.block.BlockState
+import java.util.function.Supplier
 
 /**
- * Implementation of [IReloadableBakedModelProvider], which reloads the model using the given factory.
+ * Convenience implementation of [Supplier] with the same parameters as [UnbakedBlockStateModel].
  *
- * @param modelFactory  The function, which creates the model
+ * @param blockState    The block state to bake
  */
-class ReloadableSingleBakedModelProvider(private val modelFactory: () -> BakedModel) : IReloadableBakedModelProvider {
-    private lateinit var model: BakedModel
-
-    override fun getModel(staffStack: ItemStack): BakedModel = model
-
-    override fun reload() {
-        model = modelFactory()
-    }
+@Environment(EnvType.CLIENT)
+class UnbakedBlockStateModelSupplier(private val blockState: BlockState) : Supplier<UnbakedBlockStateModel> {
+    override fun get() = UnbakedBlockStateModel(blockState)
 }

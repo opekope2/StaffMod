@@ -16,8 +16,6 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("StaffAttackHandler")
-
 package opekope2.avm_staff.internal.event_handler
 
 import net.minecraft.entity.Entity

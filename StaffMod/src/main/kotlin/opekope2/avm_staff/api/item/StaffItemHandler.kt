@@ -23,12 +23,6 @@ import com.google.common.collect.Multimap
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.advancement.criterion.Criteria
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.model.BuiltinBakedModel
-import net.minecraft.client.render.model.json.ModelOverrideList
-import net.minecraft.client.render.model.json.ModelTransformation
-import net.minecraft.client.texture.MissingSprite
-import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -47,17 +41,16 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.item.model.IReloadableBakedModelProvider
-import opekope2.avm_staff.api.item.model.ReloadableSingleBakedModelProvider
-import opekope2.avm_staff.util.TRANSFORM_INTO_STAFF
+import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
-import opekope2.avm_staff.util.transform
+import java.util.function.Supplier
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
  *
- * @see IAdvancedStaffItemHandler
+ * @see IDisablesShield
  */
 abstract class StaffItemHandler {
     /**
@@ -65,12 +58,6 @@ abstract class StaffItemHandler {
      */
     open val maxUseTime: Int
         get() = 0
-
-    /**
-     * The model provider of the item added to the staff.
-     */
-    @get: Environment(EnvType.CLIENT)
-    abstract val itemModelProvider: IReloadableBakedModelProvider
 
     /**
      * Called on both the client and the server by Minecraft when the player uses the staff.
@@ -417,19 +404,9 @@ abstract class StaffItemHandler {
         else ImmutableMultimap.of()
     }
 
-    object EmptyStaffHandler : StaffItemHandler() {
-        override val itemModelProvider = ReloadableSingleBakedModelProvider {
-            val atlas = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
-            val sprite = atlas.apply(MissingSprite.getMissingSpriteId())
-            BuiltinBakedModel(ModelTransformation.NONE, ModelOverrideList.EMPTY, sprite, false)
-        }
-    }
+    object EmptyStaffHandler : StaffItemHandler()
 
-    object FallbackStaffHandler : StaffItemHandler() {
-        override val itemModelProvider = ReloadableSingleBakedModelProvider {
-            MinecraftClient.getInstance().bakedModelManager.missingModel.transform(null, TRANSFORM_INTO_STAFF)
-        }
-    }
+    object FallbackStaffHandler : StaffItemHandler()
 
     companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
@@ -441,19 +418,34 @@ abstract class StaffItemHandler {
 
         private val staffItemsHandlers = mutableMapOf<Identifier, StaffItemHandler>()
 
+        private val staffItemModelProviders = mutableMapOf<Identifier, Supplier<out IStaffItemUnbakedModel>>()
+            @Suppress("RedundantGetter") // Force generate getter to annotate
+            @Environment(EnvType.CLIENT)
+            get() = field
+
         /**
          * Registers a [StaffItemHandler] for the given [item ID][staffItem].
          *
-         * @param staffItem The item ID to register a handler for. This is the item, which can be inserted into the staff
-         * @param handler   The staff item handler, which processes staff interactions, while the [registered item][staffItem]
-         *                  is inserted into it
+         * @param staffItem                     The item ID to register a handler for. This is the item, which can be
+         *   inserted into the staff
+         * @param handler                       The staff item handler, which processes staff interactions, while the
+         *   [registered item][staffItem] is inserted into it
+         * @param staffItemModelSupplierFactory The staff item's unbaked model supplier's supplier. The nesting is needed
+         *   to prevent loading client classes on the server
          * @return `true`, if the registration was successful, `false`, if the item was already registered
          */
         @JvmStatic
-        fun register(staffItem: Identifier, handler: StaffItemHandler): Boolean {
+        fun register(
+            staffItem: Identifier,
+            handler: StaffItemHandler,
+            staffItemModelSupplierFactory: Supplier<Supplier<out IStaffItemUnbakedModel>>
+        ): Boolean {
             if (staffItem in staffItemsHandlers) return false
 
             staffItemsHandlers[staffItem] = handler
+            if (IStaffMod.get().isPhysicalClient) {
+                staffItemModelProviders[staffItem] = staffItemModelSupplierFactory.get()
+            }
             return true
         }
 
@@ -477,12 +469,9 @@ abstract class StaffItemHandler {
         /**
          * @suppress
          */
-        @JvmStatic
-        @Deprecated("For internal use only")
-        fun reloadModels() {
-            for ((_, handler) in staffItemsHandlers) {
-                handler.itemModelProvider.reload()
-            }
+        @Environment(EnvType.CLIENT)
+        internal fun iterateStaffItemModelProviders(): Iterator<MutableMap.MutableEntry<Identifier, Supplier<out IStaffItemUnbakedModel>>> {
+            return staffItemModelProviders.iterator()
         }
     }
 }

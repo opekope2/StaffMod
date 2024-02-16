@@ -20,9 +20,11 @@
 
 package opekope2.avm_staff.util
 
+import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.Registries
+import net.minecraft.util.math.Vec3d
 import opekope2.avm_staff.api.item.StaffItemHandler
 
 /**
@@ -85,3 +87,19 @@ val ItemStack.handlerOfItem: StaffItemHandler?
 val ItemStack?.handlerOfItemOrFallback: StaffItemHandler
     get() = if (this == null) StaffItemHandler.EmptyStaffHandler
     else handlerOfItem ?: StaffItemHandler.FallbackStaffHandler
+
+private const val STAFF_MODEL_LENGTH = 40.0 / 16.0
+private const val STAFF_MODEL_ITEM_POSITION_CENTER = 33.5 / 16.0
+private const val STAFF_MODEL_SCALE = 0.85
+
+/**
+ * Gets the approximate position of the staff's tip, when held by an entity.
+ */
+val Entity.approximateStaffTipPosition: Vec3d
+    get() = eyePos + rotationVector * (STAFF_MODEL_LENGTH * STAFF_MODEL_SCALE)
+
+/**
+ * Gets the approximate position of the item in the staff, when held my an entity.
+ */
+val Entity.approximateStaffItemPosition: Vec3d
+    get() = eyePos + rotationVector * (STAFF_MODEL_ITEM_POSITION_CENTER * STAFF_MODEL_SCALE)

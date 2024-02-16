@@ -19,24 +19,23 @@
 package opekope2.avm_staff.internal.forge
 
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.util.ModelIdentifier
+import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.item.ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
 import net.minecraft.item.ItemGroups
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
-import net.minecraftforge.client.event.ModelEvent
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import net.minecraftforge.common.MinecraftForge.EVENT_BUS
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
-import opekope2.avm_staff.internal.forge.item.model.StaffItemModel
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.platform.forge.getStaffMod
-import opekope2.avm_staff.util.MOD_ID
+import opekope2.avm_staff.internal.registerModelPredicateProviders
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @OnlyIn(Dist.CLIENT)
@@ -44,6 +43,13 @@ object StaffModClient {
     fun initializeClient() {
         MOD_BUS.register(this)
         EVENT_BUS.register(javaClass)
+    }
+
+    @SubscribeEvent
+    fun initializeClient(event: FMLClientSetupEvent) {
+        event.enqueueWork {
+            registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
+        }
     }
 
     @SubscribeEvent
@@ -74,12 +80,5 @@ object StaffModClient {
         if (event.phase != TickEvent.Phase.END) return
 
         handleKeyBindings(MinecraftClient.getInstance())
-    }
-
-    @SubscribeEvent
-    fun modifyModelAfterBake(event: ModelEvent.ModifyBakingResult) {
-        val id = ModelIdentifier(MOD_ID, "staff", "inventory")
-
-        event.models[id] = StaffItemModel(event.models[id]!!)
     }
 }
