@@ -28,10 +28,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.util.approximateStaffTipPosition
-import opekope2.avm_staff.util.component1
-import opekope2.avm_staff.util.component2
-import opekope2.avm_staff.util.component3
+import opekope2.avm_staff.util.*
 
 class SnowBlockHandler : StaffItemHandler() {
     override val maxUseTime = 72000
@@ -56,6 +53,8 @@ class SnowBlockHandler : StaffItemHandler() {
     }
 
     private fun throwSnowball(world: World, user: LivingEntity) {
+        if (!user.canUseStaff) return
+
         world.playSound(
             user,
             user.blockPos,

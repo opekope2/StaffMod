@@ -85,6 +85,8 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
+        if (!user.canUseStaff) return
+
         val itemToSmelt = findItemToSmelt(user, world)
 
         if (world.isClient) {
