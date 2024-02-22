@@ -1,0 +1,102 @@
+/*
+ * AvM Staff Mod
+ * Copyright (c) 2024 opekope2
+ *
+ * This mod is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This mod is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this mod. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package opekope2.avm_staff.api.particle
+
+import net.minecraft.client.particle.AbstractSlowingParticle
+import net.minecraft.client.particle.ParticleFactory
+import net.minecraft.client.particle.ParticleManager
+import net.minecraft.client.particle.ParticleTextureSheet
+import net.minecraft.client.particle.SpriteProvider
+import net.minecraft.client.world.ClientWorld
+import net.minecraft.particle.DefaultParticleType
+import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.mixin.IParticleMixin
+
+/**
+ * Particle emitted by the campfire staff.
+ *
+ * @param world     The world the particle is in
+ * @param x         The X component of the particle's position
+ * @param y         The Y component of the particle's position
+ * @param y         The Z component of the particle's position
+ * @param velocityX The X component of the particle's velocity
+ * @param velocityY The Y component of the particle's velocity
+ * @param velocityZ The Z component of the particle's velocity
+ * @see FlamethrowerParticle.Factory
+ */
+class FlamethrowerParticle(
+    world: ClientWorld,
+    x: Double,
+    y: Double,
+    z: Double,
+    velocityX: Double,
+    velocityY: Double,
+    velocityZ: Double
+) : AbstractSlowingParticle(world, x, y, z, velocityX, velocityY, velocityZ) {
+    private var stopped = 0
+
+    init {
+        gravityStrength = 0f
+        velocityMultiplier = 1f
+    }
+
+    override fun getType(): ParticleTextureSheet = ParticleTextureSheet.PARTICLE_SHEET_OPAQUE
+
+    override fun move(dx: Double, dy: Double, dz: Double) {
+        val oldVX = velocityX
+        val oldVZ = velocityZ
+
+        super.move(dx, dy, dz)
+
+        @Suppress("CAST_NEVER_SUCCEEDS")
+        if ((this as IParticleMixin).isStopped || oldVX != velocityX || oldVZ != velocityZ) {
+            velocityX = 0.0
+            velocityY = 0.0
+            velocityZ = 0.0
+            stopped++
+        }
+
+        if (stopped == 1) {
+            maxAge -= (maxAge - age) / 2
+            stopped++
+        }
+    }
+
+    /**
+     * Factory class for [FlamethrowerParticle], intended to register in Minecraft instead of direct consumption.
+     *
+     * @param spriteProvider    Flame sprite provider
+     * @see IStaffMod.flamethrowerParticleType
+     * @see ParticleManager.addParticle
+     */
+    class Factory(private val spriteProvider: SpriteProvider) : ParticleFactory<DefaultParticleType> {
+        override fun createParticle(
+            parameters: DefaultParticleType,
+            world: ClientWorld,
+            x: Double,
+            y: Double,
+            z: Double,
+            velocityX: Double,
+            velocityY: Double,
+            velocityZ: Double
+        ) = FlamethrowerParticle(world, x, y, z, velocityX, velocityY, velocityZ).apply {
+            setSprite(spriteProvider)
+        }
+    }
+}

@@ -27,11 +27,14 @@ import net.minecraft.item.Items
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent
 import net.minecraftforge.common.MinecraftForge.EVENT_BUS
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.platform.forge.getStaffMod
@@ -67,6 +70,12 @@ object StaffModClient {
                 PARENT_AND_SEARCH_TABS
             )
         }
+    }
+
+    @SubscribeEvent
+    fun registerParticleProviders(event: RegisterParticleProvidersEvent) {
+        event.registerSpriteSet(IStaffMod.get().flamethrowerParticleType, FlamethrowerParticle::Factory)
+        event.registerSpriteSet(IStaffMod.get().soulFlamethrowerParticleType, FlamethrowerParticle::Factory)
     }
 
     @SubscribeEvent

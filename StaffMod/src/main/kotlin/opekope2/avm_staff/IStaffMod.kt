@@ -18,7 +18,9 @@
 
 package opekope2.avm_staff
 
+import net.minecraft.client.particle.ParticleManager
 import net.minecraft.item.Item
+import net.minecraft.particle.DefaultParticleType
 import net.minecraft.registry.tag.TagKey
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.platform.getStaffMod
@@ -43,6 +45,24 @@ interface IStaffMod {
      * Gets the [TagKey] containing all the staffs.
      */
     val staffsTag: TagKey<Item>
+
+    /**
+     * Gets the flamethrower's flame particle type.
+     *
+     * Due to how Forge registries work, *always* use this getter instead of storing the result.
+     *
+     * @see ParticleManager.addParticle
+     */
+    val flamethrowerParticleType: DefaultParticleType
+
+    /**
+     * Gets the soul fire flamethrower's flame particle type.
+     *
+     * Due to how Forge registries work, *always* use this getter instead of storing the result.
+     *
+     * @see ParticleManager.addParticle
+     */
+    val soulFlamethrowerParticleType: DefaultParticleType
 
     companion object Holder {
         /**

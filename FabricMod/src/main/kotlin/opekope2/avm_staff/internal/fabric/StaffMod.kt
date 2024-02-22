@@ -23,10 +23,12 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
+import net.minecraft.particle.DefaultParticleType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
@@ -55,6 +57,18 @@ object StaffMod : ModInitializer, IStaffMod {
         get() = FabricLoader.getInstance().environmentType == EnvType.CLIENT
 
     override val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "staffs"))
+
+    override val flamethrowerParticleType: DefaultParticleType = Registry.register(
+        Registries.PARTICLE_TYPE,
+        Identifier(MOD_ID, "flame"),
+        FabricParticleTypes.simple()
+    )
+
+    override val soulFlamethrowerParticleType: DefaultParticleType = Registry.register(
+        Registries.PARTICLE_TYPE,
+        Identifier(MOD_ID, "soul_fire_flame"),
+        FabricParticleTypes.simple()
+    )
 
     override fun onInitialize() {
         AttackBlockCallback.EVENT.register(::attackBlock)
