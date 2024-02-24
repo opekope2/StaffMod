@@ -9,10 +9,12 @@
   "client": [
     "BipedEntityModelMixin",
     "IMinecraftClientMixin",
+    "IParticleMixin",
     "MinecraftClientMixin"
   ],
   "mixins": [
     "IAbstractFurnaceBlockEntityMixin",
+    "IEntityMixin",
     "LivingEntityMixin",
     "TntEntityMixin"
   ]

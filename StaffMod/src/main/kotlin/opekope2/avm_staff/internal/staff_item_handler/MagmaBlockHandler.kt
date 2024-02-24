@@ -76,6 +76,8 @@ class MagmaBlockHandler : StaffItemHandler() {
     }
 
     private fun shootFireball(world: World, user: LivingEntity) {
+        if (!user.canUseStaff) return
+
         world.syncWorldEvent(user as? PlayerEntity, WorldEvents.BLAZE_SHOOTS, user.blockPos, 0)
 
         if (world.isClient) return

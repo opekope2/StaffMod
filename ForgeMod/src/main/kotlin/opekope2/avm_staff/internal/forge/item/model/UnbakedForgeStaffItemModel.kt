@@ -21,8 +21,8 @@ package opekope2.avm_staff.internal.forge.item.model
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.render.model.Baker
 import net.minecraft.client.render.model.ModelBakeSettings
+import net.minecraft.client.render.model.ModelLoader
 import net.minecraft.client.render.model.json.JsonUnbakedModel
-import net.minecraft.client.texture.MissingSprite
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.util.Identifier
@@ -44,7 +44,7 @@ class UnbakedForgeStaffItemModel(private val original: JsonUnbakedModel) : Unbak
         return BakedForgeStaffItemModel(
             original.bake(baker, original, textureGetter, rotationContainer, modelId, true) ?: return null,
             itemModels,
-            baker.bake(MissingSprite.getMissingSpriteId(), rotationContainer, textureGetter)!!
+            baker.bake(ModelLoader.MISSING_ID, rotationContainer, textureGetter)!!
         )
     }
 }

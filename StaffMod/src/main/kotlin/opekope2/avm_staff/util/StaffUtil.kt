@@ -24,7 +24,9 @@ import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.Registries
+import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.RaycastContext
 import opekope2.avm_staff.api.item.StaffItemHandler
 
 /**
@@ -103,3 +105,17 @@ val Entity.approximateStaffTipPosition: Vec3d
  */
 val Entity.approximateStaffItemPosition: Vec3d
     get() = eyePos + rotationVector * (STAFF_MODEL_ITEM_POSITION_CENTER * STAFF_MODEL_SCALE)
+
+/**
+ * Checks if the user has sufficient space in front to use the staff.
+ */
+val Entity.canUseStaff: Boolean
+    get() = world.raycast(
+        RaycastContext(
+            eyePos,
+            eyePos + rotationVector * STAFF_MODEL_LENGTH,
+            RaycastContext.ShapeType.OUTLINE,
+            RaycastContext.FluidHandling.NONE,
+            this
+        )
+    ).type == HitResult.Type.MISS

@@ -25,12 +25,15 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.render.model.UnbakedModel
 import net.minecraft.client.render.model.json.JsonUnbakedModel
 import net.minecraft.item.ItemGroups
 import net.minecraft.item.Items
+import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.fabric.item.model.UnbakedFabricStaffItemModel
@@ -53,6 +56,15 @@ object StaffModClient : ClientModInitializer {
         KeyBindingHelper.registerKeyBinding(ADD_REMOVE_KEYBINDING)
 
         ClientTickEvents.END_CLIENT_TICK.register(::handleKeyBindings)
+
+        ParticleFactoryRegistry.getInstance().register(
+            IStaffMod.get().flamethrowerParticleType,
+            FlamethrowerParticle::Factory
+        )
+        ParticleFactoryRegistry.getInstance().register(
+            IStaffMod.get().soulFlamethrowerParticleType,
+            FlamethrowerParticle::Factory
+        )
 
         registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
     }

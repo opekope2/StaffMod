@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.forge
 
 import net.minecraft.item.Item
+import net.minecraft.particle.DefaultParticleType
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
@@ -42,6 +43,16 @@ object StaffMod : IStaffMod {
 
     private val STAFF_ITEM = ITEMS.register("staff") { ForgeStaffItem(Item.Settings().maxCount(1)) }
 
+    private val PARTICLE_TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MOD_ID)
+
+    private val FLAMETHROWER_PARTICLE_TYPE = PARTICLE_TYPES.register("flame") {
+        DefaultParticleType(false)
+    }
+
+    private val SOUL_FLAMETHROWER_PARTICLE_TYPE = PARTICLE_TYPES.register("soul_fire_flame") {
+        DefaultParticleType(false)
+    }
+
     init {
         initialize()
         initializeNetworking()
@@ -57,7 +68,14 @@ object StaffMod : IStaffMod {
 
     override val staffsTag: TagKey<Item> = ItemTags.create(Identifier(MOD_ID, "staffs"))
 
+    override val flamethrowerParticleType: DefaultParticleType
+        get() = FLAMETHROWER_PARTICLE_TYPE.get()
+
+    override val soulFlamethrowerParticleType: DefaultParticleType
+        get() = SOUL_FLAMETHROWER_PARTICLE_TYPE.get()
+
     private fun initialize() {
         ITEMS.register(MOD_BUS)
+        PARTICLE_TYPES.register(MOD_BUS)
     }
 }
