@@ -60,6 +60,21 @@ When attacking an entity, the anvil has a 12% chance of being damaged. On each a
     If you have suggestions about bone block features or balancing,
     [join the discussion here](https://github.com/opekope2/StaffMod/discussions/7).
 
+### Campfire, soul campfire
+
+* **Right click (hold)**: Use it as a flamethrower. Every entity touching the flame will catch on fire. The longer they stand in fire, the longer they are going to burn for. When the flame reaches a block, it stops, and has a chance to cause fire (see table below).
+* **Right click (hold, while sneaking midair)**: Propel yourself backwards. Look down to fly up. Soul campfire can go faster than campfire. Sneak key is only required, when starting flight, it doesn't need to be held down to fly.
+
+Item          | Damage, when standing in fire | Inflicted burning time/tick     | Flame's fire causing chance/tick
+--------------|-------------------------------|---------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------
+Campfire      | 1 (💔) / 10 ticks \*          | +1 tick, when standing in fire  | 5% ([non-flammable](https://minecraft.wiki/w/Fire#Non-flammable_blocks)), 25% ([flammable](https://minecraft.wiki/w/Fire#Flammable_blocks))
+Soul campfire | 2 (❤️) / 10 ticks \*          | +2 ticks, when standing in fire | 10% ([non-flammable](https://minecraft.wiki/w/Fire#Non-flammable_blocks)), 50% ([flammable](https://minecraft.wiki/w/Fire#Flammable_blocks))
+
+\* Invincibility frame is 10 game ticks (0.5s)
+
+!!! experiment "Heads up"
+    If you have suggestions about campfires, [join the discussion here](https://github.com/opekope2/StaffMod/discussions/32).
+
 ### Furnace, blast furnace, smoker
 
 * **Attack Damage**: 5 (❤️❤️💔)
