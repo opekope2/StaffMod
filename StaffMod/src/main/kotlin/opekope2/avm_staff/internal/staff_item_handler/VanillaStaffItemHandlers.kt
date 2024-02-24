@@ -25,6 +25,7 @@ import net.minecraft.item.Items
 import net.minecraft.recipe.RecipeType
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvents
+import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
 import opekope2.avm_staff.api.item.model.UnbakedBlockStateModelSupplier
@@ -50,6 +51,21 @@ fun registerVanillaStaffItemHandlers() {
     Items.BELL.registerHandler(BellBlockHandler(), BellBlockHandler.modelSupplierFactory)
 
     Items.BONE_BLOCK.registerHandler(BoneBlockHandler(), BONE_BLOCK)
+
+    Items.CAMPFIRE.registerHandler(
+        CampfireHandler(
+            IStaffMod::flamethrowerParticleType,
+            CampfireHandler.Properties(1 / 20.0, 5 / 20.0, 1, 0.1)
+        ),
+        CAMPFIRE
+    )
+    Items.SOUL_CAMPFIRE.registerHandler(
+        CampfireHandler(
+            IStaffMod::soulFlamethrowerParticleType,
+            CampfireHandler.Properties(2 / 20.0, 10 / 20.0, 2, 0.12)
+        ),
+        SOUL_CAMPFIRE
+    )
 
     Items.FURNACE.registerHandler(
         FurnaceHandler(RecipeType.SMELTING, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE),
