@@ -18,13 +18,10 @@
 
 package opekope2.avm_staff.api.particle
 
-import net.minecraft.client.particle.AbstractSlowingParticle
-import net.minecraft.client.particle.ParticleFactory
-import net.minecraft.client.particle.ParticleManager
-import net.minecraft.client.particle.ParticleTextureSheet
-import net.minecraft.client.particle.SpriteProvider
+import net.minecraft.client.particle.*
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particle.DefaultParticleType
+import net.minecraft.util.math.BlockPos
 import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.mixin.IParticleMixin
 
@@ -51,9 +48,28 @@ class FlamethrowerParticle(
 ) : AbstractSlowingParticle(world, x, y, z, velocityX, velocityY, velocityZ) {
     private var stopped = 0
 
+    private val isSubmerged: Boolean
+        get() {
+            val blockPos = BlockPos.ofFloored(x, y, z)
+            val fluid = world.getFluidState(blockPos)
+            if (fluid.isEmpty) return false
+
+            val fluidShape = fluid.getShape(world, blockPos)
+
+            val rx = x - blockPos.x
+            val ry = y - blockPos.y
+            val rz = z - blockPos.z
+            // Check if source block, because the bounding box is shorter than 1 block, and some particles leak through
+            return fluid.isStill || fluidShape.boundingBoxes.any { it.contains(rx, ry, rz) }
+        }
+
     init {
         gravityStrength = 0f
         velocityMultiplier = 1f
+
+        if (isSubmerged) {
+            markDead()
+        }
     }
 
     override fun getType(): ParticleTextureSheet = ParticleTextureSheet.PARTICLE_SHEET_OPAQUE
@@ -63,6 +79,11 @@ class FlamethrowerParticle(
         val oldVZ = velocityZ
 
         super.move(dx, dy, dz)
+
+        if (isSubmerged) {
+            markDead()
+            return
+        }
 
         @Suppress("CAST_NEVER_SUCCEEDS")
         if ((this as IParticleMixin).isStopped || oldVX != velocityX || oldVZ != velocityZ) {
