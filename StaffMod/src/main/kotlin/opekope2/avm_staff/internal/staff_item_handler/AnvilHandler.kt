@@ -78,8 +78,6 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffIte
     }
 
     private companion object {
-        private val MOVEMENT_SPEED_MODIFIER_ID: UUID = UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750d")
-
         private val MAIN_HAND_ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
             attackDamage(40.0),
@@ -87,7 +85,7 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffIte
             equipTime(4.0),
             EntityAttributes.GENERIC_MOVEMENT_SPEED,
             EntityAttributeModifier(
-                MOVEMENT_SPEED_MODIFIER_ID,
+                UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750d"),
                 "Weapon modifier",
                 -1.0,
                 EntityAttributeModifier.Operation.MULTIPLY_TOTAL
@@ -97,7 +95,7 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffIte
         private val OFF_HAND_ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_MOVEMENT_SPEED,
             EntityAttributeModifier(
-                MOVEMENT_SPEED_MODIFIER_ID,
+                UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750e"),
                 "Weapon modifier",
                 -1.0,
                 EntityAttributeModifier.Operation.MULTIPLY_TOTAL
