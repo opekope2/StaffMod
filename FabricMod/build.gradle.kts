@@ -1,5 +1,5 @@
 plugins {
-    id("com.github.johnrengelman.shadow")
+    alias(libs.plugins.shadow)
 }
 
 evaluationDependsOn(":StaffMod")
@@ -29,16 +29,14 @@ repositories {
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
-    modImplementation("net.fabricmc", "fabric-loader", project.gradleProperty("fabric_loader_version"))
-    modImplementation("net.fabricmc.fabric-api", "fabric-api", project.gradleProperty("fabric_api_version"))
-    modApi("dev.architectury", "architectury-fabric", project.gradleProperty("architectury_api_version"))
+    modImplementation(libs.fabric.loader)
+    modImplementation(libs.fabric.api)
+    modApi(libs.architectury.fabric)
 
     common(project(":StaffMod", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(":StaffMod", configuration = "transformProductionFabric")) { isTransitive = false }
 
-    modImplementation(
-        "net.fabricmc", "fabric-language-kotlin", project.gradleProperty("fabric_language_kotlin_version")
-    )
+    modImplementation(libs.fabric.language.kotlin)
 }
 
 loom {
@@ -54,12 +52,12 @@ tasks {
         filesMatching("fabric.mod.json") {
             expand(
                 mutableMapOf(
-                    "version" to version,
-                    "fabric_api" to project.gradleProperty("fabric_api_version"),
-                    "fabric_language_kotlin" to project.gradleProperty("fabric_language_kotlin_version"),
-                    "architectury" to project.gradleProperty("architectury_api_version"),
-                    "minecraft" to project.gradleProperty("minecraft_version"),
-                    "java" to project.gradleProperty("java_version")
+                    "version" to version as String,
+                    "fabric_api" to libs.versions.fabric.api.get(),
+                    "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
+                    "architectury" to libs.versions.architectury.api.get(),
+                    "minecraft" to libs.versions.minecraft.get(),
+                    "java" to libs.versions.java.get()
                 )
             )
         }
@@ -77,7 +75,7 @@ tasks {
 
     remapJar {
         dependsOn(shadowJar)
-        inputFile.set(shadowJar.get().archiveFile)
+        inputFile = shadowJar.get().archiveFile
         injectAccessWidener = true
         archiveClassifier = null
 

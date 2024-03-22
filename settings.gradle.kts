@@ -6,12 +6,11 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    plugins {
-        kotlin("jvm") version System.getProperty("kotlin_version") apply false
-        id("dev.architectury.loom") version settings.extra["loom_version"] as String apply false
-        id("architectury-plugin") version settings.extra["architectury_plugin_version"] as String apply false
-        id("com.github.johnrengelman.shadow") version settings.extra["shadow_version"] as String apply false
-        id("org.jetbrains.dokka") version settings.extra["dokka_version"] as String apply false
+}
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        val libs by creating
     }
 }
 

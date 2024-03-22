@@ -1,14 +1,14 @@
 plugins {
     java
-    kotlin("jvm")
-    id("architectury-plugin")
-    id("dev.architectury.loom") apply false
-    id("com.github.johnrengelman.shadow") apply false
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.architectury)
+    alias(libs.plugins.architectury.loom) apply false
+    alias(libs.plugins.shadow) apply false
+    alias(libs.plugins.dokka)
 }
 
 architectury {
-    minecraft = rootProject.gradleProperty("minecraft_version")
+    minecraft = libs.versions.minecraft.get()
 }
 
 repositories {
@@ -17,7 +17,7 @@ repositories {
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.dokka", "dokka-base", project.gradleProperty("dokka_version"))
+        classpath(libs.dokka.base)
     }
 }
 
@@ -25,8 +25,8 @@ subprojects {
     apply(plugin = "dev.architectury.loom")
 
     dependencies {
-        "minecraft"("com.mojang", "minecraft", project.gradleProperty("minecraft_version"))
-        "mappings"("net.fabricmc", "yarn", project.gradleProperty("yarn_mappings"), classifier = "v2")
+        "minecraft"(rootProject.libs.minecraft)
+        "mappings"(variantOf(rootProject.libs.yarn) { classifier("v2") })
     }
 }
 
@@ -35,15 +35,15 @@ allprojects {
     apply(plugin = "kotlin")
     apply(plugin = "architectury-plugin")
 
-    val javaVersion = JavaVersion.toVersion(project.gradleProperty("java_version").toInt())
+    val javaVersion = rootProject.libs.versions.java.get()
 
     base {
-        archivesName = rootProject.gradleProperty("archives_name")
+        archivesName = "staff-mod"
     }
 
-    val suffix = if (hasGradleProperty("loom.platform")) "+${gradleProperty("loom.platform")}" else ""
-    version = rootProject.gradleProperty("mod_version") + suffix
-    group = rootProject.gradleProperty("maven_group")
+    val suffix = if (extra.has("loom.platform")) "+${extra["loom.platform"]}" else ""
+    version = rootProject.libs.versions.staff.mod.get() + suffix
+    group = "opekope2.avm_staff"
 
     repositories {
         // Add repositories to retrieve artifacts from in here.
@@ -54,26 +54,26 @@ allprojects {
     }
 
     dependencies {
-        compileOnly("org.jetbrains.kotlin", "kotlin-stdlib", System.getProperty("kotlin_version") as String)
+        compileOnly(rootProject.libs.kotlin.stdlib)
     }
 
     kotlin.target.compilations.all {
-        kotlinOptions.jvmTarget = javaVersion.toString()
+        kotlinOptions.jvmTarget = javaVersion
     }
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion.toString()
-        targetCompatibility = javaVersion.toString()
-        options.release = javaVersion.toString().toInt()
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+        options.release = javaVersion.toInt()
     }
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(javaVersion.toString())
+            languageVersion = JavaLanguageVersion.of(javaVersion)
         }
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
+        sourceCompatibility = JavaVersion.toVersion(javaVersion)
+        targetCompatibility = JavaVersion.toVersion(javaVersion)
         withSourcesJar()
     }
 }
