@@ -1,0 +1,55 @@
+name: Report a bug
+description: Open an issue about Staff Mod behaving differently then described in the documentation
+title: "[BUG] <title>"
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please search existing issues to see if the bug you encountered has already been reported.
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: Describe what would be the correct behavior
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual Behavior
+      description: Describe what actually happened
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: Describe what is the current behavior, and how to reproduce it
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Loader and its version
+      description: Enter the loader and its version you are using
+      placeholder: ex. Fabric loader 0.14.21
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Staff Mod version
+      description: Enter the version of Staff Mod you are using
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Behavior difference
+      description: Which of these does Staff Mod work differently from?
+      options:
+        - label: Staff Mod documentation
+        - label: Something you logically expect from Staff Mod
+        - label: Doesn't work at all
+  - type: textarea
+    attributes:
+      label: Anything else
+      description: Any additional information should be written here (optional)
+    validations:
+      required: false
