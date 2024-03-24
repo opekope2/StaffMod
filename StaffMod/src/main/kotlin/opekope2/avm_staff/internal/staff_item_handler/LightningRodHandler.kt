@@ -31,6 +31,7 @@ import net.minecraft.client.texture.Sprite
 import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -42,6 +43,7 @@ import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.model.IStaffItemBakedModel
 import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
 import opekope2.avm_staff.api.item.model.StaffItemBakedModel
+import opekope2.avm_staff.util.isItemCoolingDown
 import opekope2.avm_staff.util.transform
 import org.joml.Vector3f
 import java.util.function.Function
@@ -58,6 +60,8 @@ class LightningRodHandler : StaffItemHandler() {
     ): ActionResult {
         if (!EntityType.LIGHTNING_BOLT.isEnabled(world.enabledFeatures)) return ActionResult.FAIL
 
+        if (user is PlayerEntity && user.isItemCoolingDown(staffStack.item)) return ActionResult.FAIL
+
         val thunder = world.isThundering
         val lightningPos = target.offset(side)
         val skylit = world.isSkyVisible(lightningPos)
@@ -73,6 +77,8 @@ class LightningRodHandler : StaffItemHandler() {
         val lightning = EntityType.LIGHTNING_BOLT.create(world) ?: return ActionResult.FAIL
         lightning.refreshPositionAfterTeleport(lightningPos.toCenterPos())
         world.spawnEntity(lightning)
+
+        (user as? PlayerEntity)?.itemCooldownManager?.set(staffStack.item, 4 * 20)
 
         return ActionResult.SUCCESS
     }

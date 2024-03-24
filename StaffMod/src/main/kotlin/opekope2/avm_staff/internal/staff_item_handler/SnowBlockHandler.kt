@@ -49,11 +49,14 @@ class SnowBlockHandler : StaffItemHandler() {
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
         throwSnowball(world, attacker)
+        (attacker as? PlayerEntity)?.resetLastAttackedTicks()
         return ActionResult.SUCCESS
     }
 
     private fun throwSnowball(world: World, user: LivingEntity) {
         if (!user.canUseStaff) return
+
+        if (user is PlayerEntity && user.isAttackCoolingDown) return
 
         world.playSound(
             user,

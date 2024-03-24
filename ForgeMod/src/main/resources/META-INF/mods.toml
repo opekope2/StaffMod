@@ -13,7 +13,7 @@ Staff from Animation vs Minecraft Shorts
 '''
 logoFile = "assets/avm_staff/icon.png"
 features = { java_version = "[$java,)" }
-displayURL = "https://opekope2.github.io/StaffMod"
+displayURL = "https://opekope2.dev/StaffMod"
 
 [[dependencies.avm_staff]]
 modId = "forge"

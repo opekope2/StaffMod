@@ -16,9 +16,22 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.extra
+@file: JvmName("CooldownUtil")
 
-fun Project.hasGradleProperty(name: String) = extra.has(name)
+package opekope2.avm_staff.util
 
-fun Project.gradleProperty(name: String) = extra[name].toString()
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
+
+/**
+ * Checks if the given item is on cooldown and cannot be used.
+ *
+ * @param item  The item to check for cooldown
+ */
+fun PlayerEntity.isItemCoolingDown(item: Item) = itemCooldownManager.isCoolingDown(item)
+
+/**
+ * Checks if the player's attack is on cooldown.
+ */
+val PlayerEntity.isAttackCoolingDown: Boolean
+    get() = getAttackCooldownProgress(0f) < 1f

@@ -1,0 +1,41 @@
+[versions]
+java = "17" # Don't forget to update *.mixins.json
+kotlin = "1.8.22"
+staff-mod = "0.13.1-beta"
+architectury-plugin = "3.4-SNAPSHOT"
+architectury-loom = "1.5-SNAPSHOT"
+yarn = "1.20.4+build.3"
+shadow = "8.1.1"
+minecraft = "1.20.4"
+architectury-api = "11.0.11"
+fabric-loader = "0.15.3"
+forge = "1.20.4-49.0.27"
+fabric-api = "0.91.3+1.20.4"
+fabric-language-kotlin = "1.10.18+kotlin.1.9.22"
+kotlinforforge = "4.10.0"
+mixin-extras = "0.3.5"
+dokka = "1.9.20"
+
+[libraries]
+minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
+yarn = { group = "net.fabricmc", name = "yarn", version.ref = "yarn" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+architectury = { group = "dev.architectury", name = "architectury", version.ref = "architectury-api" }
+architectury-fabric = { group = "dev.architectury", name = "architectury-fabric", version.ref = "architectury-api" }
+architectury-forge = { group = "dev.architectury", name = "architectury-forge", version.ref = "architectury-api" }
+fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
+fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
+fabric-language-kotlin = { group = "net.fabricmc", name = "fabric-language-kotlin", version.ref = "fabric-language-kotlin" }
+forge = { group = "net.minecraftforge", name = "forge", version.ref = "forge" }
+kotlinforforge = { group = "thedarkcolour", name = "kotlinforforge", version.ref = "kotlinforforge" }
+mixinextras-common = { group = "io.github.llamalad7", name = "mixinextras-common", version.ref = "mixin-extras" }
+mixinextras-forge = { group = "io.github.llamalad7", name = "mixinextras-forge", version.ref = "mixin-extras" }
+dokka-base = { group = "org.jetbrains.dokka", name = "dokka-base", version.ref = "dokka" }
+dokka-plugin-java-syntax = { group = "org.jetbrains.dokka", name = "kotlin-as-java-plugin", version.ref = "dokka" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+architectury = { id = "architectury-plugin", version.ref = "architectury-plugin" }
+architectury-loom = { id = "dev.architectury.loom", version.ref = "architectury-loom" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
