@@ -49,9 +49,9 @@ jobs:
           file: gradle/libs.versions.toml
           field: versions.staff-mod
       - name: Ensure git tag and mod version match
-        if: steps.load-mod-version.outputs.value != github.ref
+        if: steps.load-mod-version.outputs.value != github.ref_name
         run: |
-          echo "git tag '$GITHUB_REF' doesn't match mod version '${{ steps.load-mod-version.outputs.value }}'"
+          echo "git tag '$GITHUB_REF_NAME' doesn't match mod version '${{ steps.load-mod-version.outputs.value }}'"
           exit 1
       - name: Publish Fabric mod to Modrinth and CurseForge
         uses: Kir-Antipov/mc-publish@v3.3.0
@@ -64,6 +64,7 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           name: Staff Mod ${{ github.ref_name }} for Fabric
+          version: ${{ github.ref_name }}+fabric
           files: |
             dist/fabric/!(*-@(dev|dev-shadow|sources|javadoc)).jar
             dist/fabric/*-@(dev|dev-shadow|sources|javadoc).jar
@@ -81,6 +82,7 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           name: Staff Mod ${{ github.ref_name }} for Forge
+          version: ${{ github.ref_name }}+forge
           files: |
             dist/forge/!(*-@(dev|dev-shadow|sources|javadoc)).jar
             dist/forge/*-@(dev|dev-shadow|sources|javadoc).jar
