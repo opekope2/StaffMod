@@ -58,6 +58,7 @@ class MagmaBlockHandler : StaffItemHandler() {
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
         shootFireball(world, attacker)
+        (attacker as? PlayerEntity)?.resetLastAttackedTicks()
         return ActionResult.SUCCESS
     }
 
@@ -77,6 +78,8 @@ class MagmaBlockHandler : StaffItemHandler() {
 
     private fun shootFireball(world: World, user: LivingEntity) {
         if (!user.canUseStaff) return
+
+        if (user is PlayerEntity && user.isAttackCoolingDown) return
 
         world.syncWorldEvent(user as? PlayerEntity, WorldEvents.BLAZE_SHOOTS, user.blockPos, 0)
 

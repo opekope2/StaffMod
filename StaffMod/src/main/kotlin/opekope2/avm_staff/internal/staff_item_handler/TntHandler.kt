@@ -20,6 +20,7 @@ package opekope2.avm_staff.internal.staff_item_handler
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.TntEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -33,7 +34,15 @@ import opekope2.avm_staff.util.*
 
 class TntHandler : StaffItemHandler() {
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
+        return shootTnt(world, attacker).also {
+            (attacker as? PlayerEntity)?.resetLastAttackedTicks()
+        }
+    }
+
+    private fun shootTnt(world: World, attacker: LivingEntity): ActionResult {
         if (world.isClient) return ActionResult.SUCCESS
+
+        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return ActionResult.FAIL
 
         val (x, y, z) = attacker.approximateStaffTipPosition
         world.spawnEntity(
