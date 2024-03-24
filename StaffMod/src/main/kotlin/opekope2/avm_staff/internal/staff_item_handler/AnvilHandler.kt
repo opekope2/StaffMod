@@ -50,7 +50,7 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffIte
         if (world.isClient) return ActionResult.PASS
 
         var broke = false
-        if ((attacker as? PlayerEntity)?.abilities?.creativeMode != true && attacker.random.nextFloat() < 0.12F) {
+        if (attacker is PlayerEntity && !attacker.abilities.creativeMode && attacker.random.nextFloat() < 0.12F) {
             val damagedStack = damagedStackFactory()
             staffStack.itemInStaff = damagedStack
             broke = damagedStack == null
