@@ -1,0 +1,14 @@
+.md-typeset .admonition.experiment,
+.md-typeset details.experiment {
+    border-color: #00bfa5;
+}
+.md-typeset .experiment > .admonition-title,
+.md-typeset .experiment > summary {
+    background-color: #00bfa51a;
+}
+.md-typeset .experiment > .admonition-title::before,
+.md-typeset .experiment > summary::before {
+    background-color: #00bfa5;
+    -webkit-mask-image: var(--md-admonition-icon--experiment);
+    mask-image: var(--md-admonition-icon--experiment);
+}
