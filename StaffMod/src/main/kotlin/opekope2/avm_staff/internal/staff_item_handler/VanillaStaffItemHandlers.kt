@@ -88,6 +88,11 @@ fun registerVanillaStaffItemHandlers() {
 
     Items.TNT.registerHandler(TntHandler(), TNT)
 
+    Items.WITHER_SKELETON_SKULL.registerHandler(
+        WitherSkeletonSkullHandler(),
+        WitherSkeletonSkullHandler.modelSupplierFactory
+    )
+
     Items.WHITE_WOOL.registerHandler(WoolHandler(WHITE_WOOL, WHITE_CARPET), WHITE_WOOL)
     Items.ORANGE_WOOL.registerHandler(WoolHandler(ORANGE_WOOL, ORANGE_CARPET), ORANGE_WOOL)
     Items.MAGENTA_WOOL.registerHandler(WoolHandler(MAGENTA_WOOL, MAGENTA_CARPET), MAGENTA_WOOL)
