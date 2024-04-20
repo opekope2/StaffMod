@@ -129,6 +129,15 @@ Soul campfire | 2 (❤️) / 10 ticks \*          | +2 ticks, when standing in f
     There are more features of the TNT to discuss, like manually triggering an explosion. If you have suggestions about TNT features or balancing,
     [join the discussion here](https://github.com/opekope2/StaffMod/discussions/25).
 
+### Wither Skeleton Skull
+
+* **Left click**: Shoot a black wither skull
+* **Right click (hold)**: Shoot wither skulls up to 1 second, with 10% chance for being a blue skull.
+
+!!! experiment "Heads up"
+    If you'd like to tell your opinion about wither skeleton skull staff,
+    [join the discussion here](https://github.com/opekope2/StaffMod/discussions/36).
+
 ### Wool (any color)
 
 * **Attack Damage**: 2 (❤️)
