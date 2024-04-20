@@ -67,19 +67,19 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         if ((remainingUseTicks and 1) == 0) {
-            shootSkull(world, user)
+            shootSkull(world, user, Math.random() < 0.1f) // TODO ratio
         }
     }
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
         if (attacker is PlayerEntity && attacker.itemCooldownManager.isCoolingDown(staffStack.item)) return ActionResult.FAIL
 
-        shootSkull(world, attacker)
+        shootSkull(world, attacker, false)
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
         return ActionResult.SUCCESS
     }
 
-    private fun shootSkull(world: World, user: LivingEntity) {
+    private fun shootSkull(world: World, user: LivingEntity, charged: Boolean) {
         if (!user.canUseStaff) return
         if (user is PlayerEntity && user.isAttackCoolingDown) return
 
@@ -89,7 +89,7 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
 
         val (x, y, z) = user.rotationVector
         world.spawnEntity(WitherSkullEntity(world, user, x, y, z).apply {
-            isCharged = Math.random() < 0.1f // TODO ratio
+            isCharged = charged
             setPosition(user.approximateStaffTipPosition)
         })
     }
