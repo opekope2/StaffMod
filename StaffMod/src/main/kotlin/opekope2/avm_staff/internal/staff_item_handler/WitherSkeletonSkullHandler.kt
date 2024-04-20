@@ -89,7 +89,7 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
 
         val (x, y, z) = user.rotationVector
         world.spawnEntity(WitherSkullEntity(world, user, x, y, z).apply {
-            isCharged = Math.random() < 0.001f
+            isCharged = Math.random() < 0.1f // TODO ratio
             setPosition(user.approximateStaffTipPosition)
         })
     }
