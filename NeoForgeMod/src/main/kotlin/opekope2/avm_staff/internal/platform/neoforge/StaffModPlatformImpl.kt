@@ -16,15 +16,11 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("ItemFactoryPlatform")
+@file: JvmName("StaffModPlatformImpl")
 
-package opekope2.avm_staff.internal.platform
+package opekope2.avm_staff.internal.platform.neoforge
 
-import dev.architectury.injectables.annotations.ExpectPlatform
-import net.minecraft.item.Item.Settings
-import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.internal.neoforge.StaffMod
 
-@ExpectPlatform
-fun createStaffItem(@Suppress("UNUSED_PARAMETER") settings: Settings): StaffItem {
-    throw AssertionError()
-}
+fun getStaffMod(): IStaffMod = StaffMod

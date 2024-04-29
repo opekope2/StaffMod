@@ -6,7 +6,7 @@ evaluationDependsOn(":StaffMod")
 
 architectury {
     platformSetupLoomIde()
-    fabric()
+    neoForge()
 }
 
 val common: Configuration by configurations.creating {
@@ -19,7 +19,7 @@ val compileClasspath: Configuration by configurations.getting {
 val runtimeClasspath: Configuration by configurations.getting {
     extendsFrom(common)
 }
-val developmentFabric: Configuration by configurations.getting {
+val developmentNeoForge: Configuration by configurations.getting {
     extendsFrom(common)
 }
 // Files in this configuration will be bundled into your mod using the Shadow plugin.
@@ -30,19 +30,21 @@ val shadowBundle: Configuration by configurations.creating {
 }
 
 repositories {
+    maven("https://maven.neoforged.net/releases") { name = "NeoForged" }
+    maven("https://thedarkcolour.github.io/KotlinForForge/") { name = "Kotlin for Forge" }
 }
 
 dependencies {
-    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
-    // Do NOT use other classes from fabric loader
-    modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.api)
-    modApi(libs.architectury.fabric)
+    neoForge(libs.neoforge)
+    modApi(libs.architectury.neoforge)
+
+    compileOnly(libs.mixinextras.common)
+    annotationProcessor(libs.mixinextras.common)
 
     common(project(":StaffMod", configuration = "namedElements")) { isTransitive = false }
-    shadowBundle(project(":StaffMod", configuration = "transformProductionFabric")) { isTransitive = false }
+    shadowBundle(project(":StaffMod", configuration = "transformProductionNeoForge")) { isTransitive = false }
 
-    modImplementation(libs.fabric.language.kotlin)
+    implementation(libs.kotlinforforge.neoforge)
 }
 
 loom {
@@ -55,12 +57,12 @@ tasks {
     }
 
     processResources {
-        filesMatching("fabric.mod.json") {
+        filesMatching("META-INF/mods.toml") {
             expand(
                 mutableMapOf(
                     "version" to version as String,
-                    "fabric_api" to libs.versions.fabric.api.get(),
-                    "fabric_language_kotlin" to libs.versions.fabric.language.kotlin.get(),
+                    "neoforge" to libs.versions.neoforge.get(),
+                    "kotlin_for_forge" to libs.versions.kotlinforforge.get(),
                     "architectury" to libs.versions.architectury.api.get(),
                     "minecraft" to libs.versions.minecraft.get(),
                     "java" to libs.versions.java.get()
@@ -70,6 +72,7 @@ tasks {
     }
 
     shadowJar {
+        exclude("fabric.mod.json")
         exclude("architectury.common.json")
 
         configurations = listOf(shadowBundle)
@@ -77,6 +80,7 @@ tasks {
 
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))
+        from(projectDir.resolve("Fabric.license"))
     }
 
     remapJar {
@@ -87,6 +91,7 @@ tasks {
 
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))
+        from(projectDir.resolve("Fabric.license"))
     }
 
     sourcesJar {
