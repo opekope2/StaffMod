@@ -1,0 +1,56 @@
+modLoader = "kotlinforforge"
+loaderVersion = "[$kotlin_for_forge,)"
+issueTrackerURL = "https://github.com/opekope2/StaffMod/issues"
+license = "LGPL-3.0-or-later"
+
+[[mods]]
+modId = "avm_staff"
+version = "$version"
+displayName = "Staff Mod (AvM Shorts)"
+authors = "opekope2"
+description = '''
+Staff from Animation vs Minecraft Shorts
+'''
+logoFile = "assets/avm_staff/icon.png"
+features = { java_version = "[$java,)" }
+displayURL = "https://opekope2.dev/StaffMod"
+
+[[mixins]]
+config = "avm_staff.mixins.json"
+
+[[mixins]]
+config = "avm_staff_neoforge.mixins.json"
+
+[[dependencies.avm_staff]]
+modId = "neoforge"
+type = "required"
+versionRange = "[$neoforge,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.avm_staff]]
+modId = "minecraft"
+type = "required"
+versionRange = "[$minecraft,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.avm_staff]]
+modId = "kotlinforforge"
+type = "required"
+versionRange = "[$kotlin_for_forge,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.avm_staff]]
+modId = "architectury"
+type = "required"
+versionRange = "[$architectury,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[mc-publish]
+dependencies = [
+    "architectury-api@$architectury",
+    "kotlin-for-forge@$kotlin_for_forge"
+]
