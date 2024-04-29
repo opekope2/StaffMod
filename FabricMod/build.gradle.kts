@@ -9,18 +9,24 @@ architectury {
     fabric()
 }
 
-val common: Configuration by configurations.creating
-val shadowCommon: Configuration by configurations.creating // Don't use shadow from the shadow plugin since it *excludes* files.
-val developmentFabric: Configuration by configurations.getting
-
-configurations {
-    compileClasspath.configure {
-        extendsFrom(common)
-    }
-    runtimeClasspath.configure {
-        extendsFrom(common)
-    }
-    developmentFabric.extendsFrom(common)
+val common: Configuration by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+val compileClasspath: Configuration by configurations.getting {
+    extendsFrom(common)
+}
+val runtimeClasspath: Configuration by configurations.getting {
+    extendsFrom(common)
+}
+val developmentFabric: Configuration by configurations.getting {
+    extendsFrom(common)
+}
+// Files in this configuration will be bundled into your mod using the Shadow plugin.
+// Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
+val shadowBundle: Configuration by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = false
 }
 
 repositories {
@@ -34,7 +40,7 @@ dependencies {
     modApi(libs.architectury.fabric)
 
     common(project(":StaffMod", configuration = "namedElements")) { isTransitive = false }
-    shadowCommon(project(":StaffMod", configuration = "transformProductionFabric")) { isTransitive = false }
+    shadowBundle(project(":StaffMod", configuration = "transformProductionFabric")) { isTransitive = false }
 
     modImplementation(libs.fabric.language.kotlin)
 }
@@ -66,7 +72,7 @@ tasks {
     shadowJar {
         exclude("architectury.common.json")
 
-        configurations = listOf(shadowCommon)
+        configurations = listOf(shadowBundle)
         archiveClassifier = "dev-shadow"
 
         from(rootDir.resolve("COPYING"))
