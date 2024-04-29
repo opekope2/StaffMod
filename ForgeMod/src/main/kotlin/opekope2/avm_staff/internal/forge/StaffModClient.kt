@@ -28,7 +28,6 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
-import net.minecraftforge.common.MinecraftForge.EVENT_BUS
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -39,13 +38,14 @@ import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.platform.forge.getStaffMod
 import opekope2.avm_staff.internal.registerModelPredicateProviders
+import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @OnlyIn(Dist.CLIENT)
 object StaffModClient {
     fun initializeClient() {
         MOD_BUS.register(this)
-        EVENT_BUS.register(javaClass)
+        FORGE_BUS.register(javaClass)
     }
 
     @SubscribeEvent
