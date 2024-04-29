@@ -81,10 +81,10 @@ private fun findStaffStackAndItemSlot(player: PlayerEntity): Pair<ItemStack, Int
     val offStack = player.offHandStack
 
     return when {
-        mainStack.isOf(staffMod.staffItem) && !offStack.isOf(staffMod.staffItem) ->
+        mainStack.isIn(staffMod.staffsTag) && !offStack.isIn(staffMod.staffsTag) ->
             mainStack to PlayerInventory.OFF_HAND_SLOT
 
-        offStack.isOf(staffMod.staffItem) && !mainStack.isOf(staffMod.staffItem) ->
+        offStack.isIn(staffMod.staffsTag) && !mainStack.isIn(staffMod.staffsTag) ->
             offStack to player.inventory.selectedSlot
 
         else -> null
@@ -96,8 +96,8 @@ private fun findStaffAndItemStack(player: PlayerEntity): Pair<ItemStack, ItemSta
     val offStack = player.offHandStack
 
     return when {
-        mainStack.isOf(staffMod.staffItem) && !offStack.isOf(staffMod.staffItem) -> mainStack to offStack
-        offStack.isOf(staffMod.staffItem) && !mainStack.isOf(staffMod.staffItem) -> offStack to mainStack
+        mainStack.isIn(staffMod.staffsTag) && !offStack.isIn(staffMod.staffsTag) -> mainStack to offStack
+        offStack.isIn(staffMod.staffsTag) && !mainStack.isIn(staffMod.staffsTag) -> offStack to mainStack
         else -> null
     }
 }
