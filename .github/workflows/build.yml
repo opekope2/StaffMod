@@ -82,6 +82,14 @@ jobs:
           path: |
             FabricMod/build/libs/*.jar
           if-no-files-found: error
+      - name: Upload NeoForge jars
+        if: inputs.build-project && inputs.upload-output
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: neoforge-jars
+          path: |
+            NeoForgeMod/build/libs/*.jar
+          if-no-files-found: error
       - name: Upload Forge jars
         if: inputs.build-project && inputs.upload-output
         uses: actions/upload-artifact@v4.3.1

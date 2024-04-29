@@ -27,6 +27,11 @@ jobs:
         with:
           name: fabric-jars
           path: dist/fabric
+      - name: Download NeoForge jars
+        uses: actions/download-artifact@v4.1.4
+        with:
+          name: neoforge-jars
+          path: dist/neoforge
       - name: Download Forge jars
         uses: actions/download-artifact@v4.1.4
         with:
@@ -71,6 +76,24 @@ jobs:
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
           java: ${{ steps.load-java-version.outputs.value }}
+      - name: Publish NeoForge mod to Modrinth and CurseForge
+        uses: Kir-Antipov/mc-publish@v3.3.0
+        with:
+          modrinth-id: ${{ vars.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-featured: false
+
+          curseforge-id: ${{ vars.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          name: Staff Mod ${{ github.ref_name }} for NeoForge
+          version: ${{ github.ref_name }}+neoforge
+          files: |
+            dist/neoforge/!(*-@(dev|dev-shadow|sources|javadoc)).jar
+            dist/neoforge/*-@(dev|dev-shadow|sources|javadoc).jar
+          changelog-file: CHANGELOG.g.md
+          game-version-filter: releases
+          java: ${{ steps.load-java-version.outputs.value }}
       - name: Publish Forge mod to Modrinth and CurseForge
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
@@ -89,7 +112,7 @@ jobs:
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
           java: ${{ steps.load-java-version.outputs.value }}
-      - name: Publish Fabric and Forge mod to GitHub
+      - name: Publish mods to GitHub
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -98,6 +121,8 @@ jobs:
           files: |
             dist/fabric/!(*-@(dev|sources|javadoc)).jar
             dist/fabric/*-@(dev|sources|javadoc).jar
+            dist/neoforge/!(*-@(dev|sources|javadoc)).jar
+            dist/neoforge/*-@(dev|sources|javadoc).jar
             dist/forge/!(*-@(dev|sources|javadoc)).jar
             dist/forge/*-@(dev|sources|javadoc).jar
           changelog-file: CHANGELOG.g.md
@@ -106,6 +131,7 @@ jobs:
         with:
           name: |
             fabric-jars
+            neoforge-jars
             forge-jars
           useGlob: false
           failOnError: false
