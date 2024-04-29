@@ -52,6 +52,12 @@ loom {
         mixinConfig("avm_staff.mixins.json")
         mixinConfig("avm_staff_forge.mixins.json")
     }
+
+    mods {
+        val avm_staff by registering {
+            sourceSet("main")
+        }
+    }
 }
 
 tasks {
@@ -111,12 +117,4 @@ components {
             skip()
         }
     }
-}
-
-// FIXME A random code I copied from Architectury Discord, because Forge has skill issue. They said that this is a bad practice. I am no gradle expert. IDEA complains about duplicate content root. Adapted to Kotlin.
-sourceSets.forEach {
-    val dir = layout.buildDirectory.dir("sourceSets/${it.name}")
-    it.resources.srcDir(dir)
-    it.java.srcDir(dir)
-    it.kotlin.srcDir(dir)
 }
