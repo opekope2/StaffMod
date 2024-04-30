@@ -41,7 +41,7 @@ fun attackBlock(
     direction: Direction
 ): ActionResult {
     val staffStack = player.getStackInHand(hand)
-    if (!staffStack.isOf(staffMod.staffItem)) return ActionResult.PASS
+    if (!staffStack.isIn(staffMod.staffsTag)) return ActionResult.PASS
 
     val itemInStaff = staffStack.itemInStaff ?: return ActionResult.PASS
     val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS
@@ -51,7 +51,7 @@ fun attackBlock(
 
 fun attackEntity(player: PlayerEntity, world: World, hand: Hand, target: Entity): ActionResult {
     val itemStack = player.getStackInHand(hand)
-    if (!itemStack.isOf(staffMod.staffItem)) return ActionResult.PASS
+    if (!itemStack.isIn(staffMod.staffsTag)) return ActionResult.PASS
 
     val itemInStaff = itemStack.itemInStaff ?: return ActionResult.PASS
     val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS
@@ -60,7 +60,7 @@ fun attackEntity(player: PlayerEntity, world: World, hand: Hand, target: Entity)
 }
 
 fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
-    if (!staffStack.isOf(staffMod.staffItem)) return ActionResult.PASS
+    if (!staffStack.isIn(staffMod.staffsTag)) return ActionResult.PASS
 
     val itemInStaff: ItemStack = staffStack.itemInStaff ?: return ActionResult.PASS
     val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS

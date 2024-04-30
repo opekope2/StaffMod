@@ -38,7 +38,7 @@ public abstract class LivingEntityMixin {
     @Inject(method = "disablesShield", at = @At("HEAD"), cancellable = true)
     public void disableShield(CallbackInfoReturnable<Boolean> cir) {
         ItemStack mainHandStack = getMainHandStack();
-        if (!mainHandStack.isOf(IStaffMod.get().getStaffItem())) return;
+        if (!mainHandStack.isIn(IStaffMod.get().getStaffsTag())) return;
 
         ItemStack itemInStaff = StaffUtil.getItemInStaff(mainHandStack);
         if (itemInStaff == null) return;
