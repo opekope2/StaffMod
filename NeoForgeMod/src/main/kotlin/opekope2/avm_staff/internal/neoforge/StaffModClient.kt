@@ -36,7 +36,6 @@ import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
-import opekope2.avm_staff.internal.platform.neoforge.getStaffMod
 import opekope2.avm_staff.internal.registerModelPredicateProviders
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
@@ -60,13 +59,13 @@ object StaffModClient {
         if (event.tabKey === ItemGroups.TOOLS) {
             event.entries.putAfter(
                 ItemStack(Items.NETHERITE_HOE),
-                ItemStack(getStaffMod().staffItem),
+                ItemStack(StaffMod.staffItem),
                 PARENT_AND_SEARCH_TABS
             )
         } else if (event.tabKey === ItemGroups.COMBAT) {
             event.entries.putAfter(
                 ItemStack(Items.TRIDENT),
-                ItemStack(getStaffMod().staffItem),
+                ItemStack(StaffMod.staffItem),
                 PARENT_AND_SEARCH_TABS
             )
         }
