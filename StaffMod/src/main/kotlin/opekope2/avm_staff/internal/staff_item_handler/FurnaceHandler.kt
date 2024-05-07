@@ -60,7 +60,6 @@ import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityMixin
 import opekope2.avm_staff.util.*
 import java.util.function.Function
-import java.util.function.Supplier
 import kotlin.jvm.optionals.getOrNull
 
 class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
@@ -184,8 +183,13 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     @Environment(EnvType.CLIENT)
-    private class FurnaceUnbakedModel(private val unlitState: BlockState, private val litState: BlockState) :
+    class FurnaceUnbakedModel(private val unlitState: BlockState, private val litState: BlockState) :
         IStaffItemUnbakedModel {
+        constructor(furnaceBlock: Block) : this(
+            furnaceBlock.defaultState,
+            furnaceBlock.defaultState.with(AbstractFurnaceBlock.LIT, true)
+        )
+
         private val litStateId = BlockModels.getModelId(litState)
         private val unlitStateId = BlockModels.getModelId(unlitState)
         private val dependencies = setOf(litStateId, unlitStateId)
@@ -243,14 +247,5 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(2.0)
         )
-
-        fun getModelSupplierFactory(furnaceBlock: Block): Supplier<Supplier<out IStaffItemUnbakedModel>> = Supplier {
-            Supplier {
-                FurnaceUnbakedModel(
-                    furnaceBlock.defaultState,
-                    furnaceBlock.defaultState.with(AbstractFurnaceBlock.LIT, true)
-                )
-            }
-        }
     }
 }

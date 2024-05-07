@@ -41,7 +41,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
@@ -418,34 +417,43 @@ abstract class StaffItemHandler {
 
         private val staffItemsHandlers = mutableMapOf<Identifier, StaffItemHandler>()
 
+        @Environment(EnvType.CLIENT)
         private val staffItemModelProviders = mutableMapOf<Identifier, Supplier<out IStaffItemUnbakedModel>>()
-            @Suppress("RedundantGetter") // Force generate getter to annotate
-            @Environment(EnvType.CLIENT)
-            get() = field
 
         /**
-         * Registers a [StaffItemHandler] for the given [item ID][staffItem].
+         * Registers a [StaffItemHandler] for the given [item ID][staffItem]. Call this from your common mod initializer.
          *
          * @param staffItem                     The item ID to register a handler for. This is the item, which can be
          *   inserted into the staff
          * @param handler                       The staff item handler, which processes staff interactions, while the
          *   [registered item][staffItem] is inserted into it
-         * @param staffItemModelSupplierFactory The staff item's unbaked model supplier's supplier. The nesting is needed
-         *   to prevent loading client classes on the server
          * @return `true`, if the registration was successful, `false`, if the item was already registered
          */
         @JvmStatic
-        fun register(
-            staffItem: Identifier,
-            handler: StaffItemHandler,
-            staffItemModelSupplierFactory: Supplier<Supplier<out IStaffItemUnbakedModel>>
-        ): Boolean {
+        fun register(staffItem: Identifier, handler: StaffItemHandler): Boolean {
             if (staffItem in staffItemsHandlers) return false
 
             staffItemsHandlers[staffItem] = handler
-            if (IStaffMod.get().isPhysicalClient) {
-                staffItemModelProviders[staffItem] = staffItemModelSupplierFactory.get()
-            }
+            return true
+        }
+
+        /**
+         * Registers an unbaked model supplier for a given [item ID][staffItem]. Call this from your client mod
+         * initializer.
+         *
+         * @param staffItemModelSupplier The staff item's unbaked model supplier
+         * @return `true`, if the registration was successful, `false`, if an unbaked model supplier for the item was
+         *   already registered
+         */
+        @JvmStatic
+        @Environment(EnvType.CLIENT)
+        fun registerModelSupplier(
+            staffItem: Identifier,
+            staffItemModelSupplier: Supplier<out IStaffItemUnbakedModel>
+        ): Boolean {
+            if (staffItem in staffItemModelProviders) return false
+
+            staffItemModelProviders[staffItem] = staffItemModelSupplier
             return true
         }
 

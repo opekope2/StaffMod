@@ -50,7 +50,6 @@ import opekope2.avm_staff.api.item.model.StaffItemBakedModel
 import opekope2.avm_staff.util.*
 import org.joml.Vector3f
 import java.util.function.Function
-import java.util.function.Supplier
 
 class WitherSkeletonSkullHandler : StaffItemHandler() {
     override val maxUseTime = 20
@@ -123,7 +122,7 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
     }
 
     @Environment(EnvType.CLIENT)
-    private class WitherSkeletonSkullUnbakedModel : IStaffItemUnbakedModel {
+    class WitherSkeletonSkullUnbakedModel : IStaffItemUnbakedModel {
         override fun getModelDependencies() = setOf<Identifier>()
 
         override fun setParents(modelLoader: Function<Identifier, UnbakedModel>?) {
@@ -173,12 +172,6 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
                 Direction.WEST to listOf(),
                 Direction.EAST to listOf(),
             )
-        }
-    }
-
-    companion object {
-        val modelSupplierFactory: Supplier<Supplier<out IStaffItemUnbakedModel>> = Supplier {
-            Supplier(::WitherSkeletonSkullUnbakedModel)
         }
     }
 }

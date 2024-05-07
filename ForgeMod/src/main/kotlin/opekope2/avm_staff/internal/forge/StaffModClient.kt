@@ -37,12 +37,14 @@ import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.registerModelPredicateProviders
+import opekope2.avm_staff.internal.staff_item_handler.registerVanillaStaffItemRenderers
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @OnlyIn(Dist.CLIENT)
 object StaffModClient {
     fun initializeClient() {
+        registerVanillaStaffItemRenderers()
         MOD_BUS.register(this)
         FORGE_BUS.register(javaClass)
     }

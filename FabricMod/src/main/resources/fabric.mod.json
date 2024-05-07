@@ -34,6 +34,10 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.fabric.StaffModClient"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.staff_item_handler.VanillaStaffItemHandlersKt::registerVanillaStaffItemRenderers"
       }
     ]
   },

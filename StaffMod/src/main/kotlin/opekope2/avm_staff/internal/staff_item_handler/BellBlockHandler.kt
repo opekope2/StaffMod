@@ -55,7 +55,6 @@ import opekope2.avm_staff.util.getBakedQuads
 import opekope2.avm_staff.util.transform
 import org.joml.Vector3f
 import java.util.function.Function
-import java.util.function.Supplier
 
 class BellBlockHandler : StaffItemHandler() {
     override fun use(
@@ -97,7 +96,7 @@ class BellBlockHandler : StaffItemHandler() {
     }
 
     @Environment(EnvType.CLIENT)
-    private class BellUnbakedModel : IStaffItemUnbakedModel {
+    class BellUnbakedModel : IStaffItemUnbakedModel {
         override fun getModelDependencies() = setOf<Identifier>()
 
         override fun setParents(modelLoader: Function<Identifier, UnbakedModel>?) {
@@ -152,9 +151,5 @@ class BellBlockHandler : StaffItemHandler() {
             EntityAttributes.GENERIC_ATTACK_SPEED,
             attackSpeed(1.5)
         )
-
-        val modelSupplierFactory: Supplier<Supplier<out IStaffItemUnbakedModel>> = Supplier {
-            Supplier(::BellUnbakedModel)
-        }
     }
 }

@@ -21,7 +21,6 @@ package opekope2.avm_staff.internal.staff_item_handler
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
 import net.minecraft.client.render.block.BlockModels
 import net.minecraft.client.render.model.Baker
 import net.minecraft.client.render.model.ModelBakeSettings
@@ -47,7 +46,6 @@ import opekope2.avm_staff.util.isItemCoolingDown
 import opekope2.avm_staff.util.transform
 import org.joml.Vector3f
 import java.util.function.Function
-import java.util.function.Supplier
 
 class LightningRodHandler : StaffItemHandler() {
     override fun useOnBlock(
@@ -84,7 +82,7 @@ class LightningRodHandler : StaffItemHandler() {
     }
 
     @Environment(EnvType.CLIENT)
-    private class LightningRodUnbakedModel(private val state: BlockState) : IStaffItemUnbakedModel {
+    class LightningRodUnbakedModel(private val state: BlockState) : IStaffItemUnbakedModel {
         private val stateId = BlockModels.getModelId(state)
         private val dependencies = setOf(stateId)
 
@@ -115,14 +113,6 @@ class LightningRodHandler : StaffItemHandler() {
                 Vector3f(-1f / 14f, 10f / 7f, -1f / 14f),
                 Vector3f(8f / 7f)
             )
-        }
-    }
-
-    companion object {
-        val modelSupplier: Supplier<Supplier<out IStaffItemUnbakedModel>> = Supplier {
-            Supplier {
-                LightningRodUnbakedModel(Blocks.LIGHTNING_ROD.defaultState)
-            }
         }
     }
 }
