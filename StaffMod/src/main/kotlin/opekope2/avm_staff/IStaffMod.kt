@@ -37,11 +37,6 @@ interface IStaffMod {
     val staffItem: StaffItem
 
     /**
-     * Returns if Staff Mod is running on the physical client.
-     */
-    val isPhysicalClient: Boolean
-
-    /**
      * Gets the [TagKey] containing all the staffs.
      */
     val staffsTag: TagKey<Item>
