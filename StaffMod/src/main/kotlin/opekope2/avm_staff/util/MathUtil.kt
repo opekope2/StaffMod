@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("VectorUtil")
+@file: JvmName("MathUtil")
 @file: Suppress("NOTHING_TO_INLINE")
 
 package opekope2.avm_staff.util
