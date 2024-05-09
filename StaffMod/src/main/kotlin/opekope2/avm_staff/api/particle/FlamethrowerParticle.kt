@@ -18,6 +18,8 @@
 
 package opekope2.avm_staff.api.particle
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.client.particle.*
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particle.DefaultParticleType
@@ -37,6 +39,7 @@ import opekope2.avm_staff.mixin.IParticleMixin
  * @param velocityZ The Z component of the particle's velocity
  * @see FlamethrowerParticle.Factory
  */
+@Environment(EnvType.CLIENT)
 class FlamethrowerParticle(
     world: ClientWorld,
     x: Double,

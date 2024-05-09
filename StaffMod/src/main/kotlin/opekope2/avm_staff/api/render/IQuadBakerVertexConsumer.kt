@@ -18,6 +18,8 @@
 
 package opekope2.avm_staff.api.render
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.model.BakedQuad
 import net.minecraft.client.texture.Sprite
@@ -25,6 +27,7 @@ import net.minecraft.client.texture.Sprite
 /**
  * A vertex consumer, which creates [BakedQuad]s.
  */
+@Environment(EnvType.CLIENT)
 interface IQuadBakerVertexConsumer : VertexConsumer {
     /**
      * Gets or sets the sprite used to create [BakedQuad]s.
