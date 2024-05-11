@@ -20,8 +20,6 @@ package opekope2.avm_staff.api.item
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
@@ -41,10 +39,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
-import java.util.function.Supplier
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -417,9 +413,6 @@ abstract class StaffItemHandler {
 
         private val staffItemsHandlers = mutableMapOf<Identifier, StaffItemHandler>()
 
-        @Environment(EnvType.CLIENT)
-        private val staffItemModelProviders = mutableMapOf<Identifier, Supplier<out IStaffItemUnbakedModel>>()
-
         /**
          * Registers a [StaffItemHandler] for the given [item ID][staffItem]. Call this from your common mod initializer.
          *
@@ -434,26 +427,6 @@ abstract class StaffItemHandler {
             if (staffItem in staffItemsHandlers) return false
 
             staffItemsHandlers[staffItem] = handler
-            return true
-        }
-
-        /**
-         * Registers an unbaked model supplier for a given [item ID][staffItem]. Call this from your client mod
-         * initializer.
-         *
-         * @param staffItemModelSupplier The staff item's unbaked model supplier
-         * @return `true`, if the registration was successful, `false`, if an unbaked model supplier for the item was
-         *   already registered
-         */
-        @JvmStatic
-        @Environment(EnvType.CLIENT)
-        fun registerModelSupplier(
-            staffItem: Identifier,
-            staffItemModelSupplier: Supplier<out IStaffItemUnbakedModel>
-        ): Boolean {
-            if (staffItem in staffItemModelProviders) return false
-
-            staffItemModelProviders[staffItem] = staffItemModelSupplier
             return true
         }
 
@@ -473,13 +446,5 @@ abstract class StaffItemHandler {
          */
         @JvmStatic
         operator fun get(staffItem: Identifier): StaffItemHandler? = staffItemsHandlers[staffItem]
-
-        /**
-         * @suppress
-         */
-        @Environment(EnvType.CLIENT)
-        internal fun iterateStaffItemModelProviders(): Iterator<MutableMap.MutableEntry<Identifier, Supplier<out IStaffItemUnbakedModel>>> {
-            return staffItemModelProviders.iterator()
-        }
     }
 }

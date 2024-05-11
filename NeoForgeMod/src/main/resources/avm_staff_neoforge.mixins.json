@@ -7,8 +7,7 @@
     "defaultRequire": 1
   },
   "client": [
-    "ClientPlayerInteractionManagerMixin",
-    "ModelLoaderBakerImplMixin"
+    "ClientPlayerInteractionManagerMixin"
   ],
   "mixins": [
     "ServerPlayerEntityMixin",
