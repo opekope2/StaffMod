@@ -22,13 +22,11 @@ import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
-import net.minecraft.client.render.model.*
-import net.minecraft.client.render.model.json.ModelOverrideList
-import net.minecraft.client.render.model.json.ModelTransformation
-import net.minecraft.client.render.model.json.Transformation
-import net.minecraft.client.texture.Sprite
-import net.minecraft.client.util.SpriteIdentifier
+import net.minecraft.client.render.model.json.ModelTransformationMode
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -41,20 +39,13 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
-import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.IStaffItemBakedModel
-import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
-import opekope2.avm_staff.api.item.model.StaffItemBakedModel
+import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
-import opekope2.avm_staff.util.getBakedQuads
-import opekope2.avm_staff.util.transform
-import org.joml.Vector3f
-import java.util.function.Function
+import opekope2.avm_staff.util.push
 
 class BellBlockHandler : StaffItemHandler() {
     override fun use(
@@ -96,51 +87,30 @@ class BellBlockHandler : StaffItemHandler() {
     }
 
     @Environment(EnvType.CLIENT)
-    class BellUnbakedModel : IStaffItemUnbakedModel {
-        override fun getModelDependencies() = setOf<Identifier>()
+    class BellStaffItemRenderer : IStaffItemRenderer {
+        private val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().getChild("bell_body")
 
-        override fun setParents(modelLoader: Function<Identifier, UnbakedModel>?) {
-        }
+        override fun renderItemInStaff(
+            staffStack: ItemStack,
+            mode: ModelTransformationMode,
+            matrices: MatrixStack,
+            vertexConsumers: VertexConsumerProvider,
+            light: Int,
+            overlay: Int
+        ) {
+            matrices.push {
+                translate(-0.5, -5.0 / 16.0, -0.5)
 
-        override fun bake(
-            baker: Baker,
-            textureGetter: Function<SpriteIdentifier, Sprite>,
-            rotationContainer: ModelBakeSettings,
-            modelId: Identifier,
-            transformation: Transformation
-        ): IStaffItemBakedModel {
-            val bellSprite = textureGetter.apply(BellBlockEntityRenderer.BELL_BODY_TEXTURE)
-            val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().getChild("bell_body")
-            val quads = bellModel.getBakedQuads(bellSprite, bellTransformation)
-            val baked = BasicBakedModel(
-                quads,
-                createEmptyFaceQuads(),
-                true,
-                false,
-                false,
-                bellSprite,
-                ModelTransformation.NONE,
-                ModelOverrideList.EMPTY
-            )
-
-            return StaffItemBakedModel(baked.transform(null, transformation, textureGetter))
-        }
-
-        private companion object {
-            private val bellTransformation = Transformation(
-                Vector3f(),
-                Vector3f(-3.5f / 9f, -4f / 9f, -3.5f / 9f),
-                Vector3f(16f / 9f)
-            )
-
-            private fun createEmptyFaceQuads(): Map<Direction, List<BakedQuad>> = mapOf(
-                Direction.DOWN to listOf(),
-                Direction.UP to listOf(),
-                Direction.NORTH to listOf(),
-                Direction.SOUTH to listOf(),
-                Direction.WEST to listOf(),
-                Direction.EAST to listOf(),
-            )
+                bellModel.render(
+                    matrices,
+                    BellBlockEntityRenderer.BELL_BODY_TEXTURE.getVertexConsumer(
+                        vertexConsumers,
+                        RenderLayer::getEntitySolid
+                    ),
+                    light,
+                    overlay
+                )
+            }
         }
     }
 

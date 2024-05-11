@@ -29,9 +29,8 @@ import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvents
 import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
-import opekope2.avm_staff.api.item.model.UnbakedBlockStateModel
-import java.util.function.Supplier
+import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
+import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 
 private fun Item.registerHandler(handler: StaffItemHandler) {
     StaffItemHandler.register(Registries.ITEM.getId(this), handler)
@@ -101,63 +100,57 @@ fun registerVanillaStaffItemHandlers() {
 }
 
 @Environment(EnvType.CLIENT)
-private fun Item.registerModelSupplier(itemModelSupplier: Supplier<out IStaffItemUnbakedModel>) {
-    StaffItemHandler.registerModelSupplier(Registries.ITEM.getId(this), itemModelSupplier)
+private fun Item.registerStaffItemRenderer(renderer: IStaffItemRenderer) {
+    IStaffItemRenderer.register(Registries.ITEM.getId(this), renderer)
 }
 
 @Environment(EnvType.CLIENT)
-private fun Item.registerModelSupplier(staffItem: Block) {
-    registerModelSupplier { UnbakedBlockStateModel(staffItem.defaultState) }
+private fun Item.registerStaffItemRenderer(staffItem: Block) {
+    registerStaffItemRenderer(BlockStateStaffItemRenderer(staffItem.defaultState))
 }
 
 @Environment(EnvType.CLIENT)
 fun registerVanillaStaffItemRenderers() {
-    Items.ANVIL.registerModelSupplier(ANVIL)
-    Items.CHIPPED_ANVIL.registerModelSupplier(CHIPPED_ANVIL)
-    Items.DAMAGED_ANVIL.registerModelSupplier(DAMAGED_ANVIL)
+    Items.ANVIL.registerStaffItemRenderer(ANVIL)
+    Items.CHIPPED_ANVIL.registerStaffItemRenderer(CHIPPED_ANVIL)
+    Items.DAMAGED_ANVIL.registerStaffItemRenderer(DAMAGED_ANVIL)
 
-    Items.BELL.registerModelSupplier(BellBlockHandler::BellUnbakedModel)
+    Items.BELL.registerStaffItemRenderer(BellBlockHandler.BellStaffItemRenderer())
 
-    Items.BONE_BLOCK.registerModelSupplier(BONE_BLOCK)
+    Items.BONE_BLOCK.registerStaffItemRenderer(BONE_BLOCK)
 
-    Items.CAMPFIRE.registerModelSupplier(CAMPFIRE)
-    Items.SOUL_CAMPFIRE.registerModelSupplier(SOUL_CAMPFIRE)
+    Items.CAMPFIRE.registerStaffItemRenderer(CAMPFIRE)
+    Items.SOUL_CAMPFIRE.registerStaffItemRenderer(SOUL_CAMPFIRE)
 
-    Items.FURNACE.registerModelSupplier {
-        FurnaceHandler.FurnaceUnbakedModel(FURNACE)
-    }
-    Items.BLAST_FURNACE.registerModelSupplier {
-        FurnaceHandler.FurnaceUnbakedModel(BLAST_FURNACE)
-    }
-    Items.SMOKER.registerModelSupplier {
-        FurnaceHandler.FurnaceUnbakedModel(SMOKER)
-    }
+    Items.FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(FURNACE))
+    Items.BLAST_FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(BLAST_FURNACE))
+    Items.SMOKER.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(SMOKER))
 
-    Items.LIGHTNING_ROD.registerModelSupplier { LightningRodHandler.LightningRodUnbakedModel(LIGHTNING_ROD.defaultState) }
+    Items.LIGHTNING_ROD.registerStaffItemRenderer(LightningRodHandler.LightningRodStaffItemRenderer())
 
-    Items.MAGMA_BLOCK.registerModelSupplier(MAGMA_BLOCK)
+    Items.MAGMA_BLOCK.registerStaffItemRenderer(MAGMA_BLOCK)
 
-    Items.SNOW_BLOCK.registerModelSupplier(SNOW_BLOCK)
+    Items.SNOW_BLOCK.registerStaffItemRenderer(SNOW_BLOCK)
 
-    Items.TNT.registerModelSupplier(TNT)
+    Items.TNT.registerStaffItemRenderer(TNT)
 
-    Items.WITHER_SKELETON_SKULL.registerModelSupplier(WitherSkeletonSkullHandler::WitherSkeletonSkullUnbakedModel)
+    Items.WITHER_SKELETON_SKULL.registerStaffItemRenderer(WitherSkeletonSkullHandler.WitherSkeletonSkullStaffItemRenderer())
 
-    Items.WHITE_WOOL.registerModelSupplier(WHITE_WOOL)
-    Items.ORANGE_WOOL.registerModelSupplier(ORANGE_WOOL)
-    Items.MAGENTA_WOOL.registerModelSupplier(MAGENTA_WOOL)
-    Items.LIGHT_BLUE_WOOL.registerModelSupplier(LIGHT_BLUE_WOOL)
-    Items.YELLOW_WOOL.registerModelSupplier(YELLOW_WOOL)
-    Items.LIME_WOOL.registerModelSupplier(LIME_WOOL)
-    Items.PINK_WOOL.registerModelSupplier(PINK_WOOL)
-    Items.GRAY_WOOL.registerModelSupplier(GRAY_WOOL)
-    Items.LIGHT_GRAY_WOOL.registerModelSupplier(LIGHT_GRAY_WOOL)
-    Items.CYAN_WOOL.registerModelSupplier(CYAN_WOOL)
-    Items.PURPLE_WOOL.registerModelSupplier(PURPLE_WOOL)
-    Items.BLUE_WOOL.registerModelSupplier(BLUE_WOOL)
-    Items.BROWN_WOOL.registerModelSupplier(BROWN_WOOL)
-    Items.GREEN_WOOL.registerModelSupplier(GREEN_WOOL)
-    Items.RED_WOOL.registerModelSupplier(RED_WOOL)
-    Items.BLACK_WOOL.registerModelSupplier(BLACK_WOOL)
+    Items.WHITE_WOOL.registerStaffItemRenderer(WHITE_WOOL)
+    Items.ORANGE_WOOL.registerStaffItemRenderer(ORANGE_WOOL)
+    Items.MAGENTA_WOOL.registerStaffItemRenderer(MAGENTA_WOOL)
+    Items.LIGHT_BLUE_WOOL.registerStaffItemRenderer(LIGHT_BLUE_WOOL)
+    Items.YELLOW_WOOL.registerStaffItemRenderer(YELLOW_WOOL)
+    Items.LIME_WOOL.registerStaffItemRenderer(LIME_WOOL)
+    Items.PINK_WOOL.registerStaffItemRenderer(PINK_WOOL)
+    Items.GRAY_WOOL.registerStaffItemRenderer(GRAY_WOOL)
+    Items.LIGHT_GRAY_WOOL.registerStaffItemRenderer(LIGHT_GRAY_WOOL)
+    Items.CYAN_WOOL.registerStaffItemRenderer(CYAN_WOOL)
+    Items.PURPLE_WOOL.registerStaffItemRenderer(PURPLE_WOOL)
+    Items.BLUE_WOOL.registerStaffItemRenderer(BLUE_WOOL)
+    Items.BROWN_WOOL.registerStaffItemRenderer(BROWN_WOOL)
+    Items.GREEN_WOOL.registerStaffItemRenderer(GREEN_WOOL)
+    Items.RED_WOOL.registerStaffItemRenderer(RED_WOOL)
+    Items.BLACK_WOOL.registerStaffItemRenderer(BLACK_WOOL)
 
 }

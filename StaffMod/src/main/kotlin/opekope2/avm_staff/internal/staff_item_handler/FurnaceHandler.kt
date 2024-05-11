@@ -26,14 +26,9 @@ import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.block.BlockModels
-import net.minecraft.client.render.model.BakedModel
-import net.minecraft.client.render.model.Baker
-import net.minecraft.client.render.model.ModelBakeSettings
-import net.minecraft.client.render.model.UnbakedModel
-import net.minecraft.client.render.model.json.Transformation
-import net.minecraft.client.texture.Sprite
-import net.minecraft.client.util.SpriteIdentifier
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.model.json.ModelTransformationMode
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -50,16 +45,14 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.IStaffItemBakedModel
-import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
+import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
+import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityMixin
 import opekope2.avm_staff.util.*
-import java.util.function.Function
 import kotlin.jvm.optionals.getOrNull
 
 class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
@@ -183,45 +176,28 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     @Environment(EnvType.CLIENT)
-    class FurnaceUnbakedModel(private val unlitState: BlockState, private val litState: BlockState) :
-        IStaffItemUnbakedModel {
+    class FurnaceStaffItemRenderer(unlitState: BlockState, litState: BlockState) : IStaffItemRenderer {
         constructor(furnaceBlock: Block) : this(
             furnaceBlock.defaultState,
             furnaceBlock.defaultState.with(AbstractFurnaceBlock.LIT, true)
         )
 
-        private val litStateId = BlockModels.getModelId(litState)
-        private val unlitStateId = BlockModels.getModelId(unlitState)
-        private val dependencies = setOf(litStateId, unlitStateId)
+        private val unlitRenderer = BlockStateStaffItemRenderer(unlitState)
+        private val litRenderer = BlockStateStaffItemRenderer(litState)
 
-        override fun getModelDependencies() = dependencies
+        override fun renderItemInStaff(
+            staffStack: ItemStack,
+            mode: ModelTransformationMode,
+            matrices: MatrixStack,
+            vertexConsumers: VertexConsumerProvider,
+            light: Int,
+            overlay: Int
+        ) {
+            val renderer =
+                if (staffStack.nbt?.getBoolean(LIT_KEY) == true) litRenderer
+                else unlitRenderer
 
-        override fun setParents(modelLoader: Function<Identifier, UnbakedModel>?) {
-        }
-
-        override fun bake(
-            baker: Baker,
-            textureGetter: Function<SpriteIdentifier, Sprite>,
-            rotationContainer: ModelBakeSettings,
-            modelId: Identifier,
-            transformation: Transformation
-        ): IStaffItemBakedModel? {
-            val unlitModel = baker.bake(unlitStateId, rotationContainer) ?: return null
-            val litModel = baker.bake(litStateId, rotationContainer) ?: return null
-
-            return FurnaceBakedModel(
-                unlitModel.transform(unlitState, transformation, textureGetter),
-                litModel.transform(litState, transformation, textureGetter)
-            )
-        }
-    }
-
-    @Environment(EnvType.CLIENT)
-    private class FurnaceBakedModel(private val unlitModel: BakedModel, private val litModel: BakedModel) :
-        BakedModel by unlitModel, IStaffItemBakedModel {
-        override fun getModel(staffStack: ItemStack): BakedModel {
-            return if (staffStack.nbt?.getBoolean(LIT_KEY) == true) litModel
-            else unlitModel
+            renderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
         }
     }
 

@@ -20,32 +20,24 @@ package opekope2.avm_staff.internal.staff_item_handler
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.block.BlockState
-import net.minecraft.client.render.block.BlockModels
-import net.minecraft.client.render.model.Baker
-import net.minecraft.client.render.model.ModelBakeSettings
-import net.minecraft.client.render.model.UnbakedModel
-import net.minecraft.client.render.model.json.Transformation
-import net.minecraft.client.texture.Sprite
-import net.minecraft.client.util.SpriteIdentifier
+import net.minecraft.block.Blocks
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.model.json.ModelTransformationMode
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.model.IStaffItemBakedModel
-import opekope2.avm_staff.api.item.model.IStaffItemUnbakedModel
-import opekope2.avm_staff.api.item.model.StaffItemBakedModel
+import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
+import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.util.isItemCoolingDown
-import opekope2.avm_staff.util.transform
-import org.joml.Vector3f
-import java.util.function.Function
+import opekope2.avm_staff.util.push
 
 class LightningRodHandler : StaffItemHandler() {
     override fun useOnBlock(
@@ -82,37 +74,21 @@ class LightningRodHandler : StaffItemHandler() {
     }
 
     @Environment(EnvType.CLIENT)
-    class LightningRodUnbakedModel(private val state: BlockState) : IStaffItemUnbakedModel {
-        private val stateId = BlockModels.getModelId(state)
-        private val dependencies = setOf(stateId)
+    class LightningRodStaffItemRenderer : IStaffItemRenderer {
+        private val lightningRodRenderer = BlockStateStaffItemRenderer(Blocks.LIGHTNING_ROD.defaultState)
 
-        override fun getModelDependencies() = dependencies
-
-        override fun setParents(modelLoader: Function<Identifier, UnbakedModel>?) {
-        }
-
-        override fun bake(
-            baker: Baker,
-            textureGetter: Function<SpriteIdentifier, Sprite>,
-            rotationContainer: ModelBakeSettings,
-            modelId: Identifier,
-            transformation: Transformation
-        ): IStaffItemBakedModel? {
-            val baked = baker.bake(stateId, rotationContainer) ?: return null
-
-            return StaffItemBakedModel(
-                baked
-                    .transform(state, lightningRodTransformation, textureGetter)
-                    .transform(state, transformation, textureGetter)
-            )
-        }
-
-        private companion object {
-            private val lightningRodTransformation = Transformation(
-                Vector3f(),
-                Vector3f(-1f / 14f, 10f / 7f, -1f / 14f),
-                Vector3f(8f / 7f)
-            )
+        override fun renderItemInStaff(
+            staffStack: ItemStack,
+            mode: ModelTransformationMode,
+            matrices: MatrixStack,
+            vertexConsumers: VertexConsumerProvider,
+            light: Int,
+            overlay: Int
+        ) {
+            matrices.push {
+                translate(0.0, 22.0 / 16.0, 0.0)
+                lightningRodRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
+            }
         }
     }
 }
