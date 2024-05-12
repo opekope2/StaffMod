@@ -21,17 +21,25 @@ package opekope2.avm_staff.mixin;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import opekope2.avm_staff.IStaffMod;
+import opekope2.avm_staff.api.item.IActiveItemTempDataHolder;
 import opekope2.avm_staff.api.item.IDisablesShield;
 import opekope2.avm_staff.api.item.StaffItemHandler;
 import opekope2.avm_staff.util.StaffUtil;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin {
+public abstract class LivingEntityMixin implements IActiveItemTempDataHolder {
+    @Unique
+    @Nullable
+    private Object staffMod$activeItemTempData;
+
     @Shadow
     public abstract ItemStack getMainHandStack();
 
@@ -47,5 +55,22 @@ public abstract class LivingEntityMixin {
         if (handlerOfItem instanceof IDisablesShield) {
             cir.setReturnValue(true);
         }
+    }
+
+    // Only invoke on server
+    @Inject(method = "clearActiveItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setLivingFlag(IZ)V"))
+    public void clearActiveItem(CallbackInfo ci) {
+        staffMod$setActiveItemTempData(null);
+    }
+
+    @Nullable
+    @Override
+    public Object staffMod$getActiveItemTempData() {
+        return staffMod$activeItemTempData;
+    }
+
+    @Override
+    public void staffMod$setActiveItemTempData(@Nullable Object value) {
+        staffMod$activeItemTempData = value;
     }
 }
