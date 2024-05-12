@@ -49,6 +49,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.item.activeItemTempData
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityMixin
@@ -67,9 +68,11 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         user: PlayerEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        staffStack.getOrCreateNbt().apply {
-            putBoolean(LIT_KEY, true)
-            putInt(BURN_TIME_KEY, 0)
+        if (world.isClient) {
+            // Visual only
+            staffStack.orCreateNbt.putBoolean(LIT_KEY, true)
+        } else {
+            user.activeItemTempData = BurnTimeTempData(0)
         }
 
         user.setCurrentHand(hand)
@@ -86,12 +89,11 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             return
         }
 
-        val nbt = staffStack.getOrCreateNbt()
-        var burnTime = nbt.getInt(BURN_TIME_KEY)
-        nbt.putInt(BURN_TIME_KEY, burnTime + 1)
+        val burnTimeData = user.activeItemTempData as BurnTimeTempData
+        burnTimeData.burnTime++
 
         val stackToSmelt = itemToSmelt?.stack ?: return
-        if (burnTime < stackToSmelt.count) return
+        if (burnTimeData.burnTime < stackToSmelt.count) return
 
         val inventory = ItemEntityInventory(itemToSmelt)
         val recipe = world.recipeManager.getFirstMatch(recipeType, inventory, world).getOrNull()?.value ?: return
@@ -105,11 +107,9 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             stackToSmelt.count,
             recipe.experience
         )
-
-        burnTime -= stackToSmelt.count
-        nbt.putInt(BURN_TIME_KEY, burnTime + 1)
-
         itemToSmelt.discard()
+
+        burnTimeData.burnTime -= stackToSmelt.count
     }
 
     private fun findItemToSmelt(
@@ -139,9 +139,11 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        staffStack.getOrCreateNbt().apply {
-            remove(LIT_KEY)
-            remove(BURN_TIME_KEY)
+        if (world.isClient) {
+            // Visual only
+            staffStack.nbt?.remove(LIT_KEY)
+        } else {
+            user.activeItemTempData = null
         }
     }
 
@@ -201,6 +203,9 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         }
     }
 
+    @Environment(EnvType.CLIENT)
+    private data class BurnTimeTempData(var burnTime: Int)
+
     private class ItemEntityInventory(private val itemEntity: ItemEntity) : SingleStackInventory {
         override fun getStack(): ItemStack = itemEntity.stack
 
@@ -215,7 +220,6 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 
     companion object {
         private const val LIT_KEY = "Lit"
-        private const val BURN_TIME_KEY = "BurnTime"
         private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
