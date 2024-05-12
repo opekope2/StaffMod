@@ -49,13 +49,13 @@ public abstract class TntEntityMixin extends Entity implements IImpactTnt {
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putBoolean(EXPLODES_ON_IMPACT_NBT_KEY, explodesOnImpact());
+        nbt.putBoolean(EXPLODES_ON_IMPACT_NBT_KEY, staffMod$explodesOnImpact());
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
         if (nbt.contains(EXPLODES_ON_IMPACT_NBT_KEY, NbtElement.BYTE_TYPE)) {
-            explodeOnImpact(nbt.getBoolean(EXPLODES_ON_IMPACT_NBT_KEY));
+            staffMod$explodeOnImpact(nbt.getBoolean(EXPLODES_ON_IMPACT_NBT_KEY));
         }
     }
 
@@ -68,7 +68,7 @@ public abstract class TntEntityMixin extends Entity implements IImpactTnt {
             )
     )
     private void explodeOnImpact(CallbackInfo ci) {
-        if (!explodesOnImpact()) return;
+        if (!staffMod$explodesOnImpact()) return;
 
         boolean explode = horizontalCollision || verticalCollision;
         if (!explode) {
@@ -76,7 +76,7 @@ public abstract class TntEntityMixin extends Entity implements IImpactTnt {
             explode = !collisions.isEmpty();
 
             for (Entity collider : collisions) {
-                if (collider instanceof TntEntity tnt && ((IImpactTnt) tnt).explodesOnImpact()) {
+                if (collider instanceof TntEntity tnt && ((IImpactTnt) tnt).staffMod$explodesOnImpact()) {
                     // Force explode other TNT, because the current TNT gets discarded before the other TNT gets processed
                     tnt.setFuse(0);
                 }
@@ -93,12 +93,12 @@ public abstract class TntEntityMixin extends Entity implements IImpactTnt {
     }
 
     @Override
-    public boolean explodesOnImpact() {
+    public boolean staffMod$explodesOnImpact() {
         return dataTracker.get(EXPLODES_ON_IMPACT);
     }
 
     @Override
-    public void explodeOnImpact(boolean explode) {
+    public void staffMod$explodeOnImpact(boolean explode) {
         dataTracker.set(EXPLODES_ON_IMPACT, explode);
     }
 }

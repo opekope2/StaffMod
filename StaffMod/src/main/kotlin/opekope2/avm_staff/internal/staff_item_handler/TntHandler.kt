@@ -28,7 +28,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.entity.IImpactTnt
+import opekope2.avm_staff.api.entity.explodesOnImpact
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.util.*
 
@@ -48,8 +48,7 @@ class TntHandler : StaffItemHandler() {
         world.spawnEntity(
             TntEntity(world, x, y, z, attacker).apply {
                 velocity = attacker.rotationVector + attacker.velocity
-                @Suppress("KotlinConstantConditions") // IImpactTnt is ducked into TntEntity
-                (this as IImpactTnt).explodeOnImpact(true)
+                explodesOnImpact = true
                 world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f)
                 world.emitGameEvent(attacker, GameEvent.PRIME_FUSE, pos)
             }

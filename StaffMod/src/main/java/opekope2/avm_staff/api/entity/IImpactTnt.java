@@ -28,16 +28,16 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
  */
 public interface IImpactTnt {
     /**
-     * Returns if the current TNT explodes, when it collides.
+     * Returns if the current TNT explodes, when it collides with a block or entity.
      */
-    boolean explodesOnImpact();
+    boolean staffMod$explodesOnImpact();
 
     /**
-     * Configures the current TNT to explode or not, when it collides.
+     * Configures the current TNT to explode or not, when it collides with a block or entity.
      *
      * @param explode Whether to explode on collision
      */
-    void explodeOnImpact(boolean explode);
+    void staffMod$explodeOnImpact(boolean explode);
 
     /**
      * NBT Key for TNT's explodes on impact property.
