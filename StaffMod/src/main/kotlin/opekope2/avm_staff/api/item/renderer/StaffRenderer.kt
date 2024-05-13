@@ -24,7 +24,6 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import opekope2.avm_staff.internal.model.HEAD_SEED
@@ -35,11 +34,9 @@ import opekope2.avm_staff.util.push
 
 /**
  * Builtin model item renderer for staffs.
- *
- * @param getStaffItem  A supplier for the staff item to be rendered
  */
 @Environment(EnvType.CLIENT)
-class StaffRenderer(private val getStaffItem: () -> Item) {
+object StaffRenderer {
     /**
      * Renders the staff.
      *
@@ -87,7 +84,7 @@ class StaffRenderer(private val getStaffItem: () -> Item) {
             // Head
             push {
                 translate(0.0, 16.0 / 16.0, 0.0)
-                renderPart(this, vertexConsumers, light, overlay, HEAD_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
 
                 // Item
                 staffStack.itemInStaff?.let { itemInStaff ->
@@ -98,13 +95,13 @@ class StaffRenderer(private val getStaffItem: () -> Item) {
             // Rod (top)
             push {
                 translate(0.0, 2.0 / 16.0, 0.0)
-                renderPart(this, vertexConsumers, light, overlay, ROD_TOP_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_TOP_SEED)
             }
 
             // Rod (bottom)
             push {
                 translate(0.0, -12.0 / 16.0, 0.0)
-                renderPart(this, vertexConsumers, light, overlay, ROD_BOTTOM_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_BOTTOM_SEED)
             }
         }
     }
@@ -122,7 +119,7 @@ class StaffRenderer(private val getStaffItem: () -> Item) {
 
             // Head
             push {
-                renderPart(this, vertexConsumers, light, overlay, HEAD_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
 
                 // Item
                 staffStack.itemInStaff?.let { itemInStaff ->
@@ -146,7 +143,7 @@ class StaffRenderer(private val getStaffItem: () -> Item) {
             // Head
             push {
                 translate(0.0, 9.0 / 16.0, 0.0)
-                renderPart(this, vertexConsumers, light, overlay, HEAD_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
 
                 // Item
                 staffStack.itemInStaff?.let { itemInStaff ->
@@ -157,7 +154,7 @@ class StaffRenderer(private val getStaffItem: () -> Item) {
             // Rod (top)
             push {
                 translate(0.0, -5.0 / 16.0, 0.0)
-                renderPart(this, vertexConsumers, light, overlay, ROD_TOP_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_TOP_SEED)
             }
         }
     }
@@ -188,6 +185,7 @@ class StaffRenderer(private val getStaffItem: () -> Item) {
     }
 
     private fun renderPart(
+        staffStack: ItemStack,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
@@ -196,15 +194,14 @@ class StaffRenderer(private val getStaffItem: () -> Item) {
     ) {
         val itemRenderer = MinecraftClient.getInstance().itemRenderer
         val modelManager = MinecraftClient.getInstance().bakedModelManager
-        val item = getStaffItem().defaultStack
 
-        var model = itemRenderer.getModel(item, null, null, partSeed)
+        var model = itemRenderer.getModel(staffStack, null, null, partSeed)
         if (model.isBuiltin) {
             model = modelManager.missingModel
         }
 
         itemRenderer.renderItem(
-            item, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
+            staffStack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
         )
     }
 }
