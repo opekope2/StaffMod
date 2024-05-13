@@ -25,7 +25,6 @@ import opekope2.avm_staff.IStaffMod;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -46,24 +45,23 @@ public abstract class BipedEntityModelMixin {
     @Final
     public ModelPart rightArm;
 
-    @Unique
-    private float staffMod$degToRad(float degrees) {
-        return degrees * (float) Math.PI / 180f;
-    }
+    @Shadow
+    @Final
+    public ModelPart head;
 
     @Inject(method = "positionLeftArm", at = @At("TAIL"))
     private void positionLeftArm(LivingEntity entity, CallbackInfo ci) {
         if (leftArmPose == BipedEntityModel.ArmPose.ITEM && entity.getActiveItem().isIn(IStaffMod.get().getStaffsTag())) {
-            leftArm.yaw = staffMod$degToRad(entity.headYaw - entity.bodyYaw);
-            leftArm.pitch = staffMod$degToRad(entity.getPitch() - 90f);
+            leftArm.yaw = head.yaw;
+            leftArm.pitch = head.pitch - 0.5f * (float) Math.PI;
         }
     }
 
     @Inject(method = "positionRightArm", at = @At("TAIL"))
     private void positionRightArm(LivingEntity entity, CallbackInfo ci) {
         if (rightArmPose == BipedEntityModel.ArmPose.ITEM && entity.getActiveItem().isIn(IStaffMod.get().getStaffsTag())) {
-            rightArm.yaw = staffMod$degToRad(entity.headYaw - entity.bodyYaw);
-            rightArm.pitch = staffMod$degToRad(entity.getPitch() - 90f);
+            rightArm.yaw = head.yaw;
+            rightArm.pitch = head.pitch - 0.5f * (float) Math.PI;
         }
     }
 }
