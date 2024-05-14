@@ -23,7 +23,7 @@ import net.minecraft.item.Item
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.registry.tag.TagKey
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.internal.platform.getStaffMod
+import opekope2.avm_staff.internal.getStaffMod
 
 /**
  * A non-loader-specific interface of the Staff Mod.

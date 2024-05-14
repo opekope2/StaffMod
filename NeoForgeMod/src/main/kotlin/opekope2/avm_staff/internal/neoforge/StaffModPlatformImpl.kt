@@ -16,14 +16,10 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("StaffModPlatform")
+@file: JvmName("StaffModPlatformImpl")
 
-package opekope2.avm_staff.internal.platform
+package opekope2.avm_staff.internal.neoforge
 
-import dev.architectury.injectables.annotations.ExpectPlatform
 import opekope2.avm_staff.IStaffMod
 
-@ExpectPlatform
-fun getStaffMod(): IStaffMod {
-    throw AssertionError()
-}
+fun getStaffMod(): IStaffMod = StaffMod

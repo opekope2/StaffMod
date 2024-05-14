@@ -18,9 +18,8 @@
 
 @file: JvmName("StaffModPlatformImpl")
 
-package opekope2.avm_staff.internal.platform.fabric
+package opekope2.avm_staff.internal.fabric
 
 import opekope2.avm_staff.IStaffMod
-import opekope2.avm_staff.internal.fabric.StaffMod
 
 fun getStaffMod(): IStaffMod = StaffMod
