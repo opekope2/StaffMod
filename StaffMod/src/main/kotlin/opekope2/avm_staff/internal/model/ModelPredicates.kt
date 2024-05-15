@@ -26,6 +26,7 @@ import net.minecraft.util.Identifier
 import opekope2.avm_staff.util.MOD_ID
 
 const val HEAD_SEED = -0b10011_10100_00001_00110_00110_00000
+const val ITEM_SEED = -0b10011_10100_00001_00110_00110_00001
 const val ROD_TOP_SEED = -0b10011_10100_00001_00110_00110_00010
 const val ROD_BOTTOM_SEED = -0b10011_10100_00001_00110_00110_00011
 
@@ -38,6 +39,10 @@ fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicate
     }
     register(Identifier(MOD_ID, "head")) { _, _, _, seed ->
         if (seed == HEAD_SEED) 1f
+        else 0f
+    }
+    register(Identifier(MOD_ID, "item")) { _, _, _, seed ->
+        if (seed == ITEM_SEED) 1f
         else 0f
     }
     register(Identifier(MOD_ID, "rod_top")) { _, _, _, seed ->

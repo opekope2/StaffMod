@@ -22,11 +22,13 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import opekope2.avm_staff.internal.model.HEAD_SEED
+import opekope2.avm_staff.internal.model.ITEM_SEED
 import opekope2.avm_staff.internal.model.ROD_BOTTOM_SEED
 import opekope2.avm_staff.internal.model.ROD_TOP_SEED
 import opekope2.avm_staff.util.itemInStaff
@@ -169,8 +171,7 @@ object StaffRenderer {
         vertexConsumers: VertexConsumerProvider
     ) {
         matrices.push {
-            scale(.5f, .5f, .5f)
-            translate(0.0, (-8.0 + 2.0) / 16.0, 0.0)
+            safeGetModel(staffStack, ITEM_SEED).transformation.fixed.apply(false, this)
 
             val staffItemRenderer = IStaffItemRenderer[Registries.ITEM.getId(itemStackInStaff.item)]
             if (staffItemRenderer != null) {
@@ -193,15 +194,21 @@ object StaffRenderer {
         partSeed: Int
     ) {
         val itemRenderer = MinecraftClient.getInstance().itemRenderer
-        val modelManager = MinecraftClient.getInstance().bakedModelManager
 
-        var model = itemRenderer.getModel(staffStack, null, null, partSeed)
-        if (model.isBuiltin) {
-            model = modelManager.missingModel
-        }
+        val model = safeGetModel(staffStack, partSeed)
 
         itemRenderer.renderItem(
             staffStack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
         )
+    }
+
+    private fun safeGetModel(staffStack: ItemStack, partSeed: Int): BakedModel {
+        val itemRenderer = MinecraftClient.getInstance().itemRenderer
+
+        val model = itemRenderer.getModel(staffStack, null, null, partSeed)
+
+        // Prevent StackOverflowError if an override is missing
+        return if (!model.isBuiltin) model
+        else MinecraftClient.getInstance().bakedModelManager.missingModel
     }
 }
