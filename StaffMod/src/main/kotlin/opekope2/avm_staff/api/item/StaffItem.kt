@@ -37,8 +37,8 @@ import java.util.stream.Stream
 
 /**
  * Staff item dispatching functionality to [StaffItemHandler] without loader specific functionality.
- * Implementing `FabricItem` or `IForgeItem` (on the appropriate loader) is highly recommended when extending the class
- * to pass loader-specific functionality to [StaffItemHandler].
+ * Implementing loader-specific interfaces is highly recommended when extending the class to pass loader-specific
+ * functionality to [StaffItemHandler].
  */
 abstract class StaffItem(settings: Settings) : Item(settings) {
     override fun onItemEntityDestroyed(entity: ItemEntity) {
