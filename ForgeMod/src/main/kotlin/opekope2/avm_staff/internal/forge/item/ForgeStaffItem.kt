@@ -19,15 +19,23 @@
 package opekope2.avm_staff.internal.forge.item
 
 import com.google.common.collect.Multimap
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.item.BuiltinModelItemRenderer
+import net.minecraft.client.render.model.json.ModelTransformationMode
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraftforge.client.extensions.common.IClientItemExtensions
 import net.minecraftforge.common.extensions.IForgeItem
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.handlerOfItemOrFallback
 import opekope2.avm_staff.util.itemInStaff
+import java.util.function.Consumer
 
 class ForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IForgeItem {
     override fun getAttributeModifiers(
@@ -51,5 +59,28 @@ class ForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IForgeItem 
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowReequipAnimation(oldStack, newStack, slotChanged)
+    }
+
+    // Calm down IDEA, this is beyond your understanding
+    override fun initializeClient(consumer: Consumer<IClientItemExtensions>) {
+        consumer.accept(object : IClientItemExtensions {
+            override fun getCustomRenderer() = Renderer
+        })
+    }
+
+    private object Renderer : BuiltinModelItemRenderer(
+        MinecraftClient.getInstance().blockEntityRenderDispatcher,
+        MinecraftClient.getInstance().entityModelLoader
+    ) {
+        override fun render(
+            stack: ItemStack,
+            mode: ModelTransformationMode,
+            matrices: MatrixStack,
+            vertexConsumers: VertexConsumerProvider,
+            light: Int,
+            overlay: Int
+        ) {
+            StaffRenderer.renderStaff(stack, mode, matrices, vertexConsumers, light, overlay)
+        }
     }
 }

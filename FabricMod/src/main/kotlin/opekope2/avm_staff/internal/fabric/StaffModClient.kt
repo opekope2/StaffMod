@@ -24,11 +24,10 @@ import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.minecraft.client.item.ModelPredicateProviderRegistry
-import net.minecraft.item.ItemGroups
-import net.minecraft.item.Items
 import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
@@ -38,13 +37,6 @@ import opekope2.avm_staff.internal.model.registerModelPredicateProviders
 @Environment(EnvType.CLIENT)
 object StaffModClient : ClientModInitializer {
     override fun onInitializeClient() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register { entries ->
-            entries.addAfter(Items.NETHERITE_HOE, StaffMod.staffItem)
-        }
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register { entries ->
-            entries.addAfter(Items.TRIDENT, StaffMod.staffItem)
-        }
-
         KeyBindingHelper.registerKeyBinding(ADD_REMOVE_KEYBINDING)
 
         ClientTickEvents.END_CLIENT_TICK.register(::handleKeyBindings)
@@ -59,5 +51,8 @@ object StaffModClient : ClientModInitializer {
         )
 
         registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
+
+        BuiltinItemRendererRegistry.INSTANCE.register(StaffMod.faintRoyalStaffItem, StaffRenderer::renderStaff)
+        BuiltinItemRendererRegistry.INSTANCE.register(StaffMod.royalStaffItem, StaffRenderer::renderStaff)
     }
 }

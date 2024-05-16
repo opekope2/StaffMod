@@ -21,7 +21,6 @@ package opekope2.avm_staff.internal.fabric
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -31,6 +30,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -45,10 +45,28 @@ import opekope2.avm_staff.util.MOD_ID
 
 @Suppress("unused")
 object StaffMod : ModInitializer, IStaffMod {
-    override val staffItem: StaffItem = Registry.register(
+    override val faintStaffRodItem: Item = Registry.register(
         Registries.ITEM,
-        Identifier(MOD_ID, "staff"),
-        FabricStaffItem(FabricItemSettings().maxCount(1))
+        Identifier(MOD_ID, "faint_staff_rod"),
+        Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21))
+    )
+
+    override val faintRoyalStaffHeadItem: Item = Registry.register(
+        Registries.ITEM,
+        Identifier(MOD_ID, "faint_royal_staff_head"),
+        Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21))
+    )
+
+    override val faintRoyalStaffItem: Item = Registry.register(
+        Registries.ITEM,
+        Identifier(MOD_ID, "faint_royal_staff"),
+        Item(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
+    )
+
+    override val royalStaffItem: StaffItem = Registry.register(
+        Registries.ITEM,
+        Identifier(MOD_ID, "royal_staff"),
+        FabricStaffItem(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
     )
 
     override val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "staffs"))

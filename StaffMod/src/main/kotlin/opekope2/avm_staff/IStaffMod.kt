@@ -30,11 +30,32 @@ import opekope2.avm_staff.internal.getStaffMod
  */
 interface IStaffMod {
     /**
-     * Gets the Staff item registered in Minecraft.
+     * Gets `avm_staff:faint_staff_rod` item registered in Minecraft.
      *
-     * Due to how Forge registries work, *always* use this getter instead of storing the result.
+     * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
      */
-    val staffItem: StaffItem
+    val faintStaffRodItem: Item
+
+    /**
+     * Gets `avm_staff:faint_royal_staff_head` item registered in Minecraft.
+     *
+     * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+     */
+    val faintRoyalStaffHeadItem: Item
+
+    /**
+     * Gets `avm_staff:faint_royal_staff` item registered in Minecraft.
+     *
+     * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+     */
+    val faintRoyalStaffItem: Item
+
+    /**
+     * Gets `avm_staff:royal_staff` item registered in Minecraft.
+     *
+     * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+     */
+    val royalStaffItem: StaffItem
 
     /**
      * Gets the [TagKey] containing all the staffs.

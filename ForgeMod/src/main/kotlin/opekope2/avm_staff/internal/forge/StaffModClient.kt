@@ -20,10 +20,6 @@ package opekope2.avm_staff.internal.forge
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.item.ModelPredicateProviderRegistry
-import net.minecraft.item.ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
-import net.minecraft.item.ItemGroups
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
@@ -58,19 +54,6 @@ object StaffModClient {
 
     @SubscribeEvent
     fun addItemsToItemGroups(event: BuildCreativeModeTabContentsEvent) {
-        if (event.tabKey === ItemGroups.TOOLS) {
-            event.entries.putAfter(
-                ItemStack(Items.NETHERITE_HOE),
-                ItemStack(StaffMod.staffItem),
-                PARENT_AND_SEARCH_TABS
-            )
-        } else if (event.tabKey === ItemGroups.COMBAT) {
-            event.entries.putAfter(
-                ItemStack(Items.TRIDENT),
-                ItemStack(StaffMod.staffItem),
-                PARENT_AND_SEARCH_TABS
-            )
-        }
     }
 
     @SubscribeEvent

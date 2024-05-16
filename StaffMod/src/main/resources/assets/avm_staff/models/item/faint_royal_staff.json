@@ -1,0 +1,45 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:builtin/entity",
+	"overrides": [
+		{"predicate": {"avm_staff:head": 1}, "model": "avm_staff:item/faint_royal_staff/head"},
+		{"predicate": {"avm_staff:item": 1}, "model": "avm_staff:item/faint_royal_staff/item"},
+		{"predicate": {"avm_staff:rod_top": 1}, "model": "avm_staff:item/faint_royal_staff/rod_top"},
+		{"predicate": {"avm_staff:rod_bottom": 1}, "model": "avm_staff:item/faint_royal_staff/rod_bottom"}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 90, 0],
+			"translation": [0, 5.4, 0],
+			"scale": [0.85, 0.85, 0.85]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 90, 0],
+			"translation": [0, 5.4, 0],
+			"scale": [0.85, 0.85, 0.85]
+		},
+		"firstperson_righthand": {
+			"rotation": [-25, 90, 0],
+			"translation": [1.13, 0.71, 2.29],
+			"scale": [0.68, 0.68, 0.68]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 90, -25],
+			"translation": [1.13, 0.71, 2.29],
+			"scale": [0.68, 0.68, 0.68]
+		},
+		"ground": {
+			"rotation": [90, 45, -90],
+			"translation": [0, 6, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [30, 45, 0],
+			"translation": [0, 3, 0],
+			"scale": [1.25, 1.25, 1.25]
+		},
+		"fixed": {
+			"rotation": [90, -45, 90]
+		}
+	}
+}

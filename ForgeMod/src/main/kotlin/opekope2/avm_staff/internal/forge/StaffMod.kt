@@ -22,6 +22,7 @@ import net.minecraft.item.Item
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.Identifier
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.fml.common.Mod
@@ -40,7 +41,18 @@ import thedarkcolour.kotlinforforge.forge.runWhenOn
 object StaffMod : IStaffMod {
     private val ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID)
 
-    private val STAFF_ITEM = ITEMS.register("staff") { ForgeStaffItem(Item.Settings().maxCount(1)) }
+    private val FAINT_STAFF_ROD_ITEM = ITEMS.register("faint_staff_rod") {
+        Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21))
+    }
+    private val FAINT_ROYAL_STAFF_HEAD_ITEM = ITEMS.register("faint_royal_staff_head") {
+        Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21))
+    }
+    private val FAINT_ROYAL_STAFF_ITEM = ITEMS.register("faint_royal_staff") {
+        Item(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
+    }
+    private val ROYAL_STAFF_ITEM = ITEMS.register("royal_staff") {
+        ForgeStaffItem(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
+    }
 
     private val PARTICLE_TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MOD_ID)
 
@@ -59,8 +71,17 @@ object StaffMod : IStaffMod {
         runWhenOn(Dist.CLIENT, StaffModClient::initializeClient)
     }
 
-    override val staffItem: StaffItem
-        get() = STAFF_ITEM.get()
+    override val faintStaffRodItem: Item
+        get() = FAINT_STAFF_ROD_ITEM.get()
+
+    override val faintRoyalStaffHeadItem: Item
+        get() = FAINT_ROYAL_STAFF_HEAD_ITEM.get()
+
+    override val faintRoyalStaffItem: Item
+        get() = FAINT_ROYAL_STAFF_ITEM.get()
+
+    override val royalStaffItem: StaffItem
+        get() = ROYAL_STAFF_ITEM.get()
 
     override val staffsTag: TagKey<Item> = ItemTags.create(Identifier(MOD_ID, "staffs"))
 
