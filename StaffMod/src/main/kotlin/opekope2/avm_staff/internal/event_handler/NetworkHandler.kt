@@ -24,15 +24,13 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.StaffAttackC2SPacket
 import opekope2.avm_staff.util.hasHandlerOfItem
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
-
-private val staffMod: IStaffMod = IStaffMod.get()
 
 @Suppress("UNUSED_PARAMETER")
 fun addBlockToStaff(packet: AddItemToStaffC2SPacket, context: PacketContext) {
@@ -81,10 +79,10 @@ private fun findStaffStackAndItemSlot(player: PlayerEntity): Pair<ItemStack, Int
     val offStack = player.offHandStack
 
     return when {
-        mainStack.isIn(staffMod.staffsTag) && !offStack.isIn(staffMod.staffsTag) ->
+        mainStack.isIn(staffsTag) && !offStack.isIn(staffsTag) ->
             mainStack to PlayerInventory.OFF_HAND_SLOT
 
-        offStack.isIn(staffMod.staffsTag) && !mainStack.isIn(staffMod.staffsTag) ->
+        offStack.isIn(staffsTag) && !mainStack.isIn(staffsTag) ->
             offStack to player.inventory.selectedSlot
 
         else -> null
@@ -96,8 +94,8 @@ private fun findStaffAndItemStack(player: PlayerEntity): Pair<ItemStack, ItemSta
     val offStack = player.offHandStack
 
     return when {
-        mainStack.isIn(staffMod.staffsTag) && !offStack.isIn(staffMod.staffsTag) -> mainStack to offStack
-        offStack.isIn(staffMod.staffsTag) && !mainStack.isIn(staffMod.staffsTag) -> offStack to mainStack
+        mainStack.isIn(staffsTag) && !offStack.isIn(staffsTag) -> mainStack to offStack
+        offStack.isIn(staffsTag) && !mainStack.isIn(staffsTag) -> offStack to mainStack
         else -> null
     }
 }

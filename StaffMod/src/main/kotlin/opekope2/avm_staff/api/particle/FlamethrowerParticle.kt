@@ -24,7 +24,8 @@ import net.minecraft.client.particle.*
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.util.math.BlockPos
-import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.flamethrowerParticleType
+import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.mixin.IParticleMixin
 
 /**
@@ -106,7 +107,8 @@ class FlamethrowerParticle(
      * Factory class for [FlamethrowerParticle], intended to register in Minecraft instead of direct consumption.
      *
      * @param spriteProvider    Flame sprite provider
-     * @see IStaffMod.flamethrowerParticleType
+     * @see flamethrowerParticleType
+     * @see soulFlamethrowerParticleType
      * @see ParticleManager.addParticle
      */
     class Factory(private val spriteProvider: SpriteProvider) : ParticleFactory<DefaultParticleType> {

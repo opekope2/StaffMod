@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.staff_item_handler
 
 import dev.architectury.event.events.common.TickEvent
+import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.*
@@ -29,7 +30,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.item.ItemStack
-import net.minecraft.particle.ParticleEffect
+import net.minecraft.particle.DefaultParticleType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.util.Hand
@@ -43,13 +44,12 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.IStaffMod
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.mixin.IEntityMixin
 import opekope2.avm_staff.util.*
 
 class CampfireHandler(
-    private val particleEffectGetter: (IStaffMod) -> ParticleEffect,
+    private val particleEffectSupplier: RegistrySupplier<DefaultParticleType>,
     private val properties: Properties
 ) : StaffItemHandler() {
     override val maxUseTime: Int
@@ -133,7 +133,7 @@ class CampfireHandler(
             val particleSpeed = targetDirection.normalize() * FLAME_SPEED * (0.9 + Math.random() * 0.2)
 
             particleManager.addParticle(
-                particleEffectGetter(IStaffMod.get()),
+                particleEffectSupplier.get(),
                 origin.x,
                 origin.y,
                 origin.z,

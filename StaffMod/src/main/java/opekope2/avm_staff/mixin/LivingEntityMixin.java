@@ -20,7 +20,7 @@ package opekope2.avm_staff.mixin;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import opekope2.avm_staff.IStaffMod;
+import opekope2.avm_staff.api.StaffMod;
 import opekope2.avm_staff.api.item.IActiveItemTempDataHolder;
 import opekope2.avm_staff.api.item.IDisablesShield;
 import opekope2.avm_staff.api.item.StaffItemHandler;
@@ -46,7 +46,7 @@ public abstract class LivingEntityMixin implements IActiveItemTempDataHolder {
     @Inject(method = "disablesShield", at = @At("HEAD"), cancellable = true)
     public void disableShield(CallbackInfoReturnable<Boolean> cir) {
         ItemStack mainHandStack = getMainHandStack();
-        if (!mainHandStack.isIn(IStaffMod.get().getStaffsTag())) return;
+        if (!mainHandStack.isIn(StaffMod.getStaffsTag())) return;
 
         ItemStack itemInStaff = StaffUtil.getItemInStaff(mainHandStack);
         if (itemInStaff == null) return;

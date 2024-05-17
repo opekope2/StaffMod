@@ -27,10 +27,11 @@ import net.minecraft.item.Items
 import net.minecraft.recipe.RecipeType
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvents
-import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
+import opekope2.avm_staff.api.soulFlamethrowerParticleType
 
 private fun Item.registerHandler(handler: StaffItemHandler) {
     StaffItemHandler.register(Registries.ITEM.getId(this), handler)
@@ -47,16 +48,10 @@ fun registerVanillaStaffItemHandlers() {
     Items.BONE_BLOCK.registerHandler(BoneBlockHandler())
 
     Items.CAMPFIRE.registerHandler(
-        CampfireHandler(
-            IStaffMod::flamethrowerParticleType,
-            CampfireHandler.Properties(1 / 20.0, 5 / 20.0, 1, 0.1)
-        )
+        CampfireHandler(flamethrowerParticleType, CampfireHandler.Properties(1 / 20.0, 5 / 20.0, 1, 0.1))
     )
     Items.SOUL_CAMPFIRE.registerHandler(
-        CampfireHandler(
-            IStaffMod::soulFlamethrowerParticleType,
-            CampfireHandler.Properties(2 / 20.0, 10 / 20.0, 2, 0.12)
-        )
+        CampfireHandler(soulFlamethrowerParticleType, CampfireHandler.Properties(2 / 20.0, 10 / 20.0, 2, 0.12))
     )
 
     Items.FURNACE.registerHandler(

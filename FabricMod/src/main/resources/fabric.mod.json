@@ -23,6 +23,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.InitializerKt::registerContent"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.InitializerKt::initializeNetworking"
       },
       {

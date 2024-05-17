@@ -25,6 +25,10 @@ import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.StaffAttackC2SPacket
 
+fun registerContent() {
+    opekope2.avm_staff.api.registerContent()
+}
+
 fun initializeNetworking() {
     AddItemToStaffC2SPacket.registerHandler(::addBlockToStaff)
     RemoveItemFromStaffC2SPacket.registerHandler(::removeBlockFromStaff)

@@ -21,9 +21,10 @@
 package opekope2.avm_staff.internal
 
 import dev.architectury.injectables.annotations.ExpectPlatform
-import opekope2.avm_staff.IStaffMod
+import net.minecraft.item.Item
+import opekope2.avm_staff.api.item.StaffItem
 
 @ExpectPlatform
-fun getStaffMod(): IStaffMod {
+fun createStaffItem(settings: Item.Settings): StaffItem {
     throw AssertionError()
 }

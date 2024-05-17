@@ -27,11 +27,9 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
-import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.itemInStaff
-
-private val staffMod = IStaffMod.get()
 
 fun attackBlock(
     player: PlayerEntity,
@@ -41,7 +39,7 @@ fun attackBlock(
     direction: Direction
 ): ActionResult {
     val staffStack = player.getStackInHand(hand)
-    if (!staffStack.isIn(staffMod.staffsTag)) return ActionResult.PASS
+    if (!staffStack.isIn(staffsTag)) return ActionResult.PASS
 
     val itemInStaff = staffStack.itemInStaff ?: return ActionResult.PASS
     val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS
@@ -51,7 +49,7 @@ fun attackBlock(
 
 fun attackEntity(player: PlayerEntity, world: World, hand: Hand, target: Entity): ActionResult {
     val itemStack = player.getStackInHand(hand)
-    if (!itemStack.isIn(staffMod.staffsTag)) return ActionResult.PASS
+    if (!itemStack.isIn(staffsTag)) return ActionResult.PASS
 
     val itemInStaff = itemStack.itemInStaff ?: return ActionResult.PASS
     val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS
@@ -60,7 +58,7 @@ fun attackEntity(player: PlayerEntity, world: World, hand: Hand, target: Entity)
 }
 
 fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
-    if (!staffStack.isIn(staffMod.staffsTag)) return ActionResult.PASS
+    if (!staffStack.isIn(staffsTag)) return ActionResult.PASS
 
     val itemInStaff: ItemStack = staffStack.itemInStaff ?: return ActionResult.PASS
     val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS

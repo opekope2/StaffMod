@@ -21,68 +21,17 @@ package opekope2.avm_staff.internal.fabric
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.particle.DefaultParticleType
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
-import opekope2.avm_staff.IStaffMod
-import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.event_handler.attackBlock
 import opekope2.avm_staff.internal.event_handler.attackEntity
-import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
-import opekope2.avm_staff.util.MOD_ID
 
 @Suppress("unused")
-object StaffMod : ModInitializer, IStaffMod {
-    override val faintStaffRodItem: Item = Registry.register(
-        Registries.ITEM,
-        Identifier(MOD_ID, "faint_staff_rod"),
-        Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21))
-    )
-
-    override val faintRoyalStaffHeadItem: Item = Registry.register(
-        Registries.ITEM,
-        Identifier(MOD_ID, "faint_royal_staff_head"),
-        Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21))
-    )
-
-    override val faintRoyalStaffItem: Item = Registry.register(
-        Registries.ITEM,
-        Identifier(MOD_ID, "faint_royal_staff"),
-        Item(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
-    )
-
-    override val royalStaffItem: StaffItem = Registry.register(
-        Registries.ITEM,
-        Identifier(MOD_ID, "royal_staff"),
-        FabricStaffItem(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
-    )
-
-    override val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "staffs"))
-
-    override val flamethrowerParticleType: DefaultParticleType = Registry.register(
-        Registries.PARTICLE_TYPE,
-        Identifier(MOD_ID, "flame"),
-        FabricParticleTypes.simple()
-    )
-
-    override val soulFlamethrowerParticleType: DefaultParticleType = Registry.register(
-        Registries.PARTICLE_TYPE,
-        Identifier(MOD_ID, "soul_fire_flame"),
-        FabricParticleTypes.simple()
-    )
-
+object StaffMod : ModInitializer {
     override fun onInitialize() {
         AttackBlockCallback.EVENT.register(::attackBlock)
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)

@@ -26,9 +26,12 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.minecraft.client.item.ModelPredicateProviderRegistry
-import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.faintRoyalStaffItem
+import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
+import opekope2.avm_staff.api.royalStaffItem
+import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
@@ -42,17 +45,17 @@ object StaffModClient : ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(::handleKeyBindings)
 
         ParticleFactoryRegistry.getInstance().register(
-            IStaffMod.get().flamethrowerParticleType,
+            flamethrowerParticleType.get(),
             FlamethrowerParticle::Factory
         )
         ParticleFactoryRegistry.getInstance().register(
-            IStaffMod.get().soulFlamethrowerParticleType,
+            soulFlamethrowerParticleType.get(),
             FlamethrowerParticle::Factory
         )
 
         registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
 
-        BuiltinItemRendererRegistry.INSTANCE.register(StaffMod.faintRoyalStaffItem, StaffRenderer::renderStaff)
-        BuiltinItemRendererRegistry.INSTANCE.register(StaffMod.royalStaffItem, StaffRenderer::renderStaff)
+        BuiltinItemRendererRegistry.INSTANCE.register(faintRoyalStaffItem.get(), StaffRenderer::renderStaff)
+        BuiltinItemRendererRegistry.INSTANCE.register(royalStaffItem.get(), StaffRenderer::renderStaff)
     }
 }

@@ -20,6 +20,8 @@
 
 package opekope2.avm_staff.internal.forge
 
-import opekope2.avm_staff.IStaffMod
+import net.minecraft.item.Item
+import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.internal.forge.item.ForgeStaffItem
 
-fun getStaffMod(): IStaffMod = StaffMod
+fun createStaffItem(settings: Item.Settings): StaffItem = ForgeStaffItem(settings)

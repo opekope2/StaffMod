@@ -28,8 +28,9 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.TickEvent
-import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
+import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
@@ -58,8 +59,8 @@ object StaffModClient {
 
     @SubscribeEvent
     fun registerParticleProviders(event: RegisterParticleProvidersEvent) {
-        event.registerSpriteSet(IStaffMod.get().flamethrowerParticleType, FlamethrowerParticle::Factory)
-        event.registerSpriteSet(IStaffMod.get().soulFlamethrowerParticleType, FlamethrowerParticle::Factory)
+        event.registerSpriteSet(flamethrowerParticleType.get(), FlamethrowerParticle::Factory)
+        event.registerSpriteSet(soulFlamethrowerParticleType.get(), FlamethrowerParticle::Factory)
     }
 
     @SubscribeEvent

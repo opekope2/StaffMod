@@ -21,7 +21,7 @@ package opekope2.avm_staff.mixin;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
-import opekope2.avm_staff.IStaffMod;
+import opekope2.avm_staff.api.StaffMod;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -51,7 +51,7 @@ public abstract class BipedEntityModelMixin {
 
     @Inject(method = "positionLeftArm", at = @At("TAIL"))
     private void positionLeftArm(LivingEntity entity, CallbackInfo ci) {
-        if (leftArmPose == BipedEntityModel.ArmPose.ITEM && entity.getActiveItem().isIn(IStaffMod.get().getStaffsTag())) {
+        if (leftArmPose == BipedEntityModel.ArmPose.ITEM && entity.getActiveItem().isIn(StaffMod.getStaffsTag())) {
             leftArm.yaw = head.yaw;
             leftArm.pitch = head.pitch - 0.5f * (float) Math.PI;
         }
@@ -59,7 +59,7 @@ public abstract class BipedEntityModelMixin {
 
     @Inject(method = "positionRightArm", at = @At("TAIL"))
     private void positionRightArm(LivingEntity entity, CallbackInfo ci) {
-        if (rightArmPose == BipedEntityModel.ArmPose.ITEM && entity.getActiveItem().isIn(IStaffMod.get().getStaffsTag())) {
+        if (rightArmPose == BipedEntityModel.ArmPose.ITEM && entity.getActiveItem().isIn(StaffMod.getStaffsTag())) {
             rightArm.yaw = head.yaw;
             rightArm.pitch = head.pitch - 0.5f * (float) Math.PI;
         }
