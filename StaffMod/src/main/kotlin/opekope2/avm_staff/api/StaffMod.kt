@@ -31,6 +31,7 @@ import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.createStaffItem
+import opekope2.avm_staff.internal.createStaffRendererItem
 import opekope2.avm_staff.util.MOD_ID
 
 private val ITEMS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM)
@@ -60,7 +61,7 @@ val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_roya
  * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
  */
 val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff") {
-    Item(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
+    createStaffRendererItem(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
 }
 
 /**

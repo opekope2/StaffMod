@@ -17,11 +17,15 @@
  */
 
 @file: JvmName("StaffModPlatformImpl")
+@file: Suppress("unused")
 
 package opekope2.avm_staff.internal.forge
 
 import net.minecraft.item.Item
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.forge.item.ForgeStaffItem
+import opekope2.avm_staff.internal.forge.item.ForgeStaffRendererItem
 
 fun createStaffItem(settings: Item.Settings): StaffItem = ForgeStaffItem(settings)
+
+fun createStaffRendererItem(settings: Item.Settings): Item = ForgeStaffRendererItem(settings)

@@ -17,11 +17,24 @@
  */
 
 @file: JvmName("StaffModPlatformImpl")
+@file: Suppress("unused")
 
 package opekope2.avm_staff.internal.fabric
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.item.Item
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
 
 fun createStaffItem(settings: Item.Settings): StaffItem = FabricStaffItem(settings)
+
+fun createStaffRendererItem(settings: Item.Settings): Item {
+    return Item(settings).also { item ->
+        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
+            BuiltinItemRendererRegistry.INSTANCE.register(item, StaffRenderer::renderStaff)
+        }
+    }
+}

@@ -17,6 +17,7 @@
  */
 
 @file: JvmName("StaffModPlatform")
+@file: Suppress("UNUSED_PARAMETER")
 
 package opekope2.avm_staff.internal
 
@@ -25,6 +26,7 @@ import net.minecraft.item.Item
 import opekope2.avm_staff.api.item.StaffItem
 
 @ExpectPlatform
-fun createStaffItem(settings: Item.Settings): StaffItem {
-    throw AssertionError()
-}
+fun createStaffItem(settings: Item.Settings): StaffItem = throw AssertionError()
+
+@ExpectPlatform
+fun createStaffRendererItem(settings: Item.Settings): Item = throw AssertionError()
