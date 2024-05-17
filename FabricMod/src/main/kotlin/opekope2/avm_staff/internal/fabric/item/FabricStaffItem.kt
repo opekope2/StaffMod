@@ -19,7 +19,10 @@
 package opekope2.avm_staff.internal.fabric.item
 
 import com.google.common.collect.Multimap
+import net.fabricmc.api.EnvType
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.item.v1.FabricItem
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
@@ -28,10 +31,17 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.handlerOfItemOrFallback
 import opekope2.avm_staff.util.itemInStaff
 
 class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem {
+    init {
+        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
+            BuiltinItemRendererRegistry.INSTANCE.register(this, StaffRenderer::renderStaff)
+        }
+    }
+
     override fun allowNbtUpdateAnimation(
         player: PlayerEntity,
         hand: Hand,

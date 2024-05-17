@@ -30,7 +30,6 @@ import opekope2.avm_staff.api.faintRoyalStaffItem
 import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
-import opekope2.avm_staff.api.royalStaffItem
 import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
@@ -56,6 +55,5 @@ object StaffModClient : ClientModInitializer {
         registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
 
         BuiltinItemRendererRegistry.INSTANCE.register(faintRoyalStaffItem.get(), StaffRenderer::renderStaff)
-        BuiltinItemRendererRegistry.INSTANCE.register(royalStaffItem.get(), StaffRenderer::renderStaff)
     }
 }
