@@ -54,6 +54,8 @@ fun registerVanillaStaffItemHandlers() {
         CampfireHandler(soulFlamethrowerParticleType, CampfireHandler.Properties(2 / 20.0, 10 / 20.0, 2, 0.12))
     )
 
+    // TODO command block
+
     Items.FURNACE.registerHandler(
         FurnaceHandler(RecipeType.SMELTING, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE)
     )
@@ -117,6 +119,8 @@ fun registerVanillaStaffItemRenderers() {
     Items.CAMPFIRE.registerStaffItemRenderer(CAMPFIRE)
     Items.SOUL_CAMPFIRE.registerStaffItemRenderer(SOUL_CAMPFIRE)
 
+    Items.COMMAND_BLOCK.registerStaffItemRenderer(COMMAND_BLOCK)
+
     Items.FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(FURNACE))
     Items.BLAST_FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(BLAST_FURNACE))
     Items.SMOKER.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(SMOKER))
@@ -147,5 +151,4 @@ fun registerVanillaStaffItemRenderers() {
     Items.GREEN_WOOL.registerStaffItemRenderer(GREEN_WOOL)
     Items.RED_WOOL.registerStaffItemRenderer(RED_WOOL)
     Items.BLACK_WOOL.registerStaffItemRenderer(BLACK_WOOL)
-
 }

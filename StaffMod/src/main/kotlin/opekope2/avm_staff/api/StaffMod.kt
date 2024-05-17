@@ -20,21 +20,27 @@
 
 package opekope2.avm_staff.api
 
+import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.client.particle.ParticleManager
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
+import net.minecraft.item.Items
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.createStaffItem
 import opekope2.avm_staff.internal.createStaffRendererItem
 import opekope2.avm_staff.util.MOD_ID
+import opekope2.avm_staff.util.itemInStaff
 
 private val ITEMS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM)
+private val ITEM_GROUPS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROUP)
 private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTICLE_TYPE)
 
 /**
@@ -43,7 +49,7 @@ private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTIC
  * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
  */
 val faintStaffRodItem: RegistrySupplier<Item> = ITEMS.register("faint_staff_rod") {
-    Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21))
+    Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup))
 }
 
 /**
@@ -52,7 +58,7 @@ val faintStaffRodItem: RegistrySupplier<Item> = ITEMS.register("faint_staff_rod"
  * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
  */
 val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff_head") {
-    Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21))
+    Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup))
 }
 
 /**
@@ -61,7 +67,9 @@ val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_roya
  * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
  */
 val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff") {
-    createStaffRendererItem(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
+    createStaffRendererItem(
+        Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup)
+    )
 }
 
 /**
@@ -70,13 +78,24 @@ val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_st
  * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
  */
 val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") {
-    createStaffItem(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21))
+    createStaffItem(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup))
 }
 
 /**
  * Gets the [TagKey] containing all the staffs.
  */
 val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "staffs"))
+
+/**
+ * Gets Staff Mod's item group.
+ */
+val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("avm_staff_items") {
+    CreativeTabRegistry.create(Text.translatable("itemGroup.avm_staff_items")) {
+        royalStaffItem.get().defaultStack.apply {
+            itemInStaff = Items.COMMAND_BLOCK.defaultStack
+        }
+    }
+}
 
 /**
  * Gets the flamethrower's flame particle type.
@@ -104,5 +123,6 @@ val soulFlamethrowerParticleType: RegistrySupplier<DefaultParticleType> =
 @JvmSynthetic
 internal fun registerContent() {
     ITEMS.register()
+    ITEM_GROUPS.register()
     PARTICLE_TYPES.register()
 }

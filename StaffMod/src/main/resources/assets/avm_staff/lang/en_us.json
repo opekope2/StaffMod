@@ -5,5 +5,6 @@
   "item.avm_staff.royal_staff": "Royal staff",
   "item.avm_staff.royal_staff.with_item": "Royal staff with %s",
   "key.categories.avm_staff": "Staff Mod",
-  "key.avm_staff.add_remove_staff_block": "Add/remove staff item"
+  "key.avm_staff.add_remove_staff_block": "Add/remove staff item",
+  "itemGroup.avm_staff_items": "Staff Mod"
 }
