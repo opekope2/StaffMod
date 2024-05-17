@@ -68,7 +68,7 @@ class ForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IForgeItem 
         })
     }
 
-    private object Renderer : BuiltinModelItemRenderer(
+    object Renderer : BuiltinModelItemRenderer(
         MinecraftClient.getInstance().blockEntityRenderDispatcher,
         MinecraftClient.getInstance().entityModelLoader
     ) {

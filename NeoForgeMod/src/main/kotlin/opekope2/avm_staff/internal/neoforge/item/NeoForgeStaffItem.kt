@@ -68,7 +68,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         })
     }
 
-    private object Renderer : BuiltinModelItemRenderer(
+    object Renderer : BuiltinModelItemRenderer(
         MinecraftClient.getInstance().blockEntityRenderDispatcher,
         MinecraftClient.getInstance().entityModelLoader
     ) {
