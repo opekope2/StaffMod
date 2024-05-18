@@ -86,7 +86,9 @@ class LightningRodHandler : StaffItemHandler() {
             overlay: Int
         ) {
             matrices.push {
-                translate(0.0, 22.0 / 16.0, 0.0)
+                if (mode != ModelTransformationMode.GUI && mode != ModelTransformationMode.FIXED) {
+                    translate(0f, 22f / 16f, 0f)
+                }
                 lightningRodRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
             }
         }
