@@ -116,7 +116,7 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
 
     @Environment(EnvType.CLIENT)
     class WitherSkeletonSkullStaffItemRenderer : IStaffItemRenderer {
-        private val skullModel = SkullEntityModel.getSkullTexturedModelData().createModel().getChild("head")
+        private val skullModel = SkullEntityModel.getSkullTexturedModelData().createModel()
 
         override fun renderItemInStaff(
             staffStack: ItemStack,
@@ -128,7 +128,7 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
         ) {
             matrices.push {
                 scale(-1f, -1f, 1f)
-                translate(0.0, 8.0 / 16.0, 0.0)
+                translate(0f, 8f / 16f, 0f)
                 scale(2f, 2f, 2f)
                 skullModel.render(
                     matrices,
