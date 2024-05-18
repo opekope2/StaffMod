@@ -81,11 +81,11 @@ object StaffRenderer {
         overlay: Int
     ) {
         matrices.push {
-            translate(0.5, 0.5, 0.5)
+            translate(0.5f, 0.5f, 0.5f)
 
             // Head
             push {
-                translate(0.0, 16.0 / 16.0, 0.0)
+                translate(0f, 16f / 16f, 0f)
                 renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
 
                 // Item
@@ -96,13 +96,13 @@ object StaffRenderer {
 
             // Rod (top)
             push {
-                translate(0.0, 2.0 / 16.0, 0.0)
+                translate(0f, 2f / 16f, 0f)
                 renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_TOP_SEED)
             }
 
             // Rod (bottom)
             push {
-                translate(0.0, -12.0 / 16.0, 0.0)
+                translate(0f, -12f / 16f, 0f)
                 renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_BOTTOM_SEED)
             }
         }
@@ -117,7 +117,7 @@ object StaffRenderer {
         overlay: Int
     ) {
         matrices.push {
-            translate(0.5, 0.5, 0.5)
+            translate(0.5f, 0.5f, 0.5f)
 
             // Head
             push {
@@ -140,11 +140,11 @@ object StaffRenderer {
         overlay: Int
     ) {
         matrices.push {
-            translate(0.5, 0.5, 0.5)
+            translate(0.5f, 0.5f, 0.5f)
 
             // Head
             push {
-                translate(0.0, 9.0 / 16.0, 0.0)
+                translate(0f, 9f / 16f, 0f)
                 renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
 
                 // Item
@@ -155,7 +155,7 @@ object StaffRenderer {
 
             // Rod (top)
             push {
-                translate(0.0, -5.0 / 16.0, 0.0)
+                translate(0f, -5f / 16f, 0f)
                 renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_TOP_SEED)
             }
         }
