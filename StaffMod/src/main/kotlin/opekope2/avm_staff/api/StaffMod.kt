@@ -33,6 +33,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import net.minecraft.util.Rarity
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.createStaffItem
 import opekope2.avm_staff.internal.createStaffRendererItem
@@ -58,7 +59,10 @@ val faintStaffRodItem: RegistrySupplier<Item> = ITEMS.register("faint_staff_rod"
  * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
  */
 val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff_head") {
-    Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup))
+    Item(
+        Item.Settings().maxCount(16).rarity(Rarity.RARE).requires(FeatureFlags.UPDATE_1_21)
+            .`arch$tab`(staffModItemGroup)
+    )
 }
 
 /**
@@ -68,7 +72,8 @@ val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_roya
  */
 val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff") {
     createStaffRendererItem(
-        Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup)
+        Item.Settings().maxCount(1).rarity(Rarity.RARE).requires(FeatureFlags.UPDATE_1_21)
+            .`arch$tab`(staffModItemGroup)
     )
 }
 
@@ -78,7 +83,10 @@ val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_st
  * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
  */
 val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") {
-    createStaffItem(Item.Settings().maxCount(1).requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup))
+    createStaffItem(
+        Item.Settings().maxCount(1).rarity(Rarity.EPIC).requires(FeatureFlags.UPDATE_1_21)
+            .`arch$tab`(staffModItemGroup)
+    )
 }
 
 /**
