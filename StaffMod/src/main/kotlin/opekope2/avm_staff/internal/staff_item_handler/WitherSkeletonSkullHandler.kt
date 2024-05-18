@@ -54,7 +54,7 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
         hand: Hand
     ): TypedActionResult<ItemStack> {
         user.setCurrentHand(hand)
-        return TypedActionResult.pass(staffStack)
+        return TypedActionResult.consume(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {

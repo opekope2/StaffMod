@@ -64,7 +64,7 @@ class CampfireHandler(
         staffStack.getOrCreateNbt().putBoolean(ROCKET_MODE_KEY, user.isSneaking && !user.isOnGround)
 
         user.setCurrentHand(hand)
-        return TypedActionResult.pass(staffStack)
+        return TypedActionResult.consume(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {

@@ -76,7 +76,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         }
 
         user.setCurrentHand(hand)
-        return TypedActionResult.pass(staffStack)
+        return TypedActionResult.consume(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
