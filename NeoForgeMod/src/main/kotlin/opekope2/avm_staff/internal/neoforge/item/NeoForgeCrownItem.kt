@@ -16,21 +16,16 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("StaffModPlatform")
-@file: Suppress("UNUSED_PARAMETER")
+package opekope2.avm_staff.internal.neoforge.item
 
-package opekope2.avm_staff.internal
-
-import dev.architectury.injectables.annotations.ExpectPlatform
+import net.minecraft.entity.LivingEntity
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
+import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.item.CrownItem
-import opekope2.avm_staff.api.item.StaffItem
 
-@ExpectPlatform
-fun createStaffItem(settings: Item.Settings): StaffItem = throw AssertionError()
+class NeoForgeCrownItem(settings: Item.Settings) : CrownItem(settings), IItemExtension {
+    override fun isRepairable(arg: ItemStack) = false
 
-@ExpectPlatform
-fun createStaffRendererItem(settings: Item.Settings): Item = throw AssertionError()
-
-@ExpectPlatform
-fun createCrownItem(settings: Item.Settings): CrownItem = throw AssertionError()
+    override fun makesPiglinsNeutral(stack: ItemStack, wearer: LivingEntity) = stack.item is CrownItem
+}

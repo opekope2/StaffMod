@@ -34,7 +34,9 @@ import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
+import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.internal.createCrownItem
 import opekope2.avm_staff.internal.createStaffItem
 import opekope2.avm_staff.internal.createStaffRendererItem
 import opekope2.avm_staff.util.MOD_ID
@@ -85,6 +87,18 @@ val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_st
 val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") {
     createStaffItem(
         Item.Settings().maxCount(1).rarity(Rarity.EPIC).requires(FeatureFlags.UPDATE_1_21)
+            .`arch$tab`(staffModItemGroup)
+    )
+}
+
+/**
+ * Gets `avm_staff:crown_of_king_orange` item registered in Minecraft.
+ *
+ * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+ */
+val crownOfKingOrangeItem: RegistrySupplier<CrownItem> = ITEMS.register("crown_of_king_orange") {
+    createCrownItem(
+        Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).requires(FeatureFlags.UPDATE_1_21)
             .`arch$tab`(staffModItemGroup)
     )
 }

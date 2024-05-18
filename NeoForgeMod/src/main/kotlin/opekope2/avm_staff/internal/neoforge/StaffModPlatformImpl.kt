@@ -22,10 +22,14 @@
 package opekope2.avm_staff.internal.neoforge
 
 import net.minecraft.item.Item
+import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.internal.neoforge.item.NeoForgeCrownItem
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffItem
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffRendererItem
 
 fun createStaffItem(settings: Item.Settings): StaffItem = NeoForgeStaffItem(settings)
 
 fun createStaffRendererItem(settings: Item.Settings): Item = NeoForgeStaffRendererItem(settings)
+
+fun createCrownItem(settings: Item.Settings): CrownItem = NeoForgeCrownItem(settings)

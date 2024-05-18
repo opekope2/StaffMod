@@ -31,6 +31,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.InitializerKt::modifyLootTables"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.staff_item_handler.VanillaStaffItemHandlersKt::registerVanillaStaffItemHandlers"
       }
     ],
@@ -46,7 +50,8 @@
     ]
   },
   "mixins": [
-    "avm_staff.mixins.json"
+    "avm_staff.mixins.json",
+    "avm_staff_fabric.mixins.json"
   ],
   "depends": {
     "fabric-api": ">=$fabric_api",
