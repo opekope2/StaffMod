@@ -88,7 +88,9 @@ class BellBlockHandler : StaffItemHandler() {
 
     @Environment(EnvType.CLIENT)
     class BellStaffItemRenderer : IStaffItemRenderer {
-        private val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().getChild("bell_body")
+        private val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().apply {
+            setPivot(-8f, -12f, -8f)
+        }
 
         override fun renderItemInStaff(
             staffStack: ItemStack,
@@ -99,7 +101,8 @@ class BellBlockHandler : StaffItemHandler() {
             overlay: Int
         ) {
             matrices.push {
-                translate(-0.5, -5.0 / 16.0, -0.5)
+                scale(16f / 9f, 16f / 9f, 16f / 9f)
+                translate(0f, 2f / 9f, 0f)
 
                 bellModel.render(
                     matrices,
