@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.event_handler
 
-import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -45,16 +44,6 @@ fun attackBlock(
     val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS
 
     return staffHandler.attackBlock(staffStack, world, player, target, direction, hand)
-}
-
-fun attackEntity(player: PlayerEntity, world: World, hand: Hand, target: Entity): ActionResult {
-    val itemStack = player.getStackInHand(hand)
-    if (!itemStack.isIn(staffsTag)) return ActionResult.PASS
-
-    val itemInStaff = itemStack.itemInStaff ?: return ActionResult.PASS
-    val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS
-
-    return staffHandler.attackEntity(itemStack, world, player, target, hand)
 }
 
 fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {

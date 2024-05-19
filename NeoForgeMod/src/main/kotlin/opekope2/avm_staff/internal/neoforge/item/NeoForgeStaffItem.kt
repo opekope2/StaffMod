@@ -24,12 +24,15 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.item.BuiltinModelItemRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.util.Hand
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.item.IDisablesShield
@@ -60,6 +63,12 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
 
     override fun isRepairable(arg: ItemStack): Boolean {
         return false
+    }
+
+    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
+        return stack.itemInStaff.handlerOfItemOrFallback.attackEntity(
+            stack, player.entityWorld, player, entity, Hand.MAIN_HAND
+        ).interruptsFurtherEvaluation()
     }
 
     override fun shouldCauseReequipAnimation(

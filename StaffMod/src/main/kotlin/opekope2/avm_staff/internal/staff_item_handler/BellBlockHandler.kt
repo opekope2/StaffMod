@@ -20,6 +20,7 @@ package opekope2.avm_staff.internal.staff_item_handler
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
+import dev.architectury.event.EventResult
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.RenderLayer
@@ -37,7 +38,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
-import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
@@ -65,7 +65,7 @@ class BellBlockHandler : StaffItemHandler() {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): ActionResult {
+    ): EventResult {
         world.playSound(
             target as? PlayerEntity,
             target.blockPos,
@@ -75,7 +75,7 @@ class BellBlockHandler : StaffItemHandler() {
             1f
         )
 
-        return ActionResult.PASS
+        return EventResult.pass()
     }
 
     override fun getAttributeModifiers(

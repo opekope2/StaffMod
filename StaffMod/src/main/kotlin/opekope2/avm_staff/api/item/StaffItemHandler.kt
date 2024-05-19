@@ -20,6 +20,7 @@ package opekope2.avm_staff.api.item
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
+import dev.architectury.event.EventResult
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
@@ -306,34 +307,15 @@ abstract class StaffItemHandler {
     }
 
     /**
-     * Called on both the client by Staff Mod and the server by Fabric API (Fabric) or Staff Mod (Forge), when an entity
-     * attacks an entity with a staff.
+     * Called on both the client by Fabric/Neo/Forge API and the server by Fabric/Neo/Forge API, when an entity attacks
+     * an entity with a staff.
      *
-     * On the logical client, the return values have the following meaning:
+     * The return values have the following meaning:
      *
-     * - SUCCESS:
-     *   Cancel vanilla entity attack,
-     *   send a packet to the server,
-     *   and swing hand.
-     *   This doesn't reset the entity attack cooldown
-     * - CONSUME, CONSUME_PARTIAL:
-     *   Cancel vanilla entity attack,
-     *   send a packet to the server,
-     *   and don't swing hand.
-     *   This doesn't reset the entity attack cooldown
-     * - PASS: Let Minecraft handle vanilla entity attack
-     * - FAIL:
-     *   Cancel vanilla entity attack,
-     *   don't send a packet to the server,
-     *   and don't swing hand.
-     *   This doesn't reset the entity attack cooldown
-     *
-     * On the logical server, the return values have the following meaning (if used by player):
-     *
-     * - SUCCESS, CONSUME, CONSUME_PARTIAL, FAIL: Cancel vanilla entity attack, don't attack the entity
-     * - PASS: Let Minecraft handle vanilla entity attack
-     *
-     * On the logical server, the return values are processed by the caller code (if the attacker is not a player).
+     * - [EventResult.interrupt], [EventResult.interruptTrue], [EventResult.interruptFalse], [EventResult.interruptDefault]:
+     *   Cancels vanilla entity attack, and on the logical client, sends a packet to the server.
+     * - [EventResult.pass]:
+     *   Lets Minecraft handle vanilla entity attack.
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [attacker] is in
@@ -347,8 +329,8 @@ abstract class StaffItemHandler {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): ActionResult {
-        return ActionResult.PASS
+    ): EventResult {
+        return EventResult.pass()
     }
 
     /**

@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff_item_handler
 
+import dev.architectury.event.EventResult
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractSkullBlock
@@ -92,7 +93,7 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): ActionResult {
+    ): EventResult {
         if (!world.isClient) {
             if (world.difficulty.id >= Difficulty.NORMAL.id) {
                 if (target is LivingEntity && !target.isInvulnerableTo(world.damageSources.wither())) {
@@ -102,7 +103,7 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
             }
         }
 
-        return super.attackEntity(staffStack, world, attacker, target, hand)
+        return EventResult.pass()
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {

@@ -27,8 +27,10 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
+import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.event_handler.attackBlock
-import opekope2.avm_staff.internal.event_handler.attackEntity
+import opekope2.avm_staff.util.handlerOfItem
+import opekope2.avm_staff.util.itemInStaff
 
 @Suppress("unused")
 object StaffMod : ModInitializer {
@@ -37,15 +39,22 @@ object StaffMod : ModInitializer {
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun handleEntityAttackEvent(
         player: PlayerEntity,
         world: World,
         hand: Hand,
         target: Entity,
-        @Suppress("UNUSED_PARAMETER") hit: EntityHitResult?
+        hit: EntityHitResult?
     ): ActionResult {
-        if (world.isClient) return ActionResult.PASS // Handled with mixin
+        val itemStack = player.getStackInHand(hand)
+        if (!itemStack.isIn(staffsTag)) return ActionResult.PASS
 
-        return attackEntity(player, world, hand, target)
+        val itemInStaff = itemStack.itemInStaff ?: return ActionResult.PASS
+        val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS
+
+        val result = staffHandler.attackEntity(itemStack, world, player, target, hand)
+        return if (result.interruptsFurtherEvaluation()) ActionResult.SUCCESS
+        else ActionResult.PASS
     }
 }

@@ -20,6 +20,7 @@ package opekope2.avm_staff.internal.staff_item_handler
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
+import dev.architectury.event.EventResult
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -68,12 +69,12 @@ class MagmaBlockHandler : StaffItemHandler() {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): ActionResult {
+    ): EventResult {
         if (!world.isClient) {
             target.setOnFireFor(8) // TODO duration
         }
 
-        return ActionResult.PASS
+        return EventResult.pass()
     }
 
     private fun shootFireball(world: World, user: LivingEntity) {

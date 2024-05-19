@@ -20,6 +20,7 @@ package opekope2.avm_staff.internal.staff_item_handler
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
+import dev.architectury.event.EventResult
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -28,7 +29,6 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
@@ -46,8 +46,8 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffIte
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): ActionResult {
-        if (world.isClient) return ActionResult.PASS
+    ): EventResult {
+        if (world.isClient) return EventResult.pass()
 
         var broke = false
         if (attacker is PlayerEntity && !attacker.abilities.creativeMode && attacker.random.nextFloat() < 0.12F) {
@@ -63,7 +63,7 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffIte
             0
         )
 
-        return ActionResult.PASS
+        return EventResult.pass()
     }
 
     override fun getAttributeModifiers(
