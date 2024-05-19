@@ -25,12 +25,14 @@ import net.minecraft.client.render.item.BuiltinModelItemRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.EquipmentSlot
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraftforge.client.extensions.common.IClientItemExtensions
 import net.minecraftforge.common.extensions.IForgeItem
+import opekope2.avm_staff.api.item.IDisablesShield
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.handlerOfItemOrFallback
@@ -43,6 +45,17 @@ class ForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IForgeItem 
         stack: ItemStack
     ): Multimap<EntityAttribute, EntityAttributeModifier> {
         return stack.itemInStaff.handlerOfItemOrFallback.getAttributeModifiers(stack, slot)
+    }
+
+    @Suppress("RemoveExplicitSuperQualifier") // Required because StaffItem apparently also has canDisableShield
+    override fun canDisableShield(
+        stack: ItemStack,
+        shield: ItemStack?,
+        entity: LivingEntity?,
+        attacker: LivingEntity?
+    ): Boolean {
+        return stack.itemInStaff.handlerOfItemOrFallback is IDisablesShield ||
+                super<IForgeItem>.canDisableShield(stack, shield, entity, attacker)
     }
 
     override fun isRepairable(arg: ItemStack): Boolean {
