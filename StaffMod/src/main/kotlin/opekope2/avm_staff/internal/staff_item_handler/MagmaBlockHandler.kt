@@ -30,7 +30,6 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
@@ -57,10 +56,9 @@ class MagmaBlockHandler : StaffItemHandler() {
         }
     }
 
-    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
+    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         shootFireball(world, attacker)
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
-        return ActionResult.SUCCESS
     }
 
     override fun attackEntity(

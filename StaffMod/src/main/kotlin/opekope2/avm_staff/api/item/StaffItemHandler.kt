@@ -228,32 +228,15 @@ abstract class StaffItemHandler {
     }
 
     /**
-     * Called on both the client and the server by Staff Mod, when an entity attacks nothing (left clicks on air) with
-     * a staff.
-     *
-     * On the logical client, the return values have the following meaning:
-     *
-     * - SUCCESS: send a packet to the server, and swing hand. This doesn't reset attack cooldown
-     * - CONSUME, CONSUME_PARTIAL: send a packet to the server, and don't swing hand. This doesn't reset attack cooldown
-     * - PASS: Let Minecraft handle vanilla attack
-     * - FAIL: don't send a packet to the server, and don't swing hand. This doesn't reset attack cooldown
-     *
-     * On the logical server, the return value is ignored (if used by player) or processed by the caller code
-     * (if the attacker is not a player).
+     * Called on both the client by Architectury API and the server by Staff Mod, when an entity attacks thin air with a
+     * staff.
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [attacker] is in
      * @param attacker      The entity, which attacked with the staff
      * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
      */
-    open fun attack(
-        staffStack: ItemStack,
-        world: World,
-        attacker: LivingEntity,
-        hand: Hand
-    ): ActionResult {
-        return ActionResult.PASS
-    }
+    open fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {}
 
     /**
      * Called on both the client and the server by Architectury API, when an entity attacks a block with a staff.

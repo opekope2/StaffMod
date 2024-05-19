@@ -22,12 +22,11 @@ import dev.architectury.networking.NetworkManager.PacketContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
 import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
-import opekope2.avm_staff.internal.networking.c2s.play.StaffAttackC2SPacket
+import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.hasHandlerOfItem
 import opekope2.avm_staff.util.isItemInStaff
 import opekope2.avm_staff.util.itemInStaff
@@ -59,12 +58,16 @@ fun removeBlockFromStaff(packet: RemoveItemFromStaffC2SPacket, context: PacketCo
     }
 }
 
-@Suppress("UNUSED_PARAMETER")
-fun attack(packet: StaffAttackC2SPacket, context: PacketContext): ActionResult {
+fun attack(packet: AttackC2SPacket, context: PacketContext) {
     val player = context.player
     val staffStack = player.mainHandStack
 
-    return attack(staffStack, player.world, player, Hand.MAIN_HAND)
+    if (!staffStack.isIn(staffsTag)) return
+
+    val itemInStaff: ItemStack = staffStack.itemInStaff ?: return
+    val staffHandler = itemInStaff.handlerOfItem ?: return
+
+    staffHandler.attack(staffStack, player.entityWorld, player, packet.hand)
 }
 
 private fun ItemStack.canAccept(other: ItemStack, maxCountPerStack: Int): Boolean {

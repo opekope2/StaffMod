@@ -19,15 +19,13 @@
 package opekope2.avm_staff.internal.event_handler
 
 import dev.architectury.event.EventResult
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.World
 import opekope2.avm_staff.api.staffsTag
+import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.itemInStaff
 
@@ -43,11 +41,13 @@ fun attackBlock(player: PlayerEntity, hand: Hand, target: BlockPos, direction: D
     else result
 }
 
-fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
-    if (!staffStack.isIn(staffsTag)) return ActionResult.PASS
+fun clientAttack(player: PlayerEntity, hand: Hand) {
+    val staffStack = player.getStackInHand(hand)
+    if (!staffStack.isIn(staffsTag)) return
 
-    val itemInStaff: ItemStack = staffStack.itemInStaff ?: return ActionResult.PASS
-    val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS
+    val itemInStaff: ItemStack = staffStack.itemInStaff ?: return
+    val staffHandler = itemInStaff.handlerOfItem ?: return
 
-    return staffHandler.attack(staffStack, world, attacker, hand)
+    staffHandler.attack(staffStack, player.entityWorld, player, hand)
+    AttackC2SPacket(hand).send()
 }

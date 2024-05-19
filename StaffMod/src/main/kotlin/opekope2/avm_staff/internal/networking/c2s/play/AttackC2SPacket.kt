@@ -22,23 +22,25 @@ import dev.architectury.networking.NetworkChannel
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.internal.networking.IPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrar
 import opekope2.avm_staff.util.MOD_ID
 
-class StaffAttackC2SPacket() : IPacket {
-    constructor(@Suppress("UNUSED_PARAMETER") buf: PacketByteBuf) : this()
+class AttackC2SPacket(val hand: Hand) : IPacket {
+    constructor(buf: PacketByteBuf) : this(buf.readEnumConstant(Hand::class.java))
 
     override fun write(buf: PacketByteBuf) {
+        buf.writeEnumConstant(hand)
     }
 
     @Environment(EnvType.CLIENT)
     fun send() = channel.sendToServer(this)
 
-    companion object : PacketRegistrar<StaffAttackC2SPacket>(
-        NetworkChannel.create(Identifier(MOD_ID, "remove_item_from_staff")),
-        StaffAttackC2SPacket::class.java,
-        ::StaffAttackC2SPacket
+    companion object : PacketRegistrar<AttackC2SPacket>(
+        NetworkChannel.create(Identifier(MOD_ID, "attack")),
+        AttackC2SPacket::class.java,
+        ::AttackC2SPacket
     )
 }

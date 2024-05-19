@@ -35,7 +35,6 @@ import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.WitherSkullEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.Difficulty
@@ -64,12 +63,11 @@ class WitherSkeletonSkullHandler : StaffItemHandler() {
         }
     }
 
-    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
-        if (attacker is PlayerEntity && attacker.itemCooldownManager.isCoolingDown(staffStack.item)) return ActionResult.FAIL
+    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
+        if (attacker is PlayerEntity && attacker.itemCooldownManager.isCoolingDown(staffStack.item)) return
 
         shootSkull(world, attacker, false)
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
-        return ActionResult.SUCCESS
     }
 
     private fun shootSkull(world: World, user: LivingEntity, charged: Boolean) {

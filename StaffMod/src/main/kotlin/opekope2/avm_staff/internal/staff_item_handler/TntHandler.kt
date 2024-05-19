@@ -33,10 +33,9 @@ import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.util.*
 
 class TntHandler : StaffItemHandler() {
-    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
-        return shootTnt(world, attacker).also {
-            (attacker as? PlayerEntity)?.resetLastAttackedTicks()
-        }
+    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
+        shootTnt(world, attacker)
+        (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }
 
     private fun shootTnt(world: World, attacker: LivingEntity): ActionResult {

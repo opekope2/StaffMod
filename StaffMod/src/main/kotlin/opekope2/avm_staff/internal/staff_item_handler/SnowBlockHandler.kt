@@ -23,7 +23,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.thrown.SnowballEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundEvents
-import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
@@ -47,10 +46,9 @@ class SnowBlockHandler : StaffItemHandler() {
         throwSnowball(world, user)
     }
 
-    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {
+    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         throwSnowball(world, attacker)
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
-        return ActionResult.SUCCESS
     }
 
     private fun throwSnowball(world: World, user: LivingEntity) {
