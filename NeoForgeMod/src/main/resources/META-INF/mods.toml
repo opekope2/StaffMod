@@ -18,9 +18,6 @@ displayURL = "https://opekope2.dev/StaffMod"
 [[mixins]]
 config = "avm_staff.mixins.json"
 
-[[mixins]]
-config = "avm_staff_neoforge.mixins.json"
-
 [[dependencies.avm_staff]]
 modId = "neoforge"
 type = "required"

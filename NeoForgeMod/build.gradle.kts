@@ -80,7 +80,6 @@ tasks {
 
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))
-        from(projectDir.resolve("Fabric.license"))
     }
 
     remapJar {
@@ -91,7 +90,6 @@ tasks {
 
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))
-        from(projectDir.resolve("Fabric.license"))
     }
 
     sourcesJar {
