@@ -19,7 +19,6 @@
 package opekope2.avm_staff.internal.fabric
 
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -28,14 +27,12 @@ import net.minecraft.util.Hand
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staffsTag
-import opekope2.avm_staff.internal.event_handler.attackBlock
 import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.itemInStaff
 
 @Suppress("unused")
 object StaffMod : ModInitializer {
     override fun onInitialize() {
-        AttackBlockCallback.EVENT.register(::attackBlock)
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
     }
 

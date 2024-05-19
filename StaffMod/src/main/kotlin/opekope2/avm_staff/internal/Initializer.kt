@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal
 
+import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.entry.ItemEntry
@@ -25,6 +26,7 @@ import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.crownOfKingOrangeItem
 import opekope2.avm_staff.internal.event_handler.addBlockToStaff
 import opekope2.avm_staff.internal.event_handler.attack
+import opekope2.avm_staff.internal.event_handler.attackBlock
 import opekope2.avm_staff.internal.event_handler.removeBlockFromStaff
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
@@ -42,7 +44,8 @@ fun initializeNetworking() {
 
 private val TREASURE_BASTION_CHEST_LOOT = Identifier("chests/bastion_treasure")
 
-fun modifyLootTables() {
+fun subscribeToEvents() {
+    InteractionEvent.LEFT_CLICK_BLOCK.register(::attackBlock)
     LootEvent.MODIFY_LOOT_TABLE.register(LootEvent.ModifyLootTable { _, lootTableId, context, builtin ->
         if (builtin && lootTableId == TREASURE_BASTION_CHEST_LOOT) {
             context.addPool(LootPool.builder().with(ItemEntry.builder(crownOfKingOrangeItem.get())))

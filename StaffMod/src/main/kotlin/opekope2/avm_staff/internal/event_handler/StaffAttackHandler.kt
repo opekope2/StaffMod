@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.event_handler
 
+import dev.architectury.event.EventResult
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -30,20 +31,16 @@ import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.itemInStaff
 
-fun attackBlock(
-    player: PlayerEntity,
-    world: World,
-    hand: Hand,
-    target: BlockPos,
-    direction: Direction
-): ActionResult {
+fun attackBlock(player: PlayerEntity, hand: Hand, target: BlockPos, direction: Direction): EventResult {
     val staffStack = player.getStackInHand(hand)
-    if (!staffStack.isIn(staffsTag)) return ActionResult.PASS
+    if (!staffStack.isIn(staffsTag)) return EventResult.pass()
 
-    val itemInStaff = staffStack.itemInStaff ?: return ActionResult.PASS
-    val staffHandler = itemInStaff.handlerOfItem ?: return ActionResult.PASS
+    val itemInStaff = staffStack.itemInStaff ?: return EventResult.pass()
+    val staffHandler = itemInStaff.handlerOfItem ?: return EventResult.pass()
 
-    return staffHandler.attackBlock(staffStack, world, player, target, direction, hand)
+    val result = staffHandler.attackBlock(staffStack, player.entityWorld, player, target, direction, hand)
+    return if (result.isFalse) EventResult.interruptTrue() // Force Fabric to send packet for Neo/Forge parity
+    else result
 }
 
 fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand): ActionResult {

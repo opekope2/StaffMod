@@ -22,9 +22,9 @@ import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.fml.common.Mod
 import opekope2.avm_staff.internal.initializeNetworking
-import opekope2.avm_staff.internal.modifyLootTables
 import opekope2.avm_staff.internal.registerContent
 import opekope2.avm_staff.internal.staff_item_handler.registerVanillaStaffItemHandlers
+import opekope2.avm_staff.internal.subscribeToEvents
 import opekope2.avm_staff.util.MOD_ID
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.forge.runWhenOn
@@ -35,7 +35,7 @@ object StaffMod {
         EventBuses.registerModEventBus(MOD_ID, MOD_BUS)
         registerContent()
         initializeNetworking()
-        modifyLootTables()
+        subscribeToEvents()
         registerVanillaStaffItemHandlers()
         runWhenOn(Dist.CLIENT, StaffModClient::initializeClient)
     }

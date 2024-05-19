@@ -256,37 +256,14 @@ abstract class StaffItemHandler {
     }
 
     /**
-     * Called on both the client and the server by Fabric API (Fabric) or Staff Mod (Forge),when an entity attacks a
-     * block with a staff.
+     * Called on both the client and the server by Architectury API, when an entity attacks a block with a staff.
      *
-     * On the logical client, the return values have the following meaning:
+     * The return values have the following meaning:
      *
-     * - SUCCESS:
-     *   Cancel vanilla block breaking,
-     *   send a packet to the server,
-     *   spawn block breaking particles,
-     *   and swing hand.
-     *   This doesn't reset the block breaking cooldown
-     * - CONSUME, CONSUME_PARTIAL:
-     *   Cancel vanilla block breaking,
-     *   send a packet to the server,
-     *   don't spawn block breaking particles,
-     *   and don't swing hand.
-     *   This doesn't reset the block breaking cooldown
-     * - PASS: Let Minecraft handle vanilla block breaking
-     * - FAIL:
-     *   Cancel vanilla block breaking,
-     *   don't send a packet to the server,
-     *   don't spawn block breaking particles,
-     *   and don't swing hand.
-     *   This doesn't reset the block breaking cooldown
-     *
-     * On the logical server, the return values have the following meaning (if used by player):
-     *
-     * - SUCCESS, CONSUME, CONSUME_PARTIAL, FAIL: Cancel vanilla block breaking, and notify the client
-     * - PASS: Let Minecraft handle vanilla block breaking
-     *
-     * On the logical server, the return values are processed by the caller code (if the attacker is not a player).
+     * - [EventResult.interruptTrue], [EventResult.interruptTrue]:
+     *   Cancels vanilla block breaking, and on the logical client, sends a packet to the server.
+     * - [EventResult.interruptDefault], [EventResult.pass]:
+     *   Lets Minecraft handle vanilla block breaking.
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [attacker] is in
@@ -302,8 +279,8 @@ abstract class StaffItemHandler {
         target: BlockPos,
         side: Direction,
         hand: Hand
-    ): ActionResult {
-        return ActionResult.PASS
+    ): EventResult {
+        return EventResult.pass()
     }
 
     /**

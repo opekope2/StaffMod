@@ -31,7 +31,7 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.InitializerKt::modifyLootTables"
+        "value": "opekope2.avm_staff.internal.InitializerKt::subscribeToEvents"
       },
       {
         "adapter": "kotlin",
