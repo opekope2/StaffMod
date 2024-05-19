@@ -45,7 +45,6 @@ import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.mixin.IEntityMixin
 import opekope2.avm_staff.util.*
 
 class CampfireHandler(
@@ -73,8 +72,7 @@ class CampfireHandler(
         val forward = user.rotationVector
         val origin = user.approximateStaffTipPosition
         val target = origin + forward * FLAME_MAX_DISTANCE
-        val relativeRight =
-            (user as IEntityMixin).invokeGetRotationVector(0f, MathHelper.wrapDegrees(user.yaw + 90f)).normalize()
+        val relativeRight = user.getRotationVector(0f, MathHelper.wrapDegrees(user.yaw + 90f)).normalize()
         val relativeUp = relativeRight.crossProduct(forward).normalize()
 
         if (world.isClient) {

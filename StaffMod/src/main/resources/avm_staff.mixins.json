@@ -12,8 +12,6 @@
     "IParticleMixin"
   ],
   "mixins": [
-    "IAbstractFurnaceBlockEntityMixin",
-    "IEntityMixin",
     "LivingEntityMixin",
     "TntEntityMixin"
   ]
