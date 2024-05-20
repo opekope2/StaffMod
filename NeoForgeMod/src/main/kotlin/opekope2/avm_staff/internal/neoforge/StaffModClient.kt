@@ -26,7 +26,6 @@ import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.TickEvent
 import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
@@ -51,10 +50,6 @@ object StaffModClient {
         event.enqueueWork {
             registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric)
         }
-    }
-
-    @SubscribeEvent
-    fun addItemsToItemGroups(event: BuildCreativeModeTabContentsEvent) {
     }
 
     @SubscribeEvent

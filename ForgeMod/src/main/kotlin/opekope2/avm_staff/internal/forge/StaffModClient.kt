@@ -24,7 +24,6 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
@@ -51,10 +50,6 @@ object StaffModClient {
         event.enqueueWork {
             registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric)
         }
-    }
-
-    @SubscribeEvent
-    fun addItemsToItemGroups(event: BuildCreativeModeTabContentsEvent) {
     }
 
     @SubscribeEvent
