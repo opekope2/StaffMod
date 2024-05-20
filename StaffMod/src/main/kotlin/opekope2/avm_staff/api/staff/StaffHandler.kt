@@ -317,7 +317,7 @@ abstract class StaffHandler {
     }
 
     /**
-     * Called on the client side by Forge, when the NBT of the held item gets updated.
+     * Called on the client side by Neo/Forge, when the NBT of the held item gets updated.
      *
      * @param oldStaffStack         The previous item stack
      * @param newStaffStack         The updated item stack

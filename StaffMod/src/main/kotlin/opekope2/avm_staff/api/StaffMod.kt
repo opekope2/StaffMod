@@ -123,7 +123,7 @@ val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("avm_s
 /**
  * Gets the flamethrower's flame particle type.
  *
- * Due to how Forge registries work, *always* use this getter instead of storing the result.
+ * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
  *
  * @see ParticleManager.addParticle
  */
@@ -133,7 +133,7 @@ val flamethrowerParticleType: RegistrySupplier<DefaultParticleType> =
 /**
  * Gets the soul fire flamethrower's flame particle type.
  *
- * Due to how Forge registries work, *always* use this getter instead of storing the result.
+ * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
  *
  * @see ParticleManager.addParticle
  */
