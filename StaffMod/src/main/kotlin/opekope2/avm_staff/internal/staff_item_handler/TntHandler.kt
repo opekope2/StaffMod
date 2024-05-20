@@ -28,7 +28,6 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.entity.explodesOnImpact
 import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.util.*
 

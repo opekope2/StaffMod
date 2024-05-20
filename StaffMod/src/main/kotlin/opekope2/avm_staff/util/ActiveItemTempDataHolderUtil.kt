@@ -18,21 +18,23 @@
 
 @file: JvmSynthetic
 
-package opekope2.avm_staff.api.entity
+package opekope2.avm_staff.util
 
-import net.minecraft.entity.TntEntity
+import net.minecraft.entity.LivingEntity
+import opekope2.avm_staff.api.item.IActiveItemTempDataHolder
 
 /**
- * Kotlin utility to get or set a TNT to explode when it collides with a block or entity.
+ * Kotlin utility to get or set the temporary data associated with an entity. To be used by the item class being used on
+ * server side.
  *
- * @see IImpactTnt
+ * @see IActiveItemTempDataHolder
  */
-inline var TntEntity.explodesOnImpact: Boolean
+inline var LivingEntity.activeItemTempData: Any?
     get() {
-        this as IImpactTnt
-        return `staffMod$explodesOnImpact`()
+        this as IActiveItemTempDataHolder
+        return `staffMod$getActiveItemTempData`()
     }
     set(value) {
-        this as IImpactTnt
-        `staffMod$explodeOnImpact`(value)
+        this as IActiveItemTempDataHolder
+        `staffMod$setActiveItemTempData`(value)
     }

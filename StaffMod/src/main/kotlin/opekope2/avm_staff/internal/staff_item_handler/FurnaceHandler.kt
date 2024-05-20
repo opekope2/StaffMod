@@ -50,7 +50,6 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItemHandler
-import opekope2.avm_staff.api.item.activeItemTempData
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.util.*
