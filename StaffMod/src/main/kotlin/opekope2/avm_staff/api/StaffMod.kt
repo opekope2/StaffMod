@@ -50,18 +50,14 @@ private val ITEM_GROUPS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROU
 private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTICLE_TYPE)
 
 /**
- * Gets `avm_staff:faint_staff_rod` item registered in Minecraft.
- *
- * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+ * Item registered as `avm_staff:faint_staff_rod`.
  */
 val faintStaffRodItem: RegistrySupplier<Item> = ITEMS.register("faint_staff_rod") {
     Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup))
 }
 
 /**
- * Gets `avm_staff:faint_royal_staff_head` item registered in Minecraft.
- *
- * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+ * Item registered as `avm_staff:faint_royal_staff_head`.
  */
 val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff_head") {
     Item(
@@ -71,9 +67,7 @@ val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_roya
 }
 
 /**
- * Gets `avm_staff:faint_royal_staff` item registered in Minecraft.
- *
- * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+ * Item registered as `avm_staff:faint_royal_staff`.
  */
 val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff") {
     createStaffRendererItem(
@@ -83,9 +77,7 @@ val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_st
 }
 
 /**
- * Gets `avm_staff:royal_staff` item registered in Minecraft.
- *
- * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+ * Item registered as `avm_staff:royal_staff`.
  */
 val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") {
     createStaffItem(
@@ -95,9 +87,7 @@ val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") 
 }
 
 /**
- * Gets `avm_staff:crown_of_king_orange` item registered in Minecraft.
- *
- * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+ * Item registered as `avm_staff:crown_of_king_orange`.
  */
 val crownOfKingOrangeItem: RegistrySupplier<CrownItem> = ITEMS.register("crown_of_king_orange") {
     createCrownItem(
@@ -124,12 +114,12 @@ val staffInfusionSmithingTemplateItem: RegistrySupplier<Item> = ITEMS.register("
 }
 
 /**
- * Gets the [TagKey] containing all the staffs.
+ * Tag registered as `avm_staff:staffs`.
  */
 val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "staffs"))
 
 /**
- * Gets Staff Mod's item group.
+ * Item group containing items added by Staff Mod.
  */
 val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("${MOD_ID}_items") {
     CreativeTabRegistry.create(Text.translatable("itemGroup.${MOD_ID}_items")) {
@@ -140,9 +130,7 @@ val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("${MOD
 }
 
 /**
- * Gets the flamethrower's flame particle type.
- *
- * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+ * Particle registered as `avm_staff:flame`.
  *
  * @see ParticleManager.addParticle
  */
@@ -150,9 +138,7 @@ val flamethrowerParticleType: RegistrySupplier<DefaultParticleType> =
     PARTICLE_TYPES.register("flame") { DefaultParticleType(false) }
 
 /**
- * Gets the soul fire flamethrower's flame particle type.
- *
- * Due to how Neo/Forge registries work, *always* use this getter instead of storing the result.
+ * Particle registered as `avm_staff:soul_fire_flame`.
  *
  * @see ParticleManager.addParticle
  */
