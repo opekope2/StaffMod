@@ -33,6 +33,7 @@ import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
+import opekope2.avm_staff.internal.registerSmithingTableTextures
 import opekope2.avm_staff.internal.staff_handler.registerVanillaStaffItemRenderers
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
@@ -40,6 +41,7 @@ import thedarkcolour.kotlinforforge.forge.MOD_BUS
 @OnlyIn(Dist.CLIENT)
 object StaffModClient {
     fun initializeClient() {
+        registerSmithingTableTextures()
         registerVanillaStaffItemRenderers()
         MOD_BUS.register(this)
         FORGE_BUS.register(javaClass)

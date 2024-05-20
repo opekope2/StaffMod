@@ -45,6 +45,10 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.InitializerKt::registerSmithingTableTextures"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.staff_handler.VanillaStaffHandlersKt::registerVanillaStaffItemRenderers"
       }
     ]

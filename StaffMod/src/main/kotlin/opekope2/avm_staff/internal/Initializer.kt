@@ -21,8 +21,11 @@ package opekope2.avm_staff.internal
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.loot.LootManager
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.entry.ItemEntry
@@ -31,6 +34,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import opekope2.avm_staff.api.crownOfKingOrangeItem
+import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.event_handler.addBlockToStaff
 import opekope2.avm_staff.internal.event_handler.attack
@@ -38,6 +42,7 @@ import opekope2.avm_staff.internal.event_handler.removeBlockFromStaff
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.itemInStaff
 
@@ -92,4 +97,11 @@ fun subscribeToEvents() {
     InteractionEvent.LEFT_CLICK_BLOCK.register(::attackBlock)
     InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(::clientAttack)
     LootEvent.MODIFY_LOOT_TABLE.register(::modifyLootTables)
+}
+
+@Environment(EnvType.CLIENT)
+fun registerSmithingTableTextures() {
+    StaffInfusionSmithingRecipeTextures.register(
+        Identifier(MOD_ID, "item/empty_slot_royal_staff"), SmithingTemplateItem.EMPTY_SLOT_REDSTONE_DUST_TEXTURE
+    )
 }

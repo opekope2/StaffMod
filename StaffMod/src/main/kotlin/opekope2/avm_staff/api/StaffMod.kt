@@ -28,6 +28,7 @@ import net.minecraft.client.particle.ParticleManager
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
+import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -37,6 +38,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.internal.createCrownItem
 import opekope2.avm_staff.internal.createStaffItem
 import opekope2.avm_staff.internal.createStaffRendererItem
@@ -105,6 +107,23 @@ val crownOfKingOrangeItem: RegistrySupplier<CrownItem> = ITEMS.register("crown_o
 }
 
 /**
+ * Item registered as `avm_staff:staff_infusion_smithing_template`.
+ */
+val staffInfusionSmithingTemplateItem: RegistrySupplier<Item> = ITEMS.register("staff_infusion_smithing_template") {
+    SmithingTemplateItem(
+        Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.applies_to")
+            .formatted(SmithingTemplateItem.DESCRIPTION_FORMATTING),
+        SmithingTemplateItem.ARMOR_TRIM_INGREDIENTS_TEXT,
+        Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.title")
+            .formatted(SmithingTemplateItem.TITLE_FORMATTING),
+        Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.base_slot_description"),
+        SmithingTemplateItem.ARMOR_TRIM_ADDITIONS_SLOT_DESCRIPTION_TEXT,
+        StaffInfusionSmithingRecipeTextures.baseSlotTextures,
+        StaffInfusionSmithingRecipeTextures.additionsSlotTextures
+    )
+}
+
+/**
  * Gets the [TagKey] containing all the staffs.
  */
 val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "staffs"))
@@ -148,4 +167,7 @@ internal fun registerContent() {
     ITEMS.register()
     ITEM_GROUPS.register()
     PARTICLE_TYPES.register()
+
+    // Because SmithingTemplateItem doesn't take Item.Settings in its constructor
+    CreativeTabRegistry.append(staffModItemGroup, staffInfusionSmithingTemplateItem)
 }
