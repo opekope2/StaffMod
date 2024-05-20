@@ -27,7 +27,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
-import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.staff.StaffHandler
 
 /**
  * NBT key
@@ -68,17 +68,17 @@ val ItemStack.hasHandlerOfItem: Boolean
     @JvmName("hasHandlerOfStaff")
     get() {
         val itemId = Registries.ITEM.getId(item)
-        return itemId in StaffItemHandler
+        return itemId in StaffHandler
     }
 
 /**
  * Returns the handler of the given item stack, if available.
  * This item stack is not the staff item stack, but the one can be inserted into the staff.
  */
-val ItemStack.handlerOfItem: StaffItemHandler?
+val ItemStack.handlerOfItem: StaffHandler?
     get() {
         val itemId = Registries.ITEM.getId(item)
-        return StaffItemHandler[itemId]
+        return StaffHandler[itemId]
     }
 
 /**
@@ -86,9 +86,9 @@ val ItemStack.handlerOfItem: StaffItemHandler?
  * item stack is `null`.
  * This item stack is not the staff item stack, but the one can be inserted into the staff.
  */
-val ItemStack?.handlerOfItemOrFallback: StaffItemHandler
-    get() = if (this == null) StaffItemHandler.EmptyStaffHandler
-    else handlerOfItem ?: StaffItemHandler.FallbackStaffHandler
+val ItemStack?.handlerOfItemOrFallback: StaffHandler
+    get() = if (this == null) StaffHandler.EmptyStaffHandler
+    else handlerOfItem ?: StaffHandler.FallbackStaffHandler
 
 private const val STAFF_MODEL_LENGTH = 40.0 / 16.0
 private const val STAFF_MODEL_ITEM_POSITION_CENTER = 33.5 / 16.0

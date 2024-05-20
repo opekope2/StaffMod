@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.api.item
+package opekope2.avm_staff.api.staff
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
@@ -45,10 +45,8 @@ import opekope2.avm_staff.util.attackSpeed
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
- *
- * @see IDisablesShield
  */
-abstract class StaffItemHandler {
+abstract class StaffHandler {
     /**
      * The number of ticks the staff can be used for using the current item.
      */
@@ -294,6 +292,13 @@ abstract class StaffItemHandler {
     }
 
     /**
+     * Returns if attacking with the staff should disable the target's shield.
+     */
+    open fun disablesShield(): Boolean {
+        return false
+    }
+
+    /**
      * Called on the client side by Fabric API, when the NBT of the held item gets updated.
      *
      * @param oldStaffStack The previous item stack
@@ -341,9 +346,9 @@ abstract class StaffItemHandler {
         else ImmutableMultimap.of()
     }
 
-    object EmptyStaffHandler : StaffItemHandler()
+    object EmptyStaffHandler : StaffHandler()
 
-    object FallbackStaffHandler : StaffItemHandler()
+    object FallbackStaffHandler : StaffHandler()
 
     companion object {
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
@@ -353,10 +358,10 @@ abstract class StaffItemHandler {
             attackSpeed(2.0)
         )
 
-        private val staffItemsHandlers = mutableMapOf<Identifier, StaffItemHandler>()
+        private val staffItemsHandlers = mutableMapOf<Identifier, StaffHandler>()
 
         /**
-         * Registers a [StaffItemHandler] for the given [item ID][staffItem]. Call this from your common mod initializer.
+         * Registers a [StaffHandler] for the given [item ID][staffItem]. Call this from your common mod initializer.
          *
          * @param staffItem                     The item ID to register a handler for. This is the item, which can be
          *   inserted into the staff
@@ -365,7 +370,7 @@ abstract class StaffItemHandler {
          * @return `true`, if the registration was successful, `false`, if the item was already registered
          */
         @JvmStatic
-        fun register(staffItem: Identifier, handler: StaffItemHandler): Boolean {
+        fun register(staffItem: Identifier, handler: StaffHandler): Boolean {
             if (staffItem in staffItemsHandlers) return false
 
             staffItemsHandlers[staffItem] = handler
@@ -387,6 +392,6 @@ abstract class StaffItemHandler {
          * @param staffItem The item ID, which can be inserted into the staff
          */
         @JvmStatic
-        operator fun get(staffItem: Identifier): StaffItemHandler? = staffItemsHandlers[staffItem]
+        operator fun get(staffItem: Identifier): StaffHandler? = staffItemsHandlers[staffItem]
     }
 }

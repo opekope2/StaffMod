@@ -33,7 +33,7 @@ import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
-import opekope2.avm_staff.internal.staff_item_handler.registerVanillaStaffItemRenderers
+import opekope2.avm_staff.internal.staff_handler.registerVanillaStaffItemRenderers
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 

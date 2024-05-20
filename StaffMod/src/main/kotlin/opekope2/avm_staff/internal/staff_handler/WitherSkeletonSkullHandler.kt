@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_item_handler
+package opekope2.avm_staff.internal.staff_handler
 
 import dev.architectury.event.EventResult
 import net.fabricmc.api.EnvType
@@ -40,11 +40,11 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
+import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
-class WitherSkeletonSkullHandler : StaffItemHandler() {
+class WitherSkeletonSkullHandler : StaffHandler() {
     override val maxUseTime = 20
 
     override fun use(

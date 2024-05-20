@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_item_handler
+package opekope2.avm_staff.internal.staff_handler
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
@@ -32,14 +32,13 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.item.IDisablesShield
-import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.equipTime
 import opekope2.avm_staff.util.itemInStaff
 import java.util.*
 
-class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffItemHandler(), IDisablesShield {
+class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHandler() {
     override fun attackEntity(
         staffStack: ItemStack,
         world: World,
@@ -65,6 +64,8 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffIte
 
         return EventResult.pass()
     }
+
+    override fun disablesShield() = true
 
     override fun getAttributeModifiers(
         staffStack: ItemStack,

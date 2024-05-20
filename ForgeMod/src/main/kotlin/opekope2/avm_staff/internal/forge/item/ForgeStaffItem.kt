@@ -35,7 +35,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import net.minecraftforge.client.extensions.common.IClientItemExtensions
 import net.minecraftforge.common.extensions.IForgeItem
-import opekope2.avm_staff.api.item.IDisablesShield
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.handlerOfItemOrFallback
@@ -57,7 +56,7 @@ class ForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IForgeItem 
         entity: LivingEntity?,
         attacker: LivingEntity?
     ): Boolean {
-        return stack.itemInStaff.handlerOfItemOrFallback is IDisablesShield ||
+        return stack.itemInStaff.handlerOfItemOrFallback.disablesShield() ||
                 super<IForgeItem>.canDisableShield(stack, shield, entity, attacker)
     }
 

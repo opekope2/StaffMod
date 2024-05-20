@@ -22,7 +22,7 @@ import net.neoforged.api.distmarker.Dist
 import net.neoforged.fml.common.Mod
 import opekope2.avm_staff.internal.initializeNetworking
 import opekope2.avm_staff.internal.registerContent
-import opekope2.avm_staff.internal.staff_item_handler.registerVanillaStaffItemHandlers
+import opekope2.avm_staff.internal.staff_handler.registerVanillaStaffHandlers
 import opekope2.avm_staff.internal.subscribeToEvents
 import opekope2.avm_staff.util.MOD_ID
 import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
@@ -33,7 +33,7 @@ object StaffMod {
         registerContent()
         initializeNetworking()
         subscribeToEvents()
-        registerVanillaStaffItemHandlers()
+        registerVanillaStaffHandlers()
         runWhenOn(Dist.CLIENT, StaffModClient::initializeClient)
     }
 }

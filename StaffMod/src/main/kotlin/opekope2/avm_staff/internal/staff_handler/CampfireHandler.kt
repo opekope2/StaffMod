@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_item_handler
+package opekope2.avm_staff.internal.staff_handler
 
 import dev.architectury.event.events.common.TickEvent
 import dev.architectury.registry.registries.RegistrySupplier
@@ -44,13 +44,13 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
 class CampfireHandler(
     private val particleEffectSupplier: RegistrySupplier<DefaultParticleType>,
     private val properties: Properties
-) : StaffItemHandler() {
+) : StaffHandler() {
     override val maxUseTime: Int
         get() = 72000
 

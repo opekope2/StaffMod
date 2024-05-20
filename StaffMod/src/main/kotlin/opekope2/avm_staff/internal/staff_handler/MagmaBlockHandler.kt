@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_item_handler
+package opekope2.avm_staff.internal.staff_handler
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
@@ -34,10 +34,10 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
-class MagmaBlockHandler : StaffItemHandler() {
+class MagmaBlockHandler : StaffHandler() {
     override val maxUseTime = 72000
 
     override fun use(

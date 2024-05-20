@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_item_handler
+package opekope2.avm_staff.internal.staff_handler
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.BoneMealItem
@@ -28,9 +28,9 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.staff.StaffHandler
 
-class BoneBlockHandler : StaffItemHandler() {
+class BoneBlockHandler : StaffHandler() {
     override fun useOnBlock(
         staffStack: ItemStack,
         world: World,

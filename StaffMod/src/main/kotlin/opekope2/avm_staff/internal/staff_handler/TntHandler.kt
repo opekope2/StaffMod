@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_item_handler
+package opekope2.avm_staff.internal.staff_handler
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.TntEntity
@@ -28,10 +28,10 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
-class TntHandler : StaffItemHandler() {
+class TntHandler : StaffHandler() {
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         shootTnt(world, attacker)
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()

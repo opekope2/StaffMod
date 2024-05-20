@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_item_handler
+package opekope2.avm_staff.internal.staff_handler
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -28,16 +28,16 @@ import net.minecraft.recipe.RecipeType
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvents
 import opekope2.avm_staff.api.flamethrowerParticleType
-import opekope2.avm_staff.api.item.StaffItemHandler
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.soulFlamethrowerParticleType
+import opekope2.avm_staff.api.staff.StaffHandler
 
-private fun Item.registerHandler(handler: StaffItemHandler) {
-    StaffItemHandler.register(Registries.ITEM.getId(this), handler)
+private fun Item.registerHandler(handler: StaffHandler) {
+    StaffHandler.register(Registries.ITEM.getId(this), handler)
 }
 
-fun registerVanillaStaffItemHandlers() {
+fun registerVanillaStaffHandlers() {
     Items.ANVIL.registerHandler(AnvilHandler(Items.CHIPPED_ANVIL::getDefaultStack))
     Items.CHIPPED_ANVIL.registerHandler(AnvilHandler(Items.DAMAGED_ANVIL::getDefaultStack))
     Items.DAMAGED_ANVIL.registerHandler(AnvilHandler { null })

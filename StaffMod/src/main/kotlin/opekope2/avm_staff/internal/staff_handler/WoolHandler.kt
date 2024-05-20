@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_item_handler
+package opekope2.avm_staff.internal.staff_handler
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
@@ -40,12 +40,12 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.item.StaffItemHandler
+import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.mixin.IMinecraftClientMixin
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 
-class WoolHandler(woolBlock: Block, carpetBlock: Block) : StaffItemHandler() {
+class WoolHandler(woolBlock: Block, carpetBlock: Block) : StaffHandler() {
     private val woolState = woolBlock.defaultState
     private val carpetState = carpetBlock.defaultState
 
