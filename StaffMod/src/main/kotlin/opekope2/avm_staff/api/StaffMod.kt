@@ -17,6 +17,7 @@
  */
 
 @file: JvmName("StaffMod")
+@file: Suppress("unused")
 
 package opekope2.avm_staff.api
 
