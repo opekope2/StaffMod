@@ -23,15 +23,16 @@ import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.isItemInStaff
 import org.lwjgl.glfw.GLFW
 
 @JvmField
 val ADD_REMOVE_KEYBINDING = KeyBinding(
-    "key.avm_staff.add_remove_staff_block",
+    "key.$MOD_ID.add_remove_staff_block",
     InputUtil.Type.KEYSYM,
     GLFW.GLFW_KEY_R,
-    "key.categories.avm_staff"
+    "key.categories.$MOD_ID"
 )
 
 fun handleKeyBindings(client: MinecraftClient) {

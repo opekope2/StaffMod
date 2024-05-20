@@ -112,8 +112,8 @@ val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "s
 /**
  * Gets Staff Mod's item group.
  */
-val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("avm_staff_items") {
-    CreativeTabRegistry.create(Text.translatable("itemGroup.avm_staff_items")) {
+val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("${MOD_ID}_items") {
+    CreativeTabRegistry.create(Text.translatable("itemGroup.${MOD_ID}_items")) {
         royalStaffItem.get().defaultStack.apply {
             itemInStaff = Items.COMMAND_BLOCK.defaultStack
         }
