@@ -75,7 +75,7 @@ tasks {
     }
 
     processResources {
-        filesMatching("META-INF/mods.toml") {
+        filesMatching("META-INF/neoforge.mods.toml") {
             expand(
                 mutableMapOf(
                     "version" to version as String,
