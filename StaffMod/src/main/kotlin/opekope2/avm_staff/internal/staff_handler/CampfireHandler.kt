@@ -135,12 +135,8 @@ class CampfireHandler(
 
             particleManager.addParticle(
                 particleEffectSupplier.get(),
-                origin.x,
-                origin.y,
-                origin.z,
-                particleSpeed.x,
-                particleSpeed.y,
-                particleSpeed.z
+                origin.x, origin.y, origin.z,
+                particleSpeed.x, particleSpeed.y, particleSpeed.z
             )!!.maxAge = (0.25 * FLAME_MAX_AGE / (Math.random() * 0.8 + 0.2) - 0.05 * FLAME_MAX_AGE).toInt()
         }
     }
