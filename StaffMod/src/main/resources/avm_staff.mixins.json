@@ -12,7 +12,6 @@
     "IParticleMixin"
   ],
   "mixins": [
-    "LivingEntityMixin",
-    "TntEntityMixin"
+    "LivingEntityMixin"
   ]
 }

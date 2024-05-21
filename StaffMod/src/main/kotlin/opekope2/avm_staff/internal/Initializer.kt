@@ -22,8 +22,10 @@ import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
+import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.render.entity.TntEntityRenderer
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
@@ -31,6 +33,7 @@ import net.minecraft.loot.entry.ItemEntry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.crownOfKingOrangeItem
+import opekope2.avm_staff.api.impactTntEntityType
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.internal.event_handler.*
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
@@ -68,6 +71,7 @@ fun subscribeToEvents() {
 @Environment(EnvType.CLIENT)
 fun registerClientContent() {
     KeyMappingRegistry.register(addRemoveStaffItemKeyBinding)
+    EntityRendererRegistry.register(impactTntEntityType, ::TntEntityRenderer)
 }
 
 @Environment(EnvType.CLIENT)

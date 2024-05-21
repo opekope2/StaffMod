@@ -27,6 +27,8 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.client.particle.ParticleManager
 import net.minecraft.component.DataComponentType
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.SpawnGroup
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
@@ -38,6 +40,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
+import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
@@ -51,6 +54,7 @@ import opekope2.avm_staff.util.itemStackInStaff
 
 private val ITEMS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM)
 private val ITEM_GROUPS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROUP)
+private val ENTITY_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.ENTITY_TYPE)
 private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTICLE_TYPE)
 private val DATA_COMPONENT_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE)
 
@@ -132,6 +136,19 @@ val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("${MOD
 }
 
 /**
+ * Entity registered as `avm_staff:impact_tnt`.
+ */
+val impactTntEntityType: RegistrySupplier<EntityType<ImpactTntEntity>> = ENTITY_TYPES.register("impact_tnt") {
+    EntityType.Builder.create(::ImpactTntEntity, SpawnGroup.MISC)
+        .makeFireImmune()
+        .dimensions(EntityType.TNT.dimensions.width, EntityType.TNT.dimensions.height)
+        .eyeHeight(EntityType.TNT.dimensions.eyeHeight)
+        .maxTrackingRange(EntityType.TNT.maxTrackDistance)
+        .trackingTickInterval(EntityType.TNT.trackTickInterval)
+        .build(Identifier(MOD_ID, "impact_tnt").toString())
+}
+
+/**
  * Particle registered as `avm_staff:flame`.
  *
  * @see ParticleManager.addParticle
@@ -187,6 +204,7 @@ val furnaceLitComponentType: RegistrySupplier<DataComponentType<UnitComponent>> 
 internal fun registerContent() {
     ITEMS.register()
     ITEM_GROUPS.register()
+    ENTITY_TYPES.register()
     PARTICLE_TYPES.register()
     DATA_COMPONENT_TYPES.register()
 

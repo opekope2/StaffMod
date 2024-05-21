@@ -19,7 +19,6 @@
 package opekope2.avm_staff.internal.staff_handler
 
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.TntEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
@@ -28,6 +27,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
@@ -42,15 +42,11 @@ class TntHandler : StaffHandler() {
 
         if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return ActionResult.FAIL
 
-        val (x, y, z) = attacker.approximateStaffTipPosition
-        world.spawnEntity(
-            TntEntity(world, x, y, z, attacker).apply {
-                velocity = attacker.rotationVector + attacker.velocity
-                explodesOnImpact = true
-                world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f)
-                world.emitGameEvent(attacker, GameEvent.PRIME_FUSE, pos)
-            }
-        )
+        val spawnPos = attacker.approximateStaffTipPosition
+        val (x, y, z) = spawnPos
+        world.spawnEntity(ImpactTntEntity(world, x, y, z, attacker.rotationVector + attacker.velocity, attacker))
+        world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f)
+        world.emitGameEvent(attacker, GameEvent.PRIME_FUSE, spawnPos)
 
         return ActionResult.SUCCESS
     }
