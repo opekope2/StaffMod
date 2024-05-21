@@ -18,15 +18,12 @@
 
 package opekope2.avm_staff.api.staff
 
-import com.google.common.collect.ImmutableMultimap
-import com.google.common.collect.Multimap
 import dev.architectury.event.EventResult
 import net.minecraft.advancement.criterion.Criteria
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -336,14 +333,9 @@ abstract class StaffHandler {
      * Gets the attribute modifiers (damage, attack speed, etc.) of the staff when held.
      *
      * @param staffStack    The staff item stack (not the item in the staff)
-     * @param slot          The slot the staff is equipped in
      */
-    open fun getAttributeModifiers(
-        staffStack: ItemStack,
-        slot: EquipmentSlot
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
-        else ImmutableMultimap.of()
+    open fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent {
+        return ATTRIBUTE_MODIFIERS
     }
 
     object EmptyStaffHandler : StaffHandler()
@@ -351,12 +343,10 @@ abstract class StaffHandler {
     object FallbackStaffHandler : StaffHandler()
 
     companion object {
-        private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
-            EntityAttributes.GENERIC_ATTACK_DAMAGE,
-            attackDamage(4.0),
-            EntityAttributes.GENERIC_ATTACK_SPEED,
-            attackSpeed(2.0)
-        )
+        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(4.0), AttributeModifierSlot.MAINHAND)
+            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
+            .build()
 
         private val staffItemsHandlers = mutableMapOf<Identifier, StaffHandler>()
 

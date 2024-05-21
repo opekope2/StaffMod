@@ -18,14 +18,11 @@
 
 package opekope2.avm_staff.internal.staff_handler
 
-import com.google.common.collect.ImmutableMultimap
-import com.google.common.collect.Multimap
 import dev.architectury.event.EventResult
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
@@ -90,20 +87,12 @@ class MagmaBlockHandler : StaffHandler() {
         })
     }
 
-    override fun getAttributeModifiers(
-        staffStack: ItemStack,
-        slot: EquipmentSlot
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
-        else super.getAttributeModifiers(staffStack, slot)
-    }
+    override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
 
     private companion object {
-        private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
-            EntityAttributes.GENERIC_ATTACK_DAMAGE,
-            attackDamage(5.0),
-            EntityAttributes.GENERIC_ATTACK_SPEED,
-            attackSpeed(2.0)
-        )
+        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(5.0), AttributeModifierSlot.MAINHAND)
+            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
+            .build()
     }
 }

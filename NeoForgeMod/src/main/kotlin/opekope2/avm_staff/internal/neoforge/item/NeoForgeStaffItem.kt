@@ -18,17 +18,14 @@
 
 package opekope2.avm_staff.internal.neoforge.item
 
-import com.google.common.collect.Multimap
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.item.BuiltinModelItemRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -38,14 +35,12 @@ import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.staffHandlerOrFallback
 import java.util.function.Consumer
 
 class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExtension {
-    override fun getAttributeModifiers(
-        slot: EquipmentSlot,
-        stack: ItemStack
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return stack.itemInStaff.handlerOfItemOrFallback.getAttributeModifiers(stack, slot)
+    override fun getAttributeModifiers(stack: ItemStack): AttributeModifiersComponent {
+        return stack.itemInStaff.staffHandlerOrFallback.getAttributeModifiers(stack)
     }
 
     @Suppress("RemoveExplicitSuperQualifier") // Required because StaffItem apparently also has canDisableShield

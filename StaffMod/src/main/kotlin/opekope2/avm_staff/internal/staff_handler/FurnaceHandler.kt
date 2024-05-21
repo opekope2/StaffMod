@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal.staff_handler
 
-import com.google.common.collect.ImmutableMultimap
-import com.google.common.collect.Multimap
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractFurnaceBlock
@@ -30,11 +28,10 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.EquipmentSlot
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SingleStackInventory
@@ -169,13 +166,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         return selectedSlotChanged
     }
 
-    override fun getAttributeModifiers(
-        staffStack: ItemStack,
-        slot: EquipmentSlot
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
-        else super.getAttributeModifiers(staffStack, slot)
-    }
+    override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
 
     @Environment(EnvType.CLIENT)
     class FurnaceStaffItemRenderer(unlitState: BlockState, litState: BlockState) : IStaffItemRenderer {
@@ -220,11 +211,9 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 
     companion object {
         private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
-        private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
-            EntityAttributes.GENERIC_ATTACK_DAMAGE,
-            attackDamage(5.0),
-            EntityAttributes.GENERIC_ATTACK_SPEED,
-            attackSpeed(2.0)
-        )
+        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(5.0), AttributeModifierSlot.MAINHAND)
+            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
+            .build()
     }
 }

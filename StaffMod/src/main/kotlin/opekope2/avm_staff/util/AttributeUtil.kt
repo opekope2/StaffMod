@@ -36,7 +36,7 @@ fun attackDamage(totalAttackDamage: Double): EntityAttributeModifier = EntityAtt
     Item.ATTACK_DAMAGE_MODIFIER_ID,
     "Weapon modifier",
     totalAttackDamage - PLAYER_BASE_ATTACK_DAMAGE,
-    EntityAttributeModifier.Operation.ADDITION
+    EntityAttributeModifier.Operation.ADD_VALUE
 )
 
 /**
@@ -49,7 +49,7 @@ fun attackSpeed(totalAttackSpeed: Double): EntityAttributeModifier = EntityAttri
     Item.ATTACK_SPEED_MODIFIER_ID,
     "Weapon modifier",
     totalAttackSpeed - PLAYER_BASE_ATTACK_SPEED,
-    EntityAttributeModifier.Operation.ADDITION
+    EntityAttributeModifier.Operation.ADD_VALUE
 )
 
 /**

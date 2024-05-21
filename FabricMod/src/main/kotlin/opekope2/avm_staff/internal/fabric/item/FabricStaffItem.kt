@@ -18,14 +18,11 @@
 
 package opekope2.avm_staff.internal.fabric.item
 
-import com.google.common.collect.Multimap
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.item.v1.FabricItem
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.entity.EquipmentSlot
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -55,10 +52,7 @@ class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem
         else oldHandler.allowNbtUpdateAnimation(oldStack, newStack, player, hand)
     }
 
-    override fun getAttributeModifiers(
-        stack: ItemStack,
-        slot: EquipmentSlot
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return stack.itemInStaff.handlerOfItemOrFallback.getAttributeModifiers(stack, slot)
+    override fun getAttributeModifiers(stack: ItemStack): AttributeModifiersComponent {
+        return stack.itemInStaff.staffHandlerOrFallback.getAttributeModifiers(stack)
     }
 }

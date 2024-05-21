@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal.staff_handler
 
-import com.google.common.collect.ImmutableMultimap
-import com.google.common.collect.Multimap
 import dev.architectury.event.EventResult
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -28,11 +26,10 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -78,13 +75,7 @@ class BellBlockHandler : StaffHandler() {
         return EventResult.pass()
     }
 
-    override fun getAttributeModifiers(
-        staffStack: ItemStack,
-        slot: EquipmentSlot
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return if (slot == EquipmentSlot.MAINHAND) ATTRIBUTE_MODIFIERS
-        else super.getAttributeModifiers(staffStack, slot)
-    }
+    override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
 
     @Environment(EnvType.CLIENT)
     class BellStaffItemRenderer : IStaffItemRenderer {
@@ -118,11 +109,9 @@ class BellBlockHandler : StaffHandler() {
     }
 
     companion object {
-        private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
-            EntityAttributes.GENERIC_ATTACK_DAMAGE,
-            attackDamage(8.0),
-            EntityAttributes.GENERIC_ATTACK_SPEED,
-            attackSpeed(1.5)
-        )
+        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(8.0), AttributeModifierSlot.MAINHAND)
+            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.5), AttributeModifierSlot.MAINHAND)
+            .build()
     }
 }

@@ -18,13 +18,11 @@
 
 package opekope2.avm_staff.internal.staff_handler
 
-import com.google.common.collect.ImmutableMultimap
-import com.google.common.collect.Multimap
 import dev.architectury.event.EventResult
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
@@ -67,40 +65,52 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHan
 
     override fun disablesShield() = true
 
-    override fun getAttributeModifiers(
-        staffStack: ItemStack,
-        slot: EquipmentSlot
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return when (slot) {
-            EquipmentSlot.MAINHAND -> MAIN_HAND_ATTRIBUTE_MODIFIERS
-            EquipmentSlot.OFFHAND -> OFF_HAND_ATTRIBUTE_MODIFIERS
-            else -> super.getAttributeModifiers(staffStack, slot)
-        }
-    }
+    override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
 
     private companion object {
-        private val MAIN_HAND_ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
-            EntityAttributes.GENERIC_ATTACK_DAMAGE,
-            attackDamage(40.0),
-            EntityAttributes.GENERIC_ATTACK_SPEED,
-            equipTime(4.0),
-            EntityAttributes.GENERIC_MOVEMENT_SPEED,
-            EntityAttributeModifier(
-                UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750d"),
-                "Weapon modifier",
-                -1.0,
-                EntityAttributeModifier.Operation.MULTIPLY_TOTAL
+        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(40.0), AttributeModifierSlot.MAINHAND)
+            .add(EntityAttributes.GENERIC_ATTACK_SPEED, equipTime(4.0), AttributeModifierSlot.MAINHAND)
+            .add(
+                EntityAttributes.GENERIC_MOVEMENT_SPEED,
+                EntityAttributeModifier(
+                    UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750d"),
+                    "Weapon modifier",
+                    -1.0,
+                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                ),
+                AttributeModifierSlot.MAINHAND
             )
-        )
-
-        private val OFF_HAND_ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
-            EntityAttributes.GENERIC_MOVEMENT_SPEED,
-            EntityAttributeModifier(
-                UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750e"),
-                "Weapon modifier",
-                -1.0,
-                EntityAttributeModifier.Operation.MULTIPLY_TOTAL
+            .add(
+                EntityAttributes.GENERIC_MOVEMENT_SPEED,
+                EntityAttributeModifier(
+                    UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750e"),
+                    "Weapon modifier",
+                    -1.0,
+                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                ),
+                AttributeModifierSlot.OFFHAND
             )
-        )
+            .add(
+                EntityAttributes.GENERIC_JUMP_STRENGTH,
+                EntityAttributeModifier(
+                    UUID.fromString("cbaf4a1a-e200-427c-b423-37733a264173"),
+                    "Weapon modifier",
+                    -1.0,
+                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                ),
+                AttributeModifierSlot.MAINHAND
+            )
+            .add(
+                EntityAttributes.GENERIC_JUMP_STRENGTH,
+                EntityAttributeModifier(
+                    UUID.fromString("cbaf4a1a-e200-427c-b423-37733a264174"),
+                    "Weapon modifier",
+                    -1.0,
+                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                ),
+                AttributeModifierSlot.OFFHAND
+            )
+            .build()
     }
 }
