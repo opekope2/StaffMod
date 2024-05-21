@@ -67,7 +67,6 @@ fun modifyLootTables(
 
 fun subscribeToEvents() {
     InteractionEvent.LEFT_CLICK_BLOCK.register(::attackBlock)
-    InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(::clientAttack)
     LootEvent.MODIFY_LOOT_TABLE.register(::modifyLootTables)
 }
 
@@ -88,5 +87,6 @@ fun registerSmithingTableTextures() {
 
 @Environment(EnvType.CLIENT)
 fun subscribeToClientEvents() {
+    InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(::clientAttack)
     ClientTickEvent.CLIENT_POST.register(::handleKeyBindings)
 }
