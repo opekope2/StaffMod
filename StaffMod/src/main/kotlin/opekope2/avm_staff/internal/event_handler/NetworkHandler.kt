@@ -26,20 +26,17 @@ import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
-import opekope2.avm_staff.util.handlerOfItem
-import opekope2.avm_staff.util.hasHandlerOfItem
-import opekope2.avm_staff.util.isItemInStaff
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.*
 
 @Suppress("UNUSED_PARAMETER")
 fun addBlockToStaff(packet: AddItemToStaffC2SPacket, context: PacketContext) {
     val player = context.player
-    val (staffStack, itemStack) = findStaffAndItemStack(player) ?: return
+    val (staffStack, itemStackToAdd) = findStaffAndItemStack(player) ?: return
 
-    if (itemStack.isEmpty) return
-    if (!itemStack.hasHandlerOfItem) return
+    if (itemStackToAdd.isEmpty) return
+    if (!itemStackToAdd.item.hasStaffHandler) return
     if (staffStack.isItemInStaff) return
-    staffStack.itemInStaff = itemStack
+    staffStack.itemStackInStaff = itemStackToAdd.split(1)
 }
 
 @Suppress("UNUSED_PARAMETER")
@@ -50,11 +47,11 @@ fun removeBlockFromStaff(packet: RemoveItemFromStaffC2SPacket, context: PacketCo
     val (staffStack, itemSlot) = findStaffStackAndItemSlot(player) ?: return
     val inventory = player.inventory
     val itemStack = inventory.getStack(itemSlot)
-    val staffItem = staffStack.itemInStaff ?: return
+    val staffItem = staffStack.mutableItemStackInStaff ?: return
 
     if (itemStack.canAccept(staffItem, inventory.maxCountPerStack)) {
         inventory.insertStack(itemSlot, staffItem)
-        staffStack.itemInStaff = null
+        staffStack.itemStackInStaff = null
     }
 }
 
@@ -64,8 +61,8 @@ fun attack(packet: AttackC2SPacket, context: PacketContext) {
 
     if (!staffStack.isIn(staffsTag)) return
 
-    val itemInStaff: ItemStack = staffStack.itemInStaff ?: return
-    val staffHandler = itemInStaff.handlerOfItem ?: return
+    val itemInStaff = staffStack.itemInStaff ?: return
+    val staffHandler = itemInStaff.staffHandler ?: return
 
     staffHandler.attack(staffStack, player.entityWorld, player, packet.hand)
 }

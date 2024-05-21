@@ -31,7 +31,7 @@ import opekope2.avm_staff.internal.model.HEAD_SEED
 import opekope2.avm_staff.internal.model.ITEM_SEED
 import opekope2.avm_staff.internal.model.ROD_BOTTOM_SEED
 import opekope2.avm_staff.internal.model.ROD_TOP_SEED
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.itemStackInStaff
 import opekope2.avm_staff.util.push
 
 /**
@@ -89,7 +89,7 @@ object StaffRenderer {
                 renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
 
                 // Item
-                staffStack.itemInStaff?.let { itemInStaff ->
+                staffStack.itemStackInStaff?.let { itemInStaff ->
                     renderItem(mode, this, staffStack, itemInStaff, light, overlay, vertexConsumers)
                 }
             }
@@ -124,7 +124,7 @@ object StaffRenderer {
                 renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
 
                 // Item
-                staffStack.itemInStaff?.let { itemInStaff ->
+                staffStack.itemStackInStaff?.let { itemInStaff ->
                     renderItem(mode, this, staffStack, itemInStaff, light, overlay, vertexConsumers)
                 }
             }
@@ -148,7 +148,7 @@ object StaffRenderer {
                 renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
 
                 // Item
-                staffStack.itemInStaff?.let { itemInStaff ->
+                staffStack.itemStackInStaff?.let { itemInStaff ->
                     renderItem(mode, this, staffStack, itemInStaff, light, overlay, vertexConsumers)
                 }
             }

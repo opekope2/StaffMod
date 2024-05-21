@@ -49,6 +49,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
+import opekope2.avm_staff.api.furnaceLitComponentType
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffHandler
@@ -69,7 +70,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     ): TypedActionResult<ItemStack> {
         if (world.isClient) {
             // Visual only
-            staffStack.orCreateNbt.putBoolean(LIT_KEY, true)
+            staffStack[furnaceLitComponentType.get()] = UnitComponent
         } else {
             user.activeItemTempData = BurnTimeTempData(0)
         }
@@ -140,7 +141,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         if (world.isClient) {
             // Visual only
-            staffStack.nbt?.remove(LIT_KEY)
+            staffStack.remove(furnaceLitComponentType.get())
         } else {
             user.activeItemTempData = null
         }
@@ -195,7 +196,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             overlay: Int
         ) {
             val renderer =
-                if (staffStack.nbt?.getBoolean(LIT_KEY) == true) litRenderer
+                if (furnaceLitComponentType.get() in staffStack) litRenderer
                 else unlitRenderer
 
             renderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
@@ -218,7 +219,6 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     companion object {
-        private const val LIT_KEY = "Lit"
         private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
         private val ATTRIBUTE_MODIFIERS = ImmutableMultimap.of(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,

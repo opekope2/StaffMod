@@ -21,74 +21,81 @@
 package opekope2.avm_staff.util
 
 import net.minecraft.entity.Entity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.Registries
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
 import opekope2.avm_staff.api.staff.StaffHandler
-
-/**
- * NBT key
- */
-private const val ITEM_KEY = "Item"
+import opekope2.avm_staff.api.staff.StaffItemComponent
+import opekope2.avm_staff.api.staffItemComponentType
 
 /**
  * Checks if an item is added the given staff item stack.
  */
 val ItemStack.isItemInStaff: Boolean
     @JvmName("isItemInStaff")
-    get() = nbt?.contains(ITEM_KEY) ?: false
+    get() = staffItemComponentType.get() in this
 
 /**
- * Gets or sets the item added to the given staff item stack.
+ * Gets the item inserted into the given staff item stack.
  */
-var ItemStack.itemInStaff: ItemStack?
-    get() {
-        return if (!isItemInStaff) null
-        else ItemStack.fromNbt(nbt?.getCompound(ITEM_KEY) ?: return null)
-    }
+val ItemStack.itemInStaff: Item?
+    get() = getOrDefault(staffItemComponentType.get(), null)?.item?.item
+
+/**
+ * Gets or sets the item stack inserted into the given staff item stack.
+ * The value returned MUST NOT be modified in any way, use [mutableItemStackInStaff] instead.
+ * The value passed in MUST NOT be stored elsewhere, pass in a copy of it instead.
+ *
+ * @see mutableItemStackInStaff
+ */
+var ItemStack.itemStackInStaff: ItemStack?
+    get() = getOrDefault(staffItemComponentType.get(), null)?.item
     set(value) {
-        if (value == null) {
-            removeSubNbt(ITEM_KEY)
+        if (value == null || value.isEmpty) {
+            remove(staffItemComponentType.get())
             return
         }
 
-        val staffItemStack = value.split(1)
-        val nbt = getOrCreateNbt()
-        nbt.put(ITEM_KEY, NbtCompound().also(staffItemStack::writeNbt))
+        this[staffItemComponentType.get()] = StaffItemComponent(value.copy())
     }
 
 /**
- * Returns if the given staff item stack has a registered handler.
- * This item stack is not the staff item stack, but the one can be inserted into the staff.
+ * Gets a copy of the item stack inserted into the given staff item stack. The value returned can be freely modified.
+ *
+ * @see itemStackInStaff
  */
-val ItemStack.hasHandlerOfItem: Boolean
-    @JvmName("hasHandlerOfStaff")
+val ItemStack.mutableItemStackInStaff: ItemStack?
+    get() = itemStackInStaff?.copy()
+
+/**
+ * Returns if the given item has a registered handler when inserted into a staff.
+ */
+val Item.hasStaffHandler: Boolean
+    @JvmName("hasStaffHandler")
     get() {
-        val itemId = Registries.ITEM.getId(item)
+        val itemId = Registries.ITEM.getId(this)
         return itemId in StaffHandler
     }
 
 /**
- * Returns the handler of the given item stack, if available.
- * This item stack is not the staff item stack, but the one can be inserted into the staff.
+ * Returns the registered staff handler of the given item if available.
  */
-val ItemStack.handlerOfItem: StaffHandler?
+val Item.staffHandler: StaffHandler?
     get() {
-        val itemId = Registries.ITEM.getId(item)
+        val itemId = Registries.ITEM.getId(this)
         return StaffHandler[itemId]
     }
 
 /**
- * Returns the handler of the given item stack, if available, a dummy one if not, and the empty staff handler if the
- * item stack is `null`.
- * This item stack is not the staff item stack, but the one can be inserted into the staff.
+ * Returns the registered staff handler of the given item stack if available, a dummy one if not, and the empty staff
+ * handler if the item is `null`.
  */
-val ItemStack?.handlerOfItemOrFallback: StaffHandler
+val Item?.staffHandlerOrFallback: StaffHandler
     get() = if (this == null) StaffHandler.EmptyStaffHandler
-    else handlerOfItem ?: StaffHandler.FallbackStaffHandler
+    else staffHandler ?: StaffHandler.FallbackStaffHandler
 
 private const val STAFF_MODEL_LENGTH = 40.0 / 16.0
 private const val STAFF_MODEL_ITEM_POSITION_CENTER = 33.5 / 16.0

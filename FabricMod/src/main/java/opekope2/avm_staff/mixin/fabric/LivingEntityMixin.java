@@ -19,6 +19,7 @@
 package opekope2.avm_staff.mixin.fabric;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import opekope2.avm_staff.api.StaffMod;
 import opekope2.avm_staff.api.staff.StaffHandler;
@@ -39,10 +40,10 @@ public abstract class LivingEntityMixin {
         ItemStack mainHandStack = getMainHandStack();
         if (!mainHandStack.isIn(StaffMod.getStaffsTag())) return;
 
-        ItemStack itemInStaff = StaffUtil.getItemInStaff(mainHandStack);
+        Item itemInStaff = StaffUtil.getItemInStaff(mainHandStack);
         if (itemInStaff == null) return;
 
-        StaffHandler handlerOfItem = StaffUtil.getHandlerOfItemOrFallback(itemInStaff);
+        StaffHandler handlerOfItem = StaffUtil.getStaffHandlerOrFallback(itemInStaff);
         if (handlerOfItem.disablesShield()) {
             cir.setReturnValue(true);
         }

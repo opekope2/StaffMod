@@ -35,7 +35,7 @@ import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.equipTime
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.itemStackInStaff
 import java.util.*
 
 class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHandler() {
@@ -51,7 +51,7 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHan
         var broke = false
         if (attacker is PlayerEntity && !attacker.abilities.creativeMode && attacker.random.nextFloat() < 0.12F) {
             val damagedStack = damagedStackFactory()
-            staffStack.itemInStaff = damagedStack
+            staffStack.itemStackInStaff = damagedStack
             broke = damagedStack == null
         }
 

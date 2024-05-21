@@ -44,6 +44,7 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import opekope2.avm_staff.api.rocketModeComponentType
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
@@ -60,7 +61,9 @@ class CampfireHandler(
         user: PlayerEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        staffStack.getOrCreateNbt().putBoolean(ROCKET_MODE_KEY, user.isSneaking && !user.isOnGround)
+        if (user.isSneaking && !user.isOnGround) {
+            staffStack[rocketModeComponentType.get()] = UnitComponent
+        }
 
         user.setCurrentHand(hand)
         return TypedActionResult.consume(staffStack)
@@ -101,7 +104,7 @@ class CampfireHandler(
             }
         }
 
-        if (staffStack.nbt?.getBoolean(ROCKET_MODE_KEY) == true) {
+        if (rocketModeComponentType.get() in staffStack) {
             user.addVelocity(forward * -properties.rocketThrust)
             user.velocityModified = true
             if (forward.y < 0.0) {
@@ -143,7 +146,7 @@ class CampfireHandler(
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        staffStack.getOrCreateNbt().remove(ROCKET_MODE_KEY)
+        staffStack.remove(rocketModeComponentType.get())
     }
 
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
@@ -247,8 +250,6 @@ class CampfireHandler(
         private const val FLAMETHROWER_CONE_END_HEIGHT = 0.25 * FLAME_MAX_DISTANCE
         private const val FLAMETHROWER_CONE_RAYS = 16
         private const val FLAMETHROWER_CONE_RAYS_TOTAL = FLAMETHROWER_CONE_RAYS * FLAMETHROWER_CONE_RAYS
-
-        private const val ROCKET_MODE_KEY = "RocketMode"
 
         private val flameParticleCount: Int
             @Environment(EnvType.CLIENT)

@@ -21,15 +21,18 @@
 
 package opekope2.avm_staff.api
 
+import com.mojang.serialization.Codec
 import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.client.particle.ParticleManager
+import net.minecraft.component.DataComponentType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
 import net.minecraft.item.SmithingTemplateItem
-import net.minecraft.particle.DefaultParticleType
+import net.minecraft.network.codec.PacketCodec
+import net.minecraft.particle.SimpleParticleType
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.text.Text
@@ -38,15 +41,18 @@ import net.minecraft.util.Rarity
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
+import opekope2.avm_staff.api.staff.StaffItemComponent
 import opekope2.avm_staff.internal.createCrownItem
 import opekope2.avm_staff.internal.createStaffItem
 import opekope2.avm_staff.internal.createStaffRendererItem
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.UnitComponent
+import opekope2.avm_staff.util.itemStackInStaff
 
 private val ITEMS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM)
 private val ITEM_GROUPS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROUP)
 private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTICLE_TYPE)
+private val DATA_COMPONENT_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE)
 
 /**
  * Item registered as `avm_staff:faint_staff_rod`.
@@ -120,7 +126,7 @@ val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "s
 val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("${MOD_ID}_items") {
     CreativeTabRegistry.create(Text.translatable("itemGroup.${MOD_ID}_items")) {
         royalStaffItem.get().defaultStack.apply {
-            itemInStaff = Items.COMMAND_BLOCK.defaultStack
+            itemStackInStaff = Items.COMMAND_BLOCK.defaultStack
         }
     }
 }
@@ -130,16 +136,49 @@ val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("${MOD
  *
  * @see ParticleManager.addParticle
  */
-val flamethrowerParticleType: RegistrySupplier<DefaultParticleType> =
-    PARTICLE_TYPES.register("flame") { DefaultParticleType(false) }
+val flamethrowerParticleType: RegistrySupplier<SimpleParticleType> =
+    PARTICLE_TYPES.register("flame") { SimpleParticleType(false) }
 
 /**
  * Particle registered as `avm_staff:soul_fire_flame`.
  *
  * @see ParticleManager.addParticle
  */
-val soulFlamethrowerParticleType: RegistrySupplier<DefaultParticleType> =
-    PARTICLE_TYPES.register("soul_fire_flame") { DefaultParticleType(false) }
+val soulFlamethrowerParticleType: RegistrySupplier<SimpleParticleType> =
+    PARTICLE_TYPES.register("soul_fire_flame") { SimpleParticleType(false) }
+
+/**
+ * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.
+ */
+val staffItemComponentType: RegistrySupplier<DataComponentType<StaffItemComponent>> =
+    DATA_COMPONENT_TYPES.register("staff_item") {
+        DataComponentType.builder<StaffItemComponent>()
+            .codec(StaffItemComponent.CODEC)
+            .packetCodec(StaffItemComponent.PACKET_CODEC)
+            .build()
+    }
+
+/**
+ * Data component registered as `avm_staff:rocket_mode`. Stores if a campfire staff should propel its user.
+ */
+val rocketModeComponentType: RegistrySupplier<DataComponentType<UnitComponent>> =
+    DATA_COMPONENT_TYPES.register("rocket_mode") {
+        DataComponentType.builder<UnitComponent>()
+            .codec(Codec.unit(UnitComponent))
+            .packetCodec(PacketCodec.unit(UnitComponent))
+            .build()
+    }
+
+/**
+ * Data component registered as `avm_staff:furnace_lit`. Stores if a furnace staff is lit. Only used for rendering.
+ */
+val furnaceLitComponentType: RegistrySupplier<DataComponentType<UnitComponent>> =
+    DATA_COMPONENT_TYPES.register("furnace_lit") {
+        DataComponentType.builder<UnitComponent>()
+            .codec(Codec.unit(UnitComponent))
+            .packetCodec(PacketCodec.unit(UnitComponent))
+            .build()
+    }
 
 /**
  * @suppress
@@ -149,6 +188,7 @@ internal fun registerContent() {
     ITEMS.register()
     ITEM_GROUPS.register()
     PARTICLE_TYPES.register()
+    DATA_COMPONENT_TYPES.register()
 
     // Because SmithingTemplateItem doesn't take Item.Settings in its constructor
     CreativeTabRegistry.append(staffModItemGroup, staffInfusionSmithingTemplateItem)

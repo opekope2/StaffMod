@@ -22,21 +22,20 @@ import dev.architectury.event.EventResult
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
-import opekope2.avm_staff.util.handlerOfItem
 import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.staffHandler
 
 fun attackBlock(player: PlayerEntity, hand: Hand, target: BlockPos, direction: Direction): EventResult {
     val staffStack = player.getStackInHand(hand)
     if (!staffStack.isIn(staffsTag)) return EventResult.pass()
 
     val itemInStaff = staffStack.itemInStaff ?: return EventResult.pass()
-    val staffHandler = itemInStaff.handlerOfItem ?: return EventResult.pass()
+    val staffHandler = itemInStaff.staffHandler ?: return EventResult.pass()
 
     val result = staffHandler.attackBlock(staffStack, player.entityWorld, player, target, direction, hand)
     return if (result.isFalse) EventResult.interruptTrue() // Force Fabric to send packet for Neo/Forge parity
@@ -48,8 +47,8 @@ fun clientAttack(player: PlayerEntity, hand: Hand) {
     val staffStack = player.getStackInHand(hand)
     if (!staffStack.isIn(staffsTag)) return
 
-    val itemInStaff: ItemStack = staffStack.itemInStaff ?: return
-    val staffHandler = itemInStaff.handlerOfItem ?: return
+    val itemInStaff = staffStack.itemInStaff ?: return
+    val staffHandler = itemInStaff.staffHandler ?: return
 
     staffHandler.attack(staffStack, player.entityWorld, player, hand)
     AttackC2SPacket(hand).send()

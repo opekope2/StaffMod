@@ -37,7 +37,6 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
-import opekope2.avm_staff.util.handlerOfItemOrFallback
 import opekope2.avm_staff.util.itemInStaff
 import java.util.function.Consumer
 
@@ -56,7 +55,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         entity: LivingEntity,
         attacker: LivingEntity
     ): Boolean {
-        return stack.itemInStaff.handlerOfItemOrFallback.disablesShield() ||
+        return stack.itemInStaff.staffHandlerOrFallback.disablesShield() ||
                 super<IItemExtension>.canDisableShield(stack, shield, entity, attacker)
     }
 
@@ -65,7 +64,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
     }
 
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
-        return stack.itemInStaff.handlerOfItemOrFallback.attackEntity(
+        return stack.itemInStaff.staffHandlerOrFallback.attackEntity(
             stack, player.entityWorld, player, entity, Hand.MAIN_HAND
         ).interruptsFurtherEvaluation()
     }
@@ -75,8 +74,8 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         newStack: ItemStack,
         slotChanged: Boolean
     ): Boolean {
-        val oldHandler = oldStack.itemInStaff.handlerOfItemOrFallback
-        val newHandler = newStack.itemInStaff.handlerOfItemOrFallback
+        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
+        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowReequipAnimation(oldStack, newStack, slotChanged)

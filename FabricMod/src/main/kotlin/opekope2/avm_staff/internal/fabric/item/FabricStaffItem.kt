@@ -32,8 +32,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
-import opekope2.avm_staff.util.handlerOfItemOrFallback
 import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.staffHandlerOrFallback
 
 class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem {
     init {
@@ -48,8 +48,8 @@ class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem
         oldStack: ItemStack,
         newStack: ItemStack
     ): Boolean {
-        val oldHandler = oldStack.itemInStaff.handlerOfItemOrFallback
-        val newHandler = newStack.itemInStaff.handlerOfItemOrFallback
+        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
+        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowNbtUpdateAnimation(oldStack, newStack, player, hand)
