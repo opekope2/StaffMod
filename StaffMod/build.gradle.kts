@@ -26,7 +26,7 @@ plugins {
 }
 
 architectury {
-    common("fabric", "forge", "neoforge")
+    common("fabric", /*"forge",*/ "neoforge")
 }
 
 repositories {}
