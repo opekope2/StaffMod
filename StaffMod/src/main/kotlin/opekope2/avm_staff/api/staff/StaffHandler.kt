@@ -304,7 +304,7 @@ abstract class StaffHandler {
      * @param hand          The hand of [player], in which the [old staff][oldStaffStack] is
      * @return true to play the update/equip animation, false to skip it
      */
-    open fun allowNbtUpdateAnimation(
+    open fun allowComponentsUpdateAnimation(
         oldStaffStack: ItemStack,
         newStaffStack: ItemStack,
         player: PlayerEntity,

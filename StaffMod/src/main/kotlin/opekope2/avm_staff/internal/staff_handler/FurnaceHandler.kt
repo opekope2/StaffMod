@@ -149,7 +149,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         return staffStack
     }
 
-    override fun allowNbtUpdateAnimation(
+    override fun allowComponentsUpdateAnimation(
         oldStaffStack: ItemStack,
         newStaffStack: ItemStack,
         player: PlayerEntity,

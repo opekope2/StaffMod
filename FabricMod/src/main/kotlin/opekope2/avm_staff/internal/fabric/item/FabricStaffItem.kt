@@ -39,7 +39,7 @@ class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem
         }
     }
 
-    override fun allowNbtUpdateAnimation(
+    override fun allowComponentsUpdateAnimation(
         player: PlayerEntity,
         hand: Hand,
         oldStack: ItemStack,
@@ -49,7 +49,7 @@ class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem
         val newHandler = newStack.itemInStaff.staffHandlerOrFallback
 
         return if (oldHandler !== newHandler) true
-        else oldHandler.allowNbtUpdateAnimation(oldStack, newStack, player, hand)
+        else oldHandler.allowComponentsUpdateAnimation(oldStack, newStack, player, hand)
     }
 
     override fun getAttributeModifiers(stack: ItemStack): AttributeModifiersComponent {
