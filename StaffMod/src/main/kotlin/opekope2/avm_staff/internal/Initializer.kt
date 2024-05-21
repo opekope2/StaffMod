@@ -23,6 +23,7 @@ import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
+import dev.architectury.registry.client.particle.ParticleProviderRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.entity.player.PlayerEntity
@@ -36,6 +37,9 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import opekope2.avm_staff.api.crownOfKingOrangeItem
+import opekope2.avm_staff.api.flamethrowerParticleType
+import opekope2.avm_staff.api.particle.FlamethrowerParticle
+import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.event_handler.*
@@ -102,6 +106,8 @@ fun subscribeToEvents() {
 @Environment(EnvType.CLIENT)
 fun registerClientContent() {
     KeyMappingRegistry.register(addRemoveStaffItemKeyBinding)
+    ParticleProviderRegistry.register(flamethrowerParticleType, FlamethrowerParticle::Factory)
+    ParticleProviderRegistry.register(soulFlamethrowerParticleType, FlamethrowerParticle::Factory)
 }
 
 @Environment(EnvType.CLIENT)

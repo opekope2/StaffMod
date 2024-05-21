@@ -23,10 +23,6 @@ import net.neoforged.api.distmarker.Dist
 import net.neoforged.api.distmarker.OnlyIn
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
-import opekope2.avm_staff.api.flamethrowerParticleType
-import opekope2.avm_staff.api.particle.FlamethrowerParticle
-import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
 import opekope2.avm_staff.internal.registerClientContent
 import opekope2.avm_staff.internal.registerSmithingTableTextures
@@ -49,11 +45,5 @@ object StaffModClient {
         event.enqueueWork {
             registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric)
         }
-    }
-
-    @SubscribeEvent
-    fun registerParticleProviders(event: RegisterParticleProvidersEvent) {
-        event.registerSpriteSet(flamethrowerParticleType.get(), FlamethrowerParticle::Factory)
-        event.registerSpriteSet(soulFlamethrowerParticleType.get(), FlamethrowerParticle::Factory)
     }
 }

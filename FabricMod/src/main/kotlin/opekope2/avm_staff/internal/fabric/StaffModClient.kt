@@ -21,26 +21,13 @@ package opekope2.avm_staff.internal.fabric
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.minecraft.client.item.ModelPredicateProviderRegistry
-import opekope2.avm_staff.api.flamethrowerParticleType
-import opekope2.avm_staff.api.particle.FlamethrowerParticle
-import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
 
 @Suppress("unused")
 @Environment(EnvType.CLIENT)
 object StaffModClient : ClientModInitializer {
     override fun onInitializeClient() {
-        ParticleFactoryRegistry.getInstance().register(
-            flamethrowerParticleType.get(),
-            FlamethrowerParticle::Factory
-        )
-        ParticleFactoryRegistry.getInstance().register(
-            soulFlamethrowerParticleType.get(),
-            FlamethrowerParticle::Factory
-        )
-
         registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
     }
 }

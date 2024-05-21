@@ -21,12 +21,8 @@ package opekope2.avm_staff.internal.forge
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
-import opekope2.avm_staff.api.flamethrowerParticleType
-import opekope2.avm_staff.api.particle.FlamethrowerParticle
-import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
 import opekope2.avm_staff.internal.registerClientContent
 import opekope2.avm_staff.internal.registerSmithingTableTextures
@@ -49,11 +45,5 @@ object StaffModClient {
         event.enqueueWork {
             registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric)
         }
-    }
-
-    @SubscribeEvent
-    fun registerParticleProviders(event: RegisterParticleProvidersEvent) {
-        event.registerSpriteSet(flamethrowerParticleType.get(), FlamethrowerParticle::Factory)
-        event.registerSpriteSet(soulFlamethrowerParticleType.get(), FlamethrowerParticle::Factory)
     }
 }
