@@ -22,7 +22,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.particle.*
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.particle.DefaultParticleType
+import net.minecraft.particle.SimpleParticleType
 import net.minecraft.util.math.BlockPos
 import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.soulFlamethrowerParticleType
@@ -111,9 +111,9 @@ class FlamethrowerParticle(
      * @see soulFlamethrowerParticleType
      * @see ParticleManager.addParticle
      */
-    class Factory(private val spriteProvider: SpriteProvider) : ParticleFactory<DefaultParticleType> {
+    class Factory(private val spriteProvider: SpriteProvider) : ParticleFactory<SimpleParticleType> {
         override fun createParticle(
-            parameters: DefaultParticleType,
+            parameters: SimpleParticleType,
             world: ClientWorld,
             x: Double,
             y: Double,

@@ -30,7 +30,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.item.ItemStack
-import net.minecraft.particle.DefaultParticleType
+import net.minecraft.particle.SimpleParticleType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.util.Hand
@@ -49,7 +49,7 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
 class CampfireHandler(
-    private val particleEffectSupplier: RegistrySupplier<DefaultParticleType>,
+    private val particleEffectSupplier: RegistrySupplier<SimpleParticleType>,
     private val properties: Properties
 ) : StaffHandler() {
     override val maxUseTime: Int
