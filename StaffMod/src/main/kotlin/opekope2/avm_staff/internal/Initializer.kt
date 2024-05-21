@@ -26,9 +26,10 @@ import dev.architectury.registry.client.particle.ParticleProviderRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.item.SmithingTemplateItem
-import net.minecraft.loot.LootManager
 import net.minecraft.loot.LootPool
+import net.minecraft.loot.LootTable
 import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.registry.RegistryKey
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.crownOfKingOrangeItem
 import opekope2.avm_staff.api.flamethrowerParticleType
@@ -53,14 +54,12 @@ fun initializeNetworking() {
 
 private val TREASURE_BASTION_CHEST_LOOT = Identifier("chests/bastion_treasure")
 
-@Suppress("UNUSED_PARAMETER")
 fun modifyLootTables(
-    lootManager: LootManager?,
-    lootTableId: Identifier,
+    lootTable: RegistryKey<LootTable>,
     context: LootEvent.LootTableModificationContext,
     builtin: Boolean
 ) {
-    if (builtin && lootTableId == TREASURE_BASTION_CHEST_LOOT) {
+    if (builtin && lootTable.value == TREASURE_BASTION_CHEST_LOOT) {
         context.addPool(LootPool.builder().with(ItemEntry.builder(crownOfKingOrangeItem.get())))
     }
 }
