@@ -30,12 +30,13 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
 /**
- * Staff item dispatching functionality to [StaffItemHandler] without loader specific functionality.
+ * Staff item dispatching functionality to [StaffHandler] without loader specific functionality.
  * Implementing loader-specific interfaces is highly recommended when extending the class to pass loader-specific
- * functionality to [StaffItemHandler].
+ * functionality to [StaffHandler].
  */
 abstract class StaffItem(settings: Settings) : Item(settings) {
     override fun onItemEntityDestroyed(entity: ItemEntity) {
