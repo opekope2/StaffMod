@@ -25,6 +25,7 @@ import net.minecraft.item.ArmorItem
 import net.minecraft.item.Equipment
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
@@ -43,7 +44,7 @@ open class CrownItem(settings: Settings) : Item(settings), Equipment {
         return equipAndSwap(this, world, user, hand)
     }
 
-    override fun getEquipSound(): SoundEvent = SoundEvents.ITEM_ARMOR_EQUIP_GOLD
+    override fun getEquipSound(): RegistryEntry<SoundEvent> = SoundEvents.ITEM_ARMOR_EQUIP_GOLD
 
     override fun getSlotType(): EquipmentSlot = EquipmentSlot.HEAD
 }

@@ -200,13 +200,13 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     private class ItemEntityInventory(private val itemEntity: ItemEntity) : SingleStackInventory {
         override fun getStack(): ItemStack = itemEntity.stack
 
-        override fun setStack(stack: ItemStack) {}
+        override fun setStack(stack: ItemStack?) {}
 
         override fun markDirty() {}
 
-        override fun decreaseStack(count: Int): ItemStack = ItemStack.EMPTY
+        override fun canPlayerUse(player: PlayerEntity?) = false
 
-        override fun asBlockEntity(): Nothing = throw UnsupportedOperationException()
+        override fun decreaseStack(count: Int): ItemStack = ItemStack.EMPTY
     }
 
     companion object {

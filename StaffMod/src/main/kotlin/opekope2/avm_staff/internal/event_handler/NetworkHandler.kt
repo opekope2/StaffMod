@@ -68,7 +68,7 @@ fun attack(packet: AttackC2SPacket, context: PacketContext) {
 }
 
 private fun ItemStack.canAccept(other: ItemStack, maxCountPerStack: Int): Boolean {
-    val canCombine = isEmpty || ItemStack.canCombine(this, other)
+    val canCombine = isEmpty || ItemStack.areItemsAndComponentsEqual(this, other)
     val totalCount = count + other.count
 
     return canCombine && totalCount <= item.maxCount && totalCount <= maxCountPerStack
