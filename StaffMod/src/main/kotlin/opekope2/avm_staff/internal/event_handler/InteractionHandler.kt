@@ -51,5 +51,5 @@ fun clientAttack(player: PlayerEntity, hand: Hand) {
     val staffHandler = itemInStaff.staffHandler ?: return
 
     staffHandler.attack(staffStack, player.entityWorld, player, hand)
-    AttackC2SPacket(hand).send()
+    AttackC2SPacket(hand).sendToServer()
 }

@@ -18,9 +18,11 @@
 
 package opekope2.avm_staff.internal.networking
 
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.packet.CustomPayload
+import dev.architectury.networking.NetworkManager
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 
-interface IPacket : CustomPayload {
-    fun write(buf: PacketByteBuf)
+interface IC2SPacket : IPacket {
+    @Environment(EnvType.CLIENT)
+    fun sendToServer() = NetworkManager.sendToServer(this)
 }

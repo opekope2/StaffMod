@@ -45,8 +45,8 @@ fun handleKeyBindings(client: MinecraftClient) {
     val player = client.player ?: return
 
     if (player.mainHandStack.isItemInStaff || player.offHandStack.isItemInStaff) {
-        RemoveItemFromStaffC2SPacket().send()
+        RemoveItemFromStaffC2SPacket().sendToServer()
     } else {
-        AddItemToStaffC2SPacket().send()
+        AddItemToStaffC2SPacket().sendToServer()
     }
 }

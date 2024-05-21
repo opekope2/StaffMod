@@ -46,8 +46,8 @@ fun registerContent() {
 }
 
 fun initializeNetworking() {
-    AddItemToStaffC2SPacket.registerHandler(::addBlockToStaff)
-    RemoveItemFromStaffC2SPacket.registerHandler(::removeBlockFromStaff)
+    AddItemToStaffC2SPacket.registerHandler(::addItemToStaff)
+    RemoveItemFromStaffC2SPacket.registerHandler(::removeItemFromStaff)
     AttackC2SPacket.registerHandler(::attack)
 }
 

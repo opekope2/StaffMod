@@ -29,7 +29,7 @@ import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPac
 import opekope2.avm_staff.util.*
 
 @Suppress("UNUSED_PARAMETER")
-fun addBlockToStaff(packet: AddItemToStaffC2SPacket, context: PacketContext) {
+fun addItemToStaff(packet: AddItemToStaffC2SPacket, context: PacketContext) {
     val player = context.player
     val (staffStack, itemStackToAdd) = findStaffAndItemStack(player) ?: return
 
@@ -40,7 +40,7 @@ fun addBlockToStaff(packet: AddItemToStaffC2SPacket, context: PacketContext) {
 }
 
 @Suppress("UNUSED_PARAMETER")
-fun removeBlockFromStaff(packet: RemoveItemFromStaffC2SPacket, context: PacketContext) {
+fun removeItemFromStaff(packet: RemoveItemFromStaffC2SPacket, context: PacketContext) {
     val player = context.player
     if (player.isUsingItem) return
 

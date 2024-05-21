@@ -18,29 +18,26 @@
 
 package opekope2.avm_staff.internal.networking.c2s.play
 
-import dev.architectury.networking.NetworkChannel
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
+import dev.architectury.networking.NetworkManager
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.internal.networking.IPacket
+import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrar
 import opekope2.avm_staff.util.MOD_ID
 
-class AttackC2SPacket(val hand: Hand) : IPacket {
+class AttackC2SPacket(val hand: Hand) : IC2SPacket {
     constructor(buf: PacketByteBuf) : this(buf.readEnumConstant(Hand::class.java))
+
+    override fun getId() = payloadId
 
     override fun write(buf: PacketByteBuf) {
         buf.writeEnumConstant(hand)
     }
 
-    @Environment(EnvType.CLIENT)
-    fun send() = channel.sendToServer(this)
-
     companion object : PacketRegistrar<AttackC2SPacket>(
-        NetworkChannel.create(Identifier(MOD_ID, "attack")),
-        AttackC2SPacket::class.java,
+        NetworkManager.c2s(),
+        Identifier(MOD_ID, "attack"),
         ::AttackC2SPacket
     )
 }
