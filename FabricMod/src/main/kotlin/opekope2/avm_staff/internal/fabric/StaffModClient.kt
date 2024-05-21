@@ -21,25 +21,17 @@ package opekope2.avm_staff.internal.fabric
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.api.soulFlamethrowerParticleType
-import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
-import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
 
 @Suppress("unused")
 @Environment(EnvType.CLIENT)
 object StaffModClient : ClientModInitializer {
     override fun onInitializeClient() {
-        KeyBindingHelper.registerKeyBinding(ADD_REMOVE_KEYBINDING)
-
-        ClientTickEvents.END_CLIENT_TICK.register(::handleKeyBindings)
-
         ParticleFactoryRegistry.getInstance().register(
             flamethrowerParticleType.get(),
             FlamethrowerParticle::Factory

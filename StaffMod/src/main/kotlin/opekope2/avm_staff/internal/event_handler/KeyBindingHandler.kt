@@ -16,8 +16,12 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file: Environment(EnvType.CLIENT)
+
 package opekope2.avm_staff.internal.event_handler
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
@@ -27,17 +31,16 @@ import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.isItemInStaff
 import org.lwjgl.glfw.GLFW
 
-@JvmField
-val ADD_REMOVE_KEYBINDING = KeyBinding(
-    "key.$MOD_ID.add_remove_staff_block",
+val addRemoveStaffItemKeyBinding = KeyBinding(
+    "key.$MOD_ID.add_remove_staff_item",
     InputUtil.Type.KEYSYM,
     GLFW.GLFW_KEY_R,
     "key.categories.$MOD_ID"
 )
 
 fun handleKeyBindings(client: MinecraftClient) {
-    if (!ADD_REMOVE_KEYBINDING.isPressed) return
-    ADD_REMOVE_KEYBINDING.isPressed = false
+    if (!addRemoveStaffItemKeyBinding.isPressed) return
+    addRemoveStaffItemKeyBinding.isPressed = false
 
     val player = client.player ?: return
 

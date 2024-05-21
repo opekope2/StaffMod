@@ -10,6 +10,6 @@
   "item.avm_staff.staff_infusion_smithing_template.base_slot_description": "Add faint staff",
   "item.avm_staff.crown_of_king_orange": "Crown of King Orange",
   "key.categories.avm_staff": "Staff Mod",
-  "key.avm_staff.add_remove_staff_block": "Add/remove staff item",
+  "key.avm_staff.add_remove_staff_item": "Add/remove staff item",
   "itemGroup.avm_staff_items": "Staff Mod"
 }
