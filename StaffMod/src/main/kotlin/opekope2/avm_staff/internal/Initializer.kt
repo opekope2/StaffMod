@@ -113,7 +113,8 @@ fun registerClientContent() {
 @Environment(EnvType.CLIENT)
 fun registerSmithingTableTextures() {
     StaffInfusionSmithingRecipeTextures.register(
-        Identifier(MOD_ID, "item/empty_slot_royal_staff"), SmithingTemplateItem.EMPTY_SLOT_REDSTONE_DUST_TEXTURE
+        Identifier(MOD_ID, "item/smithing_table/empty_slot_royal_staff"),
+        SmithingTemplateItem.EMPTY_SLOT_REDSTONE_DUST_TEXTURE
     )
 }
 
