@@ -87,6 +87,13 @@ val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") 
 }
 
 /**
+ * Item registered as `avm_staff:royal_staff_ingredient`.
+ */
+val royalStaffIngredientItem: RegistrySupplier<Item> = ITEMS.register("royal_staff_ingredient") {
+    Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup))
+}
+
+/**
  * Item registered as `avm_staff:crown_of_king_orange`.
  */
 val crownOfKingOrangeItem: RegistrySupplier<CrownItem> = ITEMS.register("crown_of_king_orange") {
