@@ -32,7 +32,6 @@ import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
@@ -53,7 +52,7 @@ private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTIC
  * Item registered as `avm_staff:faint_staff_rod`.
  */
 val faintStaffRodItem: RegistrySupplier<Item> = ITEMS.register("faint_staff_rod") {
-    Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup))
+    Item(Item.Settings().`arch$tab`(staffModItemGroup))
 }
 
 /**
@@ -61,8 +60,7 @@ val faintStaffRodItem: RegistrySupplier<Item> = ITEMS.register("faint_staff_rod"
  */
 val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff_head") {
     Item(
-        Item.Settings().maxCount(16).rarity(Rarity.RARE).requires(FeatureFlags.UPDATE_1_21)
-            .`arch$tab`(staffModItemGroup)
+        Item.Settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(staffModItemGroup)
     )
 }
 
@@ -70,37 +68,28 @@ val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_roya
  * Item registered as `avm_staff:faint_royal_staff`.
  */
 val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff") {
-    createStaffRendererItem(
-        Item.Settings().maxCount(1).rarity(Rarity.RARE).requires(FeatureFlags.UPDATE_1_21)
-            .`arch$tab`(staffModItemGroup)
-    )
+    createStaffRendererItem(Item.Settings().maxCount(1).rarity(Rarity.RARE).`arch$tab`(staffModItemGroup))
 }
 
 /**
  * Item registered as `avm_staff:royal_staff`.
  */
 val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") {
-    createStaffItem(
-        Item.Settings().maxCount(1).rarity(Rarity.EPIC).requires(FeatureFlags.UPDATE_1_21)
-            .`arch$tab`(staffModItemGroup)
-    )
+    createStaffItem(Item.Settings().maxCount(1).rarity(Rarity.EPIC).`arch$tab`(staffModItemGroup))
 }
 
 /**
  * Item registered as `avm_staff:royal_staff_ingredient`.
  */
 val royalStaffIngredientItem: RegistrySupplier<Item> = ITEMS.register("royal_staff_ingredient") {
-    Item(Item.Settings().requires(FeatureFlags.UPDATE_1_21).`arch$tab`(staffModItemGroup))
+    Item(Item.Settings().`arch$tab`(staffModItemGroup))
 }
 
 /**
  * Item registered as `avm_staff:crown_of_king_orange`.
  */
 val crownOfKingOrangeItem: RegistrySupplier<CrownItem> = ITEMS.register("crown_of_king_orange") {
-    createCrownItem(
-        Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).requires(FeatureFlags.UPDATE_1_21)
-            .`arch$tab`(staffModItemGroup)
-    )
+    createCrownItem(Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).`arch$tab`(staffModItemGroup))
 }
 
 /**
