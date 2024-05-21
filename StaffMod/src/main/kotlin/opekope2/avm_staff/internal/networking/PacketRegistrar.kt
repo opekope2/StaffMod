@@ -21,12 +21,11 @@ package opekope2.avm_staff.internal.networking
 import dev.architectury.networking.NetworkChannel
 import dev.architectury.networking.NetworkManager
 import net.minecraft.network.PacketByteBuf
-import java.util.function.Function
 
 abstract class PacketRegistrar<TPacket : IPacket>(
     val channel: NetworkChannel,
     private val packetClass: Class<TPacket>,
-    private val packetConstructor: Function<PacketByteBuf, TPacket>
+    private val packetConstructor: (PacketByteBuf) -> TPacket
 ) {
     fun registerHandler(handler: (TPacket, NetworkManager.PacketContext) -> Unit) {
         channel.register(packetClass, IPacket::write, packetConstructor) { packet, contextSupplier ->
