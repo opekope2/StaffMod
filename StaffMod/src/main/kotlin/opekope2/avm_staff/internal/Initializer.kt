@@ -29,12 +29,14 @@ import net.minecraft.client.render.entity.TntEntityRenderer
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
+import net.minecraft.loot.entry.EmptyEntry
 import net.minecraft.loot.entry.ItemEntry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.crownOfKingOrangeItem
 import opekope2.avm_staff.api.impactTntEntityType
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
+import opekope2.avm_staff.api.staffInfusionSmithingTemplateItem
 import opekope2.avm_staff.internal.event_handler.*
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
@@ -52,14 +54,26 @@ fun initializeNetworking() {
 }
 
 private val TREASURE_BASTION_CHEST_LOOT = Identifier("chests/bastion_treasure")
+private val VAULT_UNIQUE_LOOT = Identifier("chests/trial_chambers/reward_unique")
 
 fun modifyLootTables(
     lootTable: RegistryKey<LootTable>,
     context: LootEvent.LootTableModificationContext,
     builtin: Boolean
 ) {
-    if (builtin && lootTable.value == TREASURE_BASTION_CHEST_LOOT) {
-        context.addPool(LootPool.builder().with(ItemEntry.builder(crownOfKingOrangeItem.get())))
+    // FIXME builtin check after updating to 1.21 because Fabric detects experiments as data pack
+    when (lootTable.value) {
+        TREASURE_BASTION_CHEST_LOOT -> {
+            context.addPool(LootPool.builder().with(ItemEntry.builder(crownOfKingOrangeItem.get())))
+        }
+
+        VAULT_UNIQUE_LOOT -> {
+            context.addPool(
+                LootPool.builder()
+                    .with(ItemEntry.builder(staffInfusionSmithingTemplateItem.get()))
+                    .with(EmptyEntry.builder().weight(3))
+            )
+        }
     }
 }
 
