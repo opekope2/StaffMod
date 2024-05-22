@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DTD",
+    "DMD",
+    "DDD"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "T": {
+      "item": "avm_staff:staff_infusion_smithing_template"
+    },
+    "M": {
+      "item": "minecraft:lapis_block"
+    }
+  },
+  "result": {
+    "id": "avm_staff:staff_infusion_smithing_template",
+    "count": 2
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "H",
+    "R",
+    "R"
+  ],
+  "key": {
+    "H": {
+      "item": "avm_staff:faint_royal_staff_head"
+    },
+    "R": {
+      "item": "avm_staff:faint_staff_rod"
+    }
+  },
+  "result": {
+    "id": "avm_staff:faint_royal_staff"
+  }
+}
