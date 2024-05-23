@@ -28,7 +28,7 @@ import net.minecraft.network.codec.PacketCodec
 /**
  * [ItemStack] wrapper to make them compatible with [DataComponentType]s.
  *
- * @param item  The item stored in this component. Most be [copied][ItemStack.copy] before modifying it
+ * @param item  The item stored in this component. Must be [copied][ItemStack.copy] before modifying it
  */
 class StaffItemComponent(val item: ItemStack) {
     override fun equals(other: Any?): Boolean {

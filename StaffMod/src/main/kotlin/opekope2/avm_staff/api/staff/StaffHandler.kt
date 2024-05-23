@@ -309,7 +309,7 @@ abstract class StaffHandler {
      * @param newStaffStack The updated item stack
      * @param player        The holder of [oldStaffStack]
      * @param hand          The hand of [player], in which the [old staff][oldStaffStack] is
-     * @return true to play the update/equip animation, false to skip it
+     * @return `true` to play the update/equip animation, `false` to skip it
      */
     open fun allowComponentsUpdateAnimation(
         oldStaffStack: ItemStack,
@@ -326,7 +326,7 @@ abstract class StaffHandler {
      * @param oldStaffStack         The previous item stack
      * @param newStaffStack         The updated item stack
      * @param selectedSlotChanged   If the selected hotbar slot was changed
-     * @return true to play the update/equip animation, false to skip it
+     * @return `true` to play the update/equip animation, `false` to skip it
      */
     open fun allowReequipAnimation(
         oldStaffStack: ItemStack,
