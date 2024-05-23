@@ -56,16 +56,22 @@ abstract class StaffHandler {
      * If the staff can be used for multiple ticks, override [maxUseTime] to return a positive number, and call
      * [PlayerEntity.setCurrentHand] on [user] with [hand] as the argument.
      *
-     * On the logical client, the return values have the following meaning:
+     * @return
+     * On the logical client:
      *
-     * - SUCCESS: Swing hand, and reset equip progress
-     * - CONSUME, CONSUME_PARTIAL: Don't swing hand, and reset equip progress
-     * - PASS, FAIL: Don't swing hand, and don't reset equip progress
+     * - [ActionResult.SUCCESS]:
+     *   swings hand, and resets equip progress
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL]:
+     *   doesn't swing hand, and resets equip progress
+     * - [ActionResult.PASS], [ActionResult.FAIL]:
+     *   doesn't swing hand, and doesn't reset equip progress
      *
-     * On the logical server, the return values have the following meaning (if used by player):
+     * On the logical server (if used by player):
      *
-     * - SUCCESS: Swing hand
-     * - CONSUME, CONSUME_PARTIAL, PASS, FAIL: Don't swing hand
+     * - [ActionResult.SUCCESS]:
+     *   swings hand
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL], [ActionResult.PASS], [ActionResult.FAIL]:
+     *   doesn't swing hand
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [user] is in
@@ -121,32 +127,30 @@ abstract class StaffHandler {
      * Called on both the client and the server by Minecraft, when an entity uses the staff on a block.
      * This method may not be called, if the block handles the use event (for example, a chest).
      *
-     * On the logical client, the return values have the following meaning:
+     * @return
+     * On the logical client:
      *
-     * - SUCCESS: send a packet to the server, and swing hand
-     * - CONSUME, CONSUME_PARTIAL, FAIL: send a packet to the server, and don't swing hand
-     * - PASS: send a packet to the server, don't swing hand, then interact with the item by itself (see [use])
+     * - [ActionResult.SUCCESS]:
+     *   sends a packet to the server, and swings hand
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL], [ActionResult.FAIL]:
+     *   sends a packet to the server, and doesn't swing hand
+     * - [ActionResult.PASS]:
+     *   sends a packet to the server, doesn't swing hand, then interacts with the item using [use]
      *
-     * On the logical server, the return values have the following meaning (if used by player):
+     * On the logical server (if used by player):
      *
-     * - SUCCESS:
-     *   Increment [*player used item* stat][Stats.USED],
-     *   trigger [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK],
-     *   and swing hand
-     * - CONSUME:
-     *   Increment [*player used item* stat][Stats.USED],
-     *   trigger [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK],
-     *   and don't swing hand
-     * - CONSUME_PARTIAL:
-     *   Don't increment [*player used item* stat][Stats.USED],
-     *   trigger [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK],
-     *   and don't swing hand
-     * - PASS, FAIL:
-     *   Don't increment [*player used item* stat][Stats.USED],
-     *   don't trigger [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK],
-     *   and don't swing hand
-     *
-     * On the logical server, the return values are processed by the caller code (if not used by player).
+     * - [ActionResult.SUCCESS]:
+     *   increments [*player used item* stat][Stats.USED], triggers
+     *   [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK], and swings hand
+     * - [ActionResult.CONSUME]:
+     *   increments [*player used item* stat][Stats.USED], triggers
+     *   [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK], and doesn't swing hand
+     * - [ActionResult.CONSUME_PARTIAL]:
+     *   doesn't increment [*player used item* stat][Stats.USED], triggers
+     *   [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK], and doesn't swing hand
+     * - [ActionResult.PASS], [ActionResult.FAIL]:
+     *   doesn't increment [*player used item* stat][Stats.USED], doesn't trigger
+     *   [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK], and doesn't swing hand
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [user] is in
@@ -172,38 +176,29 @@ abstract class StaffHandler {
      * This method may not be called, if the entity handles the use event (for example, a horse).
      * This method will not be called, if the player is in spectator mode.
      *
-     * On the logical client, the return values have the following meaning:
+     * @return
+     * On the logical client:
      *
-     * - SUCCESS:
-     *   send a packet to the server,
-     *   emit [*entity interact* game event][GameEvent.ENTITY_INTERACT],
-     *   and swing hand
-     * - CONSUME, CONSUME_PARTIAL:
-     *   send a packet to the server,
-     *   emit [*entity interact* game event][GameEvent.ENTITY_INTERACT],
-     *   and don't swing hand
-     * - PASS, FAIL:
-     *   send a packet to the server,
-     *   don't emit [*entity interact* game event][GameEvent.ENTITY_INTERACT],
-     *   don't swing hand,
-     *   then interact with the item by itself (see [use])
+     * - [ActionResult.SUCCESS]:
+     *   sends a packet to the server, emits [*entity interact* game event][GameEvent.ENTITY_INTERACT], and swings hand
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL]:
+     *   sends a packet to the server, emits [*entity interact* game event][GameEvent.ENTITY_INTERACT], and doesn't
+     *   swing hand
+     * - [ActionResult.PASS], [ActionResult.FAIL]:
+     *   sends a packet to the server, doesn't emit [*entity interact* game event][GameEvent.ENTITY_INTERACT], doesn't
+     *   swing hand, then interacts with the item using [use]
      *
-     * On the logical server, the return values have the following meaning (if used by player):
+     * On the logical server (if used by player):
      *
-     * - SUCCESS:
-     *   Emit [*entity interact* game event][GameEvent.ENTITY_INTERACT],
-     *   trigger [*player interacted with entity* criteria][Criteria.PLAYER_INTERACTED_WITH_ENTITY],
-     *   and swing hand
-     * - CONSUME, CONSUME_PARTIAL:
-     *   Emit [*entity interact* game event][GameEvent.ENTITY_INTERACT],
-     *   trigger [*player interacted with entity* criteria][Criteria.PLAYER_INTERACTED_WITH_ENTITY],
-     *   and don't swing hand
-     * - PASS, FAIL:
-     *   Don't emit [*entity interact* game event][GameEvent.ENTITY_INTERACT],
-     *   don't trigger [*player interacted with entity* criteria][Criteria.PLAYER_INTERACTED_WITH_ENTITY],
-     *   and don't swing hand
-     *
-     * On the logical server, the return values are processed by the caller code (if not used by player).
+     * - [ActionResult.SUCCESS]:
+     *   Emits [*entity interact* game event][GameEvent.ENTITY_INTERACT], triggers
+     *   [*player interacted with entity* criteria][Criteria.PLAYER_INTERACTED_WITH_ENTITY], and swings hand
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL]:
+     *   Emits [*entity interact* game event][GameEvent.ENTITY_INTERACT], triggers
+     *   [*player interacted with entity* criteria][Criteria.PLAYER_INTERACTED_WITH_ENTITY], and doesn't swing hand
+     * - [ActionResult.PASS], [ActionResult.FAIL]:
+     *   Doesn't emit [*entity interact* game event][GameEvent.ENTITY_INTERACT], doesn't trigger
+     *   [*player interacted with entity* criteria][Criteria.PLAYER_INTERACTED_WITH_ENTITY], and doesn't swing hand
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [user] is in
@@ -236,8 +231,7 @@ abstract class StaffHandler {
     /**
      * Called on both the client and the server by Architectury API, when an entity attacks a block with a staff.
      *
-     * The return values have the following meaning:
-     *
+     * @return
      * - [EventResult.interruptTrue], [EventResult.interruptTrue]:
      *   Cancels vanilla block breaking, and on the logical client, sends a packet to the server.
      * - [EventResult.interruptDefault], [EventResult.pass]:
@@ -265,8 +259,7 @@ abstract class StaffHandler {
      * Called on both the client by Fabric/Neo/Forge API and the server by Fabric/Neo/Forge API, when an entity attacks
      * an entity with a staff.
      *
-     * The return values have the following meaning:
-     *
+     * @return
      * - [EventResult.interrupt], [EventResult.interruptTrue], [EventResult.interruptFalse], [EventResult.interruptDefault]:
      *   Cancels vanilla entity attack, and on the logical client, sends a packet to the server.
      * - [EventResult.pass]:
