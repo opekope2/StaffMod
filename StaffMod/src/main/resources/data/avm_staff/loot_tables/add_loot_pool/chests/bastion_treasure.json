@@ -1,0 +1,13 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "avm_staff:crown_of_king_orange"
+        }
+      ]
+    }
+  ]
+}

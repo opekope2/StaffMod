@@ -29,14 +29,12 @@ import net.minecraft.client.render.entity.TntEntityRenderer
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
-import net.minecraft.loot.entry.EmptyEntry
-import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.loot.entry.LootTableEntry
 import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.crownOfKingOrangeItem
 import opekope2.avm_staff.api.impactTntEntityType
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
-import opekope2.avm_staff.api.staffInfusionSmithingTemplateItem
 import opekope2.avm_staff.internal.event_handler.*
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
@@ -53,8 +51,10 @@ fun initializeNetworking() {
     AttackC2SPacket.registerHandler(::attack)
 }
 
-private val TREASURE_BASTION_CHEST_LOOT = Identifier("chests/bastion_treasure")
-private val VAULT_UNIQUE_LOOT = Identifier("chests/trial_chambers/reward_unique")
+private val MODIFIABLE_LOOT_TABLES = setOf(
+    Identifier("chests/bastion_treasure"),
+    Identifier("chests/trial_chambers/reward_unique")
+)
 
 fun modifyLootTables(
     lootTable: RegistryKey<LootTable>,
@@ -62,19 +62,15 @@ fun modifyLootTables(
     builtin: Boolean
 ) {
     // FIXME builtin check after updating to 1.21 because Fabric detects experiments as data pack
-    when (lootTable.value) {
-        TREASURE_BASTION_CHEST_LOOT -> {
-            context.addPool(LootPool.builder().with(ItemEntry.builder(crownOfKingOrangeItem.get())))
-        }
+    if (lootTable.value !in MODIFIABLE_LOOT_TABLES) return
 
-        VAULT_UNIQUE_LOOT -> {
-            context.addPool(
-                LootPool.builder()
-                    .with(ItemEntry.builder(staffInfusionSmithingTemplateItem.get()))
-                    .with(EmptyEntry.builder().weight(3))
+    context.addPool(
+        LootPool.builder().with(
+            LootTableEntry.builder(
+                RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier(MOD_ID, "add_loot_pool/${lootTable.value.path}"))
             )
-        }
-    }
+        )
+    )
 }
 
 fun subscribeToEvents() {
