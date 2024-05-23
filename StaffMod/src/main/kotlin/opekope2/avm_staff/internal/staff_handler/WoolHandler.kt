@@ -82,7 +82,7 @@ class WoolHandler(woolBlock: Block, carpetBlock: Block) : StaffHandler() {
             woolPlaceContext.blockPos,
             woolSoundGroup.placeSound,
             SoundCategory.BLOCKS,
-            (woolSoundGroup.volume + 1.0f) / 2.0f,
+            (woolSoundGroup.volume + 1f) / 2f,
             woolSoundGroup.pitch * 0.8f
         )
         world.emitGameEvent(GameEvent.BLOCK_PLACE, woolPlaceContext.blockPos, GameEvent.Emitter.of(user, placedState))

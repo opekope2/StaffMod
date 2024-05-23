@@ -45,7 +45,7 @@ class TntHandler : StaffHandler() {
         val spawnPos = attacker.approximateStaffTipPosition
         val (x, y, z) = spawnPos
         world.spawnEntity(ImpactTntEntity(world, x, y, z, attacker.rotationVector + attacker.velocity, attacker))
-        world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f)
+        world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1f, 1f)
         world.emitGameEvent(attacker, GameEvent.PRIME_FUSE, spawnPos)
 
         return ActionResult.SUCCESS

@@ -124,7 +124,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         if (Math.random() >= 0.1) return
 
         val (x, y, z) = itemToSmelt.pos
-        world.playSound(x, y, z, smeltSound, SoundCategory.BLOCKS, 1.0f, 1.0f, false)
+        world.playSound(x, y, z, smeltSound, SoundCategory.BLOCKS, 1f, 1f, false)
 
         val rx = Math.random() * 0.25 - 0.25 / 2
         val ry = Math.random() * 0.5
