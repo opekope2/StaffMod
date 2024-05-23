@@ -19,6 +19,7 @@
 package opekope2.avm_staff.api.entity
 
 import net.minecraft.entity.*
+import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import opekope2.avm_staff.api.impactTntEntityType
@@ -45,7 +46,7 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
     private fun explodeOnImpact() {
         var explode = horizontalCollision || verticalCollision
         if (!explode) {
-            val collisions = world.getOtherEntities(this, boundingBox) { true }
+            val collisions = world.getOtherEntities(this, boundingBox, EntityPredicates.EXCEPT_SPECTATOR)
             explode = collisions.isNotEmpty()
 
             for (collider in collisions) {
