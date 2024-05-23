@@ -55,7 +55,7 @@ public abstract class LivingEntityMixin extends Entity {
         Item itemInStaff = StaffUtil.getItemInStaff(mainHandStack);
         if (itemInStaff == null) return;
 
-        StaffHandler handlerOfItem = StaffUtil.getStaffHandlerOrFallback(itemInStaff);
+        StaffHandler handlerOfItem = StaffUtil.getStaffHandlerOrDefault(itemInStaff);
         if (handlerOfItem.disablesShield()) {
             cir.setReturnValue(true);
         }
@@ -71,7 +71,7 @@ public abstract class LivingEntityMixin extends Entity {
         Item itemInStaff = StaffUtil.getItemInStaff(stackInHand);
         if (itemInStaff == null) return;
 
-        StaffHandler handlerOfItem = StaffUtil.getStaffHandlerOrFallback(itemInStaff);
+        StaffHandler handlerOfItem = StaffUtil.getStaffHandlerOrDefault(itemInStaff);
         if (!handlerOfItem.canSwingHand(stackInHand, getEntityWorld(), (LivingEntity) (Object) this, hand)) {
             ci.cancel();
         }

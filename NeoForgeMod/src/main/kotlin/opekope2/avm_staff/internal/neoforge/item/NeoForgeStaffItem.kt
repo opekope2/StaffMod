@@ -35,12 +35,12 @@ import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.itemInStaff
-import opekope2.avm_staff.util.staffHandlerOrFallback
+import opekope2.avm_staff.util.staffHandlerOrDefault
 import java.util.function.Consumer
 
 class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExtension {
     override fun getAttributeModifiers(stack: ItemStack): AttributeModifiersComponent {
-        return stack.itemInStaff.staffHandlerOrFallback.getAttributeModifiers(stack)
+        return stack.itemInStaff.staffHandlerOrDefault.getAttributeModifiers(stack)
     }
 
     @Suppress("RemoveExplicitSuperQualifier") // Required because StaffItem apparently also has canDisableShield
@@ -50,7 +50,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         entity: LivingEntity,
         attacker: LivingEntity
     ): Boolean {
-        return stack.itemInStaff.staffHandlerOrFallback.disablesShield() ||
+        return stack.itemInStaff.staffHandlerOrDefault.disablesShield() ||
                 super<IItemExtension>.canDisableShield(stack, shield, entity, attacker)
     }
 
@@ -59,7 +59,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
     }
 
     override fun onEntitySwing(stack: ItemStack, entity: LivingEntity): Boolean {
-        return !stack.itemInStaff.staffHandlerOrFallback.canSwingHand(
+        return !stack.itemInStaff.staffHandlerOrDefault.canSwingHand(
             stack,
             entity.entityWorld,
             entity,
@@ -69,7 +69,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
     }
 
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
-        return stack.itemInStaff.staffHandlerOrFallback.attackEntity(
+        return stack.itemInStaff.staffHandlerOrDefault.attackEntity(
             stack, player.entityWorld, player, entity, Hand.MAIN_HAND
         ).interruptsFurtherEvaluation()
     }
@@ -79,8 +79,8 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         newStack: ItemStack,
         slotChanged: Boolean
     ): Boolean {
-        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
-        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
+        val oldHandler = oldStack.itemInStaff.staffHandlerOrDefault
+        val newHandler = newStack.itemInStaff.staffHandlerOrDefault
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowReequipAnimation(oldStack, newStack, slotChanged)

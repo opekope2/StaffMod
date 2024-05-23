@@ -46,28 +46,28 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
     }
 
     override fun getMaxUseTime(stack: ItemStack): Int {
-        return stack.itemInStaff.staffHandlerOrFallback.maxUseTime
+        return stack.itemInStaff.staffHandlerOrDefault.maxUseTime
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val staffStack = user.getStackInHand(hand)
-        return staffStack.itemInStaff.staffHandlerOrFallback.use(staffStack, world, user, hand)
+        return staffStack.itemInStaff.staffHandlerOrDefault.use(staffStack, world, user, hand)
     }
 
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
-        stack.itemInStaff.staffHandlerOrFallback.usageTick(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.staffHandlerOrDefault.usageTick(stack, world, user, remainingUseTicks)
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        stack.itemInStaff.staffHandlerOrFallback.onStoppedUsing(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.staffHandlerOrDefault.onStoppedUsing(stack, world, user, remainingUseTicks)
     }
 
     override fun finishUsing(stack: ItemStack, world: World, user: LivingEntity): ItemStack {
-        return stack.itemInStaff.staffHandlerOrFallback.finishUsing(stack, world, user)
+        return stack.itemInStaff.staffHandlerOrDefault.finishUsing(stack, world, user)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        return context.stack.itemInStaff.staffHandlerOrFallback.useOnBlock(
+        return context.stack.itemInStaff.staffHandlerOrDefault.useOnBlock(
             context.stack,
             context.world,
             context.player ?: return ActionResult.PASS,
@@ -78,7 +78,7 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
     }
 
     override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
-        return stack.itemInStaff.staffHandlerOrFallback.useOnEntity(stack, user.world, user, entity, hand)
+        return stack.itemInStaff.staffHandlerOrDefault.useOnEntity(stack, user.world, user, entity, hand)
     }
 
     override fun getName(stack: ItemStack): Text {

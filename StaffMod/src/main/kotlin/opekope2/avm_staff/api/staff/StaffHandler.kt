@@ -345,9 +345,10 @@ abstract class StaffHandler {
         return ATTRIBUTE_MODIFIERS
     }
 
-    object EmptyStaffHandler : StaffHandler()
-
-    object FallbackStaffHandler : StaffHandler()
+    /**
+     * Handler of a staff with no item inserted into it.
+     */
+    object Default : StaffHandler()
 
     companion object {
         private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()

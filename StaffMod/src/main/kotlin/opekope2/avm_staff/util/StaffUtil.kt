@@ -90,12 +90,10 @@ val Item.staffHandler: StaffHandler?
     }
 
 /**
- * Returns the registered staff handler of the given item stack if available, a dummy one if not, and the empty staff
- * handler if the item is `null`.
+ * Returns the registered staff handler of the given item if available, [StaffHandler.Default] otherwise.
  */
-val Item?.staffHandlerOrFallback: StaffHandler
-    get() = if (this == null) StaffHandler.EmptyStaffHandler
-    else staffHandler ?: StaffHandler.FallbackStaffHandler
+val Item?.staffHandlerOrDefault: StaffHandler
+    get() = this?.staffHandler ?: StaffHandler.Default
 
 private const val STAFF_MODEL_LENGTH = 40.0 / 16.0
 private const val STAFF_MODEL_ITEM_POSITION_CENTER = 33.5 / 16.0

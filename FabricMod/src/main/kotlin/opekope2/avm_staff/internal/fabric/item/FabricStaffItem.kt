@@ -30,7 +30,7 @@ import net.minecraft.util.Hand
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.itemInStaff
-import opekope2.avm_staff.util.staffHandlerOrFallback
+import opekope2.avm_staff.util.staffHandlerOrDefault
 
 class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem {
     init {
@@ -45,14 +45,14 @@ class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem
         oldStack: ItemStack,
         newStack: ItemStack
     ): Boolean {
-        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
-        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
+        val oldHandler = oldStack.itemInStaff.staffHandlerOrDefault
+        val newHandler = newStack.itemInStaff.staffHandlerOrDefault
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowComponentsUpdateAnimation(oldStack, newStack, player, hand)
     }
 
     override fun getAttributeModifiers(stack: ItemStack): AttributeModifiersComponent {
-        return stack.itemInStaff.staffHandlerOrFallback.getAttributeModifiers(stack)
+        return stack.itemInStaff.staffHandlerOrDefault.getAttributeModifiers(stack)
     }
 }
