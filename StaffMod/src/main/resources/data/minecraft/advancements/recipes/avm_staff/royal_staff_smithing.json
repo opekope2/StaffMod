@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_faint_royal_staff": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "avm_staff:faint_royal_staff"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "avm_staff:royal_staff"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_faint_royal_staff",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "avm_staff:royal_staff_smithing"
+    ]
+  }
+}

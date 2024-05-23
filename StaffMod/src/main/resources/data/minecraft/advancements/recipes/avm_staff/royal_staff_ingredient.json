@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_crown_of_king_orange": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "avm_staff:crown_of_king_orange"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "avm_staff:faint_royal_staff_head"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_crown_of_king_orange",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "avm_staff:royal_staff_ingredient"
+    ]
+  }
+}
