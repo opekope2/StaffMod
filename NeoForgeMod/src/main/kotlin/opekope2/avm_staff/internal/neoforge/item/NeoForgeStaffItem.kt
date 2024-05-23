@@ -58,6 +58,16 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         return false
     }
 
+    override fun onEntitySwing(stack: ItemStack, entity: LivingEntity): Boolean {
+        return !stack.itemInStaff.staffHandlerOrFallback.canSwingHand(
+            stack,
+            entity.entityWorld,
+            entity,
+            if (stack === entity.getStackInHand(Hand.MAIN_HAND)) Hand.MAIN_HAND
+            else Hand.OFF_HAND
+        )
+    }
+
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
         return stack.itemInStaff.staffHandlerOrFallback.attackEntity(
             stack, player.entityWorld, player, entity, Hand.MAIN_HAND

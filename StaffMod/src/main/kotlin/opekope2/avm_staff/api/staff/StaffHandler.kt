@@ -289,6 +289,20 @@ abstract class StaffHandler {
     }
 
     /**
+     * Called on both the client and the server by Staff Mod on Fabric and Neo/Forge API on Neo/Forge, when an entity
+     * holding a staff tries to swing its hand.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [holder] is in
+     * @param holder        The entity, which holds the staff
+     * @param hand          The hand of the [holder], in which the [staff][staffStack] is
+     * @return `true` to allow hand swing, `false` to cancel it
+     */
+    open fun canSwingHand(staffStack: ItemStack, world: World, holder: LivingEntity, hand: Hand): Boolean {
+        return true
+    }
+
+    /**
      * Returns if attacking with the staff should disable the target's shield.
      */
     open fun disablesShield(): Boolean {
