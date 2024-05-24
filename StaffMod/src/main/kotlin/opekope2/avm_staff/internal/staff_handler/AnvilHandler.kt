@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.staff_handler
 
 import dev.architectury.event.EventResult
+import net.minecraft.block.AnvilBlock
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
@@ -27,7 +28,9 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.util.Hand
+import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffHandler
@@ -35,6 +38,8 @@ import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.equipTime
 import opekope2.avm_staff.util.itemStackInStaff
 import java.util.*
+import kotlin.math.ceil
+import kotlin.math.floor
 
 class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHandler() {
     override fun attackEntity(
@@ -44,15 +49,16 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHan
         target: Entity,
         hand: Hand
     ): EventResult {
-        if (world.isClient) return EventResult.pass()
+        if (world.isClient) return EventResult.interruptDefault()
 
-        var broke = false
-        if (attacker is PlayerEntity && !attacker.abilities.creativeMode && attacker.random.nextFloat() < 0.12f) {
-            val damagedStack = damagedStackFactory()
-            staffStack.itemStackInStaff = damagedStack
-            broke = damagedStack == null
-        }
+        val fallDistance = ceil(attacker.fallDistance - 1f)
+        if (fallDistance <= 0) return EventResult.interruptDefault()
 
+        aoeAttack(world, attacker, target, fallDistance)
+        world.syncWorldEvent(WorldEvents.SMASH_ATTACK, target.steppingPos, 750)
+        attacker.fallDistance = 0f
+
+        val broke = damageAnvil(staffStack, attacker, fallDistance)
         world.syncWorldEvent(
             if (broke) WorldEvents.ANVIL_DESTROYED
             else WorldEvents.ANVIL_LANDS,
@@ -60,7 +66,40 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHan
             0
         )
 
-        return EventResult.pass()
+        return EventResult.interruptDefault()
+    }
+
+    private fun aoeAttack(world: World, attacker: LivingEntity, target: Entity, fallDistance: Float) {
+        val cappedFallDistance = floor(fallDistance * AnvilBlock.FALLING_BLOCK_ENTITY_DAMAGE_MULTIPLIER)
+            .coerceAtMost(AnvilBlock.FALLING_BLOCK_ENTITY_MAX_DAMAGE.toFloat())
+        val cooldownProgress =
+            if (attacker is PlayerEntity) attacker.getAttackCooldownProgress(0f)
+            else 1f
+        val amount = cappedFallDistance * cooldownProgress
+        val radius = cappedFallDistance / 20f
+        val radius2 = radius * radius
+        val box = Box(target.pos, target.pos).expand(radius.toDouble())
+        val predicate = EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR
+            .and(EntityPredicates.VALID_LIVING_ENTITY)
+            .and { it.squaredDistanceTo(target) <= radius2 }
+
+        world.getOtherEntities(attacker, box, predicate).forEach { entity ->
+            entity.damage(world.damageSources.fallingAnvil(attacker), amount / (entity.distanceTo(target) + 1))
+        }
+    }
+
+    private fun damageAnvil(staffStack: ItemStack, attacker: LivingEntity, fallDistance: Float): Boolean {
+        if (attacker is PlayerEntity && !attacker.abilities.creativeMode && attacker.random.nextFloat() < 0.05f + fallDistance * 0.05f) {
+            val damagedStack = damagedStackFactory()
+            staffStack.itemStackInStaff = damagedStack
+            return damagedStack == null
+        }
+
+        return false
+    }
+
+    override fun canSwingHand(staffStack: ItemStack, world: World, holder: LivingEntity, hand: Hand): Boolean {
+        return ceil(holder.fallDistance - 1f) > 0f
     }
 
     override fun disablesShield() = true
