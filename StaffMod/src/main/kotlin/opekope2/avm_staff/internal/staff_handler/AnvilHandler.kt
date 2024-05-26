@@ -30,7 +30,9 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.util.Hand
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffHandler
@@ -42,6 +44,17 @@ import kotlin.math.ceil
 import kotlin.math.floor
 
 class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHandler() {
+    override fun attackBlock(
+        staffStack: ItemStack,
+        world: World,
+        attacker: LivingEntity,
+        target: BlockPos,
+        side: Direction,
+        hand: Hand
+    ): EventResult {
+        return EventResult.interruptFalse()
+    }
+
     override fun attackEntity(
         staffStack: ItemStack,
         world: World,
