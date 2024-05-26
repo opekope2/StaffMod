@@ -24,6 +24,7 @@ import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -354,6 +355,16 @@ abstract class StaffHandler {
         private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(4.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
+            .add(
+                EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE,
+                EntityAttributeModifier("Weapon modifier", 1.0, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
+            .add(
+                EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE,
+                EntityAttributeModifier("Weapon modifier", 1.0, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
             .build()
 
         private val staffItemsHandlers = mutableMapOf<Identifier, StaffHandler>()
