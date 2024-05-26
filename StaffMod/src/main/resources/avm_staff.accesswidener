@@ -1,5 +1,7 @@
 accessWidener v2 named
 
+accessible  field   net/minecraft/block/AnvilBlock                          FALLING_BLOCK_ENTITY_DAMAGE_MULTIPLIER      F
+accessible  field   net/minecraft/block/AnvilBlock                          FALLING_BLOCK_ENTITY_MAX_DAMAGE             I
 accessible  method  net/minecraft/block/entity/AbstractFurnaceBlockEntity   dropExperience                              (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/Vec3d;IF)V
 accessible  method  net/minecraft/entity/Entity                             getRotationVector                           (FF)Lnet/minecraft/util/math/Vec3d;
 accessible  field   net/minecraft/item/SmithingTemplateItem                 ARMOR_TRIM_ADDITIONS_SLOT_DESCRIPTION_TEXT  Lnet/minecraft/text/Text;
