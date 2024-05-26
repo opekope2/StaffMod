@@ -22,6 +22,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks.*
+import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 import net.minecraft.recipe.RecipeType
@@ -77,22 +78,26 @@ fun registerVanillaStaffHandlers() {
         WitherSkeletonSkullHandler()
     )
 
-    Items.WHITE_WOOL.registerHandler(WoolHandler(WHITE_WOOL, WHITE_CARPET))
-    Items.ORANGE_WOOL.registerHandler(WoolHandler(ORANGE_WOOL, ORANGE_CARPET))
-    Items.MAGENTA_WOOL.registerHandler(WoolHandler(MAGENTA_WOOL, MAGENTA_CARPET))
-    Items.LIGHT_BLUE_WOOL.registerHandler(WoolHandler(LIGHT_BLUE_WOOL, LIGHT_BLUE_CARPET))
-    Items.YELLOW_WOOL.registerHandler(WoolHandler(YELLOW_WOOL, YELLOW_CARPET))
-    Items.LIME_WOOL.registerHandler(WoolHandler(LIME_WOOL, LIME_CARPET))
-    Items.PINK_WOOL.registerHandler(WoolHandler(PINK_WOOL, PINK_CARPET))
-    Items.GRAY_WOOL.registerHandler(WoolHandler(GRAY_WOOL, GRAY_CARPET))
-    Items.LIGHT_GRAY_WOOL.registerHandler(WoolHandler(LIGHT_GRAY_WOOL, LIGHT_GRAY_CARPET))
-    Items.CYAN_WOOL.registerHandler(WoolHandler(CYAN_WOOL, CYAN_CARPET))
-    Items.PURPLE_WOOL.registerHandler(WoolHandler(PURPLE_WOOL, PURPLE_CARPET))
-    Items.BLUE_WOOL.registerHandler(WoolHandler(BLUE_WOOL, BLUE_CARPET))
-    Items.BROWN_WOOL.registerHandler(WoolHandler(BROWN_WOOL, BROWN_CARPET))
-    Items.GREEN_WOOL.registerHandler(WoolHandler(GREEN_WOOL, GREEN_CARPET))
-    Items.RED_WOOL.registerHandler(WoolHandler(RED_WOOL, RED_CARPET))
-    Items.BLACK_WOOL.registerHandler(WoolHandler(BLACK_WOOL, BLACK_CARPET))
+    Items.WHITE_WOOL.registerHandler(WoolHandler(Items.WHITE_WOOL as BlockItem, Items.WHITE_CARPET as BlockItem))
+    Items.ORANGE_WOOL.registerHandler(WoolHandler(Items.ORANGE_WOOL as BlockItem, Items.ORANGE_CARPET as BlockItem))
+    Items.MAGENTA_WOOL.registerHandler(WoolHandler(Items.MAGENTA_WOOL as BlockItem, Items.MAGENTA_CARPET as BlockItem))
+    Items.LIGHT_BLUE_WOOL.registerHandler(
+        WoolHandler(Items.LIGHT_BLUE_WOOL as BlockItem, Items.LIGHT_BLUE_CARPET as BlockItem)
+    )
+    Items.YELLOW_WOOL.registerHandler(WoolHandler(Items.YELLOW_WOOL as BlockItem, Items.YELLOW_CARPET as BlockItem))
+    Items.LIME_WOOL.registerHandler(WoolHandler(Items.LIME_WOOL as BlockItem, Items.LIME_CARPET as BlockItem))
+    Items.PINK_WOOL.registerHandler(WoolHandler(Items.PINK_WOOL as BlockItem, Items.PINK_CARPET as BlockItem))
+    Items.GRAY_WOOL.registerHandler(WoolHandler(Items.GRAY_WOOL as BlockItem, Items.GRAY_CARPET as BlockItem))
+    Items.LIGHT_GRAY_WOOL.registerHandler(
+        WoolHandler(Items.LIGHT_GRAY_WOOL as BlockItem, Items.LIGHT_GRAY_CARPET as BlockItem)
+    )
+    Items.CYAN_WOOL.registerHandler(WoolHandler(Items.CYAN_WOOL as BlockItem, Items.CYAN_CARPET as BlockItem))
+    Items.PURPLE_WOOL.registerHandler(WoolHandler(Items.PURPLE_WOOL as BlockItem, Items.PURPLE_CARPET as BlockItem))
+    Items.BLUE_WOOL.registerHandler(WoolHandler(Items.BLUE_WOOL as BlockItem, Items.BLUE_CARPET as BlockItem))
+    Items.BROWN_WOOL.registerHandler(WoolHandler(Items.BROWN_WOOL as BlockItem, Items.BROWN_CARPET as BlockItem))
+    Items.GREEN_WOOL.registerHandler(WoolHandler(Items.GREEN_WOOL as BlockItem, Items.GREEN_CARPET as BlockItem))
+    Items.RED_WOOL.registerHandler(WoolHandler(Items.RED_WOOL as BlockItem, Items.RED_CARPET as BlockItem))
+    Items.BLACK_WOOL.registerHandler(WoolHandler(Items.BLACK_WOOL as BlockItem, Items.BLACK_CARPET as BlockItem))
 }
 
 @Environment(EnvType.CLIENT)

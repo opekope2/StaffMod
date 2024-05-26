@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff_handler
 
-import net.minecraft.block.Block
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.component.type.AttributeModifierSlot
@@ -26,26 +25,23 @@ import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.tag.BlockTags
-import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
-import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.mixin.IMinecraftClientMixin
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
+import opekope2.avm_staff.util.mutableItemStackInStaff
 
-class WoolHandler(woolBlock: Block, carpetBlock: Block) : StaffHandler() {
-    private val woolState = woolBlock.defaultState
-    private val carpetState = carpetBlock.defaultState
-
+class WoolHandler(private val woolBlockItem: BlockItem, private val carpetBlockItem: BlockItem) : StaffHandler() {
     override fun useOnBlock(
         staffStack: ItemStack,
         world: World,
@@ -62,32 +58,15 @@ class WoolHandler(woolBlock: Block, carpetBlock: Block) : StaffHandler() {
         val originalState = world.getBlockState(target)
         if (originalState.isIn(BlockTags.WOOL) || originalState.isIn(BlockTags.WOOL_CARPETS)) return ActionResult.FAIL
 
+        val itemToPlace = if (side == Direction.UP) carpetBlockItem else woolBlockItem
         val woolPlaceContext = WoolPlacementContext(
             world,
             user as? PlayerEntity,
             hand,
-            staffStack,
+            staffStack.mutableItemStackInStaff!!,
             BlockHitResult(target.toCenterPos(), side, target, false)
         )
-        if (!woolPlaceContext.canPlace()) return ActionResult.FAIL
-
-        val placedState = if (side == Direction.UP) carpetState else woolState
-        if (!world.isClient) {
-            world.setBlockState(woolPlaceContext.blockPos, placedState)
-        }
-
-        val woolSoundGroup = placedState.soundGroup
-        world.playSound(
-            user,
-            woolPlaceContext.blockPos,
-            woolSoundGroup.placeSound,
-            SoundCategory.BLOCKS,
-            (woolSoundGroup.volume + 1f) / 2f,
-            woolSoundGroup.pitch * 0.8f
-        )
-        world.emitGameEvent(GameEvent.BLOCK_PLACE, woolPlaceContext.blockPos, GameEvent.Emitter.of(user, placedState))
-
-        return ActionResult.SUCCESS
+        return itemToPlace.place(woolPlaceContext)
     }
 
     override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
