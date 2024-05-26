@@ -21,10 +21,10 @@ package opekope2.avm_staff.internal.staff_handler
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.Block
-import net.minecraft.block.Blocks.*
+import net.minecraft.block.Blocks
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
-import net.minecraft.item.Items
+import net.minecraft.item.Items.*
 import net.minecraft.recipe.RecipeType
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvents
@@ -39,65 +39,61 @@ private fun Item.registerHandler(handler: StaffHandler) {
 }
 
 fun registerVanillaStaffHandlers() {
-    Items.ANVIL.registerHandler(AnvilHandler(Items.CHIPPED_ANVIL::getDefaultStack))
-    Items.CHIPPED_ANVIL.registerHandler(AnvilHandler(Items.DAMAGED_ANVIL::getDefaultStack))
-    Items.DAMAGED_ANVIL.registerHandler(AnvilHandler { null })
+    ANVIL.registerHandler(AnvilHandler(CHIPPED_ANVIL::getDefaultStack))
+    CHIPPED_ANVIL.registerHandler(AnvilHandler(DAMAGED_ANVIL::getDefaultStack))
+    DAMAGED_ANVIL.registerHandler(AnvilHandler { null })
 
-    Items.BELL.registerHandler(BellBlockHandler())
+    BELL.registerHandler(BellBlockHandler())
 
-    Items.BONE_BLOCK.registerHandler(BoneBlockHandler())
+    BONE_BLOCK.registerHandler(BoneBlockHandler())
 
-    Items.CAMPFIRE.registerHandler(
+    CAMPFIRE.registerHandler(
         CampfireHandler(flamethrowerParticleType, CampfireHandler.Properties(1 / 20.0, 5 / 20.0, 1, 0.1))
     )
-    Items.SOUL_CAMPFIRE.registerHandler(
+    SOUL_CAMPFIRE.registerHandler(
         CampfireHandler(soulFlamethrowerParticleType, CampfireHandler.Properties(2 / 20.0, 10 / 20.0, 2, 0.12))
     )
 
     // TODO command block
 
-    Items.FURNACE.registerHandler(
+    FURNACE.registerHandler(
         FurnaceHandler(RecipeType.SMELTING, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE)
     )
-    Items.BLAST_FURNACE.registerHandler(
+    BLAST_FURNACE.registerHandler(
         FurnaceHandler(RecipeType.BLASTING, SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE)
     )
-    Items.SMOKER.registerHandler(
+    SMOKER.registerHandler(
         FurnaceHandler(RecipeType.SMOKING, SoundEvents.BLOCK_SMOKER_SMOKE)
     )
 
-    Items.LIGHTNING_ROD.registerHandler(LightningRodHandler())
+    LIGHTNING_ROD.registerHandler(LightningRodHandler())
 
-    Items.MAGMA_BLOCK.registerHandler(MagmaBlockHandler())
+    MAGMA_BLOCK.registerHandler(MagmaBlockHandler())
 
-    Items.SNOW_BLOCK.registerHandler(SnowBlockHandler())
+    SNOW_BLOCK.registerHandler(SnowBlockHandler())
 
-    Items.TNT.registerHandler(TntHandler())
+    TNT.registerHandler(TntHandler())
 
-    Items.WITHER_SKELETON_SKULL.registerHandler(
+    WITHER_SKELETON_SKULL.registerHandler(
         WitherSkeletonSkullHandler()
     )
 
-    Items.WHITE_WOOL.registerHandler(WoolHandler(Items.WHITE_WOOL as BlockItem, Items.WHITE_CARPET as BlockItem))
-    Items.ORANGE_WOOL.registerHandler(WoolHandler(Items.ORANGE_WOOL as BlockItem, Items.ORANGE_CARPET as BlockItem))
-    Items.MAGENTA_WOOL.registerHandler(WoolHandler(Items.MAGENTA_WOOL as BlockItem, Items.MAGENTA_CARPET as BlockItem))
-    Items.LIGHT_BLUE_WOOL.registerHandler(
-        WoolHandler(Items.LIGHT_BLUE_WOOL as BlockItem, Items.LIGHT_BLUE_CARPET as BlockItem)
-    )
-    Items.YELLOW_WOOL.registerHandler(WoolHandler(Items.YELLOW_WOOL as BlockItem, Items.YELLOW_CARPET as BlockItem))
-    Items.LIME_WOOL.registerHandler(WoolHandler(Items.LIME_WOOL as BlockItem, Items.LIME_CARPET as BlockItem))
-    Items.PINK_WOOL.registerHandler(WoolHandler(Items.PINK_WOOL as BlockItem, Items.PINK_CARPET as BlockItem))
-    Items.GRAY_WOOL.registerHandler(WoolHandler(Items.GRAY_WOOL as BlockItem, Items.GRAY_CARPET as BlockItem))
-    Items.LIGHT_GRAY_WOOL.registerHandler(
-        WoolHandler(Items.LIGHT_GRAY_WOOL as BlockItem, Items.LIGHT_GRAY_CARPET as BlockItem)
-    )
-    Items.CYAN_WOOL.registerHandler(WoolHandler(Items.CYAN_WOOL as BlockItem, Items.CYAN_CARPET as BlockItem))
-    Items.PURPLE_WOOL.registerHandler(WoolHandler(Items.PURPLE_WOOL as BlockItem, Items.PURPLE_CARPET as BlockItem))
-    Items.BLUE_WOOL.registerHandler(WoolHandler(Items.BLUE_WOOL as BlockItem, Items.BLUE_CARPET as BlockItem))
-    Items.BROWN_WOOL.registerHandler(WoolHandler(Items.BROWN_WOOL as BlockItem, Items.BROWN_CARPET as BlockItem))
-    Items.GREEN_WOOL.registerHandler(WoolHandler(Items.GREEN_WOOL as BlockItem, Items.GREEN_CARPET as BlockItem))
-    Items.RED_WOOL.registerHandler(WoolHandler(Items.RED_WOOL as BlockItem, Items.RED_CARPET as BlockItem))
-    Items.BLACK_WOOL.registerHandler(WoolHandler(Items.BLACK_WOOL as BlockItem, Items.BLACK_CARPET as BlockItem))
+    WHITE_WOOL.registerHandler(WoolHandler(WHITE_WOOL as BlockItem, WHITE_CARPET as BlockItem))
+    ORANGE_WOOL.registerHandler(WoolHandler(ORANGE_WOOL as BlockItem, ORANGE_CARPET as BlockItem))
+    MAGENTA_WOOL.registerHandler(WoolHandler(MAGENTA_WOOL as BlockItem, MAGENTA_CARPET as BlockItem))
+    LIGHT_BLUE_WOOL.registerHandler(WoolHandler(LIGHT_BLUE_WOOL as BlockItem, LIGHT_BLUE_CARPET as BlockItem))
+    YELLOW_WOOL.registerHandler(WoolHandler(YELLOW_WOOL as BlockItem, YELLOW_CARPET as BlockItem))
+    LIME_WOOL.registerHandler(WoolHandler(LIME_WOOL as BlockItem, LIME_CARPET as BlockItem))
+    PINK_WOOL.registerHandler(WoolHandler(PINK_WOOL as BlockItem, PINK_CARPET as BlockItem))
+    GRAY_WOOL.registerHandler(WoolHandler(GRAY_WOOL as BlockItem, GRAY_CARPET as BlockItem))
+    LIGHT_GRAY_WOOL.registerHandler(WoolHandler(LIGHT_GRAY_WOOL as BlockItem, LIGHT_GRAY_CARPET as BlockItem))
+    CYAN_WOOL.registerHandler(WoolHandler(CYAN_WOOL as BlockItem, CYAN_CARPET as BlockItem))
+    PURPLE_WOOL.registerHandler(WoolHandler(PURPLE_WOOL as BlockItem, PURPLE_CARPET as BlockItem))
+    BLUE_WOOL.registerHandler(WoolHandler(BLUE_WOOL as BlockItem, BLUE_CARPET as BlockItem))
+    BROWN_WOOL.registerHandler(WoolHandler(BROWN_WOOL as BlockItem, BROWN_CARPET as BlockItem))
+    GREEN_WOOL.registerHandler(WoolHandler(GREEN_WOOL as BlockItem, GREEN_CARPET as BlockItem))
+    RED_WOOL.registerHandler(WoolHandler(RED_WOOL as BlockItem, RED_CARPET as BlockItem))
+    BLACK_WOOL.registerHandler(WoolHandler(BLACK_WOOL as BlockItem, BLACK_CARPET as BlockItem))
 }
 
 @Environment(EnvType.CLIENT)
@@ -112,47 +108,47 @@ private fun Item.registerStaffItemRenderer(staffItem: Block) {
 
 @Environment(EnvType.CLIENT)
 fun registerVanillaStaffItemRenderers() {
-    Items.ANVIL.registerStaffItemRenderer(ANVIL)
-    Items.CHIPPED_ANVIL.registerStaffItemRenderer(CHIPPED_ANVIL)
-    Items.DAMAGED_ANVIL.registerStaffItemRenderer(DAMAGED_ANVIL)
+    ANVIL.registerStaffItemRenderer(Blocks.ANVIL)
+    CHIPPED_ANVIL.registerStaffItemRenderer(Blocks.CHIPPED_ANVIL)
+    DAMAGED_ANVIL.registerStaffItemRenderer(Blocks.DAMAGED_ANVIL)
 
-    Items.BELL.registerStaffItemRenderer(BellBlockHandler.BellStaffItemRenderer())
+    BELL.registerStaffItemRenderer(BellBlockHandler.BellStaffItemRenderer())
 
-    Items.BONE_BLOCK.registerStaffItemRenderer(BONE_BLOCK)
+    BONE_BLOCK.registerStaffItemRenderer(Blocks.BONE_BLOCK)
 
-    Items.CAMPFIRE.registerStaffItemRenderer(CAMPFIRE)
-    Items.SOUL_CAMPFIRE.registerStaffItemRenderer(SOUL_CAMPFIRE)
+    CAMPFIRE.registerStaffItemRenderer(Blocks.CAMPFIRE)
+    SOUL_CAMPFIRE.registerStaffItemRenderer(Blocks.SOUL_CAMPFIRE)
 
-    Items.COMMAND_BLOCK.registerStaffItemRenderer(COMMAND_BLOCK)
+    COMMAND_BLOCK.registerStaffItemRenderer(Blocks.COMMAND_BLOCK)
 
-    Items.FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(FURNACE))
-    Items.BLAST_FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(BLAST_FURNACE))
-    Items.SMOKER.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(SMOKER))
+    FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(Blocks.FURNACE))
+    BLAST_FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(Blocks.BLAST_FURNACE))
+    SMOKER.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(Blocks.SMOKER))
 
-    Items.LIGHTNING_ROD.registerStaffItemRenderer(LightningRodHandler.LightningRodStaffItemRenderer())
+    LIGHTNING_ROD.registerStaffItemRenderer(LightningRodHandler.LightningRodStaffItemRenderer())
 
-    Items.MAGMA_BLOCK.registerStaffItemRenderer(MAGMA_BLOCK)
+    MAGMA_BLOCK.registerStaffItemRenderer(Blocks.MAGMA_BLOCK)
 
-    Items.SNOW_BLOCK.registerStaffItemRenderer(SNOW_BLOCK)
+    SNOW_BLOCK.registerStaffItemRenderer(Blocks.SNOW_BLOCK)
 
-    Items.TNT.registerStaffItemRenderer(TNT)
+    TNT.registerStaffItemRenderer(Blocks.TNT)
 
-    Items.WITHER_SKELETON_SKULL.registerStaffItemRenderer(WitherSkeletonSkullHandler.WitherSkeletonSkullStaffItemRenderer())
+    WITHER_SKELETON_SKULL.registerStaffItemRenderer(WitherSkeletonSkullHandler.WitherSkeletonSkullStaffItemRenderer())
 
-    Items.WHITE_WOOL.registerStaffItemRenderer(WHITE_WOOL)
-    Items.ORANGE_WOOL.registerStaffItemRenderer(ORANGE_WOOL)
-    Items.MAGENTA_WOOL.registerStaffItemRenderer(MAGENTA_WOOL)
-    Items.LIGHT_BLUE_WOOL.registerStaffItemRenderer(LIGHT_BLUE_WOOL)
-    Items.YELLOW_WOOL.registerStaffItemRenderer(YELLOW_WOOL)
-    Items.LIME_WOOL.registerStaffItemRenderer(LIME_WOOL)
-    Items.PINK_WOOL.registerStaffItemRenderer(PINK_WOOL)
-    Items.GRAY_WOOL.registerStaffItemRenderer(GRAY_WOOL)
-    Items.LIGHT_GRAY_WOOL.registerStaffItemRenderer(LIGHT_GRAY_WOOL)
-    Items.CYAN_WOOL.registerStaffItemRenderer(CYAN_WOOL)
-    Items.PURPLE_WOOL.registerStaffItemRenderer(PURPLE_WOOL)
-    Items.BLUE_WOOL.registerStaffItemRenderer(BLUE_WOOL)
-    Items.BROWN_WOOL.registerStaffItemRenderer(BROWN_WOOL)
-    Items.GREEN_WOOL.registerStaffItemRenderer(GREEN_WOOL)
-    Items.RED_WOOL.registerStaffItemRenderer(RED_WOOL)
-    Items.BLACK_WOOL.registerStaffItemRenderer(BLACK_WOOL)
+    WHITE_WOOL.registerStaffItemRenderer(Blocks.WHITE_WOOL)
+    ORANGE_WOOL.registerStaffItemRenderer(Blocks.ORANGE_WOOL)
+    MAGENTA_WOOL.registerStaffItemRenderer(Blocks.MAGENTA_WOOL)
+    LIGHT_BLUE_WOOL.registerStaffItemRenderer(Blocks.LIGHT_BLUE_WOOL)
+    YELLOW_WOOL.registerStaffItemRenderer(Blocks.YELLOW_WOOL)
+    LIME_WOOL.registerStaffItemRenderer(Blocks.LIME_WOOL)
+    PINK_WOOL.registerStaffItemRenderer(Blocks.PINK_WOOL)
+    GRAY_WOOL.registerStaffItemRenderer(Blocks.GRAY_WOOL)
+    LIGHT_GRAY_WOOL.registerStaffItemRenderer(Blocks.LIGHT_GRAY_WOOL)
+    CYAN_WOOL.registerStaffItemRenderer(Blocks.CYAN_WOOL)
+    PURPLE_WOOL.registerStaffItemRenderer(Blocks.PURPLE_WOOL)
+    BLUE_WOOL.registerStaffItemRenderer(Blocks.BLUE_WOOL)
+    BROWN_WOOL.registerStaffItemRenderer(Blocks.BROWN_WOOL)
+    GREEN_WOOL.registerStaffItemRenderer(Blocks.GREEN_WOOL)
+    RED_WOOL.registerStaffItemRenderer(Blocks.RED_WOOL)
+    BLACK_WOOL.registerStaffItemRenderer(Blocks.BLACK_WOOL)
 }
