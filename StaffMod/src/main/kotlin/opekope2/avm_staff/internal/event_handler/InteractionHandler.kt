@@ -37,9 +37,7 @@ fun attackBlock(player: PlayerEntity, hand: Hand, target: BlockPos, direction: D
     val itemInStaff = staffStack.itemInStaff ?: return EventResult.pass()
     val staffHandler = itemInStaff.staffHandler ?: return EventResult.pass()
 
-    val result = staffHandler.attackBlock(staffStack, player.entityWorld, player, target, direction, hand)
-    return if (result.isFalse) EventResult.interruptTrue() // Force Fabric to send packet for Neo/Forge parity
-    else result
+    return staffHandler.attackBlock(staffStack, player.entityWorld, player, target, direction, hand)
 }
 
 @Environment(EnvType.CLIENT)

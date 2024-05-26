@@ -232,8 +232,8 @@ abstract class StaffHandler {
      * Called on both the client and the server by Architectury API, when an entity attacks a block with a staff.
      *
      * @return
-     * - [EventResult.interruptTrue], [EventResult.interruptTrue]:
-     *   Cancels vanilla block breaking, and on the logical client, sends a packet to the server.
+     * - [EventResult.interruptTrue], [EventResult.interruptFalse]:
+     *   Cancels vanilla block breaking, and on a Neo/Forge logical client, sends a packet to the server.
      * - [EventResult.interruptDefault], [EventResult.pass]:
      *   Lets Minecraft handle vanilla block breaking.
      *
