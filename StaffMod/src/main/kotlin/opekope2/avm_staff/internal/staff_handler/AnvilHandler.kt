@@ -44,6 +44,9 @@ import kotlin.math.ceil
 import kotlin.math.floor
 
 class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHandler() {
+    override val attributeModifiers: AttributeModifiersComponent
+        get() = ATTRIBUTE_MODIFIERS
+
     override fun attackBlock(
         staffStack: ItemStack,
         world: World,
@@ -116,8 +119,6 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHan
     }
 
     override fun disablesShield() = true
-
-    override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
 
     private companion object {
         private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()

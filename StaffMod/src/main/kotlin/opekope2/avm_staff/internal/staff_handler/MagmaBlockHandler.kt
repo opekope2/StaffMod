@@ -37,6 +37,9 @@ import opekope2.avm_staff.util.*
 class MagmaBlockHandler : StaffHandler() {
     override val maxUseTime = 72000
 
+    override val attributeModifiers: AttributeModifiersComponent
+        get() = ATTRIBUTE_MODIFIERS
+
     override fun use(
         staffStack: ItemStack,
         world: World,
@@ -86,8 +89,6 @@ class MagmaBlockHandler : StaffHandler() {
             setPosition(user.approximateStaffTipPosition)
         })
     }
-
-    override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
 
     private companion object {
         private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()

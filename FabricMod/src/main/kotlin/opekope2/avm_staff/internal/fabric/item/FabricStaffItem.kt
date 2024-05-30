@@ -22,7 +22,6 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.item.v1.FabricItem
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -50,9 +49,5 @@ class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowComponentsUpdateAnimation(oldStack, newStack, player, hand)
-    }
-
-    override fun getAttributeModifiers(stack: ItemStack): AttributeModifiersComponent {
-        return stack.itemInStaff.staffHandlerOrDefault.getAttributeModifiers(stack)
     }
 }

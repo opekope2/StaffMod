@@ -59,6 +59,9 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 ) : StaffHandler() {
     override val maxUseTime = 72000
 
+    override val attributeModifiers: AttributeModifiersComponent
+        get() = ATTRIBUTE_MODIFIERS
+
     override fun use(
         staffStack: ItemStack,
         world: World,
@@ -165,8 +168,6 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     ): Boolean {
         return selectedSlotChanged
     }
-
-    override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
 
     @Environment(EnvType.CLIENT)
     class FurnaceStaffItemRenderer(unlitState: BlockState, litState: BlockState) : IStaffItemRenderer {

@@ -45,6 +45,9 @@ import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.push
 
 class BellBlockHandler : StaffHandler() {
+    override val attributeModifiers: AttributeModifiersComponent
+        get() = ATTRIBUTE_MODIFIERS
+
     override fun use(
         staffStack: ItemStack,
         world: World,
@@ -74,8 +77,6 @@ class BellBlockHandler : StaffHandler() {
 
         return EventResult.pass()
     }
-
-    override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
 
     @Environment(EnvType.CLIENT)
     class BellStaffItemRenderer : IStaffItemRenderer {

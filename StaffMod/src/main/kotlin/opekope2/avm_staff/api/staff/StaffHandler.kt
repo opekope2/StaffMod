@@ -52,6 +52,12 @@ abstract class StaffHandler {
         get() = 0
 
     /**
+     * Gets the attribute modifiers (damage, attack speed, etc.) of the staff when held.
+     */
+    open val attributeModifiers: AttributeModifiersComponent
+        get() = Default.ATTRIBUTE_MODIFIERS
+
+    /**
      * Called on both the client and the server by Minecraft when the player uses the staff.
      *
      * If the staff can be used for multiple ticks, override [maxUseTime] to return a positive number, and call
@@ -338,21 +344,11 @@ abstract class StaffHandler {
     }
 
     /**
-     * Gets the attribute modifiers (damage, attack speed, etc.) of the staff when held.
-     *
-     * @param staffStack    The staff item stack (not the item in the staff)
-     */
-    open fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent {
-        return ATTRIBUTE_MODIFIERS
-    }
-
-    /**
      * Handler of a staff with no item inserted into it.
      */
-    object Default : StaffHandler()
-
-    companion object {
-        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+    object Default : StaffHandler() {
+        @JvmField
+        val ATTRIBUTE_MODIFIERS: AttributeModifiersComponent = AttributeModifiersComponent.builder()
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(4.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
             .add(
@@ -366,7 +362,9 @@ abstract class StaffHandler {
                 AttributeModifierSlot.MAINHAND
             )
             .build()
+    }
 
+    companion object {
         private val staffItemsHandlers = mutableMapOf<Identifier, StaffHandler>()
 
         /**

@@ -43,6 +43,7 @@ import net.minecraft.util.Rarity
 import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.api.staff.StaffItemComponent
 import opekope2.avm_staff.internal.createCrownItem
@@ -85,7 +86,10 @@ val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_st
  * Item registered as `avm_staff:royal_staff`.
  */
 val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") {
-    createStaffItem(Item.Settings().maxCount(1).rarity(Rarity.EPIC).`arch$tab`(staffModItemGroup))
+    createStaffItem(
+        Item.Settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Default.ATTRIBUTE_MODIFIERS)
+            .`arch$tab`(staffModItemGroup)
+    )
 }
 
 /**

@@ -23,7 +23,6 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.item.BuiltinModelItemRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -39,10 +38,6 @@ import opekope2.avm_staff.util.staffHandlerOrDefault
 import java.util.function.Consumer
 
 class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExtension {
-    override fun getAttributeModifiers(stack: ItemStack): AttributeModifiersComponent {
-        return stack.itemInStaff.staffHandlerOrDefault.getAttributeModifiers(stack)
-    }
-
     @Suppress("RemoveExplicitSuperQualifier") // Required because StaffItem apparently also has canDisableShield
     override fun canDisableShield(
         stack: ItemStack,

@@ -20,6 +20,7 @@
 
 package opekope2.avm_staff.util
 
+import net.minecraft.component.ComponentChanges
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -62,12 +63,15 @@ val ItemStack.itemStackInStaff: ItemStack?
 var ItemStack.mutableItemStackInStaff: ItemStack?
     get() = itemStackInStaff?.copy()
     set(value) {
+        val changes = ComponentChanges.builder()
+
         if (value == null || value.isEmpty) {
-            remove(staffItemComponentType.get())
-            return
+            changes.remove(staffItemComponentType.get())
+        } else {
+            changes.add(staffItemComponentType.get(), StaffItemComponent(value.copy()))
         }
 
-        this[staffItemComponentType.get()] = StaffItemComponent(value.copy())
+        applyChanges(changes.build())
     }
 
 /**

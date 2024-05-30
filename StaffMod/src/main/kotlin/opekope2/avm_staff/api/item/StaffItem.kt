@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.api.item
 
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -43,6 +44,10 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
         val staffStack = entity.stack
         val staffItem = staffStack.mutableItemStackInStaff ?: return
         ItemUsage.spawnItemContents(entity, listOf(staffItem))
+    }
+
+    override fun postProcessComponents(stack: ItemStack) {
+        stack[DataComponentTypes.ATTRIBUTE_MODIFIERS] = stack.itemInStaff.staffHandlerOrDefault.attributeModifiers
     }
 
     override fun getMaxUseTime(stack: ItemStack): Int {

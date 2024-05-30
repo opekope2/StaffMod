@@ -42,6 +42,9 @@ import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.mutableItemStackInStaff
 
 class WoolHandler(private val woolBlockItem: BlockItem, private val carpetBlockItem: BlockItem) : StaffHandler() {
+    override val attributeModifiers: AttributeModifiersComponent
+        get() = ATTRIBUTE_MODIFIERS
+
     override fun useOnBlock(
         staffStack: ItemStack,
         world: World,
@@ -68,8 +71,6 @@ class WoolHandler(private val woolBlockItem: BlockItem, private val carpetBlockI
         )
         return itemToPlace.place(woolPlaceContext)
     }
-
-    override fun getAttributeModifiers(staffStack: ItemStack): AttributeModifiersComponent = ATTRIBUTE_MODIFIERS
 
     private class WoolPlacementContext(
         world: World,
