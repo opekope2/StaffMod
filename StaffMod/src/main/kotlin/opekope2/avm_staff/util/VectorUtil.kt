@@ -16,12 +16,11 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("MathUtil")
+@file: JvmSynthetic
 @file: Suppress("NOTHING_TO_INLINE")
 
 package opekope2.avm_staff.util
 
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Vec3d
 import org.joml.Vector3f
 import org.joml.Vector3fc
@@ -56,16 +55,4 @@ inline operator fun Vector3f.minusAssign(other: Vector3fc) {
 
 inline operator fun Vector3f.timesAssign(scalar: Float) {
     mul(scalar)
-}
-
-/**
- * [Pushes][MatrixStack.push] to the given matrix stack, invokes [action], then [pops][MatrixStack.pop] from the given
- * matrix stack.
- *
- * @param action    The action to invoke between [MatrixStack.push] and [MatrixStack.pop]
- */
-inline fun MatrixStack.push(action: MatrixStack.() -> Unit) {
-    push()
-    action()
-    pop()
 }
