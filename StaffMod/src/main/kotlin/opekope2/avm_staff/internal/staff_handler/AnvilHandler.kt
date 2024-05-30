@@ -38,7 +38,7 @@ import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.equipTime
-import opekope2.avm_staff.util.itemStackInStaff
+import opekope2.avm_staff.util.mutableItemStackInStaff
 import java.util.*
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -104,7 +104,7 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHan
     private fun damageAnvil(staffStack: ItemStack, attacker: LivingEntity, fallDistance: Float): Boolean {
         if (attacker is PlayerEntity && !attacker.abilities.creativeMode && attacker.random.nextFloat() < 0.05f + fallDistance * 0.05f) {
             val damagedStack = damagedStackFactory()
-            staffStack.itemStackInStaff = damagedStack
+            staffStack.mutableItemStackInStaff = damagedStack
             return damagedStack == null
         }
 

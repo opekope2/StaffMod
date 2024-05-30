@@ -45,14 +45,22 @@ val ItemStack.itemInStaff: Item?
     get() = getOrDefault(staffItemComponentType.get(), null)?.item?.item
 
 /**
- * Gets or sets the item stack inserted into the given staff item stack.
+ * Gets the item stack inserted into the given staff item stack.
  * The value returned MUST NOT be modified in any way, use [mutableItemStackInStaff] instead.
- * The value passed in MUST NOT be stored elsewhere, pass in a copy of it instead.
  *
  * @see mutableItemStackInStaff
  */
-var ItemStack.itemStackInStaff: ItemStack?
+val ItemStack.itemStackInStaff: ItemStack?
     get() = getOrDefault(staffItemComponentType.get(), null)?.item
+
+/**
+ * Gets or sets a copy of the item stack inserted into the given staff item stack. The value returned or passed in can
+ * be freely modified.
+ *
+ * @see itemStackInStaff
+ */
+var ItemStack.mutableItemStackInStaff: ItemStack?
+    get() = itemStackInStaff?.copy()
     set(value) {
         if (value == null || value.isEmpty) {
             remove(staffItemComponentType.get())
@@ -61,14 +69,6 @@ var ItemStack.itemStackInStaff: ItemStack?
 
         this[staffItemComponentType.get()] = StaffItemComponent(value.copy())
     }
-
-/**
- * Gets a copy of the item stack inserted into the given staff item stack. The value returned can be freely modified.
- *
- * @see itemStackInStaff
- */
-val ItemStack.mutableItemStackInStaff: ItemStack?
-    get() = itemStackInStaff?.copy()
 
 /**
  * Returns if the given item has a registered handler when inserted into a staff.

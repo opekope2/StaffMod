@@ -36,7 +36,7 @@ fun addItemToStaff(packet: AddItemToStaffC2SPacket, context: PacketContext) {
     if (itemStackToAdd.isEmpty) return
     if (!itemStackToAdd.item.hasStaffHandler) return
     if (staffStack.isItemInStaff) return
-    staffStack.itemStackInStaff = itemStackToAdd.split(1)
+    staffStack.mutableItemStackInStaff = itemStackToAdd.split(1)
 }
 
 @Suppress("UNUSED_PARAMETER")
@@ -51,7 +51,7 @@ fun removeItemFromStaff(packet: RemoveItemFromStaffC2SPacket, context: PacketCon
 
     if (itemStack.canAccept(staffItem, inventory.maxCountPerStack)) {
         inventory.insertStack(itemSlot, staffItem)
-        staffStack.itemStackInStaff = null
+        staffStack.mutableItemStackInStaff = null
     }
 }
 

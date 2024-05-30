@@ -50,7 +50,7 @@ import opekope2.avm_staff.internal.createStaffItem
 import opekope2.avm_staff.internal.createStaffRendererItem
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.UnitComponent
-import opekope2.avm_staff.util.itemStackInStaff
+import opekope2.avm_staff.util.mutableItemStackInStaff
 
 private val ITEMS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM)
 private val ITEM_GROUPS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROUP)
@@ -130,7 +130,7 @@ val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "s
 val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("${MOD_ID}_items") {
     CreativeTabRegistry.create(Text.translatable("itemGroup.${MOD_ID}_items")) {
         royalStaffItem.get().defaultStack.apply {
-            itemStackInStaff = Items.COMMAND_BLOCK.defaultStack
+            mutableItemStackInStaff = Items.COMMAND_BLOCK.defaultStack
         }
     }
 }
