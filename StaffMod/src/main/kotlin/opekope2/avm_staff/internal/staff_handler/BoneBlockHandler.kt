@@ -18,7 +18,10 @@
 
 package opekope2.avm_staff.internal.staff_handler
 
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.BoneMealItem
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -29,8 +32,13 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.util.attackDamage
+import opekope2.avm_staff.util.attackSpeed
 
 class BoneBlockHandler : StaffHandler() {
+    override val attributeModifiers: AttributeModifiersComponent
+        get() = ATTRIBUTE_MODIFIERS
+
     override fun useOnBlock(
         staffStack: ItemStack,
         world: World,
@@ -61,5 +69,12 @@ class BoneBlockHandler : StaffHandler() {
         }
 
         return ActionResult.success(world.isClient)
+    }
+
+    companion object {
+        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(5.0), AttributeModifierSlot.MAINHAND)
+            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
+            .build()
     }
 }
