@@ -1,0 +1,3 @@
+# Resource pack guide
+
+WIP
