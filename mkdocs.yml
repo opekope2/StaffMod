@@ -6,7 +6,7 @@ theme:
   icon:
     repo: fontawesome/brands/github
     admonition:
-      experiment: material/test-tube
+      render: material/cube-outline
   palette:
     scheme: slate
   features:

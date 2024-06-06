@@ -1,14 +1,14 @@
-.md-typeset .admonition.experiment,
-.md-typeset details.experiment {
+.md-typeset .admonition.render,
+.md-typeset details.render {
     border-color: #00bfa5;
 }
-.md-typeset .experiment > .admonition-title,
-.md-typeset .experiment > summary {
+.md-typeset .render > .admonition-title,
+.md-typeset .render > summary {
     background-color: #00bfa51a;
 }
-.md-typeset .experiment > .admonition-title::before,
-.md-typeset .experiment > summary::before {
+.md-typeset .render > .admonition-title::before,
+.md-typeset .render > summary::before {
     background-color: #00bfa5;
-    -webkit-mask-image: var(--md-admonition-icon--experiment);
-    mask-image: var(--md-admonition-icon--experiment);
+    -webkit-mask-image: var(--md-admonition-icon--render);
+    mask-image: var(--md-admonition-icon--render);
 }
