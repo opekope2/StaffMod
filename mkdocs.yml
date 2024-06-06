@@ -14,8 +14,11 @@ theme:
     - content.code.copy
 nav:
   - Home: index.md
-  - Staff: staff.md
-  - For developers: developers.md
+  - Items: items.md
+  - Staff items: staff.md
+  - Resource pack guide: resources.md
+  - Data pack guide: data.md
+  - Developer guide: developers.md
   - API docs:
     - Latest: kdoc/latest
     #CI_KDOC_PLACEHOLDER
