@@ -27,6 +27,7 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
+import opekope2.avm_staff.api.staffRendererOverrideComponentType
 import opekope2.avm_staff.internal.model.HEAD_SEED
 import opekope2.avm_staff.internal.model.ITEM_SEED
 import opekope2.avm_staff.internal.model.ROD_BOTTOM_SEED
@@ -57,17 +58,19 @@ object StaffRenderer {
         light: Int,
         overlay: Int
     ) {
-        when (mode) {
+        val renderMode = staffStack[staffRendererOverrideComponentType.get()]?.renderMode ?: mode
+
+        when (renderMode) {
             ModelTransformationMode.GUI -> renderInventoryStaff(
-                mode, staffStack, matrices, vertexConsumers, light, overlay
+                renderMode, staffStack, matrices, vertexConsumers, light, overlay
             )
 
             ModelTransformationMode.FIXED -> renderItemFrameStaff(
-                mode, staffStack, matrices, vertexConsumers, light, overlay
+                renderMode, staffStack, matrices, vertexConsumers, light, overlay
             )
 
             else -> renderFullStaff(
-                mode, staffStack, matrices, vertexConsumers, light, overlay
+                renderMode, staffStack, matrices, vertexConsumers, light, overlay
             )
         }
     }

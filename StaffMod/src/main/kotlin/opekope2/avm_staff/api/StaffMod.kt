@@ -46,6 +46,7 @@ import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.api.staff.StaffItemComponent
+import opekope2.avm_staff.api.staff.StaffRendererOverrideComponent
 import opekope2.avm_staff.internal.createCrownItem
 import opekope2.avm_staff.internal.createStaffItem
 import opekope2.avm_staff.internal.createStaffRendererItem
@@ -198,6 +199,18 @@ val furnaceLitComponentType: RegistrySupplier<DataComponentType<UnitComponent>> 
         DataComponentType.builder<UnitComponent>()
             .codec(Codec.unit(UnitComponent))
             .packetCodec(PacketCodec.unit(UnitComponent))
+            .build()
+    }
+
+/**
+ * Data component registered as `avm_staff:staff_renderer_override`. Specifies how a staff is rendered. Intended for
+ * Isometric Renders mod compatibility.
+ */
+val staffRendererOverrideComponentType: RegistrySupplier<DataComponentType<StaffRendererOverrideComponent>> =
+    DATA_COMPONENT_TYPES.register("staff_renderer_override") {
+        DataComponentType.builder<StaffRendererOverrideComponent>()
+            .codec(StaffRendererOverrideComponent.CODEC)
+            .packetCodec(StaffRendererOverrideComponent.PACKET_CODEC)
             .build()
     }
 

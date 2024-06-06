@@ -23,6 +23,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.item.ClampedModelPredicateProvider
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
+import opekope2.avm_staff.api.staffRendererOverrideComponentType
 import opekope2.avm_staff.util.MOD_ID
 
 const val HEAD_SEED = -0b10011_10100_00001_00110_00110_00000
@@ -35,6 +36,7 @@ const val ROD_BOTTOM_SEED = -0b10011_10100_00001_00110_00110_00011
 fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicateProvider) -> Unit) {
     register(Identifier(MOD_ID, "using_item")) { stack, _, entity, _ ->
         if (entity != null && entity.isUsingItem && ItemStack.areEqual(entity.activeItem, stack)) 1f
+        else if (stack[staffRendererOverrideComponentType.get()]?.isActive == true) 1f
         else 0f
     }
     register(Identifier(MOD_ID, "head")) { _, _, _, seed ->
