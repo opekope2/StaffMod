@@ -76,4 +76,5 @@ markdown_extensions:
 extra_css:
   - stylesheets/admonitions.css
   - stylesheets/chips.css
+  - stylesheets/style.css
 use_directory_urls: false
