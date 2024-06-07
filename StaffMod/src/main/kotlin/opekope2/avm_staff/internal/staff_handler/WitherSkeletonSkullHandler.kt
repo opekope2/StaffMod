@@ -91,13 +91,10 @@ class WitherSkeletonSkullHandler : StaffHandler() {
         target: Entity,
         hand: Hand
     ): EventResult {
-        if (!world.isClient) {
-            if (world.difficulty.id >= Difficulty.NORMAL.id) {
-                if (target is LivingEntity && !target.isInvulnerableTo(world.damageSources.wither())) {
-                    val amplifier = if (world.difficulty == Difficulty.HARD) 1 else 0
-                    target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 5 * 20, amplifier))
-                }
-            }
+        if (world.isClient) return EventResult.pass()
+        if (target is LivingEntity && !target.isInvulnerableTo(world.damageSources.wither())) {
+            val amplifier = if (world.difficulty == Difficulty.HARD) 1 else 0
+            target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 10 * 20, amplifier))
         }
 
         return EventResult.pass()
