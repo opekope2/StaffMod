@@ -71,12 +71,11 @@ class WitherSkeletonSkullHandler : StaffHandler() {
     }
 
     private fun shootSkull(world: World, user: LivingEntity, charged: Boolean) {
+        if (world.isClient) return
         if (!user.canUseStaff) return
         if (user is PlayerEntity && user.isAttackCoolingDown) return
 
-        world.syncWorldEvent(null, WorldEvents.WITHER_SHOOTS, user.blockPos, 0)
-
-        if (world.isClient) return
+        world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, user.blockPos, 0)
 
         val (x, y, z) = user.rotationVector
         world.spawnEntity(WitherSkullEntity(world, user, x, y, z).apply {

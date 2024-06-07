@@ -76,13 +76,11 @@ class MagmaBlockHandler : StaffHandler() {
     }
 
     private fun shootFireball(world: World, user: LivingEntity) {
+        if (world.isClient) return
         if (!user.canUseStaff) return
-
         if (user is PlayerEntity && user.isAttackCoolingDown) return
 
-        world.syncWorldEvent(user as? PlayerEntity, WorldEvents.BLAZE_SHOOTS, user.blockPos, 0)
-
-        if (world.isClient) return
+        world.syncWorldEvent(WorldEvents.BLAZE_SHOOTS, user.blockPos, 0)
 
         val (x, y, z) = user.rotationVector
         world.spawnEntity(SmallFireballEntity(world, user, x, y, z).apply {
