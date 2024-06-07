@@ -28,7 +28,6 @@ import net.minecraft.client.util.InputUtil
 import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.isItemInStaff
 import org.lwjgl.glfw.GLFW
 
 val addRemoveStaffItemKeyBinding = KeyBinding(
@@ -44,9 +43,13 @@ fun handleKeyBindings(client: MinecraftClient) {
 
     val player = client.player ?: return
 
-    if (player.mainHandStack.isItemInStaff || player.offHandStack.isItemInStaff) {
-        RemoveItemFromStaffC2SPacket().sendToServer()
-    } else {
+    player.canInsertIntoStaff().ifSuccess {
         AddItemToStaffC2SPacket().sendToServer()
+        player.resetLastAttackedTicks()
+    }.ifError {
+        player.canRemoveFromStaff().ifSuccess {
+            RemoveItemFromStaffC2SPacket().sendToServer()
+            player.resetLastAttackedTicks()
+        }
     }
 }

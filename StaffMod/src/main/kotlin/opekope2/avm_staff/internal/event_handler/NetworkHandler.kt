@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.event_handler
 
+import com.mojang.serialization.DataResult
 import dev.architectury.networking.NetworkManager.PacketContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
@@ -30,28 +31,18 @@ import opekope2.avm_staff.util.*
 
 @Suppress("UNUSED_PARAMETER")
 fun addItemToStaff(packet: AddItemToStaffC2SPacket, context: PacketContext) {
-    val player = context.player
-    val (staffStack, itemStackToAdd) = findStaffAndItemStack(player) ?: return
-
-    if (itemStackToAdd.isEmpty) return
-    if (!itemStackToAdd.item.hasStaffHandler) return
-    if (staffStack.isItemInStaff) return
-    staffStack.mutableItemStackInStaff = itemStackToAdd.split(1)
+    context.player.canInsertIntoStaff().ifSuccess { (staffStack, itemStackToAdd) ->
+        staffStack.mutableItemStackInStaff = itemStackToAdd.split(1)
+        context.player.resetLastAttackedTicks()
+    }
 }
 
 @Suppress("UNUSED_PARAMETER")
 fun removeItemFromStaff(packet: RemoveItemFromStaffC2SPacket, context: PacketContext) {
-    val player = context.player
-    if (player.isUsingItem) return
-
-    val (staffStack, itemSlot) = findStaffStackAndItemSlot(player) ?: return
-    val inventory = player.inventory
-    val itemStack = inventory.getStack(itemSlot)
-    val staffItem = staffStack.mutableItemStackInStaff ?: return
-
-    if (itemStack.canAccept(staffItem, inventory.maxCountPerStack)) {
-        inventory.insertStack(itemSlot, staffItem)
+    context.player.canRemoveFromStaff().ifSuccess { (staffStack, targetSlot) ->
+        context.player.inventory.insertStack(targetSlot, staffStack.mutableItemStackInStaff)
         staffStack.mutableItemStackInStaff = null
+        context.player.resetLastAttackedTicks()
     }
 }
 
@@ -67,35 +58,64 @@ fun attack(packet: AttackC2SPacket, context: PacketContext) {
     staffHandler.attack(staffStack, player.entityWorld, player, packet.hand)
 }
 
+fun PlayerEntity.canInsertIntoStaff(): DataResult<Pair<ItemStack, ItemStack>> {
+    val staffStack: ItemStack
+    val itemStackToAdd: ItemStack
+
+    when {
+        mainHandStack.isIn(staffsTag) && !offHandStack.isIn(staffsTag) -> {
+            staffStack = mainHandStack
+            itemStackToAdd = offHandStack
+        }
+
+        offHandStack.isIn(staffsTag) && !mainHandStack.isIn(staffsTag) -> {
+            staffStack = offHandStack
+            itemStackToAdd = mainHandStack
+        }
+
+        else -> return DataResult.error { "The player doesn't hold exactly 1 staff" }
+    }
+
+    if (itemStackToAdd.isEmpty) return DataResult.error { "Can't insert empty ItemStack into staff" }
+    if (staffStack.isItemInStaff) return DataResult.error { "An item is already inserted into the staff" }
+    if (!itemStackToAdd.item.hasStaffHandler) return DataResult.error { "Can't insert item without a StaffHandler into the staff" }
+
+    return DataResult.success(staffStack to itemStackToAdd)
+}
+
+fun PlayerEntity.canRemoveFromStaff(): DataResult<Pair<ItemStack, Int>> {
+    if (isUsingItem) return DataResult.error { "The player is using an item" }
+
+    val staffStack: ItemStack
+    val targetSlot: Int
+
+    when {
+        mainHandStack.isIn(staffsTag) && !offHandStack.isIn(staffsTag) -> {
+            staffStack = mainHandStack
+            targetSlot = PlayerInventory.OFF_HAND_SLOT
+        }
+
+        offHandStack.isIn(staffsTag) && !mainHandStack.isIn(staffsTag) -> {
+            staffStack = offHandStack
+            targetSlot = inventory.selectedSlot
+        }
+
+        else -> return DataResult.error { "The player doesn't hold exactly 1 staff" }
+    }
+
+    val targetStack = inventory.getStack(targetSlot)
+    val itemStackInStaff = staffStack.itemStackInStaff ?: return DataResult.error { "Staff is empty" }
+
+    if (!targetStack.canAccept(itemStackInStaff, inventory.maxCountPerStack)) return DataResult.error {
+        "Target stack is incompatible with staff item"
+    }
+
+    return DataResult.success(staffStack to targetSlot)
+}
+
 private fun ItemStack.canAccept(other: ItemStack, maxCountPerStack: Int): Boolean {
     val canCombine = isEmpty || ItemStack.areItemsAndComponentsEqual(this, other)
     val totalCount = count + other.count
 
     return canCombine && totalCount <= item.maxCount && totalCount <= maxCountPerStack
-}
-
-private fun findStaffStackAndItemSlot(player: PlayerEntity): Pair<ItemStack, Int>? {
-    val mainStack = player.mainHandStack
-    val offStack = player.offHandStack
-
-    return when {
-        mainStack.isIn(staffsTag) && !offStack.isIn(staffsTag) ->
-            mainStack to PlayerInventory.OFF_HAND_SLOT
-
-        offStack.isIn(staffsTag) && !mainStack.isIn(staffsTag) ->
-            offStack to player.inventory.selectedSlot
-
-        else -> null
-    }
-}
-
-private fun findStaffAndItemStack(player: PlayerEntity): Pair<ItemStack, ItemStack>? {
-    val mainStack = player.mainHandStack
-    val offStack = player.offHandStack
-
-    return when {
-        mainStack.isIn(staffsTag) && !offStack.isIn(staffsTag) -> mainStack to offStack
-        offStack.isIn(staffsTag) && !mainStack.isIn(staffsTag) -> offStack to mainStack
-        else -> null
-    }
 }
