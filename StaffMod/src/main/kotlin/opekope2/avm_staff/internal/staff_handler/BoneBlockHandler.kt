@@ -24,6 +24,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.BoneMealItem
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -47,14 +48,14 @@ class BoneBlockHandler : StaffHandler() {
         side: Direction,
         hand: Hand
     ): ActionResult {
-        if (BoneMealItem.useOnFertilizable(staffStack.copy(), world, target)) {
+        if (BoneMealItem.useOnFertilizable(Items.BONE_MEAL.defaultStack, world, target)) {
             // TODO fertilize area when enchanted
             if (!world.isClient) {
-                user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH) // FIXME user originally PlayerEntity
-                world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, target, 0)
+                user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
+                world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, target, 15)
             }
 
-            return ActionResult.success(world.isClient)
+            return ActionResult.SUCCESS
         }
 
         val targetState = world.getBlockState(target)
@@ -64,11 +65,11 @@ class BoneBlockHandler : StaffHandler() {
         if (!BoneMealItem.useOnGround(staffStack.copy(), world, neighborOnUsedSide, side)) return ActionResult.PASS
 
         if (!world.isClient) {
-            user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH) // FIXME user originally PlayerEntity
-            world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, neighborOnUsedSide, 0)
+            user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
+            world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, neighborOnUsedSide, 15)
         }
 
-        return ActionResult.success(world.isClient)
+        return ActionResult.SUCCESS
     }
 
     companion object {
