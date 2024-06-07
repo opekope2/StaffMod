@@ -53,7 +53,6 @@ class SnowBlockHandler : StaffHandler() {
 
     private fun throwSnowball(world: World, user: LivingEntity) {
         if (!user.canUseStaff) return
-
         if (user is PlayerEntity && user.isAttackCoolingDown) return
 
         world.playSound(
