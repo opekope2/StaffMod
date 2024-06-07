@@ -25,7 +25,7 @@ import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrar
 import opekope2.avm_staff.util.MOD_ID
 
-class AddItemToStaffC2SPacket() : IC2SPacket {
+class InsertItemIntoStaffC2SPacket() : IC2SPacket {
     @Suppress("UNUSED_PARAMETER")
     constructor(buf: PacketByteBuf) : this()
 
@@ -34,9 +34,9 @@ class AddItemToStaffC2SPacket() : IC2SPacket {
     override fun write(buf: PacketByteBuf) {
     }
 
-    companion object : PacketRegistrar<AddItemToStaffC2SPacket>(
+    companion object : PacketRegistrar<InsertItemIntoStaffC2SPacket>(
         NetworkManager.c2s(),
         Identifier(MOD_ID, "add_item"),
-        ::AddItemToStaffC2SPacket
+        ::InsertItemIntoStaffC2SPacket
     )
 }

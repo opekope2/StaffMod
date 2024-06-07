@@ -24,13 +24,13 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import opekope2.avm_staff.api.staffsTag
-import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.util.*
 
 @Suppress("UNUSED_PARAMETER")
-fun addItemToStaff(packet: AddItemToStaffC2SPacket, context: PacketContext) {
+fun addItemToStaff(packet: InsertItemIntoStaffC2SPacket, context: PacketContext) {
     context.player.canInsertIntoStaff().ifSuccess { (staffStack, itemStackToAdd) ->
         staffStack.mutableItemStackInStaff = itemStackToAdd.split(1)
         context.player.resetLastAttackedTicks()

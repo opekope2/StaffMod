@@ -36,8 +36,8 @@ import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.impactTntEntityType
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.internal.event_handler.*
-import opekope2.avm_staff.internal.networking.c2s.play.AddItemToStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.util.MOD_ID
 
@@ -46,7 +46,7 @@ fun registerContent() {
 }
 
 fun initializeNetworking() {
-    AddItemToStaffC2SPacket.registerHandler(::addItemToStaff)
+    InsertItemIntoStaffC2SPacket.registerHandler(::addItemToStaff)
     RemoveItemFromStaffC2SPacket.registerHandler(::removeItemFromStaff)
     AttackC2SPacket.registerHandler(::attack)
 }
