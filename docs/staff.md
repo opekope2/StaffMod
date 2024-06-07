@@ -125,7 +125,7 @@ Soul campfire | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks, when standing in fi
 [**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/36)
 **Staff Mod 0.14.0-beta+**{.chip-darkgreen}
 
-* **Attack Damage**: 4 (:mc-heart::mc-heart:)
+* **Attack Damage**: 4 (:mc-heart::mc-heart:) + 10s of [Wither I](https://minecraft.wiki/w/Wither_(effect)) ([Wither II](https://minecraft.wiki/w/Wither_(effect)) on [hard difficulty](https://minecraft.wiki/w/Difficulty#Hard))
 * **Attack Speed**: 2/s
 
 * **Attack (air)**: Shoot a black wither skull
