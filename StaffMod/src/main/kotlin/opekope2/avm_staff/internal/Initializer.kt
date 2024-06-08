@@ -18,14 +18,22 @@
 
 package opekope2.avm_staff.internal
 
+import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientTickEvent
+import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.LootEvent
+import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.entity.TntEntityRenderer
+import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
@@ -35,11 +43,15 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.impactTntEntityType
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
+import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.event_handler.*
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.util.MOD_ID
+import opekope2.avm_staff.util.contains
+import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.staffHandlerOrDefault
 
 fun registerContent() {
     opekope2.avm_staff.api.registerContent()
@@ -76,6 +88,33 @@ fun modifyLootTables(
 fun subscribeToEvents() {
     InteractionEvent.LEFT_CLICK_BLOCK.register(::attackBlock)
     LootEvent.MODIFY_LOOT_TABLE.register(::modifyLootTables)
+    EntityEvent.LIVING_DEATH.register(::stopUsingStaffOnPlayerDeath)
+    PlayerEvent.DROP_ITEM.register(::stopUsingStaffWhenDropped)
+}
+
+@Suppress("UNUSED_PARAMETER")
+fun stopUsingStaffOnPlayerDeath(entity: LivingEntity, damageSource: DamageSource): EventResult {
+    if (entity !is PlayerEntity) return EventResult.pass()
+
+    iterator {
+        yieldAll(0 until PlayerInventory.MAIN_SIZE)
+        yield(PlayerInventory.OFF_HAND_SLOT)
+    }.forEach { slot ->
+        if (entity.inventory.getStack(slot) in staffsTag) {
+            entity.stopUsingItem()
+        }
+    }
+
+    return EventResult.pass()
+}
+
+fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity): EventResult {
+    if (item.stack in staffsTag) {
+        item.stack.itemInStaff.staffHandlerOrDefault.onStoppedUsing(
+            item.stack, entity.entityWorld, entity, entity.itemUseTimeLeft
+        )
+    }
+    return EventResult.pass()
 }
 
 @Environment(EnvType.CLIENT)

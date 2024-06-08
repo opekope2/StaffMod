@@ -20,11 +20,14 @@ package opekope2.avm_staff.internal.neoforge
 
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.fml.common.Mod
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent
 import opekope2.avm_staff.internal.initializeNetworking
 import opekope2.avm_staff.internal.registerContent
 import opekope2.avm_staff.internal.staff_handler.registerVanillaStaffHandlers
+import opekope2.avm_staff.internal.stopUsingStaffWhenDropped
 import opekope2.avm_staff.internal.subscribeToEvents
 import opekope2.avm_staff.util.MOD_ID
+import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
 
 @Mod(MOD_ID)
@@ -33,7 +36,18 @@ object StaffMod {
         registerContent()
         initializeNetworking()
         subscribeToEvents()
+        subscribeToNeoForgeEvents()
         registerVanillaStaffHandlers()
         runWhenOn(Dist.CLIENT, StaffModClient::initializeClient)
+    }
+
+    private fun subscribeToNeoForgeEvents() {
+        FORGE_BUS.addListener(::dropInventory)
+    }
+
+    private fun dropInventory(event: LivingDropsEvent) {
+        for (item in event.drops) {
+            stopUsingStaffWhenDropped(event.entity, item)
+        }
     }
 }
