@@ -68,10 +68,8 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         user: PlayerEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        if (world.isClient) {
-            // Visual only
-            staffStack[furnaceLitComponentType.get()] = UnitComponent
-        } else {
+        staffStack[furnaceLitComponentType.get()] = UnitComponent
+        if (!world.isClient) {
             user.activeItemTempData = BurnTimeTempData(0)
         }
 
@@ -139,10 +137,8 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (world.isClient) {
-            // Visual only
-            staffStack.remove(furnaceLitComponentType.get())
-        } else {
+        staffStack.remove(furnaceLitComponentType.get())
+        if (!world.isClient) {
             user.activeItemTempData = null
         }
     }
