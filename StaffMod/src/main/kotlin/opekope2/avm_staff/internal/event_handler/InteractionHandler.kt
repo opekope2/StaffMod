@@ -27,12 +27,13 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
+import opekope2.avm_staff.util.contains
 import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandler
 
 fun attackBlock(player: PlayerEntity, hand: Hand, target: BlockPos, direction: Direction): EventResult {
     val staffStack = player.getStackInHand(hand)
-    if (!staffStack.isIn(staffsTag)) return EventResult.pass()
+    if (staffStack !in staffsTag) return EventResult.pass()
 
     val itemInStaff = staffStack.itemInStaff ?: return EventResult.pass()
     val staffHandler = itemInStaff.staffHandler ?: return EventResult.pass()
@@ -43,7 +44,7 @@ fun attackBlock(player: PlayerEntity, hand: Hand, target: BlockPos, direction: D
 @Environment(EnvType.CLIENT)
 fun clientAttack(player: PlayerEntity, hand: Hand) {
     val staffStack = player.getStackInHand(hand)
-    if (!staffStack.isIn(staffsTag)) return
+    if (staffStack !in staffsTag) return
 
     val itemInStaff = staffStack.itemInStaff ?: return
     val staffHandler = itemInStaff.staffHandler ?: return

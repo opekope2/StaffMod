@@ -27,6 +27,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staffsTag
+import opekope2.avm_staff.util.contains
 import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandler
 
@@ -45,7 +46,7 @@ object StaffMod : ModInitializer {
         hit: EntityHitResult?
     ): ActionResult {
         val itemStack = player.getStackInHand(hand)
-        if (!itemStack.isIn(staffsTag)) return ActionResult.PASS
+        if (itemStack !in staffsTag) return ActionResult.PASS
 
         val itemInStaff = itemStack.itemInStaff ?: return ActionResult.PASS
         val staffHandler = itemInStaff.staffHandler ?: return ActionResult.PASS

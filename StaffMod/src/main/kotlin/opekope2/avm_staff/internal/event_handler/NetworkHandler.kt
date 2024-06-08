@@ -50,7 +50,7 @@ fun attack(packet: AttackC2SPacket, context: PacketContext) {
     val player = context.player
     val staffStack = player.mainHandStack
 
-    if (!staffStack.isIn(staffsTag)) return
+    if (staffStack !in staffsTag) return
 
     val itemInStaff = staffStack.itemInStaff ?: return
     val staffHandler = itemInStaff.staffHandler ?: return
@@ -63,12 +63,12 @@ fun PlayerEntity.canInsertIntoStaff(): DataResult<Pair<ItemStack, ItemStack>> {
     val itemStackToAdd: ItemStack
 
     when {
-        mainHandStack.isIn(staffsTag) && !offHandStack.isIn(staffsTag) -> {
+        mainHandStack in staffsTag && offHandStack !in staffsTag -> {
             staffStack = mainHandStack
             itemStackToAdd = offHandStack
         }
 
-        offHandStack.isIn(staffsTag) && !mainHandStack.isIn(staffsTag) -> {
+        offHandStack in staffsTag && mainHandStack !in staffsTag -> {
             staffStack = offHandStack
             itemStackToAdd = mainHandStack
         }
@@ -90,12 +90,12 @@ fun PlayerEntity.canRemoveFromStaff(): DataResult<Pair<ItemStack, Int>> {
     val targetSlot: Int
 
     when {
-        mainHandStack.isIn(staffsTag) && !offHandStack.isIn(staffsTag) -> {
+        mainHandStack in staffsTag && offHandStack !in staffsTag -> {
             staffStack = mainHandStack
             targetSlot = PlayerInventory.OFF_HAND_SLOT
         }
 
-        offHandStack.isIn(staffsTag) && !mainHandStack.isIn(staffsTag) -> {
+        offHandStack in staffsTag && mainHandStack !in staffsTag -> {
             staffStack = offHandStack
             targetSlot = inventory.selectedSlot
         }
