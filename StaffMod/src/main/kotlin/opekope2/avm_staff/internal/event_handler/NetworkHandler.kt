@@ -78,6 +78,7 @@ fun PlayerEntity.canInsertIntoStaff(): DataResult<Pair<ItemStack, ItemStack>> {
 
     if (itemStackToAdd.isEmpty) return DataResult.error { "Can't insert empty ItemStack into staff" }
     if (staffStack.isItemInStaff) return DataResult.error { "An item is already inserted into the staff" }
+    if (isItemCoolingDown(staffStack.item)) return DataResult.error { "Staff is cooling down" }
     if (!itemStackToAdd.item.hasStaffHandler) return DataResult.error { "Can't insert item without a StaffHandler into the staff" }
 
     return DataResult.success(staffStack to itemStackToAdd)
@@ -106,6 +107,7 @@ fun PlayerEntity.canRemoveFromStaff(): DataResult<Pair<ItemStack, Int>> {
     val targetStack = inventory.getStack(targetSlot)
     val itemStackInStaff = staffStack.itemStackInStaff ?: return DataResult.error { "Staff is empty" }
 
+    if (isItemCoolingDown(staffStack.item)) return DataResult.error { "Staff is cooling down" }
     if (!targetStack.canAccept(itemStackInStaff, inventory.maxCountPerStack)) return DataResult.error {
         "Target stack is incompatible with staff item"
     }
