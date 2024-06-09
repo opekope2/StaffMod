@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "avm_staff",
   "version": "$version",
-  "name": "Staff Mod (AvM Shorts)",
-  "description": "Staff from Animation vs Minecraft Shorts",
+  "name": "Staff Mod (Animation vs Minecraft)",
+  "description": "AvM Staff Mod is a fan-made, mostly canonically accurate, and close to vanilla mod adding staffs from Animation vs Minecraft series to the latest version of Minecraft: Java Edition",
   "authors": [
     "opekope2"
   ],
