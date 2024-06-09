@@ -8,6 +8,7 @@ modId = "avm_staff"
 version = "$version"
 displayName = "Staff Mod (AvM Shorts)"
 authors = "opekope2"
+credits = "Alan Becker, Brother_Oliviär, Ink&Soul"
 description = '''
 Staff from Animation vs Minecraft Shorts
 '''
