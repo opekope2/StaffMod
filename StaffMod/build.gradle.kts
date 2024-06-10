@@ -58,6 +58,7 @@ tasks {
         pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
             footerMessage =
                 "© 2023-${Year.now().value} opekope2. AvM Staff Mod is not an official Minecraft product. Not associated with or endorsed by Mojang Studios."
+            customAssets = listOf(projectDir.resolve("logo-icon.svg"))
             separateInheritedMembers = true
         }
 
