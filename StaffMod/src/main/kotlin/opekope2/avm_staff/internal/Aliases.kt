@@ -16,11 +16,6 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.util
+package opekope2.avm_staff.internal
 
-import net.minecraft.component.DataComponentType
-
-/**
- * [Unit], but can be used as a [DataComponentType].
- */
-data object UnitComponent
+internal typealias MinecraftUnit = net.minecraft.util.Unit

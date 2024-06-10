@@ -47,11 +47,11 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.api.staff.StaffItemComponent
 import opekope2.avm_staff.api.staff.StaffRendererOverrideComponent
+import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.internal.createCrownItem
 import opekope2.avm_staff.internal.createStaffItem
 import opekope2.avm_staff.internal.createStaffRendererItem
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.UnitComponent
 import opekope2.avm_staff.util.mutableItemStackInStaff
 
 private val ITEMS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM)
@@ -183,22 +183,22 @@ val staffItemComponentType: RegistrySupplier<DataComponentType<StaffItemComponen
 /**
  * Data component registered as `avm_staff:rocket_mode`. Stores if a campfire staff should propel its user.
  */
-val rocketModeComponentType: RegistrySupplier<DataComponentType<UnitComponent>> =
+val rocketModeComponentType: RegistrySupplier<DataComponentType<MinecraftUnit>> =
     DATA_COMPONENT_TYPES.register("rocket_mode") {
-        DataComponentType.builder<UnitComponent>()
-            .codec(Codec.unit(UnitComponent))
-            .packetCodec(PacketCodec.unit(UnitComponent))
+        DataComponentType.builder<MinecraftUnit>()
+            .codec(Codec.unit(MinecraftUnit.INSTANCE))
+            .packetCodec(PacketCodec.unit(MinecraftUnit.INSTANCE))
             .build()
     }
 
 /**
  * Data component registered as `avm_staff:furnace_lit`. Stores if a furnace staff is lit. Only used for rendering.
  */
-val furnaceLitComponentType: RegistrySupplier<DataComponentType<UnitComponent>> =
+val furnaceLitComponentType: RegistrySupplier<DataComponentType<MinecraftUnit>> =
     DATA_COMPONENT_TYPES.register("furnace_lit") {
-        DataComponentType.builder<UnitComponent>()
-            .codec(Codec.unit(UnitComponent))
-            .packetCodec(PacketCodec.unit(UnitComponent))
+        DataComponentType.builder<MinecraftUnit>()
+            .codec(Codec.unit(MinecraftUnit.INSTANCE))
+            .packetCodec(PacketCodec.unit(MinecraftUnit.INSTANCE))
             .build()
     }
 

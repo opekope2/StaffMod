@@ -46,6 +46,7 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.rocketModeComponentType
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.util.*
 
 class CampfireHandler(
@@ -62,7 +63,7 @@ class CampfireHandler(
         hand: Hand
     ): TypedActionResult<ItemStack> {
         if (user.isSneaking && !user.isOnGround) {
-            staffStack[rocketModeComponentType.get()] = UnitComponent
+            staffStack[rocketModeComponentType.get()] = MinecraftUnit.INSTANCE
         }
 
         user.setCurrentHand(hand)

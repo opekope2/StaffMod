@@ -50,6 +50,7 @@ import opekope2.avm_staff.api.furnaceLitComponentType
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
 
@@ -68,7 +69,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         user: PlayerEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        staffStack[furnaceLitComponentType.get()] = UnitComponent
+        staffStack[furnaceLitComponentType.get()] = MinecraftUnit.INSTANCE
         if (!world.isClient) {
             user.activeItemTempData = BurnTimeTempData(0)
         }
