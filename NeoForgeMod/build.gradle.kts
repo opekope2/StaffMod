@@ -98,6 +98,7 @@ tasks {
 
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))
+        from(rootDir.resolve("README.md"))
     }
 
     remapJar {
@@ -109,6 +110,7 @@ tasks {
 
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))
+        from(rootDir.resolve("README.md"))
     }
 
     sourcesJar {
