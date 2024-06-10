@@ -18,6 +18,8 @@
 
 package opekope2.avm_staff.api.item.renderer
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
@@ -31,6 +33,7 @@ import net.minecraft.item.ItemStack
  *
  * @param blockState    The block state to render
  */
+@Environment(EnvType.CLIENT)
 class BlockStateStaffItemRenderer(blockState: BlockState) : IStaffItemRenderer {
     private val blockStateId = BlockModels.getModelId(blockState)
     private val blockItem = blockState.block.asItem().defaultStack
