@@ -18,37 +18,36 @@
 
 package opekope2.avm_staff.internal.fabric.item
 
-import com.google.common.collect.Multimap
+import net.fabricmc.api.EnvType
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.item.v1.FabricItem
-import net.minecraft.entity.EquipmentSlot
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.util.handlerOfItemOrFallback
+import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.staffHandlerOrDefault
 
 class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem {
-    override fun allowNbtUpdateAnimation(
+    init {
+        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
+            BuiltinItemRendererRegistry.INSTANCE.register(this, StaffRenderer::renderStaff)
+        }
+    }
+
+    override fun allowComponentsUpdateAnimation(
         player: PlayerEntity,
         hand: Hand,
         oldStack: ItemStack,
         newStack: ItemStack
     ): Boolean {
-        val oldHandler = oldStack.itemInStaff.handlerOfItemOrFallback
-        val newHandler = newStack.itemInStaff.handlerOfItemOrFallback
+        val oldHandler = oldStack.itemInStaff.staffHandlerOrDefault
+        val newHandler = newStack.itemInStaff.staffHandlerOrDefault
 
         return if (oldHandler !== newHandler) true
-        else oldHandler.allowNbtUpdateAnimation(oldStack, newStack, player, hand)
-    }
-
-    override fun getAttributeModifiers(
-        stack: ItemStack,
-        slot: EquipmentSlot
-    ): Multimap<EntityAttribute, EntityAttributeModifier> {
-        return stack.itemInStaff.handlerOfItemOrFallback.getAttributeModifiers(stack, slot)
+        else oldHandler.allowComponentsUpdateAnimation(oldStack, newStack, player, hand)
     }
 }

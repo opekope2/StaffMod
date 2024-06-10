@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.api.item
 
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -30,46 +31,48 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import opekope2.avm_staff.util.handlerOfItemOrFallback
-import opekope2.avm_staff.util.isItemInStaff
-import opekope2.avm_staff.util.itemInStaff
-import java.util.stream.Stream
+import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.util.*
 
 /**
- * Staff item dispatching functionality to [StaffItemHandler] without loader specific functionality.
- * Implementing `FabricItem` or `IForgeItem` (on the appropriate loader) is highly recommended when extending the class
- * to pass loader-specific functionality to [StaffItemHandler].
+ * Staff item dispatching functionality to [StaffHandler] without loader specific functionality.
+ * Implementing loader-specific interfaces is highly recommended when extending the class to pass loader-specific
+ * functionality to [StaffHandler].
  */
 abstract class StaffItem(settings: Settings) : Item(settings) {
     override fun onItemEntityDestroyed(entity: ItemEntity) {
         val staffStack = entity.stack
-        val staffItem = staffStack.itemInStaff ?: return
-        ItemUsage.spawnItemContents(entity, Stream.of(staffItem))
+        val staffItem = staffStack.mutableItemStackInStaff ?: return
+        ItemUsage.spawnItemContents(entity, listOf(staffItem))
+    }
+
+    override fun postProcessComponents(stack: ItemStack) {
+        stack[DataComponentTypes.ATTRIBUTE_MODIFIERS] = stack.itemInStaff.staffHandlerOrDefault.attributeModifiers
     }
 
     override fun getMaxUseTime(stack: ItemStack): Int {
-        return stack.itemInStaff.handlerOfItemOrFallback.maxUseTime
+        return stack.itemInStaff.staffHandlerOrDefault.maxUseTime
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val staffStack = user.getStackInHand(hand)
-        return staffStack.itemInStaff.handlerOfItemOrFallback.use(staffStack, world, user, hand)
+        return staffStack.itemInStaff.staffHandlerOrDefault.use(staffStack, world, user, hand)
     }
 
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
-        stack.itemInStaff.handlerOfItemOrFallback.usageTick(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.staffHandlerOrDefault.usageTick(stack, world, user, remainingUseTicks)
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        stack.itemInStaff.handlerOfItemOrFallback.onStoppedUsing(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.staffHandlerOrDefault.onStoppedUsing(stack, world, user, remainingUseTicks)
     }
 
     override fun finishUsing(stack: ItemStack, world: World, user: LivingEntity): ItemStack {
-        return stack.itemInStaff.handlerOfItemOrFallback.finishUsing(stack, world, user)
+        return stack.itemInStaff.staffHandlerOrDefault.finishUsing(stack, world, user)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        return context.stack.itemInStaff.handlerOfItemOrFallback.useOnBlock(
+        return context.stack.itemInStaff.staffHandlerOrDefault.useOnBlock(
             context.stack,
             context.world,
             context.player ?: return ActionResult.PASS,
@@ -80,11 +83,11 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
     }
 
     override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
-        return stack.itemInStaff.handlerOfItemOrFallback.useOnEntity(stack, user.world, user, entity, hand)
+        return stack.itemInStaff.staffHandlerOrDefault.useOnEntity(stack, user.world, user, entity, hand)
     }
 
     override fun getName(stack: ItemStack): Text {
-        val staffItem = stack.itemInStaff ?: return super.getName(stack)
+        val staffItem = stack.itemStackInStaff ?: return super.getName(stack)
         val staffItemText = Text.translatable(staffItem.item.getTranslationKey(staffItem))
         return Text.translatable(getTranslationKey(stack), staffItemText)
     }

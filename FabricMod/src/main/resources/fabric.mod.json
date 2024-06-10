@@ -2,10 +2,14 @@
   "schemaVersion": 1,
   "id": "avm_staff",
   "version": "$version",
-  "name": "Staff Mod (AvM Shorts)",
-  "description": "Staff from Animation vs Minecraft Shorts",
+  "name": "Staff Mod (Animation vs Minecraft)",
+  "description": "AvM Staff Mod is a fan-made, mostly canonically accurate, and close to vanilla mod adding staffs from Animation vs Minecraft series to the latest version of Minecraft: Java Edition",
   "authors": [
     "opekope2"
+  ],
+  "contributors": [
+    "Brother_Oliviär",
+    "Ink&Soul"
   ],
   "contact": {
     "homepage": "https://opekope2.dev/StaffMod",
@@ -23,22 +27,47 @@
       },
       {
         "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.InitializerKt::registerContent"
+      },
+      {
+        "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.InitializerKt::initializeNetworking"
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.staff_item_handler.VanillaStaffItemHandlersKt::registerVanillaStaffItemHandlers"
+        "value": "opekope2.avm_staff.internal.InitializerKt::subscribeToEvents"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.staff_handler.VanillaStaffHandlersKt::registerVanillaStaffHandlers"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.fabric.StaffModClient"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.InitializerKt::registerClientContent"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.InitializerKt::registerSmithingTableTextures"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.InitializerKt::subscribeToClientEvents"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "opekope2.avm_staff.internal.staff_handler.VanillaStaffHandlersKt::registerVanillaStaffItemRenderers"
       }
     ]
   },
   "mixins": [
-    "avm_staff.mixins.json"
+    "avm_staff.mixins.json",
+    "avm_staff_fabric.mixins.json"
   ],
   "depends": {
     "fabric-api": ">=$fabric_api",

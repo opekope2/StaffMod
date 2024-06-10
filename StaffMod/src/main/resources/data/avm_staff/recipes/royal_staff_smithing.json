@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "avm_staff:staff_infusion_smithing_template"
+  },
+  "base": {
+    "item": "avm_staff:faint_royal_staff"
+  },
+  "addition": {
+    "item": "minecraft:redstone"
+  },
+  "result": {
+    "id": "avm_staff:royal_staff"
+  }
+}

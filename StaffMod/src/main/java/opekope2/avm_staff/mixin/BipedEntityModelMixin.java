@@ -21,7 +21,8 @@ package opekope2.avm_staff.mixin;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
-import opekope2.avm_staff.IStaffMod;
+import opekope2.avm_staff.api.StaffMod;
+import opekope2.avm_staff.api.staff.StaffRendererOverrideComponent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -46,24 +47,32 @@ public abstract class BipedEntityModelMixin {
     @Final
     public ModelPart rightArm;
 
-    @Unique
-    private float staffMod$degToRad(float degrees) {
-        return degrees * (float) Math.PI / 180f;
-    }
+    @Shadow
+    @Final
+    public ModelPart head;
 
     @Inject(method = "positionLeftArm", at = @At("TAIL"))
     private void positionLeftArm(LivingEntity entity, CallbackInfo ci) {
-        if (leftArmPose == BipedEntityModel.ArmPose.ITEM && entity.getActiveItem().isIn(IStaffMod.get().getStaffsTag())) {
-            leftArm.yaw = staffMod$degToRad(entity.headYaw - entity.bodyYaw);
-            leftArm.pitch = staffMod$degToRad(entity.getPitch() - 90f);
+        if (staffMod$pointForward(leftArmPose, entity)) {
+            leftArm.yaw = head.yaw;
+            leftArm.pitch = head.pitch - 0.5f * (float) Math.PI;
         }
     }
 
     @Inject(method = "positionRightArm", at = @At("TAIL"))
     private void positionRightArm(LivingEntity entity, CallbackInfo ci) {
-        if (rightArmPose == BipedEntityModel.ArmPose.ITEM && entity.getActiveItem().isIn(IStaffMod.get().getStaffsTag())) {
-            rightArm.yaw = staffMod$degToRad(entity.headYaw - entity.bodyYaw);
-            rightArm.pitch = staffMod$degToRad(entity.getPitch() - 90f);
+        if (staffMod$pointForward(rightArmPose, entity)) {
+            rightArm.yaw = head.yaw;
+            rightArm.pitch = head.pitch - 0.5f * (float) Math.PI;
         }
+    }
+
+    @Unique
+    private boolean staffMod$pointForward(BipedEntityModel.ArmPose armPose, LivingEntity entity) {
+        if (armPose != BipedEntityModel.ArmPose.ITEM) return false;
+        if (entity.getActiveItem().isIn(StaffMod.getStaffsTag())) return true;
+
+        StaffRendererOverrideComponent rendererOverride = entity.getMainHandStack().get(StaffMod.getStaffRendererOverrideComponentType().get());
+        return rendererOverride != null && rendererOverride.isActive();
     }
 }

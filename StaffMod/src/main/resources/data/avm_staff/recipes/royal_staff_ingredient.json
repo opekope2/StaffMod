@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ISI",
+    "CKC",
+    "INI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:echo_shard"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "K": {
+      "item": "avm_staff:crown_of_king_orange"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "id": "avm_staff:royal_staff_ingredient"
+  }
+}

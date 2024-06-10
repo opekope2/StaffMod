@@ -18,72 +18,41 @@
 
 package opekope2.avm_staff.internal.fabric
 
-import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
-import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.particle.DefaultParticleType
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
-import opekope2.avm_staff.IStaffMod
-import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.internal.event_handler.attackBlock
-import opekope2.avm_staff.internal.event_handler.attackEntity
-import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
-import opekope2.avm_staff.util.MOD_ID
+import opekope2.avm_staff.api.staffsTag
+import opekope2.avm_staff.util.contains
+import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.staffHandler
 
 @Suppress("unused")
-object StaffMod : ModInitializer, IStaffMod {
-    override val staffItem: StaffItem = Registry.register(
-        Registries.ITEM,
-        Identifier(MOD_ID, "staff"),
-        FabricStaffItem(FabricItemSettings().maxCount(1))
-    )
-
-    override val isPhysicalClient: Boolean
-        get() = FabricLoader.getInstance().environmentType == EnvType.CLIENT
-
-    override val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier(MOD_ID, "staffs"))
-
-    override val flamethrowerParticleType: DefaultParticleType = Registry.register(
-        Registries.PARTICLE_TYPE,
-        Identifier(MOD_ID, "flame"),
-        FabricParticleTypes.simple()
-    )
-
-    override val soulFlamethrowerParticleType: DefaultParticleType = Registry.register(
-        Registries.PARTICLE_TYPE,
-        Identifier(MOD_ID, "soul_fire_flame"),
-        FabricParticleTypes.simple()
-    )
-
+object StaffMod : ModInitializer {
     override fun onInitialize() {
-        AttackBlockCallback.EVENT.register(::attackBlock)
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun handleEntityAttackEvent(
         player: PlayerEntity,
         world: World,
         hand: Hand,
         target: Entity,
-        @Suppress("UNUSED_PARAMETER") hit: EntityHitResult?
+        hit: EntityHitResult?
     ): ActionResult {
-        if (world.isClient) return ActionResult.PASS // Handled with mixin
+        val itemStack = player.getStackInHand(hand)
+        if (itemStack !in staffsTag) return ActionResult.PASS
 
-        return attackEntity(player, world, hand, target)
+        val itemInStaff = itemStack.itemInStaff ?: return ActionResult.PASS
+        val staffHandler = itemInStaff.staffHandler ?: return ActionResult.PASS
+
+        val result = staffHandler.attackEntity(itemStack, world, player, target, hand)
+        return if (result.interruptsFurtherEvaluation()) ActionResult.SUCCESS
+        else ActionResult.PASS
     }
 }

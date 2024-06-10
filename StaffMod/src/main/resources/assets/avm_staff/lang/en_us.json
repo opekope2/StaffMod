@@ -1,6 +1,17 @@
 {
-  "item.avm_staff.staff": "Staff",
-  "item.avm_staff.staff.with_item": "Staff with %s",
+  "item.avm_staff.faint_staff_rod": "Faint staff rod",
+  "item.avm_staff.faint_royal_staff_head": "Faint royal staff head",
+  "item.avm_staff.faint_royal_staff": "Faint royal staff",
+  "item.avm_staff.royal_staff": "Royal staff",
+  "item.avm_staff.royal_staff.with_item": "Royal staff with %s",
+  "item.avm_staff.royal_staff_ingredient": "Royal staff ingredient",
+  "item.avm_staff.staff_infusion_smithing_template": "Smithing Template",
+  "item.avm_staff.staff_infusion_smithing_template.title": "Staff Infusion Template",
+  "item.avm_staff.staff_infusion_smithing_template.applies_to": "Faint staffs",
+  "item.avm_staff.staff_infusion_smithing_template.base_slot_description": "Add faint staff",
+  "item.avm_staff.crown_of_king_orange": "Crown of King Orange",
   "key.categories.avm_staff": "Staff Mod",
-  "key.avm_staff.add_remove_staff_block": "Add/remove staff block"
+  "key.avm_staff.add_remove_staff_item": "Add/remove staff item",
+  "tag.item.avm_staff.staffs": "Staffs",
+  "itemGroup.avm_staff_items": "Staff Mod"
 }

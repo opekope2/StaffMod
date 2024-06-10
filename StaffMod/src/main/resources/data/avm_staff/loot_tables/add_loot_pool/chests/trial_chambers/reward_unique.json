@@ -1,0 +1,17 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "avm_staff:staff_infusion_smithing_template"
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 5
+        }
+      ]
+    }
+  ]
+}

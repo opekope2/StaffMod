@@ -18,11 +18,14 @@
 
 package opekope2.avm_staff.api.particle
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.client.particle.*
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.particle.DefaultParticleType
+import net.minecraft.particle.SimpleParticleType
 import net.minecraft.util.math.BlockPos
-import opekope2.avm_staff.IStaffMod
+import opekope2.avm_staff.api.flamethrowerParticleType
+import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.mixin.IParticleMixin
 
 /**
@@ -37,6 +40,7 @@ import opekope2.avm_staff.mixin.IParticleMixin
  * @param velocityZ The Z component of the particle's velocity
  * @see FlamethrowerParticle.Factory
  */
+@Environment(EnvType.CLIENT)
 class FlamethrowerParticle(
     world: ClientWorld,
     x: Double,
@@ -103,12 +107,13 @@ class FlamethrowerParticle(
      * Factory class for [FlamethrowerParticle], intended to register in Minecraft instead of direct consumption.
      *
      * @param spriteProvider    Flame sprite provider
-     * @see IStaffMod.flamethrowerParticleType
+     * @see flamethrowerParticleType
+     * @see soulFlamethrowerParticleType
      * @see ParticleManager.addParticle
      */
-    class Factory(private val spriteProvider: SpriteProvider) : ParticleFactory<DefaultParticleType> {
+    class Factory(private val spriteProvider: SpriteProvider) : ParticleFactory<SimpleParticleType> {
         override fun createParticle(
-            parameters: DefaultParticleType,
+            parameters: SimpleParticleType,
             world: ClientWorld,
             x: Double,
             y: Double,

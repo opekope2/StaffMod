@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "II",
+    "SI",
+    "II"
+  ],
+  "key": {
+    "I": {
+      "item": "avm_staff:royal_staff_ingredient"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "id": "avm_staff:faint_royal_staff_head"
+  }
+}

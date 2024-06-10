@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_royal_staff_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "avm_staff:royal_staff_ingredient"
+          }
+        ]
+      }
+    },
+    "has_nether_star": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:nether_star"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "avm_staff:faint_royal_staff_head"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_royal_staff_ingredient",
+      "has_nether_star",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "avm_staff:faint_royal_staff_head"
+    ]
+  }
+}

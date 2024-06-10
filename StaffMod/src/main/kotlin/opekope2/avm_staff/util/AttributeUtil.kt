@@ -20,8 +20,13 @@
 
 package opekope2.avm_staff.util
 
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
+import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.Item
+import net.minecraft.registry.entry.RegistryEntry
 
 private const val PLAYER_BASE_ATTACK_DAMAGE = 1.0
 private const val PLAYER_BASE_ATTACK_SPEED = 4.0
@@ -34,9 +39,9 @@ private const val PLAYER_BASE_ATTACK_SPEED = 4.0
  */
 fun attackDamage(totalAttackDamage: Double): EntityAttributeModifier = EntityAttributeModifier(
     Item.ATTACK_DAMAGE_MODIFIER_ID,
-    "Weapon modifier",
+    "Staff modifier",
     totalAttackDamage - PLAYER_BASE_ATTACK_DAMAGE,
-    EntityAttributeModifier.Operation.ADDITION
+    EntityAttributeModifier.Operation.ADD_VALUE
 )
 
 /**
@@ -47,9 +52,9 @@ fun attackDamage(totalAttackDamage: Double): EntityAttributeModifier = EntityAtt
  */
 fun attackSpeed(totalAttackSpeed: Double): EntityAttributeModifier = EntityAttributeModifier(
     Item.ATTACK_SPEED_MODIFIER_ID,
-    "Weapon modifier",
+    "Staff modifier",
     totalAttackSpeed - PLAYER_BASE_ATTACK_SPEED,
-    EntityAttributeModifier.Operation.ADDITION
+    EntityAttributeModifier.Operation.ADD_VALUE
 )
 
 /**
@@ -59,3 +64,38 @@ fun attackSpeed(totalAttackSpeed: Double): EntityAttributeModifier = EntityAttri
  * @param totalEquipTime    The desired equip time in seconds
  */
 fun equipTime(totalEquipTime: Double): EntityAttributeModifier = attackSpeed(1.0 / totalEquipTime)
+
+/**
+ * Creates an [EntityAttributeModifier], which increases the interaction range by [additionalRange].
+ *
+ * @param additionalRange   The number of blocks to add to the interaction range
+ */
+fun interactionRange(additionalRange: Double) = EntityAttributeModifier(
+    "Staff modifier",
+    additionalRange,
+    EntityAttributeModifier.Operation.ADD_VALUE
+)
+
+/**
+ * Adds the default staff modifier of the given entity attribute as [main hand][AttributeModifierSlot.MAINHAND] modifier.
+ *
+ * @param attribute The entity attribute to add the default value of
+ * @see EntityAttributes.GENERIC_ATTACK_DAMAGE
+ * @see EntityAttributes.GENERIC_ATTACK_SPEED
+ * @see EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE
+ * @see EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE
+ */
+fun AttributeModifiersComponent.Builder.addDefault(attribute: RegistryEntry<EntityAttribute>): AttributeModifiersComponent.Builder {
+    add(
+        attribute,
+        when (attribute) {
+            EntityAttributes.GENERIC_ATTACK_DAMAGE -> attackDamage(4.0)
+            EntityAttributes.GENERIC_ATTACK_SPEED -> attackSpeed(2.0)
+            EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE -> interactionRange(1.0)
+            EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE -> interactionRange(1.0)
+            else -> throw IllegalArgumentException("Attribute has no default value")
+        },
+        AttributeModifierSlot.MAINHAND
+    )
+    return this
+}

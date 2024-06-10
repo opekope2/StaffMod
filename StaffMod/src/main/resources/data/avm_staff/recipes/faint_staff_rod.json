@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "E",
+    "N",
+    "O"
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:end_rod"
+    },
+    "N": {
+      "item": "minecraft:blaze_rod"
+    },
+    "O": {
+      "item": "minecraft:breeze_rod"
+    }
+  },
+  "result": {
+    "id": "avm_staff:faint_staff_rod"
+  }
+}

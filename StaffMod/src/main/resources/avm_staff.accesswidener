@@ -1,4 +1,12 @@
 accessWidener v2 named
 
-accessible  field   net/minecraft/item/Item ATTACK_DAMAGE_MODIFIER_ID   Ljava/util/UUID;
-accessible  field   net/minecraft/item/Item ATTACK_SPEED_MODIFIER_ID    Ljava/util/UUID;
+accessible  field   net/minecraft/block/AnvilBlock                          FALLING_BLOCK_ENTITY_DAMAGE_MULTIPLIER      F
+accessible  field   net/minecraft/block/AnvilBlock                          FALLING_BLOCK_ENTITY_MAX_DAMAGE             I
+accessible  method  net/minecraft/block/entity/AbstractFurnaceBlockEntity   dropExperience                              (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/Vec3d;IF)V
+accessible  method  net/minecraft/entity/Entity                             getRotationVector                           (FF)Lnet/minecraft/util/math/Vec3d;
+accessible  field   net/minecraft/item/SmithingTemplateItem                 ARMOR_TRIM_ADDITIONS_SLOT_DESCRIPTION_TEXT  Lnet/minecraft/text/Text;
+accessible  field   net/minecraft/item/SmithingTemplateItem                 ARMOR_TRIM_INGREDIENTS_TEXT                 Lnet/minecraft/text/Text;
+accessible  field   net/minecraft/item/SmithingTemplateItem                 DESCRIPTION_FORMATTING                      Lnet/minecraft/util/Formatting;
+accessible  field   net/minecraft/item/SmithingTemplateItem                 EMPTY_SLOT_REDSTONE_DUST_TEXTURE            Lnet/minecraft/util/Identifier;
+accessible  field   net/minecraft/item/SmithingTemplateItem                 TITLE_FORMATTING                            Lnet/minecraft/util/Formatting;
+accessible  method  net/minecraft/particle/SimpleParticleType               <init>                                      (Z)V

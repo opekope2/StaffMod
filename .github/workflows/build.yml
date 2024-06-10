@@ -60,7 +60,7 @@ jobs:
       - name: JDK setup
         uses: actions/setup-java@v4.2.1
         with:
-          java-version: 17
+          java-version: 21
           distribution: temurin
       - name: Build project
         if: inputs.build-project
@@ -91,7 +91,7 @@ jobs:
             NeoForgeMod/build/libs/*.jar
           if-no-files-found: error
       - name: Upload Forge jars
-        if: inputs.build-project && inputs.upload-output
+        if: inputs.build-project && inputs.upload-output && false
         uses: actions/upload-artifact@v4.3.1
         with:
           name: forge-jars

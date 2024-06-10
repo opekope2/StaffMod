@@ -18,64 +18,36 @@
 
 package opekope2.avm_staff.internal.neoforge
 
-import net.minecraft.item.Item
-import net.minecraft.particle.DefaultParticleType
-import net.minecraft.registry.Registries
-import net.minecraft.registry.tag.ItemTags
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.Identifier
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.fml.common.Mod
-import net.neoforged.neoforge.registries.DeferredRegister
-import opekope2.avm_staff.IStaffMod
-import opekope2.avm_staff.api.item.StaffItem
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent
 import opekope2.avm_staff.internal.initializeNetworking
-import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffItem
-import opekope2.avm_staff.internal.staff_item_handler.registerVanillaStaffItemHandlers
+import opekope2.avm_staff.internal.registerContent
+import opekope2.avm_staff.internal.staff_handler.registerVanillaStaffHandlers
+import opekope2.avm_staff.internal.stopUsingStaffWhenDropped
+import opekope2.avm_staff.internal.subscribeToEvents
 import opekope2.avm_staff.util.MOD_ID
-import thedarkcolour.kotlinforforge.neoforge.forge.DIST
-import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
+import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
 
 @Mod(MOD_ID)
-object StaffMod : IStaffMod {
-    private val ITEMS = DeferredRegister.create(Registries.ITEM, MOD_ID)
-
-    private val STAFF_ITEM = ITEMS.register("staff") { -> NeoForgeStaffItem(Item.Settings().maxCount(1)) }
-
-    private val PARTICLE_TYPES = DeferredRegister.create(Registries.PARTICLE_TYPE, MOD_ID)
-
-    private val FLAMETHROWER_PARTICLE_TYPE = PARTICLE_TYPES.register("flame") { ->
-        DefaultParticleType(false)
-    }
-
-    private val SOUL_FLAMETHROWER_PARTICLE_TYPE = PARTICLE_TYPES.register("soul_fire_flame") { ->
-        DefaultParticleType(false)
-    }
-
+object StaffMod {
     init {
-        initialize()
+        registerContent()
         initializeNetworking()
-        registerVanillaStaffItemHandlers()
+        subscribeToEvents()
+        subscribeToNeoForgeEvents()
+        registerVanillaStaffHandlers()
         runWhenOn(Dist.CLIENT, StaffModClient::initializeClient)
     }
 
-    override val staffItem: StaffItem
-        get() = STAFF_ITEM.get()
+    private fun subscribeToNeoForgeEvents() {
+        FORGE_BUS.addListener(::dropInventory)
+    }
 
-    override val isPhysicalClient: Boolean
-        get() = DIST.isClient
-
-    override val staffsTag: TagKey<Item> = ItemTags.create(Identifier(MOD_ID, "staffs"))
-
-    override val flamethrowerParticleType: DefaultParticleType
-        get() = FLAMETHROWER_PARTICLE_TYPE.get()
-
-    override val soulFlamethrowerParticleType: DefaultParticleType
-        get() = SOUL_FLAMETHROWER_PARTICLE_TYPE.get()
-
-    private fun initialize() {
-        ITEMS.register(MOD_BUS)
-        PARTICLE_TYPES.register(MOD_BUS)
+    private fun dropInventory(event: LivingDropsEvent) {
+        for (item in event.drops) {
+            stopUsingStaffWhenDropped(event.entity, item)
+        }
     }
 }

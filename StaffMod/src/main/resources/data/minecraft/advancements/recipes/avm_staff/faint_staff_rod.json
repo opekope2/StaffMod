@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_end_rod": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:end_rod"
+          }
+        ]
+      }
+    },
+    "has_blaze_rod": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:blaze_rod"
+          }
+        ]
+      }
+    },
+    "has_breeze_rod": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:breeze_rod"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "avm_staff:faint_staff_rod"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_end_rod",
+      "has_blaze_rod",
+      "has_breeze_rod",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "avm_staff:faint_staff_rod"
+    ]
+  }
+}

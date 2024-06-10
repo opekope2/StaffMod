@@ -33,6 +33,7 @@ jobs:
           name: neoforge-jars
           path: dist/neoforge
       - name: Download Forge jars
+        if: false
         uses: actions/download-artifact@v4.1.4
         with:
           name: forge-jars
@@ -95,6 +96,7 @@ jobs:
           game-version-filter: releases
           java: ${{ steps.load-java-version.outputs.value }}
       - name: Publish Forge mod to Modrinth and CurseForge
+        if: false
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-id: ${{ vars.MODRINTH_ID }}
@@ -123,8 +125,6 @@ jobs:
             dist/fabric/*-@(dev|sources|javadoc).jar
             dist/neoforge/!(*-@(dev|sources|javadoc)).jar
             dist/neoforge/*-@(dev|sources|javadoc).jar
-            dist/forge/!(*-@(dev|sources|javadoc)).jar
-            dist/forge/*-@(dev|sources|javadoc).jar
           changelog-file: CHANGELOG.g.md
       - name: Delete build output
         uses: geekyeggo/delete-artifact@v5.0.0
@@ -132,7 +132,6 @@ jobs:
           name: |
             fabric-jars
             neoforge-jars
-            forge-jars
           useGlob: false
           failOnError: false
 

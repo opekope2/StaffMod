@@ -18,76 +18,32 @@
 
 package opekope2.avm_staff.internal.forge
 
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.item.ModelPredicateProviderRegistry
-import net.minecraft.item.ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS
-import net.minecraft.item.ItemGroups
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
-import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
-import opekope2.avm_staff.IStaffMod
-import opekope2.avm_staff.api.particle.FlamethrowerParticle
-import opekope2.avm_staff.internal.event_handler.ADD_REMOVE_KEYBINDING
-import opekope2.avm_staff.internal.event_handler.handleKeyBindings
-import opekope2.avm_staff.internal.platform.forge.getStaffMod
-import opekope2.avm_staff.internal.registerModelPredicateProviders
-import thedarkcolour.kotlinforforge.forge.FORGE_BUS
+import opekope2.avm_staff.internal.model.registerModelPredicateProviders
+import opekope2.avm_staff.internal.registerClientContent
+import opekope2.avm_staff.internal.registerSmithingTableTextures
+import opekope2.avm_staff.internal.staff_handler.registerVanillaStaffItemRenderers
+import opekope2.avm_staff.internal.subscribeToClientEvents
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @OnlyIn(Dist.CLIENT)
 object StaffModClient {
     fun initializeClient() {
+        registerClientContent()
+        registerSmithingTableTextures()
+        subscribeToClientEvents()
+        registerVanillaStaffItemRenderers()
         MOD_BUS.register(this)
-        FORGE_BUS.register(javaClass)
     }
 
     @SubscribeEvent
     fun initializeClient(event: FMLClientSetupEvent) {
         event.enqueueWork {
-            registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
+            registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric)
         }
-    }
-
-    @SubscribeEvent
-    fun addItemsToItemGroups(event: BuildCreativeModeTabContentsEvent) {
-        if (event.tabKey === ItemGroups.TOOLS) {
-            event.entries.putAfter(
-                ItemStack(Items.NETHERITE_HOE),
-                ItemStack(getStaffMod().staffItem),
-                PARENT_AND_SEARCH_TABS
-            )
-        } else if (event.tabKey === ItemGroups.COMBAT) {
-            event.entries.putAfter(
-                ItemStack(Items.TRIDENT),
-                ItemStack(getStaffMod().staffItem),
-                PARENT_AND_SEARCH_TABS
-            )
-        }
-    }
-
-    @SubscribeEvent
-    fun registerParticleProviders(event: RegisterParticleProvidersEvent) {
-        event.registerSpriteSet(IStaffMod.get().flamethrowerParticleType, FlamethrowerParticle::Factory)
-        event.registerSpriteSet(IStaffMod.get().soulFlamethrowerParticleType, FlamethrowerParticle::Factory)
-    }
-
-    @SubscribeEvent
-    fun registerKeyBindings(event: RegisterKeyMappingsEvent) {
-        event.register(ADD_REMOVE_KEYBINDING)
-    }
-
-    @JvmStatic
-    @SubscribeEvent
-    fun handleStaffKeybinding(event: TickEvent.ClientTickEvent) {
-        if (event.phase != TickEvent.Phase.END) return
-
-        handleKeyBindings(MinecraftClient.getInstance())
     }
 }
