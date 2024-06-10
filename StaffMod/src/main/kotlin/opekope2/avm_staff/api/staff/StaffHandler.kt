@@ -24,7 +24,6 @@ import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -40,6 +39,7 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
+import opekope2.avm_staff.util.interactionRange
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -352,15 +352,9 @@ abstract class StaffHandler {
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(4.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
             .add(
-                EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE,
-                EntityAttributeModifier("Weapon modifier", 1.0, EntityAttributeModifier.Operation.ADD_VALUE),
-                AttributeModifierSlot.MAINHAND
+                EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE, interactionRange(1.0), AttributeModifierSlot.MAINHAND
             )
-            .add(
-                EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE,
-                EntityAttributeModifier("Weapon modifier", 1.0, EntityAttributeModifier.Operation.ADD_VALUE),
-                AttributeModifierSlot.MAINHAND
-            )
+            .add(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, interactionRange(1.0), AttributeModifierSlot.MAINHAND)
             .build()
     }
 

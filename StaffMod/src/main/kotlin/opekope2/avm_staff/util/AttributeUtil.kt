@@ -34,7 +34,7 @@ private const val PLAYER_BASE_ATTACK_SPEED = 4.0
  */
 fun attackDamage(totalAttackDamage: Double): EntityAttributeModifier = EntityAttributeModifier(
     Item.ATTACK_DAMAGE_MODIFIER_ID,
-    "Weapon modifier",
+    "Staff modifier",
     totalAttackDamage - PLAYER_BASE_ATTACK_DAMAGE,
     EntityAttributeModifier.Operation.ADD_VALUE
 )
@@ -47,7 +47,7 @@ fun attackDamage(totalAttackDamage: Double): EntityAttributeModifier = EntityAtt
  */
 fun attackSpeed(totalAttackSpeed: Double): EntityAttributeModifier = EntityAttributeModifier(
     Item.ATTACK_SPEED_MODIFIER_ID,
-    "Weapon modifier",
+    "Staff modifier",
     totalAttackSpeed - PLAYER_BASE_ATTACK_SPEED,
     EntityAttributeModifier.Operation.ADD_VALUE
 )
@@ -59,3 +59,14 @@ fun attackSpeed(totalAttackSpeed: Double): EntityAttributeModifier = EntityAttri
  * @param totalEquipTime    The desired equip time in seconds
  */
 fun equipTime(totalEquipTime: Double): EntityAttributeModifier = attackSpeed(1.0 / totalEquipTime)
+
+/**
+ * Creates an [EntityAttributeModifier], which increases the interaction range by [additionalRange].
+ *
+ * @param additionalRange   The number of blocks to add to the interaction range
+ */
+fun interactionRange(additionalRange: Double) = EntityAttributeModifier(
+    "Staff modifier",
+    additionalRange,
+    EntityAttributeModifier.Operation.ADD_VALUE
+)
