@@ -24,8 +24,11 @@ import net.minecraft.block.Blocks
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -36,10 +39,15 @@ import net.minecraft.world.World
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.util.addDefault
+import opekope2.avm_staff.util.interactionRange
 import opekope2.avm_staff.util.isItemCoolingDown
 import opekope2.avm_staff.util.push
 
 class LightningRodHandler : StaffHandler() {
+    override val attributeModifiers: AttributeModifiersComponent
+        get() = ATTRIBUTE_MODIFIERS
+
     override fun useOnBlock(
         staffStack: ItemStack,
         world: World,
@@ -92,5 +100,16 @@ class LightningRodHandler : StaffHandler() {
                 lightningRodRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
             }
         }
+    }
+
+    private companion object {
+        val ATTRIBUTE_MODIFIERS: AttributeModifiersComponent = AttributeModifiersComponent.builder()
+            .addDefault(EntityAttributes.GENERIC_ATTACK_DAMAGE)
+            .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
+            .add(
+                EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE, interactionRange(2.0), AttributeModifierSlot.MAINHAND
+            )
+            .add(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, interactionRange(2.0), AttributeModifierSlot.MAINHAND)
+            .build()
     }
 }
