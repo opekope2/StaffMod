@@ -212,6 +212,8 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
+            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
+            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
             .build()
     }
 }
