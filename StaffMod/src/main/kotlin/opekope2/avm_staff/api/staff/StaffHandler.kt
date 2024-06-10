@@ -20,7 +20,6 @@ package opekope2.avm_staff.api.staff
 
 import dev.architectury.event.EventResult
 import net.minecraft.advancement.criterion.Criteria
-import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -37,9 +36,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.util.attackDamage
-import opekope2.avm_staff.util.attackSpeed
-import opekope2.avm_staff.util.interactionRange
+import opekope2.avm_staff.util.addDefault
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -349,12 +346,10 @@ abstract class StaffHandler {
     object Default : StaffHandler() {
         @JvmField
         val ATTRIBUTE_MODIFIERS: AttributeModifiersComponent = AttributeModifiersComponent.builder()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(4.0), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
-            .add(
-                EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE, interactionRange(1.0), AttributeModifierSlot.MAINHAND
-            )
-            .add(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, interactionRange(1.0), AttributeModifierSlot.MAINHAND)
+            .addDefault(EntityAttributes.GENERIC_ATTACK_DAMAGE)
+            .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
+            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
+            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
             .build()
     }
 
