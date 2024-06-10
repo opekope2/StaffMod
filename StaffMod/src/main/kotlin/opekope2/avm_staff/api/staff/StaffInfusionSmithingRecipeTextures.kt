@@ -18,6 +18,8 @@
 
 package opekope2.avm_staff.api.staff
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.staffInfusionSmithingTemplateItem
 
@@ -25,6 +27,7 @@ import opekope2.avm_staff.api.staffInfusionSmithingTemplateItem
  * Object holding textures to be displayed in a smithing table, when using a
  * [staff infusion smithing template][staffInfusionSmithingTemplateItem].
  */
+@Environment(EnvType.CLIENT)
 object StaffInfusionSmithingRecipeTextures {
     /**
      * @suppress
