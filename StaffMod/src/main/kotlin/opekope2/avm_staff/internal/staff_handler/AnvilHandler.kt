@@ -39,7 +39,6 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.equipTime
 import opekope2.avm_staff.util.mutableItemStackInStaff
-import java.util.*
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -124,46 +123,14 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHan
         private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(40.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, equipTime(4.0), AttributeModifierSlot.MAINHAND)
-            .add(
-                EntityAttributes.GENERIC_MOVEMENT_SPEED,
-                EntityAttributeModifier(
-                    UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750d"),
-                    "Weapon modifier",
-                    -1.0,
-                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                ),
-                AttributeModifierSlot.MAINHAND
-            )
-            .add(
-                EntityAttributes.GENERIC_MOVEMENT_SPEED,
-                EntityAttributeModifier(
-                    UUID.fromString("c0374b4f-d600-4b6a-9984-3ee35d37750e"),
-                    "Weapon modifier",
-                    -1.0,
-                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                ),
-                AttributeModifierSlot.OFFHAND
-            )
-            .add(
-                EntityAttributes.GENERIC_JUMP_STRENGTH,
-                EntityAttributeModifier(
-                    UUID.fromString("cbaf4a1a-e200-427c-b423-37733a264173"),
-                    "Weapon modifier",
-                    -1.0,
-                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                ),
-                AttributeModifierSlot.MAINHAND
-            )
-            .add(
-                EntityAttributes.GENERIC_JUMP_STRENGTH,
-                EntityAttributeModifier(
-                    UUID.fromString("cbaf4a1a-e200-427c-b423-37733a264174"),
-                    "Weapon modifier",
-                    -1.0,
-                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                ),
-                AttributeModifierSlot.OFFHAND
-            )
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, anvilModifier(), AttributeModifierSlot.MAINHAND)
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, anvilModifier(), AttributeModifierSlot.OFFHAND)
+            .add(EntityAttributes.GENERIC_JUMP_STRENGTH, anvilModifier(), AttributeModifierSlot.MAINHAND)
+            .add(EntityAttributes.GENERIC_JUMP_STRENGTH, anvilModifier(), AttributeModifierSlot.OFFHAND)
             .build()
+
+        private fun anvilModifier() = EntityAttributeModifier(
+            "Anvil modifier", -1.0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        )
     }
 }
