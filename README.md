@@ -8,37 +8,43 @@
 [![Wiki](https://img.shields.io/badge/Read_the-wiki-8ca1af?style=flat&logo=readthedocs)](https://opekope2.dev/StaffMod)
 [![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-Ko--fi-f16061?style=flat&logo=ko-fi)](https://ko-fi.com/opekope2)
 
-Adds staff from Animation vs Minecraft shorts.
+Fan-made, mostly canonically accurate, and close to vanilla mod adding [staffs](https://animatorvsanimation.fandom.com/wiki/Staffs) from Animation vs Minecraft series
+
+## Credits
+
+* *[Alan Becker](https://www.youtube.com/@alanbecker)*, for animating Animation vs Minecraft series
+* *Brother Oliviär*, for drawing *Royal Staff Ingredient* and *Staff Infusion Smithing Template* textures
+* *[Ink&Soul](https://github.com/MBYL-InkAndSoul)*, for fixing a bug
 
 ## Roadmap
 
-Functionality will be added gradually.
-This will bring (hopefully) many smaller updates before a big update, so you can enjoy new (experimental) functionality,
-even when I don't have much time for development.
-Please note that the development cycle may be slow, because I'm working on a quite big update
-for [OptiGUI](https://github.com/opekope2/optigui), my other mod, and I'm also in university.
+Functionality will be added gradually, bringing many smaller updates before the 1.0.0 release.
+See [this GitHub discussion](https://github.com/opekope2/StaffMod/discussions/31) for upcoming features.
 
-### Phase 0 (done)
+## [Staff Mod items](https://opekope2.dev/StaffMod/items.html)
 
-* Add staff item
-* Add basic functionality
-* Alpha release
+Staff Mod adds the following items to the game:
 
-### Phase 1 (in development)
+* [Faint staff rod](https://opekope2.dev/StaffMod/items.html#faint-staff-rod)
+* [Faint royal staff head](https://opekope2.dev/StaffMod/items.html#faint-royal-staff-head)
+* [Faint royal staff](https://opekope2.dev/StaffMod/items.html#faint-royal-staff)
+* [Royal staff](https://opekope2.dev/StaffMod/items.html#royal-staff)
+* [Royal staff ingredient](https://opekope2.dev/StaffMod/items.html#royal-staff-ingredient)
+* [Crown of King Orange](https://opekope2.dev/StaffMod/items.html#crown-of-king-orange)
+* [Staff infusion smithing template](https://opekope2.dev/StaffMod/items.html#staff-infusion-smithing-template)
 
-* Add block functionalities inside staff item (a bunch of simple use blocks)
-* Beta releases
+## [Supported items in staffs](https://opekope2.dev/StaffMod/staff.html)
 
-### Phase 2
+Staff Mod implements functionalities for the following items:
 
-* Survival mode support and balancing (head over to GitHub to discuss/suggest functionality)
-* Advanced block functionalities inside staff item
-* Fix rendering, models, and textures
-* Add server-side configuration support
-* First stable release (big update)
-
-### Phase 3
-
-* Maybe add staff add/remove animations
-* Add the rest of the blocks seen in AvM Shorts ep 33
-* Everything else
+* [Anvil, chipped anvil, damaged anvil](https://opekope2.dev/StaffMod/staff.html#anvil-chipped-anvil-damaged-anvil)
+* [Bell](https://opekope2.dev/StaffMod/staff.html#bell)
+* [Bone block](https://opekope2.dev/StaffMod/staff.html#bone-block)
+* [Campfire, soul campfire](https://opekope2.dev/StaffMod/staff.html#campfire-soul-campfire)
+* [Furnace, blast furnace, smoker](https://opekope2.dev/StaffMod/staff.html#furnace-blast-furnace-smoker)
+* [Lightning rod](https://opekope2.dev/StaffMod/staff.html#lightning-rod)
+* [Magma block](https://opekope2.dev/StaffMod/staff.html#magma-block)
+* [Snow block](https://opekope2.dev/StaffMod/staff.html#snow-block)
+* [TNT](https://opekope2.dev/StaffMod/staff.html#tnt)
+* [Wither Skeleton Skull](https://opekope2.dev/StaffMod/staff.html#wither-skeleton-skull)
+* [Wool (any color)](https://opekope2.dev/StaffMod/staff.html#wool-any-color)
