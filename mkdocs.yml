@@ -3,6 +3,8 @@ repo_url: https://github.com/opekope2/StaffMod
 copyright: © 2023-2024 opekope2. Staff Mod is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.
 theme:
   name: material
+  logo: images/logo-icon.svg
+  favicon: images/logo-icon.svg
   icon:
     repo: fontawesome/brands/github
     admonition:
