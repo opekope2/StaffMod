@@ -16,8 +16,8 @@
   - along with this mod. If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<svg viewBox="0 0 36 36" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(10 10) rotate(45 8 8)">
+<svg viewBox="0 0 32 32" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(9.5 6.5) rotate(45 8 8)">
         <rect x="0" y="0" style="fill: #c77e4f" width="1" height="1"/>
         <rect x="1" y="0" style="fill: #c77e4f" width="1" height="1"/>
         <rect x="2" y="0" style="fill: #c77e4f" width="1" height="1"/>
@@ -275,7 +275,7 @@
         <rect x="14" y="15" style="fill: #bb6d3a" width="1" height="1"/>
         <rect x="15" y="15" style="fill: #c77e4f" width="1" height="1"/>
     </g>
-    <g transform="translate(16 4) rotate(45 2 14)">
+    <g transform="translate(15.5 0.5) rotate(45 2 14)">
         <rect x="0" y="0" style="fill: #531b2e" width="1" height="1"/>
         <rect x="1" y="0" style="fill: #6f2d43" width="1" height="1"/>
         <rect x="2" y="0" style="fill: #6f2d43" width="1" height="1"/>
