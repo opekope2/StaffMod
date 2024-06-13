@@ -1,0 +1,24 @@
+article li,
+article p {
+    text-align: justify;
+}
+
+.center {
+    display: block;
+    text-align: center;
+}
+
+img.x16 {
+    width: 16px;
+    image-rendering: crisp-edges;
+}
+
+img.x32 {
+    width: 32px;
+    image-rendering: crisp-edges;
+}
+
+.twemoji.x32 {
+    height: 32px;
+    vertical-align: inherit;
+}

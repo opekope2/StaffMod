@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>StaffItem</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Staff Mod
+                    </a>
+            </div>
+            <div class="library-version">
+0.2.0-beta            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":StaffMod:dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Staff Mod::opekope2.avm_staff.api.item/StaffItem///PointingToDeclaration//-1660635063">
+  <div class="breadcrumbs"><a href="../../../index.html">Staff Mod</a><span class="delimiter">/</span><a href="../index.html">opekope2.avm_staff.api.item</a><span class="delimiter">/</span><span class="current">StaffItem</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Staff</span><wbr></wbr><span><span>Item</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">StaffItem</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">settings<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/Item.Settings.html">Item.Settings</a></span></span><span class="token punctuation">)</span> : <a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/Item.html">Item</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/opekope2/StaffMod/tree/0.2.0-beta/StaffMod/src/main/kotlin/opekope2/avm_staff/api/item/StaffItem.kt#L30">source</a>)</span></span></div><p class="paragraph">Staff item.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-1319250517%2FConstructors%2F-1660635063" anchor-label="StaffItem" id="-1319250517%2FConstructors%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-staff-item.html"><span>Staff</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1319250517%2FConstructors%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">settings<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/Item.Settings.html">Item.Settings</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Inherited properties</h2>
+        <div class="table"><a data-name="-1562807775%2FProperties%2F-1660635063" anchor-label="fireproof" id="-1562807775%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1562807775%2FProperties%2F-1660635063"><span><span>fireproof</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1562807775%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#-1562807775%2FProperties%2F-1660635063">fireproof</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1437910224%2FProperties%2F-1660635063" anchor-label="foodComponent" id="1437910224%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1437910224%2FProperties%2F-1660635063"><span>food</span><wbr></wbr><span><span>Component</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1437910224%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.jetbrains.annotations/Nullable///PointingToDeclaration/"><span class="token annotation builtin">Nullable</span></span></div><div class="block"><span class="token annotation builtin">@get:</span><span data-unresolved-link="org.jetbrains.annotations/Nullable///PointingToDeclaration/"><span class="token annotation builtin">Nullable</span></span></div></div><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#1437910224%2FProperties%2F-1660635063">foodComponent</a><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/FoodComponent.html">FoodComponent</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-944990624%2FProperties%2F-1660635063" anchor-label="maxCount" id="-944990624%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-944990624%2FProperties%2F-1660635063"><span>max</span><wbr></wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-944990624%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#-944990624%2FProperties%2F-1660635063">maxCount</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="245094556%2FProperties%2F-1660635063" anchor-label="maxDamage" id="245094556%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#245094556%2FProperties%2F-1660635063"><span>max</span><wbr></wbr><span><span>Damage</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="245094556%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#245094556%2FProperties%2F-1660635063">maxDamage</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1242624680%2FProperties%2F-1660635063" anchor-label="recipeRemainder" id="-1242624680%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1242624680%2FProperties%2F-1660635063"><span>recipe</span><wbr></wbr><span><span>Remainder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1242624680%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.jetbrains.annotations/Nullable///PointingToDeclaration/"><span class="token annotation builtin">Nullable</span></span></div><div class="block"><span class="token annotation builtin">@get:</span><span data-unresolved-link="org.jetbrains.annotations/Nullable///PointingToDeclaration/"><span class="token annotation builtin">Nullable</span></span></div></div><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#-1242624680%2FProperties%2F-1660635063">recipeRemainder</a><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/Item.html">Item</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1073628774%2FProperties%2F-1660635063" anchor-label="registryEntry" id="-1073628774%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1073628774%2FProperties%2F-1660635063"><span>registry</span><wbr></wbr><span><span>Entry</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1073628774%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#-1073628774%2FProperties%2F-1660635063">registryEntry</a><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/registry/entry/RegistryEntry.Reference.html">RegistryEntry.Reference</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="390528655%2FProperties%2F-1660635063" anchor-label="requiredFeatures" id="390528655%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#390528655%2FProperties%2F-1660635063"><span>required</span><wbr></wbr><span><span>Features</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="390528655%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html#390528655%2FProperties%2F-1660635063">requiredFeatures</a><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/resource/featuretoggle/FeatureSet.html">FeatureSet</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1616848109%2FFunctions%2F-1660635063" anchor-label="finishUsing" id="-1616848109%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="finish-using.html"><span>finish</span><wbr></wbr><span><span>Using</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1616848109%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="finish-using.html"><span class="token function">finishUsing</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a><span class="token punctuation">, </span></span><span class="parameter ">user<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/LivingEntity.html">LivingEntity</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1585462075%2FFunctions%2F-1660635063" anchor-label="getAttributeModifiers" id="1585462075%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-attribute-modifiers.html"><span>get</span><wbr></wbr><span>Attribute</span><wbr></wbr><span><span>Modifiers</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1585462075%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-attribute-modifiers.html"><span class="token function">getAttributeModifiers</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">slot<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/EquipmentSlot.html">EquipmentSlot</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.google.common.collect/Multimap///PointingToDeclaration/">Multimap</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/attribute/EntityAttribute.html">EntityAttribute</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/attribute/EntityAttributeModifier.html">EntityAttributeModifier</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1603689663%2FFunctions%2F-1660635063" anchor-label="getMaxUseTime" id="-1603689663%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-max-use-time.html"><span>get</span><wbr></wbr><span>Max</span><wbr></wbr><span>Use</span><wbr></wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1603689663%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-max-use-time.html"><span class="token function">getMaxUseTime</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1336467834%2FFunctions%2F-1660635063" anchor-label="getName" id="-1336467834%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-name.html"><span>get</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1336467834%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-name.html"><span class="token function">getName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/text/Text.html">Text</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1426577661%2FFunctions%2F-1660635063" anchor-label="getTranslationKey" id="-1426577661%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-translation-key.html"><span>get</span><wbr></wbr><span>Translation</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1426577661%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-translation-key.html"><span class="token function">getTranslationKey</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2133842692%2FFunctions%2F-1660635063" anchor-label="onItemEntityDestroyed" id="2133842692%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-item-entity-destroyed.html"><span>on</span><wbr></wbr><span>Item</span><wbr></wbr><span>Entity</span><wbr></wbr><span><span>Destroyed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2133842692%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="on-item-entity-destroyed.html"><span class="token function">onItemEntityDestroyed</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">entity<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/ItemEntity.html">ItemEntity</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1857476891%2FFunctions%2F-1660635063" anchor-label="onStoppedUsing" id="1857476891%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-stopped-using.html"><span>on</span><wbr></wbr><span>Stopped</span><wbr></wbr><span><span>Using</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1857476891%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="on-stopped-using.html"><span class="token function">onStoppedUsing</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a><span class="token punctuation">, </span></span><span class="parameter ">user<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/LivingEntity.html">LivingEntity</a><span class="token punctuation">, </span></span><span class="parameter ">remainingUseTicks<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1282697295%2FFunctions%2F-1660635063" anchor-label="usageTick" id="-1282697295%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="usage-tick.html"><span>usage</span><wbr></wbr><span><span>Tick</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1282697295%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="usage-tick.html"><span class="token function">usageTick</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a><span class="token punctuation">, </span></span><span class="parameter ">user<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/LivingEntity.html">LivingEntity</a><span class="token punctuation">, </span></span><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">remainingUseTicks<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-861195217%2FFunctions%2F-1660635063" anchor-label="use" id="-861195217%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="use.html"><span><span>use</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-861195217%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="use.html"><span class="token function">use</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a><span class="token punctuation">, </span></span><span class="parameter ">user<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a><span class="token punctuation">, </span></span><span class="parameter ">hand<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/Hand.html">Hand</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/TypedActionResult.html">TypedActionResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2145954056%2FFunctions%2F-1660635063" anchor-label="useOnBlock" id="-2145954056%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="use-on-block.html"><span>use</span><wbr></wbr><span>On</span><wbr></wbr><span><span>Block</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2145954056%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="use-on-block.html"><span class="token function">useOnBlock</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemUsageContext.html">ItemUsageContext</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/ActionResult.html">ActionResult</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1066020095%2FFunctions%2F-1660635063" anchor-label="useOnEntity" id="-1066020095%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="use-on-entity.html"><span>use</span><wbr></wbr><span>On</span><wbr></wbr><span><span>Entity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1066020095%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="use-on-entity.html"><span class="token function">useOnEntity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">user<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a><span class="token punctuation">, </span></span><span class="parameter ">entity<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/LivingEntity.html">LivingEntity</a><span class="token punctuation">, </span></span><span class="parameter ">hand<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/Hand.html">Hand</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/ActionResult.html">ActionResult</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Inherited functions</h2>
+        <div class="table"><a data-name="905453631%2FFunctions%2F-1660635063" anchor-label="allowContinuingBlockBreaking" id="905453631%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#905453631%2FFunctions%2F-1660635063"><span>allow</span><wbr></wbr><span>Continuing</span><wbr></wbr><span>Block</span><wbr></wbr><span><span>Breaking</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="905453631%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#905453631%2FFunctions%2F-1660635063"><span class="token function">allowContinuingBlockBreaking</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">player<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a><span class="token punctuation">, </span></span><span class="parameter ">oldStack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">newStack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1979045566%2FFunctions%2F-1660635063" anchor-label="allowNbtUpdateAnimation" id="1979045566%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1979045566%2FFunctions%2F-1660635063"><span>allow</span><wbr></wbr><span>Nbt</span><wbr></wbr><span>Update</span><wbr></wbr><span><span>Animation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1979045566%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1979045566%2FFunctions%2F-1660635063"><span class="token function">allowNbtUpdateAnimation</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">player<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a><span class="token punctuation">, </span></span><span class="parameter ">hand<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/Hand.html">Hand</a><span class="token punctuation">, </span></span><span class="parameter ">oldStack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">newStack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-608899270%2FFunctions%2F-1660635063" anchor-label="appendTooltip" id="-608899270%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-608899270%2FFunctions%2F-1660635063"><span>append</span><wbr></wbr><span><span>Tooltip</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-608899270%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-608899270%2FFunctions%2F-1660635063"><span class="token function">appendTooltip</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter "><span><span class="token annotation builtin">@</span><span data-unresolved-link="org.jetbrains.annotations/Nullable///PointingToDeclaration/"><span class="token annotation builtin">Nullable</span></span> </span>world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">tooltip<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/text/Text.html">Text</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">context<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/client/item/TooltipContext.html">TooltipContext</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="514192070%2FFunctions%2F-1660635063" anchor-label="asItem" id="514192070%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#514192070%2FFunctions%2F-1660635063"><span>as</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="514192070%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#514192070%2FFunctions%2F-1660635063"><span class="token function">asItem</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/Item.html">Item</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="35548901%2FFunctions%2F-1660635063" anchor-label="canBeNested" id="35548901%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#35548901%2FFunctions%2F-1660635063"><span>can</span><wbr></wbr><span>Be</span><wbr></wbr><span><span>Nested</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="35548901%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#35548901%2FFunctions%2F-1660635063"><span class="token function">canBeNested</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1623356817%2FFunctions%2F-1660635063" anchor-label="canMine" id="-1623356817%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1623356817%2FFunctions%2F-1660635063"><span>can</span><wbr></wbr><span><span>Mine</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1623356817%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1623356817%2FFunctions%2F-1660635063"><span class="token function">canMine</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">state<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/block/BlockState.html">BlockState</a><span class="token punctuation">, </span></span><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a><span class="token punctuation">, </span></span><span class="parameter ">pos<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/math/BlockPos.html">BlockPos</a><span class="token punctuation">, </span></span><span class="parameter ">miner<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="431629421%2FFunctions%2F-1660635063" anchor-label="canRepair" id="431629421%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#431629421%2FFunctions%2F-1660635063"><span>can</span><wbr></wbr><span><span>Repair</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="431629421%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#431629421%2FFunctions%2F-1660635063"><span class="token function">canRepair</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">ingredient<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1145304908%2FFunctions%2F-1660635063" anchor-label="damage" id="1145304908%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1145304908%2FFunctions%2F-1660635063"><span><span>damage</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1145304908%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1145304908%2FFunctions%2F-1660635063"><span class="token function">damage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">source<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/damage/DamageSource.html">DamageSource</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1891260282%2FFunctions%2F-1660635063" anchor-label="getAttributeModifiers" id="-1891260282%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1891260282%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Attribute</span><wbr></wbr><span><span>Modifiers</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1891260282%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1891260282%2FFunctions%2F-1660635063"><span class="token function">getAttributeModifiers</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">slot<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/EquipmentSlot.html">EquipmentSlot</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.google.common.collect/Multimap///PointingToDeclaration/">Multimap</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/attribute/EntityAttribute.html">EntityAttribute</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/attribute/EntityAttributeModifier.html">EntityAttributeModifier</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="225629458%2FFunctions%2F-1660635063" anchor-label="getDefaultStack" id="225629458%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#225629458%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Default</span><wbr></wbr><span><span>Stack</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="225629458%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#225629458%2FFunctions%2F-1660635063"><span class="token function">getDefaultStack</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-940534910%2FFunctions%2F-1660635063" anchor-label="getDrinkSound" id="-940534910%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-940534910%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Drink</span><wbr></wbr><span><span>Sound</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-940534910%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-940534910%2FFunctions%2F-1660635063"><span class="token function">getDrinkSound</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/sound/SoundEvent.html">SoundEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1814572734%2FFunctions%2F-1660635063" anchor-label="getEatSound" id="-1814572734%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1814572734%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Eat</span><wbr></wbr><span><span>Sound</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1814572734%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1814572734%2FFunctions%2F-1660635063"><span class="token function">getEatSound</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/sound/SoundEvent.html">SoundEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1766618264%2FFunctions%2F-1660635063" anchor-label="getEnchantability" id="-1766618264%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1766618264%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span><span>Enchantability</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1766618264%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1766618264%2FFunctions%2F-1660635063"><span class="token function">getEnchantability</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1130731638%2FFunctions%2F-1660635063" anchor-label="getItemBarColor" id="-1130731638%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1130731638%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Item</span><wbr></wbr><span>Bar</span><wbr></wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1130731638%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1130731638%2FFunctions%2F-1660635063"><span class="token function">getItemBarColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1607276425%2FFunctions%2F-1660635063" anchor-label="getItemBarStep" id="1607276425%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1607276425%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Item</span><wbr></wbr><span>Bar</span><wbr></wbr><span><span>Step</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1607276425%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1607276425%2FFunctions%2F-1660635063"><span class="token function">getItemBarStep</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="872941899%2FFunctions%2F-1660635063" anchor-label="getMiningSpeedMultiplier" id="872941899%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#872941899%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Mining</span><wbr></wbr><span>Speed</span><wbr></wbr><span><span>Multiplier</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="872941899%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#872941899%2FFunctions%2F-1660635063"><span class="token function">getMiningSpeedMultiplier</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">state<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/block/BlockState.html">BlockState</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1037588430%2FFunctions%2F-1660635063" anchor-label="getName" id="1037588430%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1037588430%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1037588430%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1037588430%2FFunctions%2F-1660635063"><span class="token function">getName</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/text/Text.html">Text</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="324485388%2FFunctions%2F-1660635063" anchor-label="getOrCreateTranslationKey" id="324485388%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#324485388%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Or</span><wbr></wbr><span>Create</span><wbr></wbr><span>Translation</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="324485388%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">protected </span><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#324485388%2FFunctions%2F-1660635063"><span class="token function">getOrCreateTranslationKey</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1439785182%2FFunctions%2F-1660635063" anchor-label="getRarity" id="-1439785182%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1439785182%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span><span>Rarity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1439785182%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1439785182%2FFunctions%2F-1660635063"><span class="token function">getRarity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/Rarity.html">Rarity</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1413138349%2FFunctions%2F-1660635063" anchor-label="getRecipeRemainder" id="1413138349%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1413138349%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Recipe</span><wbr></wbr><span><span>Remainder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1413138349%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1413138349%2FFunctions%2F-1660635063"><span class="token function">getRecipeRemainder</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1314340552%2FFunctions%2F-1660635063" anchor-label="getTooltipData" id="1314340552%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1314340552%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Tooltip</span><wbr></wbr><span><span>Data</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1314340552%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1314340552%2FFunctions%2F-1660635063"><span class="token function">getTooltipData</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html">Optional</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/client/item/TooltipData.html">TooltipData</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1334989515%2FFunctions%2F-1660635063" anchor-label="getTranslationKey" id="1334989515%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1334989515%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Translation</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1334989515%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1334989515%2FFunctions%2F-1660635063"><span class="token function">getTranslationKey</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2078006648%2FFunctions%2F-1660635063" anchor-label="getUseAction" id="2078006648%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2078006648%2FFunctions%2F-1660635063"><span>get</span><wbr></wbr><span>Use</span><wbr></wbr><span><span>Action</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2078006648%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#2078006648%2FFunctions%2F-1660635063"><span class="token function">getUseAction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/UseAction.html">UseAction</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1500063119%2FFunctions%2F-1660635063" anchor-label="hasGlint" id="1500063119%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1500063119%2FFunctions%2F-1660635063"><span>has</span><wbr></wbr><span><span>Glint</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1500063119%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1500063119%2FFunctions%2F-1660635063"><span class="token function">hasGlint</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-929226514%2FFunctions%2F-1660635063" anchor-label="hasRecipeRemainder" id="-929226514%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-929226514%2FFunctions%2F-1660635063"><span>has</span><wbr></wbr><span>Recipe</span><wbr></wbr><span><span>Remainder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-929226514%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-929226514%2FFunctions%2F-1660635063"><span class="token function">hasRecipeRemainder</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1357755113%2FFunctions%2F-1660635063" anchor-label="inventoryTick" id="-1357755113%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1357755113%2FFunctions%2F-1660635063"><span>inventory</span><wbr></wbr><span><span>Tick</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1357755113%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1357755113%2FFunctions%2F-1660635063"><span class="token function">inventoryTick</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a><span class="token punctuation">, </span></span><span class="parameter ">entity<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/Entity.html">Entity</a><span class="token punctuation">, </span></span><span class="parameter ">slot<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">selected<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1062435752%2FFunctions%2F-1660635063" anchor-label="isDamageable" id="-1062435752%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1062435752%2FFunctions%2F-1660635063"><span>is</span><wbr></wbr><span><span>Damageable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1062435752%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1062435752%2FFunctions%2F-1660635063"><span class="token function">isDamageable</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2136457628%2FFunctions%2F-1660635063" anchor-label="isEnabled" id="-2136457628%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-2136457628%2FFunctions%2F-1660635063"><span>is</span><wbr></wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2136457628%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-2136457628%2FFunctions%2F-1660635063"><span class="token function">isEnabled</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">enabledFeatures<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/resource/featuretoggle/FeatureSet.html">FeatureSet</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-112169446%2FFunctions%2F-1660635063" anchor-label="isEnchantable" id="-112169446%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-112169446%2FFunctions%2F-1660635063"><span>is</span><wbr></wbr><span><span>Enchantable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-112169446%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-112169446%2FFunctions%2F-1660635063"><span class="token function">isEnchantable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1032970781%2FFunctions%2F-1660635063" anchor-label="isFood" id="-1032970781%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1032970781%2FFunctions%2F-1660635063"><span>is</span><wbr></wbr><span><span>Food</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1032970781%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1032970781%2FFunctions%2F-1660635063"><span class="token function">isFood</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="228890979%2FFunctions%2F-1660635063" anchor-label="isItemBarVisible" id="228890979%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#228890979%2FFunctions%2F-1660635063"><span>is</span><wbr></wbr><span>Item</span><wbr></wbr><span>Bar</span><wbr></wbr><span><span>Visible</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="228890979%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#228890979%2FFunctions%2F-1660635063"><span class="token function">isItemBarVisible</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1304275745%2FFunctions%2F-1660635063" anchor-label="isNbtSynced" id="-1304275745%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1304275745%2FFunctions%2F-1660635063"><span>is</span><wbr></wbr><span>Nbt</span><wbr></wbr><span><span>Synced</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1304275745%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1304275745%2FFunctions%2F-1660635063"><span class="token function">isNbtSynced</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2125674447%2FFunctions%2F-1660635063" anchor-label="isNetworkSynced" id="-2125674447%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-2125674447%2FFunctions%2F-1660635063"><span>is</span><wbr></wbr><span>Network</span><wbr></wbr><span><span>Synced</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2125674447%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-2125674447%2FFunctions%2F-1660635063"><span class="token function">isNetworkSynced</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="236875328%2FFunctions%2F-1660635063" anchor-label="isSuitableFor" id="236875328%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1778835980%2FFunctions%2F-1660635063"><span>is</span><wbr></wbr><span>Suitable</span><wbr></wbr><span><span>For</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="236875328%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1778835980%2FFunctions%2F-1660635063"><span class="token function">isSuitableFor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">state<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/block/BlockState.html">BlockState</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1344248256%2FFunctions%2F-1660635063"><span class="token function">isSuitableFor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">state<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/block/BlockState.html">BlockState</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1554873698%2FFunctions%2F-1660635063" anchor-label="isUsedOnRelease" id="1554873698%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1554873698%2FFunctions%2F-1660635063"><span>is</span><wbr></wbr><span>Used</span><wbr></wbr><span>On</span><wbr></wbr><span><span>Release</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1554873698%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#1554873698%2FFunctions%2F-1660635063"><span class="token function">isUsedOnRelease</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-509182625%2FFunctions%2F-1660635063" anchor-label="onClicked" id="-509182625%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-509182625%2FFunctions%2F-1660635063"><span>on</span><wbr></wbr><span><span>Clicked</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-509182625%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-509182625%2FFunctions%2F-1660635063"><span class="token function">onClicked</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">otherStack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">slot<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/screen/slot/Slot.html">Slot</a><span class="token punctuation">, </span></span><span class="parameter ">clickType<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/ClickType.html">ClickType</a><span class="token punctuation">, </span></span><span class="parameter ">player<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a><span class="token punctuation">, </span></span><span class="parameter ">cursorStackReference<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/inventory/StackReference.html">StackReference</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-471729823%2FFunctions%2F-1660635063" anchor-label="onCraft" id="-471729823%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-471729823%2FFunctions%2F-1660635063"><span>on</span><wbr></wbr><span><span>Craft</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-471729823%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-471729823%2FFunctions%2F-1660635063"><span class="token function">onCraft</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="640299070%2FFunctions%2F-1660635063" anchor-label="onCraftByPlayer" id="640299070%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#640299070%2FFunctions%2F-1660635063"><span>on</span><wbr></wbr><span>Craft</span><wbr></wbr><span>By</span><wbr></wbr><span><span>Player</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="640299070%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#640299070%2FFunctions%2F-1660635063"><span class="token function">onCraftByPlayer</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a><span class="token punctuation">, </span></span><span class="parameter ">player<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="562858448%2FFunctions%2F-1660635063" anchor-label="onStackClicked" id="562858448%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#562858448%2FFunctions%2F-1660635063"><span>on</span><wbr></wbr><span>Stack</span><wbr></wbr><span><span>Clicked</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="562858448%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#562858448%2FFunctions%2F-1660635063"><span class="token function">onStackClicked</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">slot<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/screen/slot/Slot.html">Slot</a><span class="token punctuation">, </span></span><span class="parameter ">clickType<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/ClickType.html">ClickType</a><span class="token punctuation">, </span></span><span class="parameter ">player<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/player/PlayerEntity.html">PlayerEntity</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="251491564%2FFunctions%2F-1660635063" anchor-label="postHit" id="251491564%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#251491564%2FFunctions%2F-1660635063"><span>post</span><wbr></wbr><span><span>Hit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="251491564%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#251491564%2FFunctions%2F-1660635063"><span class="token function">postHit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/LivingEntity.html">LivingEntity</a><span class="token punctuation">, </span></span><span class="parameter ">attacker<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/LivingEntity.html">LivingEntity</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-946807859%2FFunctions%2F-1660635063" anchor-label="postMine" id="-946807859%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-946807859%2FFunctions%2F-1660635063"><span>post</span><wbr></wbr><span><span>Mine</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-946807859%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-946807859%2FFunctions%2F-1660635063"><span class="token function">postMine</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stack<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/world/World.html">World</a><span class="token punctuation">, </span></span><span class="parameter ">state<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/block/BlockState.html">BlockState</a><span class="token punctuation">, </span></span><span class="parameter ">pos<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/util/math/BlockPos.html">BlockPos</a><span class="token punctuation">, </span></span><span class="parameter ">miner<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/entity/LivingEntity.html">LivingEntity</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="154024157%2FFunctions%2F-1660635063" anchor-label="postProcessNbt" id="154024157%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#154024157%2FFunctions%2F-1660635063"><span>post</span><wbr></wbr><span>Process</span><wbr></wbr><span><span>Nbt</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="154024157%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#154024157%2FFunctions%2F-1660635063"><span class="token function">postProcessNbt</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">nbt<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.20.4+build.3/net/minecraft/nbt/NbtCompound.html">NbtCompound</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-524796641%2FFunctions%2F-1660635063" anchor-label="toString" id="-524796641%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-524796641%2FFunctions%2F-1660635063"><span>to</span><wbr></wbr><span><span>String</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-524796641%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-524796641%2FFunctions%2F-1660635063"><span class="token function">toString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023-2024 opekope2. AvM Staff Mod is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
