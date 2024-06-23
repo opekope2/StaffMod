@@ -46,6 +46,7 @@ import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import opekope2.avm_staff.api.furnaceLitComponentType
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
@@ -82,7 +83,8 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         if (!user.canUseStaff) return
 
-        val itemToSmelt = findItemToSmelt(user, world)
+        val itemToSmelt = findItemToSmelt(world, user.approximateStaffItemPosition)
+            ?: findItemToSmelt(world, user.approximateStaffTipPosition)
 
         if (world.isClient) {
             playSmeltingEffects(world, itemToSmelt ?: return)
@@ -112,11 +114,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         burnTimeData.burnTime -= stackToSmelt.count
     }
 
-    private fun findItemToSmelt(
-        user: LivingEntity,
-        world: World
-    ): ItemEntity? {
-        val smeltingPosition = user.approximateStaffItemPosition
+    private fun findItemToSmelt(world: World, smeltingPosition: Vec3d): ItemEntity? {
         val items = world.getEntitiesByClass(ItemEntity::class.java, SMELTING_VOLUME.offset(smeltingPosition)) { true }
         val closest = items.minByOrNull { (smeltingPosition - it.pos).lengthSquared() }
         return closest
