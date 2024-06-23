@@ -30,6 +30,7 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
@@ -208,7 +209,10 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     companion object {
-        private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(0.25 / 2)
+        private val ITEM_DIMENSIONS = EntityType.ITEM.dimensions
+        private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(
+            ITEM_DIMENSIONS.width / 2.0, ITEM_DIMENSIONS.height / 2.0, ITEM_DIMENSIONS.width / 2.0
+        )
         private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
