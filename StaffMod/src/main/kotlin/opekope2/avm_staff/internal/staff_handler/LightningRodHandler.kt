@@ -43,6 +43,7 @@ import opekope2.avm_staff.util.addDefault
 import opekope2.avm_staff.util.interactionRange
 import opekope2.avm_staff.util.isItemCoolingDown
 import opekope2.avm_staff.util.push
+import java.util.*
 
 class LightningRodHandler : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
@@ -73,7 +74,7 @@ class LightningRodHandler : StaffHandler() {
         if (!skylit) return ActionResult.FAIL
 
         val lightning = EntityType.LIGHTNING_BOLT.create(world) ?: return ActionResult.FAIL
-        lightning.refreshPositionAfterTeleport(lightningPos.toCenterPos())
+        lightning.refreshPositionAfterTeleport(lightningPos.toCenterPos().floorAlongAxes(Y_AXIS_SET))
         world.spawnEntity(lightning)
 
         (user as? PlayerEntity)?.itemCooldownManager?.set(staffStack.item, 4 * 20)
@@ -111,5 +112,6 @@ class LightningRodHandler : StaffHandler() {
             )
             .add(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, interactionRange(2.0), AttributeModifierSlot.MAINHAND)
             .build()
+        private val Y_AXIS_SET = EnumSet.of(Direction.Axis.Y)
     }
 }
