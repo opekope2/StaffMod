@@ -79,6 +79,11 @@ class CampfireHandler(
         val relativeRight = user.getRotationVector(0f, MathHelper.wrapDegrees(user.yaw + 90f)).normalize()
         val relativeUp = relativeRight.crossProduct(forward).normalize()
 
+        if (rocketModeComponentType.get() in staffStack) {
+            user.addVelocity(forward * -properties.rocketThrust)
+            user.limitFallDistance()
+        }
+
         if (world.isClient) {
             throwFlameParticles(user, target, relativeRight, relativeUp)
             return
@@ -102,17 +107,6 @@ class CampfireHandler(
                         FLAME_MAX_AGE
                     )
                 )
-            }
-        }
-
-        if (rocketModeComponentType.get() in staffStack) {
-            user.addVelocity(forward * -properties.rocketThrust)
-            user.velocityModified = true
-            if (forward.y < 0.0) {
-                // If the user is looking directly upwards, then the Y velocity becomes -0.078 from a much lower value
-                // a game tick before, for some reason. Force looking somewhat down to dampen fall damage, so the player
-                // can't exploit this.
-                user.limitFallDistance()
             }
         }
     }
