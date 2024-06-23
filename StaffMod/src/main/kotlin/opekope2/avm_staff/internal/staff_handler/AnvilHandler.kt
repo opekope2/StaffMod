@@ -27,6 +27,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.util.Hand
@@ -38,11 +39,12 @@ import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.equipTime
+import opekope2.avm_staff.util.itemStackInStaff
 import opekope2.avm_staff.util.mutableItemStackInStaff
 import kotlin.math.ceil
 import kotlin.math.floor
 
-class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHandler() {
+class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
         get() = ATTRIBUTE_MODIFIERS
 
@@ -105,9 +107,14 @@ class AnvilHandler(private val damagedStackFactory: () -> ItemStack?) : StaffHan
 
     private fun damageAnvil(staffStack: ItemStack, attacker: LivingEntity, fallDistance: Float): Boolean {
         if (attacker is PlayerEntity && !attacker.abilities.creativeMode && attacker.random.nextFloat() < 0.05f + fallDistance * 0.05f) {
-            val damagedStack = damagedStackFactory()
-            staffStack.mutableItemStackInStaff = damagedStack
-            return damagedStack == null
+            if (damagedItem == null) {
+                staffStack.mutableItemStackInStaff = null
+                return true
+            }
+
+            val currentItemStack = staffStack.itemStackInStaff!!
+            staffStack.mutableItemStackInStaff =
+                currentItemStack.copyComponentsToNewStack(damagedItem, currentItemStack.count)
         }
 
         return false

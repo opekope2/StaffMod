@@ -39,9 +39,9 @@ private fun Item.registerHandler(handler: StaffHandler) {
 }
 
 fun registerVanillaStaffHandlers() {
-    ANVIL.registerHandler(AnvilHandler(CHIPPED_ANVIL::getDefaultStack))
-    CHIPPED_ANVIL.registerHandler(AnvilHandler(DAMAGED_ANVIL::getDefaultStack))
-    DAMAGED_ANVIL.registerHandler(AnvilHandler { null })
+    ANVIL.registerHandler(AnvilHandler(CHIPPED_ANVIL))
+    CHIPPED_ANVIL.registerHandler(AnvilHandler(DAMAGED_ANVIL))
+    DAMAGED_ANVIL.registerHandler(AnvilHandler(null))
 
     BELL.registerHandler(BellBlockHandler())
 
