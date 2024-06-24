@@ -68,10 +68,7 @@ class MagmaBlockHandler : StaffHandler() {
         target: Entity,
         hand: Hand
     ): EventResult {
-        if (!world.isClient) {
-            target.setOnFireFor(8) // TODO duration
-        }
-
+        target.setOnFireFor(4)
         return EventResult.pass()
     }
 
