@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff_handler
 
+import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.TickEvent
 import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.api.EnvType
@@ -143,6 +144,17 @@ class CampfireHandler(
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
         onStoppedUsing(staffStack, world, user, 0)
         return staffStack
+    }
+
+    override fun attackEntity(
+        staffStack: ItemStack,
+        world: World,
+        attacker: LivingEntity,
+        target: Entity,
+        hand: Hand
+    ): EventResult {
+        target.setOnFireFor(8)
+        return EventResult.pass()
     }
 
     data class Properties(
