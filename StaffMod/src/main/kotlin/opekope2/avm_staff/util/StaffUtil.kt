@@ -123,7 +123,7 @@ val Entity.canUseStaff: Boolean
         RaycastContext(
             eyePos,
             eyePos + rotationVector * STAFF_MODEL_LENGTH,
-            RaycastContext.ShapeType.OUTLINE,
+            RaycastContext.ShapeType.COLLIDER,
             RaycastContext.FluidHandling.NONE,
             this
         )
