@@ -179,7 +179,7 @@ class CampfireHandler(
                 RaycastContext(
                     position,
                     newPosition,
-                    RaycastContext.ShapeType.OUTLINE,
+                    RaycastContext.ShapeType.COLLIDER,
                     RaycastContext.FluidHandling.ANY,
                     ShapeContext.absent()
                 )
