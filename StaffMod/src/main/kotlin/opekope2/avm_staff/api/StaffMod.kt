@@ -25,6 +25,9 @@ import com.mojang.serialization.Codec
 import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.block.AbstractBlock
+import net.minecraft.block.enums.Instrument
+import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.client.particle.ParticleManager
 import net.minecraft.component.DataComponentType
 import net.minecraft.entity.EntityType
@@ -37,9 +40,12 @@ import net.minecraft.network.codec.PacketCodec
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
+import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
+import opekope2.avm_staff.api.block.CrownBlock
+import opekope2.avm_staff.api.block.WallCrownBlock
 import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
@@ -54,11 +60,29 @@ import opekope2.avm_staff.internal.createStaffRendererItem
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.mutableItemStackInStaff
 
+private val BLOCKS = DeferredRegister.create(MOD_ID, RegistryKeys.BLOCK)
 private val ITEMS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM)
 private val ITEM_GROUPS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROUP)
 private val ENTITY_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.ENTITY_TYPE)
 private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTICLE_TYPE)
 private val DATA_COMPONENT_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE)
+
+/**
+ * Block registered as `avm_staff:crown_of_king_orange`.
+ */
+val crownOfKingOrangeBlock: RegistrySupplier<CrownBlock> = BLOCKS.register("crown_of_king_orange") {
+    CrownBlock(
+        AbstractBlock.Settings.create().instrument(Instrument.BELL).strength(1.0f)
+            .pistonBehavior(PistonBehavior.DESTROY).sounds(BlockSoundGroup.COPPER_GRATE).nonOpaque()
+    )
+}
+
+/**
+ * Block registered as `avm_staff:wall_crown_of_king_orange`.
+ */
+val wallCrownOfKingOrangeBlock: RegistrySupplier<WallCrownBlock> = BLOCKS.register("wall_crown_of_king_orange") {
+    WallCrownBlock(AbstractBlock.Settings.copy(crownOfKingOrangeBlock.get()))
+}
 
 /**
  * Item registered as `avm_staff:faint_staff_rod`.
@@ -104,7 +128,11 @@ val royalStaffIngredientItem: RegistrySupplier<Item> = ITEMS.register("royal_sta
  * Item registered as `avm_staff:crown_of_king_orange`.
  */
 val crownOfKingOrangeItem: RegistrySupplier<CrownItem> = ITEMS.register("crown_of_king_orange") {
-    createCrownItem(Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).`arch$tab`(staffModItemGroup))
+    createCrownItem(
+        crownOfKingOrangeBlock.get(),
+        wallCrownOfKingOrangeBlock.get(),
+        Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).`arch$tab`(staffModItemGroup)
+    )
 }
 
 /**
@@ -219,6 +247,7 @@ val staffRendererOverrideComponentType: RegistrySupplier<DataComponentType<Staff
  */
 @JvmSynthetic
 internal fun registerContent() {
+    BLOCKS.register()
     ITEMS.register()
     ITEM_GROUPS.register()
     ENTITY_TYPES.register()

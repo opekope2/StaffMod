@@ -24,6 +24,7 @@ package opekope2.avm_staff.internal.fabric
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.block.Block
 import net.minecraft.item.Item
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
@@ -40,4 +41,5 @@ fun createStaffRendererItem(settings: Item.Settings): Item {
     }
 }
 
-fun createCrownItem(settings: Item.Settings): CrownItem = CrownItem(settings)
+fun createCrownItem(standingBlock: Block, wallBlock: Block, settings: Item.Settings): CrownItem =
+    CrownItem(standingBlock, wallBlock, settings)

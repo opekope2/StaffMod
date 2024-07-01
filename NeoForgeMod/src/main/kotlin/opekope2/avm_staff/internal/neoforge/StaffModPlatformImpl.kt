@@ -21,6 +21,7 @@
 
 package opekope2.avm_staff.internal.neoforge
 
+import net.minecraft.block.Block
 import net.minecraft.item.Item
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
@@ -32,4 +33,5 @@ fun createStaffItem(settings: Item.Settings): StaffItem = NeoForgeStaffItem(sett
 
 fun createStaffRendererItem(settings: Item.Settings): Item = NeoForgeStaffRendererItem(settings)
 
-fun createCrownItem(settings: Item.Settings): CrownItem = NeoForgeCrownItem(settings)
+fun createCrownItem(standingBlock: Block, wallBlock: Block, settings: Item.Settings): CrownItem =
+    NeoForgeCrownItem(standingBlock, wallBlock, settings)

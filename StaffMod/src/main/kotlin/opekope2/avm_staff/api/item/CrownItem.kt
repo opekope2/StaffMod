@@ -18,24 +18,27 @@
 
 package opekope2.avm_staff.api.item
 
+import net.minecraft.block.Block
 import net.minecraft.block.DispenserBlock
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.Equipment
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.VerticallyAttachableBlockItem
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
 /**
  * A crown, which makes piglins neutral when worn, just like gold armor.
  */
-open class CrownItem(settings: Settings) : Item(settings), Equipment {
+open class CrownItem(standingBlock: Block, wallBlock: Block, settings: Settings) :
+    VerticallyAttachableBlockItem(standingBlock, wallBlock, settings, Direction.DOWN), Equipment {
     init {
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSER_BEHAVIOR)
     }

@@ -22,6 +22,7 @@
 package opekope2.avm_staff.internal
 
 import dev.architectury.injectables.annotations.ExpectPlatform
+import net.minecraft.block.Block
 import net.minecraft.item.Item
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
@@ -33,4 +34,4 @@ fun createStaffItem(settings: Item.Settings): StaffItem = throw AssertionError()
 fun createStaffRendererItem(settings: Item.Settings): Item = throw AssertionError()
 
 @ExpectPlatform
-fun createCrownItem(settings: Item.Settings): CrownItem = throw AssertionError()
+fun createCrownItem(standingBlock: Block, wallBlock: Block, settings: Item.Settings): CrownItem = throw AssertionError()

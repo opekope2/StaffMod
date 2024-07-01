@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal
 
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.client.ClientLifecycleEvent
 import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.EntityEvent
 import dev.architectury.event.events.common.InteractionEvent
@@ -26,8 +27,11 @@ import dev.architectury.event.events.common.LootEvent
 import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
+import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.TntEntityRenderer
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -41,9 +45,11 @@ import net.minecraft.loot.entry.LootTableEntry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
+import opekope2.avm_staff.api.crownOfKingOrangeBlock
 import opekope2.avm_staff.api.impactTntEntityType
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.api.staffsTag
+import opekope2.avm_staff.api.wallCrownOfKingOrangeBlock
 import opekope2.avm_staff.internal.event_handler.*
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
@@ -133,6 +139,13 @@ fun registerSmithingTableTextures() {
 
 @Environment(EnvType.CLIENT)
 fun subscribeToClientEvents() {
+    ClientLifecycleEvent.CLIENT_SETUP.register(::setupClient)
     InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(::clientAttack)
     ClientTickEvent.CLIENT_POST.register(::handleKeyBindings)
+}
+
+@Suppress("UNUSED_PARAMETER")
+@Environment(EnvType.CLIENT)
+private fun setupClient(client: MinecraftClient) {
+    RenderTypeRegistry.register(RenderLayer.getCutout(), crownOfKingOrangeBlock.get(), wallCrownOfKingOrangeBlock.get())
 }

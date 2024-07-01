@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "rotation=0": {
+      "model": "avm_staff:block/crown_of_king_orange_0"
+    },
+    "rotation=1": {
+      "model": "avm_staff:block/crown_of_king_orange_22"
+    },
+    "rotation=2": {
+      "model": "avm_staff:block/crown_of_king_orange_45"
+    },
+    "rotation=3": {
+      "model": "avm_staff:block/crown_of_king_orange_67"
+    },
+    "rotation=4": {
+      "model": "avm_staff:block/crown_of_king_orange_0",
+      "y": 90
+    },
+    "rotation=5": {
+      "model": "avm_staff:block/crown_of_king_orange_22",
+      "y": 90
+    },
+    "rotation=6": {
+      "model": "avm_staff:block/crown_of_king_orange_45",
+      "y": 90
+    },
+    "rotation=7": {
+      "model": "avm_staff:block/crown_of_king_orange_67",
+      "y": 90
+    },
+    "rotation=8": {
+      "model": "avm_staff:block/crown_of_king_orange_0",
+      "y": 180
+    },
+    "rotation=9": {
+      "model": "avm_staff:block/crown_of_king_orange_22",
+      "y": 180
+    },
+    "rotation=10": {
+      "model": "avm_staff:block/crown_of_king_orange_45",
+      "y": 180
+    },
+    "rotation=11": {
+      "model": "avm_staff:block/crown_of_king_orange_67",
+      "y": 180
+    },
+    "rotation=12": {
+      "model": "avm_staff:block/crown_of_king_orange_0",
+      "y": 270
+    },
+    "rotation=13": {
+      "model": "avm_staff:block/crown_of_king_orange_22",
+      "y": 270
+    },
+    "rotation=14": {
+      "model": "avm_staff:block/crown_of_king_orange_45",
+      "y": 270
+    },
+    "rotation=15": {
+      "model": "avm_staff:block/crown_of_king_orange_67",
+      "y": 270
+    }
+  }
+}
