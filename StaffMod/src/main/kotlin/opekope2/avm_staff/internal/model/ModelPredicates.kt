@@ -35,9 +35,13 @@ const val ROD_BOTTOM_SEED = -0b10011_10100_00001_00110_00110_00011
 @Environment(EnvType.CLIENT)
 fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicateProvider) -> Unit) {
     register(Identifier(MOD_ID, "using_item")) { stack, _, entity, _ ->
-        if (entity != null && entity.isUsingItem && ItemStack.areEqual(entity.activeItem, stack)) 1f
-        else if (stack[staffRendererOverrideComponentType.get()]?.isActive == true) 1f
-        else 0f
+        val isActiveOverride = stack[staffRendererOverrideComponentType.get()]?.isActive
+        when {
+            isActiveOverride == true -> 1f
+            isActiveOverride == false -> 0f
+            entity != null && entity.isUsingItem && ItemStack.areEqual(entity.activeItem, stack) -> 1f
+            else -> 0f
+        }
     }
     register(Identifier(MOD_ID, "head")) { _, _, _, seed ->
         if (seed == HEAD_SEED) 1f
