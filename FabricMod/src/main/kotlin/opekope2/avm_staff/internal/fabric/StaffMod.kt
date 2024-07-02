@@ -22,11 +22,13 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
+import net.minecraft.particle.SimpleParticleType
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.EntityHitResult
@@ -75,4 +77,6 @@ object StaffMod : ModInitializer, IStaffModPlatform {
 
     override fun crownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) =
         CrownItem(groundBlock, wallBlock, settings)
+
+    override fun simpleParticleType(alwaysShow: Boolean): SimpleParticleType = FabricParticleTypes.simple(alwaysShow)
 }

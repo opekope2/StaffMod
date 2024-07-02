@@ -20,6 +20,7 @@ package opekope2.avm_staff.internal.neoforge
 
 import net.minecraft.block.Block
 import net.minecraft.item.Item
+import net.minecraft.particle.SimpleParticleType
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent
@@ -63,4 +64,6 @@ object StaffMod : IStaffModPlatform {
 
     override fun crownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) =
         NeoForgeCrownItem(groundBlock, wallBlock, settings)
+
+    override fun simpleParticleType(alwaysShow: Boolean) = SimpleParticleType(alwaysShow)
 }

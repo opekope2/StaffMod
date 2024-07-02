@@ -23,7 +23,6 @@ import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
@@ -53,6 +52,7 @@ import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.internal.MinecraftUnit
+import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityInvoker
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
 
@@ -103,11 +103,8 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 
         val (vx, vy, vz) = itemToSmelt.velocity
         world.spawnEntity(ItemEntity(world, itemToSmelt.x, itemToSmelt.y, itemToSmelt.z, resultItem, vx, vy, vz))
-        AbstractFurnaceBlockEntity.dropExperience(
-            world as ServerWorld,
-            itemToSmelt.pos,
-            stackToSmelt.count,
-            recipe.experience
+        IAbstractFurnaceBlockEntityInvoker.dropExperience(
+            world as ServerWorld, itemToSmelt.pos, stackToSmelt.count, recipe.experience
         )
         itemToSmelt.discard()
 

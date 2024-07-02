@@ -65,10 +65,6 @@ dependencies {
     implementation(libs.kotlinforforge.neoforge)
 }
 
-loom {
-    accessWidenerPath = project(":StaffMod").loom.accessWidenerPath
-}
-
 tasks {
     jar {
         archiveClassifier = "dev"
@@ -106,7 +102,6 @@ tasks {
         inputFile = shadowJar.get().archiveFile
         injectAccessWidener = true
         archiveClassifier = null
-        atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
 
         from(rootDir.resolve("COPYING"))
         from(rootDir.resolve("COPYING.LESSER"))

@@ -38,7 +38,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.entry.LootTableEntry
@@ -54,6 +53,7 @@ import opekope2.avm_staff.internal.event_handler.*
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.contains
 import opekope2.avm_staff.util.itemInStaff
@@ -134,7 +134,7 @@ fun registerClientContent() {
 fun registerSmithingTableTextures() {
     StaffInfusionSmithingRecipeTextures.register(
         Identifier(MOD_ID, "item/smithing_table/empty_slot_royal_staff"),
-        SmithingTemplateItem.EMPTY_SLOT_REDSTONE_DUST_TEXTURE
+        ISmithingTemplateItemAccessor.emptySlotRedstoneDustTexture()
     )
 }
 

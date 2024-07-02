@@ -19,7 +19,6 @@
 package opekope2.avm_staff.internal.staff_handler
 
 import dev.architectury.event.EventResult
-import net.minecraft.block.AnvilBlock
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
@@ -37,6 +36,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.mixin.IAnvilBlockAccessor
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.equipTime
 import opekope2.avm_staff.util.itemStackInStaff
@@ -87,8 +87,8 @@ class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
     }
 
     private fun aoeAttack(world: World, attacker: LivingEntity, target: Entity, fallDistance: Float) {
-        val cappedFallDistance = floor(fallDistance * AnvilBlock.FALLING_BLOCK_ENTITY_DAMAGE_MULTIPLIER)
-            .coerceAtMost(AnvilBlock.FALLING_BLOCK_ENTITY_MAX_DAMAGE.toFloat())
+        val cappedFallDistance = floor(fallDistance * IAnvilBlockAccessor.fallingBlockEntityDamageMultiplier())
+            .coerceAtMost(IAnvilBlockAccessor.fallingBlockEntityMaxDamage().toFloat())
         val cooldownProgress =
             if (attacker is PlayerEntity) attacker.getAttackCooldownProgress(0f)
             else 1f

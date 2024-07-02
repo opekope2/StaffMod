@@ -54,6 +54,7 @@ import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.api.staff.StaffItemComponent
 import opekope2.avm_staff.api.staff.StaffRendererOverrideComponent
 import opekope2.avm_staff.internal.MinecraftUnit
+import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.mutableItemStackInStaff
 
@@ -140,12 +141,12 @@ val crownOfKingOrangeItem: RegistrySupplier<CrownItem> = ITEMS.register("crown_o
 val staffInfusionSmithingTemplateItem: RegistrySupplier<Item> = ITEMS.register("staff_infusion_smithing_template") {
     SmithingTemplateItem(
         Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.applies_to")
-            .formatted(SmithingTemplateItem.DESCRIPTION_FORMATTING),
-        SmithingTemplateItem.ARMOR_TRIM_INGREDIENTS_TEXT,
+            .formatted(ISmithingTemplateItemAccessor.descriptionFormatting()),
+        ISmithingTemplateItemAccessor.armorTrimIngredientsText(),
         Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.title")
-            .formatted(SmithingTemplateItem.TITLE_FORMATTING),
+            .formatted(ISmithingTemplateItemAccessor.titleFormatting()),
         Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.base_slot_description"),
-        SmithingTemplateItem.ARMOR_TRIM_ADDITIONS_SLOT_DESCRIPTION_TEXT,
+        ISmithingTemplateItemAccessor.armorTrimAdditionsSlotDescriptionText(),
         StaffInfusionSmithingRecipeTextures.baseSlotTextures,
         StaffInfusionSmithingRecipeTextures.additionsSlotTextures
     )
@@ -186,7 +187,7 @@ val impactTntEntityType: RegistrySupplier<EntityType<ImpactTntEntity>> = ENTITY_
  * @see ParticleManager.addParticle
  */
 val flamethrowerParticleType: RegistrySupplier<SimpleParticleType> =
-    PARTICLE_TYPES.register("flame") { SimpleParticleType(false) }
+    PARTICLE_TYPES.register("flame") { IStaffModPlatform.simpleParticleType(false) }
 
 /**
  * Particle registered as `avm_staff:soul_fire_flame`.
@@ -194,7 +195,7 @@ val flamethrowerParticleType: RegistrySupplier<SimpleParticleType> =
  * @see ParticleManager.addParticle
  */
 val soulFlamethrowerParticleType: RegistrySupplier<SimpleParticleType> =
-    PARTICLE_TYPES.register("soul_fire_flame") { SimpleParticleType(false) }
+    PARTICLE_TYPES.register("soul_fire_flame") { IStaffModPlatform.simpleParticleType(false) }
 
 /**
  * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.

@@ -36,7 +36,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.mixin.IMinecraftClientMixin
+import opekope2.avm_staff.mixin.IMinecraftClientAccessor
 import opekope2.avm_staff.util.addDefault
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
@@ -56,7 +56,7 @@ class WoolHandler(private val woolBlockItem: BlockItem, private val carpetBlockI
     ): ActionResult {
         if (world.isClient && user is ClientPlayerEntity) {
             // Allow fast block placement
-            (MinecraftClient.getInstance() as IMinecraftClientMixin).setItemUseCooldown(0)
+            (MinecraftClient.getInstance() as IMinecraftClientAccessor).setItemUseCooldown(0)
         }
 
         val originalState = world.getBlockState(target)

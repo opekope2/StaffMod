@@ -42,10 +42,6 @@ dependencies {
     }
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/avm_staff.accesswidener")
-}
-
 tasks {
     dokkaHtml {
         moduleName = "Staff Mod"
