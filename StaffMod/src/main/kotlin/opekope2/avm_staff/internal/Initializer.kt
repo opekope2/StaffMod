@@ -96,6 +96,7 @@ fun subscribeToEvents() {
     LootEvent.MODIFY_LOOT_TABLE.register(::modifyLootTables)
     EntityEvent.LIVING_DEATH.register(::stopUsingStaffOnPlayerDeath)
     PlayerEvent.DROP_ITEM.register(::stopUsingStaffWhenDropped)
+    PlayerEvent.ATTACK_ENTITY.register(::tryAngerPiglins)
 }
 
 @Suppress("UNUSED_PARAMETER")

@@ -21,12 +21,20 @@ package opekope2.avm_staff.internal.event_handler
 import dev.architectury.event.EventResult
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.mob.AbstractPiglinEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Hand
+import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
+import net.minecraft.world.World
+import opekope2.avm_staff.api.crownOfKingOrangeItem
 import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
+import opekope2.avm_staff.mixin.IPiglinBrainInvoker
 import opekope2.avm_staff.util.contains
 import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandler
@@ -39,6 +47,26 @@ fun attackBlock(player: PlayerEntity, hand: Hand, target: BlockPos, direction: D
     val staffHandler = itemInStaff.staffHandler ?: return EventResult.pass()
 
     return staffHandler.attackBlock(staffStack, player.entityWorld, player, target, direction, hand)
+}
+
+private const val maxAngerDistance = 16.0
+
+fun tryAngerPiglins(
+    player: PlayerEntity, world: World, target: Entity, hand: Hand, hit: EntityHitResult?
+): EventResult {
+    if (world.isClient) return EventResult.pass()
+    if (target !is LivingEntity) return EventResult.pass()
+    if (player.getStackInHand(hand) !in staffsTag) return EventResult.pass()
+    if (!player.armorItems.any { it.isOf(crownOfKingOrangeItem.get()) }) return EventResult.pass()
+
+    val box = Box.of(player.pos, 2 * maxAngerDistance, 2 * maxAngerDistance, 2 * maxAngerDistance)
+    world.getEntitiesByClass(AbstractPiglinEntity::class.java, box) {
+        it !== target && it.squaredDistanceTo(player) <= maxAngerDistance * maxAngerDistance
+    }.forEach {
+        IPiglinBrainInvoker.becomeAngryWith(it, target)
+    }
+
+    return EventResult.pass()
 }
 
 @Environment(EnvType.CLIENT)
