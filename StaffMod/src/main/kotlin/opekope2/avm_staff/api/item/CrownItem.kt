@@ -36,9 +36,13 @@ import net.minecraft.world.World
 
 /**
  * A crown, which makes piglins neutral when worn, just like gold armor.
+ *
+ * @param groundBlock   The crown block placed on the ground
+ * @param wallBlock     The crown block placed on the wall
+ * @param settings      The item settings to pass to the parent constructor
  */
-open class CrownItem(standingBlock: Block, wallBlock: Block, settings: Settings) :
-    VerticallyAttachableBlockItem(standingBlock, wallBlock, settings, Direction.DOWN), Equipment {
+open class CrownItem(groundBlock: Block, wallBlock: Block, settings: Settings) :
+    VerticallyAttachableBlockItem(groundBlock, wallBlock, settings, Direction.DOWN), Equipment {
     init {
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSER_BEHAVIOR)
     }

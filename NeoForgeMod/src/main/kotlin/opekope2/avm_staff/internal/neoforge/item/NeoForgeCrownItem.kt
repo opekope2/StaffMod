@@ -25,8 +25,8 @@ import net.minecraft.item.ItemStack
 import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.item.CrownItem
 
-class NeoForgeCrownItem(standingBlock: Block, wallBlock: Block, settings: Item.Settings) :
-    CrownItem(standingBlock, wallBlock, settings), IItemExtension {
+class NeoForgeCrownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) :
+    CrownItem(groundBlock, wallBlock, settings), IItemExtension {
     override fun isRepairable(arg: ItemStack) = false
 
     override fun makesPiglinsNeutral(stack: ItemStack, wearer: LivingEntity) = stack.item is CrownItem
