@@ -16,22 +16,13 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("StaffModPlatform")
-@file: Suppress("UNUSED_PARAMETER")
+@file: JvmName("StaffModPlatformHolder")
 
 package opekope2.avm_staff.internal
 
 import dev.architectury.injectables.annotations.ExpectPlatform
-import net.minecraft.block.Block
-import net.minecraft.item.Item
-import opekope2.avm_staff.api.item.CrownItem
-import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.api.IStaffModPlatform
 
-@ExpectPlatform
-fun createStaffItem(settings: Item.Settings): StaffItem = throw AssertionError()
-
-@ExpectPlatform
-fun createStaffRendererItem(settings: Item.Settings): Item = throw AssertionError()
-
-@ExpectPlatform
-fun createCrownItem(standingBlock: Block, wallBlock: Block, settings: Item.Settings): CrownItem = throw AssertionError()
+internal val staffModPlatform: IStaffModPlatform
+    @ExpectPlatform
+    get() = throw AssertionError()

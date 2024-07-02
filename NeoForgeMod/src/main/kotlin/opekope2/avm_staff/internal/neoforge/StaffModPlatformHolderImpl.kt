@@ -16,22 +16,12 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("StaffModPlatformImpl")
+@file: JvmName("StaffModPlatformHolderImpl")
 @file: Suppress("unused")
 
 package opekope2.avm_staff.internal.neoforge
 
-import net.minecraft.block.Block
-import net.minecraft.item.Item
-import opekope2.avm_staff.api.item.CrownItem
-import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.internal.neoforge.item.NeoForgeCrownItem
-import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffItem
-import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffRendererItem
+import opekope2.avm_staff.api.IStaffModPlatform
 
-fun createStaffItem(settings: Item.Settings): StaffItem = NeoForgeStaffItem(settings)
-
-fun createStaffRendererItem(settings: Item.Settings): Item = NeoForgeStaffRendererItem(settings)
-
-fun createCrownItem(standingBlock: Block, wallBlock: Block, settings: Item.Settings): CrownItem =
-    NeoForgeCrownItem(standingBlock, wallBlock, settings)
+val staffModPlatform: IStaffModPlatform
+    get() = StaffMod

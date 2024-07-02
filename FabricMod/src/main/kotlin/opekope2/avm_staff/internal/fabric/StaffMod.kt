@@ -18,21 +18,30 @@
 
 package opekope2.avm_staff.internal.fabric
 
+import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
+import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.block.Block
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
+import opekope2.avm_staff.api.IStaffModPlatform
+import opekope2.avm_staff.api.item.CrownItem
+import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.api.staffsTag
+import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
 import opekope2.avm_staff.util.contains
 import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandler
 
 @Suppress("unused")
-object StaffMod : ModInitializer {
+object StaffMod : ModInitializer, IStaffModPlatform {
     override fun onInitialize() {
         AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
     }
@@ -55,4 +64,15 @@ object StaffMod : ModInitializer {
         return if (result.interruptsFurtherEvaluation()) ActionResult.SUCCESS
         else ActionResult.PASS
     }
+
+    override fun staffItem(settings: Item.Settings) = FabricStaffItem(settings)
+
+    override fun itemWithStaffRenderer(settings: Item.Settings) = Item(settings).also { item ->
+        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
+            BuiltinItemRendererRegistry.INSTANCE.register(item, StaffRenderer::renderStaff)
+        }
+    }
+
+    override fun crownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) =
+        CrownItem(groundBlock, wallBlock, settings)
 }

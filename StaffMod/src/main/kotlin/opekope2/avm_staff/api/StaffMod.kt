@@ -54,9 +54,6 @@ import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.api.staff.StaffItemComponent
 import opekope2.avm_staff.api.staff.StaffRendererOverrideComponent
 import opekope2.avm_staff.internal.MinecraftUnit
-import opekope2.avm_staff.internal.createCrownItem
-import opekope2.avm_staff.internal.createStaffItem
-import opekope2.avm_staff.internal.createStaffRendererItem
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.mutableItemStackInStaff
 
@@ -104,14 +101,16 @@ val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_roya
  * Item registered as `avm_staff:faint_royal_staff`.
  */
 val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff") {
-    createStaffRendererItem(Item.Settings().maxCount(1).rarity(Rarity.RARE).`arch$tab`(staffModItemGroup))
+    IStaffModPlatform.itemWithStaffRenderer(
+        Item.Settings().maxCount(1).rarity(Rarity.RARE).`arch$tab`(staffModItemGroup)
+    )
 }
 
 /**
  * Item registered as `avm_staff:royal_staff`.
  */
 val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") {
-    createStaffItem(
+    IStaffModPlatform.staffItem(
         Item.Settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Default.ATTRIBUTE_MODIFIERS)
             .`arch$tab`(staffModItemGroup)
     )
@@ -128,7 +127,7 @@ val royalStaffIngredientItem: RegistrySupplier<Item> = ITEMS.register("royal_sta
  * Item registered as `avm_staff:crown_of_king_orange`.
  */
 val crownOfKingOrangeItem: RegistrySupplier<CrownItem> = ITEMS.register("crown_of_king_orange") {
-    createCrownItem(
+    IStaffModPlatform.crownItem(
         crownOfKingOrangeBlock.get(),
         wallCrownOfKingOrangeBlock.get(),
         Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).`arch$tab`(staffModItemGroup)
