@@ -47,11 +47,11 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import opekope2.avm_staff.api.furnaceLitComponentType
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
+import opekope2.avm_staff.api.staff.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.internal.MinecraftUnit
+import opekope2.avm_staff.api.staffFurnaceDataComponentType
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityInvoker
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
@@ -71,10 +71,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         user: PlayerEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        staffStack[furnaceLitComponentType.get()] = MinecraftUnit.INSTANCE
-        if (!world.isClient) {
-            user.activeItemTempData = BurnTimeTempData(0)
-        }
+        staffStack[staffFurnaceDataComponentType.get()] = StaffFurnaceDataComponent(0)
 
         user.setCurrentHand(hand)
         return TypedActionResult.consume(staffStack)
@@ -91,11 +88,11 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             return
         }
 
-        val burnTimeData = user.activeItemTempData as BurnTimeTempData
-        burnTimeData.burnTime++
+        val furnaceData = staffStack[staffFurnaceDataComponentType.get()]!!
+        furnaceData.serverBurnTicks++
 
         val stackToSmelt = itemToSmelt?.stack ?: return
-        if (burnTimeData.burnTime < stackToSmelt.count) return
+        if (furnaceData.serverBurnTicks < stackToSmelt.count) return
 
         val inventory = ItemEntityInventory(itemToSmelt)
         val recipe = world.recipeManager.getFirstMatch(recipeType, inventory, world).getOrNull()?.value ?: return
@@ -108,7 +105,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         )
         itemToSmelt.discard()
 
-        burnTimeData.burnTime -= stackToSmelt.count
+        furnaceData.serverBurnTicks -= stackToSmelt.count
     }
 
     private fun findItemToSmelt(world: World, smeltingPosition: Vec3d): ItemEntity? {
@@ -134,32 +131,12 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        staffStack.remove(furnaceLitComponentType.get())
-        if (!world.isClient) {
-            user.activeItemTempData = null
-        }
+        staffStack.remove(staffFurnaceDataComponentType.get())
     }
 
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
         onStoppedUsing(staffStack, world, user, 0)
         return staffStack
-    }
-
-    override fun allowComponentsUpdateAnimation(
-        oldStaffStack: ItemStack,
-        newStaffStack: ItemStack,
-        player: PlayerEntity,
-        hand: Hand
-    ): Boolean {
-        return false
-    }
-
-    override fun allowReequipAnimation(
-        oldStaffStack: ItemStack,
-        newStaffStack: ItemStack,
-        selectedSlotChanged: Boolean
-    ): Boolean {
-        return selectedSlotChanged
     }
 
     @Environment(EnvType.CLIENT)
@@ -181,15 +158,12 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             overlay: Int
         ) {
             val renderer =
-                if (furnaceLitComponentType.get() in staffStack) litRenderer
+                if (staffFurnaceDataComponentType.get() in staffStack) litRenderer
                 else unlitRenderer
 
             renderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
         }
     }
-
-    @Environment(EnvType.CLIENT)
-    private data class BurnTimeTempData(var burnTime: Int)
 
     private class ItemEntityInventory(private val itemEntity: ItemEntity) : SingleStackInventory {
         override fun getStack(): ItemStack = itemEntity.stack

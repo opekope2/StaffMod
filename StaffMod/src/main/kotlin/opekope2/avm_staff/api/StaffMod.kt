@@ -49,10 +49,7 @@ import opekope2.avm_staff.api.block.WallCrownBlock
 import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
-import opekope2.avm_staff.api.staff.StaffItemComponent
-import opekope2.avm_staff.api.staff.StaffRendererOverrideComponent
+import opekope2.avm_staff.api.staff.*
 import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
@@ -220,13 +217,12 @@ val rocketModeComponentType: RegistrySupplier<DataComponentType<MinecraftUnit>> 
     }
 
 /**
- * Data component registered as `avm_staff:furnace_lit`. Stores if a furnace staff is lit. Only used for rendering.
+ * Data component registered as `avm_staff:furnace_data`. If this is present, the furnace is lit.
  */
-val furnaceLitComponentType: RegistrySupplier<DataComponentType<MinecraftUnit>> =
-    DATA_COMPONENT_TYPES.register("furnace_lit") {
-        DataComponentType.builder<MinecraftUnit>()
-            .codec(Codec.unit(MinecraftUnit.INSTANCE))
-            .packetCodec(PacketCodec.unit(MinecraftUnit.INSTANCE))
+val staffFurnaceDataComponentType: RegistrySupplier<DataComponentType<StaffFurnaceDataComponent>> =
+    DATA_COMPONENT_TYPES.register("furnace_data") {
+        DataComponentType.builder<StaffFurnaceDataComponent>()
+            .packetCodec(StaffFurnaceDataComponent.PACKET_CODEC)
             .build()
     }
 
