@@ -27,11 +27,9 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
+import opekope2.avm_staff.api.staff.StaffRendererPartComponent
 import opekope2.avm_staff.api.staffRendererOverrideComponentType
-import opekope2.avm_staff.internal.model.HEAD_SEED
-import opekope2.avm_staff.internal.model.ITEM_SEED
-import opekope2.avm_staff.internal.model.ROD_BOTTOM_SEED
-import opekope2.avm_staff.internal.model.ROD_TOP_SEED
+import opekope2.avm_staff.api.staffRendererPartComponentType
 import opekope2.avm_staff.util.itemStackInStaff
 import opekope2.avm_staff.util.push
 
@@ -89,7 +87,7 @@ object StaffRenderer {
             // Head
             push {
                 translate(0f, 16f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
 
                 // Item
                 staffStack.itemStackInStaff?.let { itemInStaff ->
@@ -100,13 +98,13 @@ object StaffRenderer {
             // Rod (top)
             push {
                 translate(0f, 2f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_TOP_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.ROD_TOP)
             }
 
             // Rod (bottom)
             push {
                 translate(0f, -12f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_BOTTOM_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.ROD_BOTTOM)
             }
         }
     }
@@ -124,7 +122,7 @@ object StaffRenderer {
 
             // Head
             push {
-                renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
 
                 // Item
                 staffStack.itemStackInStaff?.let { itemInStaff ->
@@ -148,7 +146,7 @@ object StaffRenderer {
             // Head
             push {
                 translate(0f, 9f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
 
                 // Item
                 staffStack.itemStackInStaff?.let { itemInStaff ->
@@ -159,7 +157,7 @@ object StaffRenderer {
             // Rod (top)
             push {
                 translate(0f, -5f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_TOP_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.ROD_TOP)
             }
         }
     }
@@ -174,7 +172,7 @@ object StaffRenderer {
         vertexConsumers: VertexConsumerProvider
     ) {
         matrices.push {
-            safeGetModel(staffStack, ITEM_SEED).transformation.fixed.apply(false, this)
+            safeGetModel(staffStack, StaffRendererPartComponent.ITEM).transformation.fixed.apply(false, this)
 
             val staffItemRenderer = IStaffItemRenderer[Registries.ITEM.getId(itemStackInStaff.item)]
             if (staffItemRenderer != null) {
@@ -194,21 +192,23 @@ object StaffRenderer {
         vertexConsumers: VertexConsumerProvider,
         light: Int,
         overlay: Int,
-        partSeed: Int
+        part: StaffRendererPartComponent
     ) {
         val itemRenderer = MinecraftClient.getInstance().itemRenderer
 
-        val model = safeGetModel(staffStack, partSeed)
+        val model = safeGetModel(staffStack, part)
 
         itemRenderer.renderItem(
             staffStack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
         )
     }
 
-    private fun safeGetModel(staffStack: ItemStack, partSeed: Int): BakedModel {
+    private fun safeGetModel(staffStack: ItemStack, part: StaffRendererPartComponent): BakedModel {
         val itemRenderer = MinecraftClient.getInstance().itemRenderer
 
-        val model = itemRenderer.getModel(staffStack, null, null, partSeed)
+        staffStack[staffRendererPartComponentType.get()] = part
+        val model = itemRenderer.getModel(staffStack, null, null, 0)
+        staffStack.remove(staffRendererPartComponentType.get())
 
         // Prevent StackOverflowError if an override is missing
         return if (!model.isBuiltin) model

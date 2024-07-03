@@ -23,13 +23,10 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.item.ClampedModelPredicateProvider
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
+import opekope2.avm_staff.api.staff.StaffRendererPartComponent
 import opekope2.avm_staff.api.staffRendererOverrideComponentType
+import opekope2.avm_staff.api.staffRendererPartComponentType
 import opekope2.avm_staff.util.MOD_ID
-
-const val HEAD_SEED = -0b10011_10100_00001_00110_00110_00000
-const val ITEM_SEED = -0b10011_10100_00001_00110_00110_00001
-const val ROD_TOP_SEED = -0b10011_10100_00001_00110_00110_00010
-const val ROD_BOTTOM_SEED = -0b10011_10100_00001_00110_00110_00011
 
 // ModelPredicateProviderRegistry.register is private in common project
 @Environment(EnvType.CLIENT)
@@ -43,20 +40,13 @@ fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicate
             else -> 0f
         }
     }
-    register(Identifier(MOD_ID, "head")) { _, _, _, seed ->
-        if (seed == HEAD_SEED) 1f
-        else 0f
-    }
-    register(Identifier(MOD_ID, "item")) { _, _, _, seed ->
-        if (seed == ITEM_SEED) 1f
-        else 0f
-    }
-    register(Identifier(MOD_ID, "rod_top")) { _, _, _, seed ->
-        if (seed == ROD_TOP_SEED) 1f
-        else 0f
-    }
-    register(Identifier(MOD_ID, "rod_bottom")) { _, _, _, seed ->
-        if (seed == ROD_BOTTOM_SEED) 1f
-        else 0f
-    }
+    register(Identifier(MOD_ID, "head"), matchStaffRendererPart(StaffRendererPartComponent.HEAD))
+    register(Identifier(MOD_ID, "item"), matchStaffRendererPart(StaffRendererPartComponent.ITEM))
+    register(Identifier(MOD_ID, "rod_top"), matchStaffRendererPart(StaffRendererPartComponent.ROD_TOP))
+    register(Identifier(MOD_ID, "rod_bottom"), matchStaffRendererPart(StaffRendererPartComponent.ROD_BOTTOM))
+}
+
+private fun matchStaffRendererPart(part: StaffRendererPartComponent) = ClampedModelPredicateProvider { stack, _, _, _ ->
+    if (stack[staffRendererPartComponentType.get()] == part) 1f
+    else 0f
 }

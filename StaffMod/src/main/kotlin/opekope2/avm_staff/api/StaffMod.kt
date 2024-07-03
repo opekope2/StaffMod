@@ -239,6 +239,16 @@ val staffRendererOverrideComponentType: RegistrySupplier<DataComponentType<Staff
     }
 
 /**
+ * Data component registered as `avm_staff:staff_renderer_part`. Only used for rendering.
+ */
+val staffRendererPartComponentType: RegistrySupplier<DataComponentType<StaffRendererPartComponent>> =
+    DATA_COMPONENT_TYPES.register("staff_renderer_part") {
+        DataComponentType.builder<StaffRendererPartComponent>()
+            .packetCodec(StaffRendererPartComponent.PACKET_CODEC)
+            .build()
+    }
+
+/**
  * @suppress
  */
 @JvmSynthetic
