@@ -15,7 +15,6 @@
     "IAbstractFurnaceBlockEntityInvoker",
     "IAnvilBlockAccessor",
     "IPiglinBrainInvoker",
-    "ISmithingTemplateItemAccessor",
-    "LivingEntityMixin"
+    "ISmithingTemplateItemAccessor"
   ]
 }
