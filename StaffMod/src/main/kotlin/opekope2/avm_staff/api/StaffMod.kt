@@ -21,7 +21,6 @@
 
 package opekope2.avm_staff.api
 
-import com.mojang.serialization.Codec
 import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
@@ -211,7 +210,6 @@ val staffItemComponentType: RegistrySupplier<DataComponentType<StaffItemComponen
 val rocketModeComponentType: RegistrySupplier<DataComponentType<MinecraftUnit>> =
     DATA_COMPONENT_TYPES.register("rocket_mode") {
         DataComponentType.builder<MinecraftUnit>()
-            .codec(Codec.unit(MinecraftUnit.INSTANCE))
             .packetCodec(PacketCodec.unit(MinecraftUnit.INSTANCE))
             .build()
     }
