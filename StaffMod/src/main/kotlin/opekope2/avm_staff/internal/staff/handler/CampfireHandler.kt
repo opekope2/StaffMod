@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_handler
+package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.TickEvent

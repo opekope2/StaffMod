@@ -30,7 +30,7 @@ import opekope2.avm_staff.internal.neoforge.item.NeoForgeCrownItem
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffItem
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffRendererItem
 import opekope2.avm_staff.internal.registerContent
-import opekope2.avm_staff.internal.staff_handler.registerVanillaStaffHandlers
+import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffHandlers
 import opekope2.avm_staff.internal.stopUsingStaffWhenDropped
 import opekope2.avm_staff.internal.subscribeToEvents
 import opekope2.avm_staff.util.MOD_ID

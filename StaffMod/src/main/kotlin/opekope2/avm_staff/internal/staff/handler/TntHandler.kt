@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_handler
+package opekope2.avm_staff.internal.staff.handler
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity

@@ -16,33 +16,28 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.staff_handler
+package opekope2.avm_staff.internal.staff.handler
 
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.BoneMealItem
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.tag.BlockTags
+import net.minecraft.item.Items
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import net.minecraft.world.WorldEvents
+import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.mixin.IMinecraftClientAccessor
 import opekope2.avm_staff.util.addDefault
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
-import opekope2.avm_staff.util.mutableItemStackInStaff
 
-class WoolHandler(private val woolBlockItem: BlockItem, private val carpetBlockItem: BlockItem) : StaffHandler() {
+class BoneBlockHandler : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
         get() = ATTRIBUTE_MODIFIERS
 
@@ -54,36 +49,33 @@ class WoolHandler(private val woolBlockItem: BlockItem, private val carpetBlockI
         side: Direction,
         hand: Hand
     ): ActionResult {
-        if (world.isClient && user is ClientPlayerEntity) {
-            // Allow fast block placement
-            (MinecraftClient.getInstance() as IMinecraftClientAccessor).setItemUseCooldown(0)
+        if (BoneMealItem.useOnFertilizable(Items.BONE_MEAL.defaultStack, world, target)) {
+            // TODO fertilize area when enchanted
+            if (!world.isClient) {
+                user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
+                world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, target, 15)
+            }
+
+            return ActionResult.SUCCESS
         }
 
-        val originalState = world.getBlockState(target)
-        if (originalState.isIn(BlockTags.WOOL) || originalState.isIn(BlockTags.WOOL_CARPETS)) return ActionResult.FAIL
+        val targetState = world.getBlockState(target)
+        if (!targetState.isSideSolidFullSquare(world, target, side)) return ActionResult.PASS
 
-        val itemToPlace = if (side == Direction.UP) carpetBlockItem else woolBlockItem
-        val woolPlaceContext = WoolPlacementContext(
-            world,
-            user as? PlayerEntity,
-            hand,
-            staffStack.mutableItemStackInStaff!!,
-            BlockHitResult(target.toCenterPos(), side, target, false)
-        )
-        return itemToPlace.place(woolPlaceContext)
+        val neighborOnUsedSide = target.offset(side)
+        if (!BoneMealItem.useOnGround(staffStack.copy(), world, neighborOnUsedSide, side)) return ActionResult.PASS
+
+        if (!world.isClient) {
+            user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
+            world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, neighborOnUsedSide, 15)
+        }
+
+        return ActionResult.SUCCESS
     }
 
-    private class WoolPlacementContext(
-        world: World,
-        playerEntity: PlayerEntity?,
-        hand: Hand,
-        itemStack: ItemStack,
-        blockHitResult: BlockHitResult
-    ) : ItemPlacementContext(world, playerEntity, hand, itemStack, blockHitResult)
-
-    private companion object {
+    companion object {
         private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(2.0), AttributeModifierSlot.MAINHAND)
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(5.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
             .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
             .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)

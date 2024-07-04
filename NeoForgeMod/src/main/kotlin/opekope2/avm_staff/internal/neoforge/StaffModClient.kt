@@ -30,7 +30,7 @@ import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
 import opekope2.avm_staff.internal.registerClientContent
 import opekope2.avm_staff.internal.registerSmithingTableTextures
-import opekope2.avm_staff.internal.staff_handler.registerVanillaStaffItemRenderers
+import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffItemRenderers
 import opekope2.avm_staff.internal.subscribeToClientEvents
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
