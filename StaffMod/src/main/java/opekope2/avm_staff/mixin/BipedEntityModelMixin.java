@@ -22,7 +22,7 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
 import opekope2.avm_staff.api.StaffMod;
-import opekope2.avm_staff.api.staff.StaffRendererOverrideComponent;
+import opekope2.avm_staff.api.component.StaffRendererOverrideComponent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.api.staff
+package opekope2.avm_staff.api.component
 
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec

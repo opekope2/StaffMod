@@ -45,10 +45,15 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import opekope2.avm_staff.api.block.CrownBlock
 import opekope2.avm_staff.api.block.WallCrownBlock
+import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
+import opekope2.avm_staff.api.component.StaffItemComponent
+import opekope2.avm_staff.api.component.StaffRendererOverrideComponent
+import opekope2.avm_staff.api.component.StaffRendererPartComponent
 import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.api.staff.*
+import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID

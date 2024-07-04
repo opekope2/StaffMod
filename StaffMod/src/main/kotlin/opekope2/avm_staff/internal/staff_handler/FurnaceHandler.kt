@@ -47,9 +47,9 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
-import opekope2.avm_staff.api.staff.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.api.staffFurnaceDataComponentType
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityInvoker

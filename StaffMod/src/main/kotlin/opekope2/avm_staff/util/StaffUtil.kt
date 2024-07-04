@@ -28,8 +28,8 @@ import net.minecraft.registry.Registries
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
+import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.api.staff.StaffItemComponent
 import opekope2.avm_staff.api.staffItemComponentType
 
 /**

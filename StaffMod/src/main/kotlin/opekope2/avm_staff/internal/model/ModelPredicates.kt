@@ -23,7 +23,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.item.ClampedModelPredicateProvider
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.staff.StaffRendererPartComponent
+import opekope2.avm_staff.api.component.StaffRendererPartComponent
 import opekope2.avm_staff.api.staffRendererOverrideComponentType
 import opekope2.avm_staff.api.staffRendererPartComponentType
 import opekope2.avm_staff.util.MOD_ID

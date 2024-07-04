@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.api.staff
+package opekope2.avm_staff.api.component
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
