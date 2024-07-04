@@ -27,12 +27,13 @@ import opekope2.avm_staff.api.staff.StaffRendererPartComponent
 import opekope2.avm_staff.api.staffRendererOverrideComponentType
 import opekope2.avm_staff.api.staffRendererPartComponentType
 import opekope2.avm_staff.util.MOD_ID
+import kotlin.jvm.optionals.getOrNull
 
 // ModelPredicateProviderRegistry.register is private in common project
 @Environment(EnvType.CLIENT)
 fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicateProvider) -> Unit) {
     register(Identifier(MOD_ID, "using_item")) { stack, _, entity, _ ->
-        val isActiveOverride = stack[staffRendererOverrideComponentType.get()]?.isActive
+        val isActiveOverride = stack[staffRendererOverrideComponentType.get()]?.isActive?.getOrNull()
         when {
             isActiveOverride == true -> 1f
             isActiveOverride == false -> 0f

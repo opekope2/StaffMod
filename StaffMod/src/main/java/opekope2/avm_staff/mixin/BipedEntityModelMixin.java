@@ -70,9 +70,9 @@ public abstract class BipedEntityModelMixin {
     @Unique
     private boolean staffMod$pointForward(BipedEntityModel.ArmPose armPose, LivingEntity entity) {
         if (armPose != BipedEntityModel.ArmPose.ITEM) return false;
-        if (entity.getActiveItem().isIn(StaffMod.getStaffsTag())) return true;
+        if (!entity.getActiveItem().isIn(StaffMod.getStaffsTag())) return false;
 
-        StaffRendererOverrideComponent rendererOverride = entity.getMainHandStack().get(StaffMod.getStaffRendererOverrideComponentType().get());
-        return rendererOverride != null && rendererOverride.isActive();
+        StaffRendererOverrideComponent rendererOverride = entity.getActiveItem().get(StaffMod.getStaffRendererOverrideComponentType().get());
+        return rendererOverride == null || rendererOverride.isActive().orElse(true);
     }
 }

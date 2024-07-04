@@ -20,40 +20,62 @@ package opekope2.avm_staff.api.staff
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.block.BlockState
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.entity.LivingEntity
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
+import java.util.*
 
 /**
  * Data component to override the behavior of a [StaffRenderer].
  *
  * @param renderMode    The display transform of the model to use
  * @param isActive      The item should be treated as if it was [LivingEntity.getActiveItem]
+ * @param blockState    The blocks state to render in the staff
  */
-data class StaffRendererOverrideComponent(val renderMode: ModelTransformationMode, val isActive: Boolean) {
+data class StaffRendererOverrideComponent(
+    val renderMode: Optional<ModelTransformationMode>,
+    val isActive: Optional<Boolean>,
+    val blockState: Optional<BlockState>
+) {
     private constructor(buf: RegistryByteBuf) : this(
-        buf.readEnumConstant(ModelTransformationMode::class.java),
-        buf.readBoolean()
+        buf.readOptional {
+            it.readEnumConstant(ModelTransformationMode::class.java)
+        },
+        buf.readOptional(PacketByteBuf::readBoolean),
+        buf.readOptional {
+            it.decodeAsJson(BlockState.CODEC)
+        }
     )
 
     private fun encode(buf: RegistryByteBuf) {
-        buf.writeEnumConstant(renderMode)
-        buf.writeBoolean(isActive)
+        buf.writeOptional(renderMode, PacketByteBuf::writeEnumConstant)
+        buf.writeOptional(isActive, PacketByteBuf::writeBoolean)
+        buf.writeOptional(blockState) { buffer, state ->
+            buffer.encodeAsJson(BlockState.CODEC, state)
+        }
     }
 
     companion object {
+        /**
+         * [Codec] for [StaffRendererOverrideComponent].
+         */
         @JvmField
         val CODEC: Codec<StaffRendererOverrideComponent> = RecordCodecBuilder.create { instance ->
             instance.group(
-                ModelTransformationMode.CODEC.fieldOf("renderMode")
+                ModelTransformationMode.CODEC.optionalFieldOf("renderMode")
                     .forGetter(StaffRendererOverrideComponent::renderMode),
-                Codec.BOOL.fieldOf("pointForward")
-                    .forGetter(StaffRendererOverrideComponent::isActive)
+                Codec.BOOL.optionalFieldOf("pointForward").forGetter(StaffRendererOverrideComponent::isActive),
+                BlockState.CODEC.optionalFieldOf("blockState").forGetter(StaffRendererOverrideComponent::blockState)
             ).apply(instance, ::StaffRendererOverrideComponent)
         }
 
+        /**
+         * [PacketCodec] for [StaffRendererOverrideComponent].
+         */
         @JvmField
         val PACKET_CODEC: PacketCodec<RegistryByteBuf, StaffRendererOverrideComponent> =
             PacketCodec.of(StaffRendererOverrideComponent::encode, ::StaffRendererOverrideComponent)

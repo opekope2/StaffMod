@@ -32,6 +32,7 @@ import opekope2.avm_staff.api.staffRendererOverrideComponentType
 import opekope2.avm_staff.api.staffRendererPartComponentType
 import opekope2.avm_staff.util.itemStackInStaff
 import opekope2.avm_staff.util.push
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Builtin model item renderer for staffs.
@@ -56,26 +57,26 @@ object StaffRenderer {
         light: Int,
         overlay: Int
     ) {
-        val renderMode = staffStack[staffRendererOverrideComponentType.get()]?.renderMode ?: mode
+        val renderMode = staffStack[staffRendererOverrideComponentType.get()]?.renderMode?.getOrNull() ?: mode
 
         when (renderMode) {
             ModelTransformationMode.GUI -> renderInventoryStaff(
-                renderMode, staffStack, matrices, vertexConsumers, light, overlay
+                staffStack, renderMode, matrices, vertexConsumers, light, overlay
             )
 
             ModelTransformationMode.FIXED -> renderItemFrameStaff(
-                renderMode, staffStack, matrices, vertexConsumers, light, overlay
+                staffStack, renderMode, matrices, vertexConsumers, light, overlay
             )
 
             else -> renderFullStaff(
-                renderMode, staffStack, matrices, vertexConsumers, light, overlay
+                staffStack, renderMode, matrices, vertexConsumers, light, overlay
             )
         }
     }
 
     private fun renderFullStaff(
-        mode: ModelTransformationMode,
         staffStack: ItemStack,
+        mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
@@ -90,9 +91,7 @@ object StaffRenderer {
                 renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
 
                 // Item
-                staffStack.itemStackInStaff?.let { itemInStaff ->
-                    renderItem(mode, this, staffStack, itemInStaff, light, overlay, vertexConsumers)
-                }
+                renderItem(staffStack, mode, this, light, overlay, vertexConsumers)
             }
 
             // Rod (top)
@@ -110,8 +109,8 @@ object StaffRenderer {
     }
 
     private fun renderInventoryStaff(
-        mode: ModelTransformationMode,
         staffStack: ItemStack,
+        mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
@@ -125,16 +124,14 @@ object StaffRenderer {
                 renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
 
                 // Item
-                staffStack.itemStackInStaff?.let { itemInStaff ->
-                    renderItem(mode, this, staffStack, itemInStaff, light, overlay, vertexConsumers)
-                }
+                renderItem(staffStack, mode, this, light, overlay, vertexConsumers)
             }
         }
     }
 
     private fun renderItemFrameStaff(
-        mode: ModelTransformationMode,
         staffStack: ItemStack,
+        mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
@@ -149,9 +146,7 @@ object StaffRenderer {
                 renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
 
                 // Item
-                staffStack.itemStackInStaff?.let { itemInStaff ->
-                    renderItem(mode, this, staffStack, itemInStaff, light, overlay, vertexConsumers)
-                }
+                renderItem(staffStack, mode, this, light, overlay, vertexConsumers)
             }
 
             // Rod (top)
@@ -163,10 +158,9 @@ object StaffRenderer {
     }
 
     private fun renderItem(
+        staffStack: ItemStack,
         mode: ModelTransformationMode,
         matrices: MatrixStack,
-        staffStack: ItemStack,
-        itemStackInStaff: ItemStack,
         light: Int,
         overlay: Int,
         vertexConsumers: VertexConsumerProvider
@@ -174,15 +168,38 @@ object StaffRenderer {
         matrices.push {
             safeGetModel(staffStack, StaffRendererPartComponent.ITEM).transformation.fixed.apply(false, this)
 
-            val staffItemRenderer = IStaffItemRenderer[Registries.ITEM.getId(itemStackInStaff.item)]
-            if (staffItemRenderer != null) {
-                staffItemRenderer.renderItemInStaff(staffStack, mode, this, vertexConsumers, light, overlay)
+            val blockStateOverride = staffStack[staffRendererOverrideComponentType.get()]?.blockState?.getOrNull()
+            if (blockStateOverride != null) {
+                BlockStateStaffItemRenderer.renderBlockState(
+                    blockStateOverride, matrices, vertexConsumers, light, overlay
+                )
             } else {
-                val itemRenderer = MinecraftClient.getInstance().itemRenderer
-
-                val model = MinecraftClient.getInstance().bakedModelManager.missingModel
-                itemRenderer.renderItem(itemStackInStaff, mode, false, this, vertexConsumers, light, overlay, model)
+                staffStack.itemStackInStaff?.let { itemInStaff ->
+                    renderItem(staffStack, itemInStaff, mode, matrices, light, overlay, vertexConsumers)
+                }
             }
+        }
+    }
+
+    private fun renderItem(
+        staffStack: ItemStack,
+        itemStackInStaff: ItemStack,
+        mode: ModelTransformationMode,
+        matrices: MatrixStack,
+        light: Int,
+        overlay: Int,
+        vertexConsumers: VertexConsumerProvider
+    ) {
+        val staffItemRenderer = IStaffItemRenderer[Registries.ITEM.getId(itemStackInStaff.item)]
+        if (staffItemRenderer != null) {
+            staffItemRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
+        } else {
+            val itemRenderer = MinecraftClient.getInstance().itemRenderer
+
+            val model = MinecraftClient.getInstance().bakedModelManager.missingModel
+            itemRenderer.renderItem(
+                itemStackInStaff, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
+            )
         }
     }
 
