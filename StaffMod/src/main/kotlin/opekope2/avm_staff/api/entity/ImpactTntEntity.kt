@@ -24,10 +24,24 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import opekope2.avm_staff.api.impactTntEntityType
 
+/**
+ * A TNT entity, which explodes on collision.
+ */
 class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : TntEntity(entityType, world), Ownable {
     private var owner: LivingEntity? = null
 
-    constructor(world: World, x: Double, y: Double, z: Double, velocity: Vec3d, igniter: LivingEntity?) :
+    /**
+     * Creates a new [ImpactTntEntity].
+     *
+     * @param world     The world to create the TNT in
+     * @param x         The X coordinate of the TNT to spawn at
+     * @param y         The Y coordinate of the TNT to spawn at
+     * @param z         The Z coordinate of the TNT to spawn at
+     * @param velocity  The velocity of the spawned TNT
+     * @param owner     The entity that caused the TNT to ignite or `null`, if it's not caused by an entity
+     *
+     */
+    constructor(world: World, x: Double, y: Double, z: Double, velocity: Vec3d, owner: LivingEntity?) :
             this(impactTntEntityType.get(), world) {
         setPosition(x, y, z)
         this.velocity = velocity
@@ -35,7 +49,7 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
         prevX = x
         prevY = y
         prevZ = z
-        owner = igniter
+        this.owner = owner
     }
 
     override fun move(movementType: MovementType?, movement: Vec3d?) {
