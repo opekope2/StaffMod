@@ -54,26 +54,36 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
 
     override fun move(movementType: MovementType?, movement: Vec3d?) {
         super.move(movementType, movement)
-        explodeOnImpact()
+        if (!world.isClient) {
+            explodeOnImpact()
+        }
     }
 
     private fun explodeOnImpact() {
-        var explode = horizontalCollision || verticalCollision
-        if (!explode) {
-            val collisions = world.getOtherEntities(this, boundingBox, EntityPredicates.EXCEPT_SPECTATOR)
-            explode = collisions.isNotEmpty()
+        if (horizontalCollision || verticalCollision) {
+            explodeLater()
+            return
+        }
 
-            for (collider in collisions) {
-                if (collider is ImpactTntEntity) {
-                    // Force explode other TNT, because the current TNT gets discarded before the other TNT gets processed
-                    collider.fuse = 0
-                }
+        val colliders = EntityPredicates.EXCEPT_SPECTATOR.and(EntityPredicates.VALID_ENTITY)
+        val collisions = world.getOtherEntities(this, boundingBox, colliders)
+        for (collider in collisions) {
+            if (collider is ImpactTntEntity) {
+                // Force explode other TNT, because the current TNT gets discarded before the other TNT gets processed
+                collider.explodeLater()
             }
         }
 
-        if (explode && !world.isClient) {
-            fuse = 0
+        if (collisions.isNotEmpty()) {
+            explodeLater()
         }
+    }
+
+    /**
+     * Sets the fuse of the TNT to 0, scheduling it to explode when [tick]ed next time.
+     */
+    fun explodeLater() {
+        fuse = 0
     }
 
     override fun copyFrom(original: Entity?) {
