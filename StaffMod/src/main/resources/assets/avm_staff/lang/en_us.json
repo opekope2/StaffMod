@@ -1,5 +1,8 @@
 {
   "block.avm_staff.crown_of_king_orange": "Crown of King Orange",
+  "death.attack.avm_staff.pranked": "%s was pranked",
+  "death.attack.avm_staff.pranked.player": "%s was pranked by %s",
+  "death.attack.avm_staff.pranked.player.item": "%s was pranked by %s using %s",
   "entity.avm_staff.impact_tnt": "Impact TNT",
   "item.avm_staff.faint_royal_staff": "Faint royal staff",
   "item.avm_staff.faint_royal_staff_head": "Faint royal staff head",

@@ -31,12 +31,14 @@ import net.minecraft.client.particle.ParticleManager
 import net.minecraft.component.DataComponentType
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
+import net.minecraft.entity.damage.DamageType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.particle.SimpleParticleType
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.sound.BlockSoundGroup
@@ -250,6 +252,18 @@ val staffRendererPartComponentType: RegistrySupplier<DataComponentType<StaffRend
             .packetCodec(StaffRendererPartComponent.PACKET_CODEC)
             .build()
     }
+
+/**
+ * `avm_staff:pranked` damage type.
+ */
+val cakeDamageType: RegistryKey<DamageType> =
+    RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier(MOD_ID, "pranked"))
+
+/**
+ * `avm_staff:pranked_by_player` damage type.
+ */
+val playerCakeDamageType: RegistryKey<DamageType> =
+    RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier(MOD_ID, "pranked_by_player"))
 
 /**
  * @suppress
