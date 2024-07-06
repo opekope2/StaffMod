@@ -256,6 +256,13 @@ val staffRendererPartComponentType: RegistrySupplier<DataComponentType<StaffRend
     }
 
 /**
+ * Sound event registered as `avm_staff:entity.cake.splash`.
+ */
+val cakeSplashSoundEvent: RegistrySupplier<SoundEvent> = SOUND_EVENTS.register("entity.cake.splash") {
+    SoundEvent.of(Identifier(MOD_ID, "entity.cake.splash"))
+}
+
+/**
  * Sound event registered as `avm_staff:entity.cake.throw`.
  */
 val cakeThrowSoundEvent: RegistrySupplier<SoundEvent> = SOUND_EVENTS.register("entity.cake.throw") {
