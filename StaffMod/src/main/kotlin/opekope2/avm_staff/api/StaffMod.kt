@@ -42,6 +42,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.sound.BlockSoundGroup
+import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
@@ -67,6 +68,7 @@ private val ITEM_GROUPS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROU
 private val ENTITY_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.ENTITY_TYPE)
 private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTICLE_TYPE)
 private val DATA_COMPONENT_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE)
+private val SOUND_EVENTS = DeferredRegister.create(MOD_ID, RegistryKeys.SOUND_EVENT)
 
 /**
  * Block registered as `avm_staff:crown_of_king_orange`.
@@ -254,6 +256,13 @@ val staffRendererPartComponentType: RegistrySupplier<DataComponentType<StaffRend
     }
 
 /**
+ * Sound event registered as `avm_staff:entity.cake.throw`.
+ */
+val cakeThrowSoundEvent: RegistrySupplier<SoundEvent> = SOUND_EVENTS.register("entity.cake.throw") {
+    SoundEvent.of(Identifier(MOD_ID, "entity.cake.throw"))
+}
+
+/**
  * `avm_staff:pranked` damage type.
  */
 val cakeDamageType: RegistryKey<DamageType> =
@@ -276,6 +285,7 @@ internal fun registerContent() {
     ENTITY_TYPES.register()
     PARTICLE_TYPES.register()
     DATA_COMPONENT_TYPES.register()
+    SOUND_EVENTS.register()
 
     // Because SmithingTemplateItem doesn't take Item.Settings in its constructor
     CreativeTabRegistry.append(staffModItemGroup, staffInfusionSmithingTemplateItem)

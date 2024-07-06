@@ -1,0 +1,8 @@
+{
+  "entity.cake.throw": {
+    "sounds": [
+      "random/bow"
+    ],
+    "subtitle": "subtitles.entity.avm_staff.cake.throw"
+  }
+}
