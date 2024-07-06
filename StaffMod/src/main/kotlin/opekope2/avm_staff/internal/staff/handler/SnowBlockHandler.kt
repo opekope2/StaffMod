@@ -52,19 +52,18 @@ class SnowBlockHandler : StaffHandler() {
     }
 
     private fun throwSnowball(world: World, user: LivingEntity) {
+        if (world.isClient) return
         if (!user.canUseStaff) return
         if (user is PlayerEntity && user.isAttackCoolingDown) return
 
         world.playSound(
-            user,
+            null,
             user.blockPos,
             SoundEvents.ENTITY_SNOWBALL_THROW,
             user.soundCategory,
             0.5f,
             0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
         )
-
-        if (world.isClient) return
 
         val (x, y, z) = user.approximateStaffTipPosition
         world.spawnEntity(SnowballEntity(world, x, y, z).apply {
