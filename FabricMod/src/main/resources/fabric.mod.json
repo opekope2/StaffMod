@@ -5,11 +5,24 @@
   "name": "Staff Mod (Animation vs Minecraft)",
   "description": "AvM Staff Mod is a fan-made, mostly canonically accurate, and close to vanilla mod adding staffs from Animation vs Minecraft series to the latest version of Minecraft: Java Edition",
   "authors": [
-    "opekope2"
+    {
+      "name": "opekope2",
+      "contact": {
+        "homepage": "https://opekope2.dev",
+        "github": "https://github.com/opekope2"
+      }
+    }
   ],
   "contributors": [
-    "Brother_Oliviär",
-    "Ink&Soul"
+    {
+      "name": "Brother_Oliviär"
+    },
+    {
+      "name": "Ink&Soul",
+      "contact": {
+        "github": "https://github.com/MBYL-InkAndSoul"
+      }
+    }
   ],
   "contact": {
     "homepage": "https://opekope2.dev/StaffMod",
