@@ -23,7 +23,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
-import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
@@ -37,17 +36,14 @@ class TntHandler : StaffHandler() {
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }
 
-    private fun shootTnt(world: World, attacker: LivingEntity): ActionResult {
-        if (world.isClient) return ActionResult.SUCCESS
-
-        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return ActionResult.FAIL
+    private fun shootTnt(world: World, attacker: LivingEntity) {
+        if (world.isClient) return
+        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return
 
         val spawnPos = attacker.approximateStaffTipPosition
         val (x, y, z) = spawnPos
         world.spawnEntity(ImpactTntEntity(world, x, y, z, attacker.rotationVector + attacker.velocity, attacker))
         world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1f, 1f)
         world.emitGameEvent(attacker, GameEvent.PRIME_FUSE, spawnPos)
-
-        return ActionResult.SUCCESS
     }
 }
