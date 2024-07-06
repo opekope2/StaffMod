@@ -93,12 +93,11 @@ class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
             if (attacker is PlayerEntity) attacker.getAttackCooldownProgress(0f)
             else 1f
         val amount = cappedFallDistance * cooldownProgress
-        val radius = cappedFallDistance / 20f
-        val radius2 = radius * radius
-        val box = Box(target.pos, target.pos).expand(radius.toDouble())
+        val radius = cappedFallDistance / 20.0
+        val box = Box(target.pos, target.pos).expand(radius)
         val predicate = EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR
             .and(EntityPredicates.VALID_LIVING_ENTITY)
-            .and { it.squaredDistanceTo(target) <= radius2 }
+            .and(EntityPredicates.maxDistance(target.x, target.y, target.z, radius))
 
         world.getOtherEntities(attacker, box, predicate).forEach { entity ->
             entity.damage(world.damageSources.fallingAnvil(attacker), amount / (entity.distanceTo(target) + 1))
