@@ -71,7 +71,7 @@ class CrownBlock(settings: Settings) : Block(settings) {
     }
 
     private companion object {
-        val SHAPE: VoxelShape = VoxelShapes.cuboid(4 / 16.0, 0.0, 4 / 16.0, 12 / 16.0, 12 / 16.0, 12 / 16.0)
-        val MAX_ROTATIONS = RotationPropertyHelper.getMax() + 1
+        private val SHAPE = VoxelShapes.cuboid(4 / 16.0, 0.0, 4 / 16.0, 12 / 16.0, 12 / 16.0, 12 / 16.0)
+        private val MAX_ROTATIONS = RotationPropertyHelper.getMax() + 1
     }
 }

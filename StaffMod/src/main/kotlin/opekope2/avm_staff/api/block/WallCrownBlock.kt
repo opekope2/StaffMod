@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.api.block
 
-import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.item.ItemPlacementContext
@@ -73,10 +72,10 @@ class WallCrownBlock(settings: Settings) : HorizontalFacingBlock(settings) {
     }
 
     private companion object {
-        val CODEC: MapCodec<WallCrownBlock> = createCodec(::WallCrownBlock)
-        val NORTH_SHAPE: VoxelShape = VoxelShapes.cuboid(4 / 16.0, 4 / 16.0, 1 - 12 / 16.0, 12 / 16.0, 12 / 16.0, 1.0)
-        val SOUTH_SHAPE: VoxelShape = VoxelShapes.cuboid(4 / 16.0, 4 / 16.0, 0.0, 12 / 16.0, 12 / 16.0, 12 / 16.0)
-        val WEST_SHAPE: VoxelShape = VoxelShapes.cuboid(1 - 12 / 16.0, 4 / 16.0, 4 / 16.0, 1.0, 12 / 16.0, 12 / 16.0)
-        val EAST_SHAPE: VoxelShape = VoxelShapes.cuboid(0.0, 4 / 16.0, 4 / 16.0, 12 / 16.0, 12 / 16.0, 12 / 16.0)
+        private val CODEC = createCodec(::WallCrownBlock)
+        private val NORTH_SHAPE = VoxelShapes.cuboid(4 / 16.0, 4 / 16.0, 1 - 12 / 16.0, 12 / 16.0, 12 / 16.0, 1.0)
+        private val SOUTH_SHAPE = VoxelShapes.cuboid(4 / 16.0, 4 / 16.0, 0.0, 12 / 16.0, 12 / 16.0, 12 / 16.0)
+        private val WEST_SHAPE = VoxelShapes.cuboid(1 - 12 / 16.0, 4 / 16.0, 4 / 16.0, 1.0, 12 / 16.0, 12 / 16.0)
+        private val EAST_SHAPE = VoxelShapes.cuboid(0.0, 4 / 16.0, 4 / 16.0, 12 / 16.0, 12 / 16.0, 12 / 16.0)
     }
 }

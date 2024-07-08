@@ -178,7 +178,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         override fun decreaseStack(count: Int): ItemStack = ItemStack.EMPTY
     }
 
-    companion object {
+    private companion object {
         private val ITEM_DIMENSIONS = EntityType.ITEM.dimensions
         private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(
             ITEM_DIMENSIONS.width / 2.0, ITEM_DIMENSIONS.height / 2.0, ITEM_DIMENSIONS.width / 2.0
