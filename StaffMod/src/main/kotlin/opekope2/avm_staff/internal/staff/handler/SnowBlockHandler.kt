@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.thrown.SnowballEntity
@@ -43,33 +44,34 @@ class SnowBlockHandler : StaffHandler() {
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        throwSnowball(world, user)
+        tryThrowSnowball(world, user)
     }
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
-        throwSnowball(world, attacker)
+        tryThrowSnowball(world, attacker)
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }
 
-    private fun throwSnowball(world: World, user: LivingEntity) {
+    private fun tryThrowSnowball(world: World, thrower: LivingEntity) {
         if (world.isClient) return
-        if (!user.canUseStaff) return
-        if (user is PlayerEntity && user.isAttackCoolingDown) return
+        if (!thrower.canUseStaff) return
+        if (thrower is PlayerEntity && thrower.isAttackCoolingDown) return
 
+        val spawnPos = EntityType.SNOWBALL.getSpawnPosition(world, thrower.approximateStaffTipPosition) ?: return
+        val (x, y, z) = spawnPos
+
+        world.spawnEntity(SnowballEntity(world, x, y, z).apply {
+            owner = thrower
+            // TODO speed
+            setVelocity(thrower, thrower.pitch, thrower.yaw, 0f, 4f, 1f)
+        })
         world.playSound(
             null,
-            user.blockPos,
+            thrower.blockPos,
             SoundEvents.ENTITY_SNOWBALL_THROW,
-            user.soundCategory,
+            thrower.soundCategory,
             0.5f,
             0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
         )
-
-        val (x, y, z) = user.approximateStaffTipPosition
-        world.spawnEntity(SnowballEntity(world, x, y, z).apply {
-            owner = user
-            // TODO speed
-            setVelocity(user, user.pitch, user.yaw, 0f, 4f, 1f)
-        })
     }
 }

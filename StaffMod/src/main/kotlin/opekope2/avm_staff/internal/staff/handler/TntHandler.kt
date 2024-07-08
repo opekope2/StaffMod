@@ -27,23 +27,26 @@ import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.entity.ImpactTntEntity
+import opekope2.avm_staff.api.impactTntEntityType
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
 class TntHandler : StaffHandler() {
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
-        shootTnt(world, attacker)
+        tryShootTnt(world, attacker)
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }
 
-    private fun shootTnt(world: World, attacker: LivingEntity) {
+    private fun tryShootTnt(world: World, shooter: LivingEntity) {
         if (world.isClient) return
-        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return
+        if (!shooter.canUseStaff) return
+        if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return
 
-        val spawnPos = attacker.approximateStaffTipPosition
+        val spawnPos = impactTntEntityType.get().getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return
         val (x, y, z) = spawnPos
-        world.spawnEntity(ImpactTntEntity(world, x, y, z, attacker.rotationVector + attacker.velocity, attacker))
+
+        world.spawnEntity(ImpactTntEntity(world, x, y, z, shooter.rotationVector + shooter.velocity, shooter))
         world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1f, 1f)
-        world.emitGameEvent(attacker, GameEvent.PRIME_FUSE, spawnPos)
+        world.emitGameEvent(shooter, GameEvent.PRIME_FUSE, spawnPos)
     }
 }

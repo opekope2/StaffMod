@@ -22,6 +22,7 @@ import dev.architectury.event.EventResult
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
@@ -52,12 +53,12 @@ class MagmaBlockHandler : StaffHandler() {
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         if ((remainingUseTicks and 1) == 0) {
-            shootFireball(world, user)
+            tryShootFireball(world, user)
         }
     }
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
-        shootFireball(world, attacker)
+        tryShootFireball(world, attacker)
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }
 
@@ -72,17 +73,18 @@ class MagmaBlockHandler : StaffHandler() {
         return EventResult.pass()
     }
 
-    private fun shootFireball(world: World, user: LivingEntity) {
+    private fun tryShootFireball(world: World, shooter: LivingEntity) {
         if (world.isClient) return
-        if (!user.canUseStaff) return
-        if (user is PlayerEntity && user.isAttackCoolingDown) return
+        if (!shooter.canUseStaff) return
+        if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return
 
-        world.syncWorldEvent(WorldEvents.BLAZE_SHOOTS, user.blockPos, 0)
+        val spawnPos = EntityType.SMALL_FIREBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition)
+        val (x, y, z) = shooter.rotationVector
 
-        val (x, y, z) = user.rotationVector
-        world.spawnEntity(SmallFireballEntity(world, user, x, y, z).apply {
-            setPosition(user.approximateStaffTipPosition)
+        world.spawnEntity(SmallFireballEntity(world, shooter, x, y, z).apply {
+            setPosition(spawnPos)
         })
+        world.syncWorldEvent(WorldEvents.BLAZE_SHOOTS, shooter.blockPos, 0)
     }
 
     private companion object {

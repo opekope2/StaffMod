@@ -29,6 +29,7 @@ import net.minecraft.client.render.entity.model.SkullEntityModel
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
@@ -59,29 +60,30 @@ class WitherSkeletonSkullHandler : StaffHandler() {
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         if ((remainingUseTicks and 1) == 0) {
-            shootSkull(world, user, Math.random() < 0.1f) // TODO ratio
+            tryShootSkull(world, user, Math.random() < 0.1f) // TODO ratio
         }
     }
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (attacker is PlayerEntity && attacker.itemCooldownManager.isCoolingDown(staffStack.item)) return
 
-        shootSkull(world, attacker, false)
+        tryShootSkull(world, attacker, false)
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }
 
-    private fun shootSkull(world: World, user: LivingEntity, charged: Boolean) {
+    private fun tryShootSkull(world: World, user: LivingEntity, charged: Boolean) {
         if (world.isClient) return
         if (!user.canUseStaff) return
         if (user is PlayerEntity && user.isAttackCoolingDown) return
 
-        world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, user.blockPos, 0)
-
+        val spawnPos = EntityType.WITHER_SKULL.getSpawnPosition(world, user.approximateStaffTipPosition) ?: return
         val (x, y, z) = user.rotationVector
+
         world.spawnEntity(WitherSkullEntity(world, user, x, y, z).apply {
             isCharged = charged
-            setPosition(user.approximateStaffTipPosition)
+            setPosition(spawnPos)
         })
+        world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, user.blockPos, 0)
     }
 
     override fun attackEntity(
