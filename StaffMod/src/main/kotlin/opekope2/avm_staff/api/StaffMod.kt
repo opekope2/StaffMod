@@ -52,15 +52,18 @@ import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.component.StaffRendererOverrideComponent
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
+import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.internal.MinecraftUnit
+import opekope2.avm_staff.mixin.ICakeBlockAccessor
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.mutableItemStackInStaff
+import kotlin.math.max
 
 private val BLOCKS = DeferredRegister.create(MOD_ID, RegistryKeys.BLOCK)
 private val ITEMS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM)
@@ -185,6 +188,21 @@ val impactTntEntityType: RegistrySupplier<EntityType<ImpactTntEntity>> = ENTITY_
         .trackingTickInterval(EntityType.TNT.trackTickInterval)
         .build(Identifier(MOD_ID, "impact_tnt").toString())
 }
+
+/**
+ * Entity registered as `avm_staff:cake`
+ */
+val cakeEntityType: RegistrySupplier<EntityType<CakeEntity>> =
+    ENTITY_TYPES.register("cake") {
+        val cakeBox = ICakeBlockAccessor.bitesToShape()[0].boundingBox
+        val cakeSize = max(cakeBox.lengthX, max(cakeBox.lengthY, cakeBox.lengthZ))
+
+        EntityType.Builder.create(::CakeEntity, SpawnGroup.MISC)
+            .dimensions(cakeSize.toFloat(), cakeSize.toFloat())
+            .maxTrackingRange(EntityType.FALLING_BLOCK.maxTrackDistance)
+            .trackingTickInterval(EntityType.FALLING_BLOCK.trackTickInterval)
+            .build(Identifier(MOD_ID, "cake").toString())
+    }
 
 /**
  * Particle registered as `avm_staff:flame`.

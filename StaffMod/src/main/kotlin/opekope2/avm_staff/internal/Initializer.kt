@@ -44,11 +44,9 @@ import net.minecraft.loot.entry.LootTableEntry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.crownOfKingOrangeBlock
-import opekope2.avm_staff.api.impactTntEntityType
+import opekope2.avm_staff.api.*
+import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
-import opekope2.avm_staff.api.staffsTag
-import opekope2.avm_staff.api.wallCrownOfKingOrangeBlock
 import opekope2.avm_staff.internal.event_handler.*
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
@@ -128,6 +126,7 @@ fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity): EventResu
 fun registerClientContent() {
     KeyMappingRegistry.register(addRemoveStaffItemKeyBinding)
     EntityRendererRegistry.register(impactTntEntityType, ::TntEntityRenderer)
+    EntityRendererRegistry.register(cakeEntityType, ::CakeEntityRenderer)
 }
 
 @Environment(EnvType.CLIENT)

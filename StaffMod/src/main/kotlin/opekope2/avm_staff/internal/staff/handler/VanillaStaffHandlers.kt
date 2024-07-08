@@ -47,6 +47,8 @@ fun registerVanillaStaffHandlers() {
 
     BONE_BLOCK.registerHandler(BoneBlockHandler())
 
+    CAKE.registerHandler(CakeHandler())
+
     CAMPFIRE.registerHandler(
         CampfireHandler(flamethrowerParticleType, CampfireHandler.Properties(1 / 20.0, 5 / 20.0, 1, 0.1))
     )
@@ -115,6 +117,8 @@ fun registerVanillaStaffItemRenderers() {
     BELL.registerStaffItemRenderer(BellBlockHandler.BellStaffItemRenderer())
 
     BONE_BLOCK.registerStaffItemRenderer(Blocks.BONE_BLOCK)
+
+    CAKE.registerStaffItemRenderer(Blocks.CAKE)
 
     CAMPFIRE.registerStaffItemRenderer(Blocks.CAMPFIRE)
     SOUL_CAMPFIRE.registerStaffItemRenderer(Blocks.SOUL_CAMPFIRE)
