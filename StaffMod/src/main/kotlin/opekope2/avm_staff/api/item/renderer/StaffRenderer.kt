@@ -39,6 +39,9 @@ import kotlin.jvm.optionals.getOrNull
  */
 @Environment(EnvType.CLIENT)
 object StaffRenderer {
+    private val bakedModelManager by lazy { MinecraftClient.getInstance().bakedModelManager }
+    private val itemRenderer by lazy { MinecraftClient.getInstance().itemRenderer }
+
     /**
      * Renders the staff.
      *
@@ -194,9 +197,7 @@ object StaffRenderer {
         if (staffItemRenderer != null) {
             staffItemRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
         } else {
-            val itemRenderer = MinecraftClient.getInstance().itemRenderer
-
-            val model = MinecraftClient.getInstance().bakedModelManager.missingModel
+            val model = bakedModelManager.missingModel
             itemRenderer.renderItem(
                 itemStackInStaff, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
             )
@@ -211,8 +212,6 @@ object StaffRenderer {
         overlay: Int,
         part: StaffRendererPartComponent
     ) {
-        val itemRenderer = MinecraftClient.getInstance().itemRenderer
-
         val model = safeGetModel(staffStack, part)
 
         itemRenderer.renderItem(
@@ -221,14 +220,12 @@ object StaffRenderer {
     }
 
     private fun safeGetModel(staffStack: ItemStack, part: StaffRendererPartComponent): BakedModel {
-        val itemRenderer = MinecraftClient.getInstance().itemRenderer
-
         staffStack[staffRendererPartComponentType.get()] = part
         val model = itemRenderer.getModel(staffStack, null, null, 0)
         staffStack.remove(staffRendererPartComponentType.get())
 
         // Prevent StackOverflowError if an override is missing
         return if (!model.isBuiltin) model
-        else MinecraftClient.getInstance().bakedModelManager.missingModel
+        else bakedModelManager.missingModel
     }
 }

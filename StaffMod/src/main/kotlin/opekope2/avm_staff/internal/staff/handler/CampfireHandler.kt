@@ -115,8 +115,6 @@ class CampfireHandler(
     @Environment(EnvType.CLIENT)
     fun throwFlameParticles(user: LivingEntity, target: Vec3d, relativeRight: Vec3d, relativeUp: Vec3d) {
         val random = Random.create()
-        val particleManager = MinecraftClient.getInstance().particleManager
-
         val origin = user.approximateStaffTipPosition
 
         for (i in 0..flameParticleCount) {
@@ -254,14 +252,17 @@ class CampfireHandler(
         private const val FLAMETHROWER_CONE_RAYS = 16
         private const val FLAMETHROWER_CONE_RAYS_TOTAL = FLAMETHROWER_CONE_RAYS * FLAMETHROWER_CONE_RAYS
 
+        private val graphicsModeOption by lazy { MinecraftClient.getInstance().options.graphicsMode }
         private val flameParticleCount: Int
             @Environment(EnvType.CLIENT)
-            get() = when (MinecraftClient.getInstance().options.graphicsMode.value!!) {
+            get() = when (graphicsModeOption.value!!) {
                 GraphicsMode.FAST -> 4 * 4
                 GraphicsMode.FANCY -> 8 * 8
                 GraphicsMode.FABULOUS -> 16 * 16
             }
         private val firePellets = mutableListOf<FirePellet>()
+
+        private val particleManager by lazy { MinecraftClient.getInstance().particleManager }
 
         init {
             TickEvent.SERVER_PRE.register(this)

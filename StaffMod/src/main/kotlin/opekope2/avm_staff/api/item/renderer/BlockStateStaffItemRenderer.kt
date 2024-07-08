@@ -49,6 +49,9 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : IStaffItemRenderer {
     ) = renderBlockState(blockStateId, blockItem, matrices, vertexConsumers, light, overlay)
 
     companion object {
+        private val itemRenderer by lazy { MinecraftClient.getInstance().itemRenderer }
+        private val modelManager by lazy { MinecraftClient.getInstance().bakedModelManager }
+
         /**
          * Renders a [BlockState].
          *
@@ -90,8 +93,6 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : IStaffItemRenderer {
             light: Int,
             overlay: Int
         ) {
-            val itemRenderer = MinecraftClient.getInstance().itemRenderer
-            val modelManager = MinecraftClient.getInstance().bakedModelManager
             val model = modelManager.getModel(blockStateId)
             itemRenderer.renderItem(
                 blockStateItem, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model

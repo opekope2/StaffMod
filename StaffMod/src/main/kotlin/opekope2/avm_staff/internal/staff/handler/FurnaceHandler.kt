@@ -126,7 +126,6 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val ry = Math.random() * 0.5
         val rz = Math.random() * 0.25 - 0.25 / 2
 
-        val particleManager = MinecraftClient.getInstance().particleManager
         particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
         particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
     }
@@ -189,5 +188,6 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
             .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
             .build()
+        private val particleManager by lazy { MinecraftClient.getInstance().particleManager }
     }
 }
