@@ -50,6 +50,7 @@ import net.minecraft.world.World
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
+import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.api.staffFurnaceDataComponentType
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityInvoker
@@ -182,7 +183,7 @@ class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(
             ITEM_DIMENSIONS.width / 2.0, ITEM_DIMENSIONS.height / 2.0, ITEM_DIMENSIONS.width / 2.0
         )
-        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
             .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)

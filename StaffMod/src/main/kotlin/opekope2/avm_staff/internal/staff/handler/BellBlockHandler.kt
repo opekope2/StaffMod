@@ -39,8 +39,8 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
+import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.util.addDefault
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.push
@@ -111,7 +111,7 @@ class BellBlockHandler : StaffHandler() {
     }
 
     companion object {
-        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(8.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.5), AttributeModifierSlot.MAINHAND)
             .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)

@@ -35,9 +35,9 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.mixin.IMinecraftClientAccessor
-import opekope2.avm_staff.util.addDefault
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.mutableItemStackInStaff
@@ -82,7 +82,7 @@ class WoolHandler(private val woolBlockItem: BlockItem, private val carpetBlockI
     ) : ItemPlacementContext(world, playerEntity, hand, itemStack, blockHitResult)
 
     private companion object {
-        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(2.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
             .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)

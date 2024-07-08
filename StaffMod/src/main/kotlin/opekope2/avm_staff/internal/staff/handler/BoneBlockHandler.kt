@@ -32,8 +32,8 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import net.minecraft.world.event.GameEvent
+import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.util.addDefault
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 
@@ -74,7 +74,7 @@ class BoneBlockHandler : StaffHandler() {
     }
 
     companion object {
-        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
+        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(5.0), AttributeModifierSlot.MAINHAND)
             .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
             .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)

@@ -23,7 +23,6 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -36,7 +35,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.util.addDefault
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -345,12 +343,7 @@ abstract class StaffHandler {
      */
     object Default : StaffHandler() {
         @JvmField
-        val ATTRIBUTE_MODIFIERS: AttributeModifiersComponent = AttributeModifiersComponent.builder()
-            .addDefault(EntityAttributes.GENERIC_ATTACK_DAMAGE)
-            .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
-            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
-            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-            .build()
+        val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder.default()
     }
 
     companion object {

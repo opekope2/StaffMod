@@ -20,13 +20,8 @@
 
 package opekope2.avm_staff.util
 
-import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
-import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
-import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.Item
-import net.minecraft.registry.entry.RegistryEntry
 
 private const val PLAYER_BASE_ATTACK_DAMAGE = 1.0
 private const val PLAYER_BASE_ATTACK_SPEED = 4.0
@@ -75,27 +70,3 @@ fun interactionRange(additionalRange: Double) = EntityAttributeModifier(
     additionalRange,
     EntityAttributeModifier.Operation.ADD_VALUE
 )
-
-/**
- * Adds the default staff modifier of the given entity attribute as [main hand][AttributeModifierSlot.MAINHAND] modifier.
- *
- * @param attribute The entity attribute to add the default value of
- * @see EntityAttributes.GENERIC_ATTACK_DAMAGE
- * @see EntityAttributes.GENERIC_ATTACK_SPEED
- * @see EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE
- * @see EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE
- */
-fun AttributeModifiersComponent.Builder.addDefault(attribute: RegistryEntry<EntityAttribute>): AttributeModifiersComponent.Builder {
-    add(
-        attribute,
-        when (attribute) {
-            EntityAttributes.GENERIC_ATTACK_DAMAGE -> attackDamage(4.0)
-            EntityAttributes.GENERIC_ATTACK_SPEED -> attackSpeed(2.0)
-            EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE -> interactionRange(1.0)
-            EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE -> interactionRange(1.0)
-            else -> throw IllegalArgumentException("Attribute has no default value")
-        },
-        AttributeModifierSlot.MAINHAND
-    )
-    return this
-}

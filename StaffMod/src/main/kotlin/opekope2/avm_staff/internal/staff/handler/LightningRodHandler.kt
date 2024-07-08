@@ -42,8 +42,8 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
+import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.util.addDefault
 import opekope2.avm_staff.util.interactionRange
 import opekope2.avm_staff.util.isItemCoolingDown
 import opekope2.avm_staff.util.push
@@ -134,7 +134,7 @@ class LightningRodHandler : StaffHandler() {
     }
 
     private companion object {
-        val ATTRIBUTE_MODIFIERS: AttributeModifiersComponent = AttributeModifiersComponent.builder()
+        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
             .addDefault(EntityAttributes.GENERIC_ATTACK_DAMAGE)
             .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
             .add(
