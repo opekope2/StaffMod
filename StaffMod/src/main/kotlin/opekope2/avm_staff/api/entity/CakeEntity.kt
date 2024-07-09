@@ -66,7 +66,12 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         this.thrower = thrower
     }
 
-    override fun isAttackable() = false
+    override fun handleAttack(attacker: Entity?): Boolean {
+        if (!world.isClient) {
+            discard()
+        }
+        return true
+    }
 
     /**
      * The position, where the cake was spawned.
