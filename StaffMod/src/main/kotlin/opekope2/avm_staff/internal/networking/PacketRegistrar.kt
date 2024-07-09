@@ -24,7 +24,7 @@ import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.packet.CustomPayload
 import net.minecraft.util.Identifier
 
-abstract class PacketRegistrar<TPacket : IPacket>(
+internal abstract class PacketRegistrar<TPacket : IPacket>(
     private val side: NetworkManager.Side,
     id: Identifier,
     packetConstructor: (PacketByteBuf) -> TPacket
@@ -32,7 +32,7 @@ abstract class PacketRegistrar<TPacket : IPacket>(
     protected val payloadId = CustomPayload.Id<TPacket>(id)
     private val codec = PacketCodec.of(IPacket::write, packetConstructor)
 
-    fun registerHandler(receiver: NetworkManager.NetworkReceiver<TPacket>) {
+    fun registerReceiver(receiver: NetworkManager.NetworkReceiver<TPacket>) {
         NetworkManager.registerReceiver(side, payloadId, codec, receiver)
     }
 }

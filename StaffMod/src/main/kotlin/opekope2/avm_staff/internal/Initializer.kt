@@ -63,9 +63,9 @@ fun registerContent() {
 }
 
 fun initializeNetworking() {
-    InsertItemIntoStaffC2SPacket.registerHandler(::addItemToStaff)
-    RemoveItemFromStaffC2SPacket.registerHandler(::removeItemFromStaff)
-    AttackC2SPacket.registerHandler(::attack)
+    InsertItemIntoStaffC2SPacket.registerReceiver()
+    RemoveItemFromStaffC2SPacket.registerReceiver()
+    AttackC2SPacket.registerReceiver()
 }
 
 private val MODIFIABLE_LOOT_TABLES = setOf(

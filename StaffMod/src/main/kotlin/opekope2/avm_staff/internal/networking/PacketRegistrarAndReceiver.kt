@@ -19,10 +19,15 @@
 package opekope2.avm_staff.internal.networking
 
 import dev.architectury.networking.NetworkManager
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
-internal interface IC2SPacket : IPacket {
-    @Environment(EnvType.CLIENT)
-    fun sendToServer() = NetworkManager.sendToServer(this)
+internal abstract class PacketRegistrarAndReceiver<TPacket : IPacket>(
+    side: NetworkManager.Side,
+    id: Identifier,
+    packetConstructor: (PacketByteBuf) -> TPacket
+) : PacketRegistrar<TPacket>(side, id, packetConstructor), NetworkManager.NetworkReceiver<TPacket> {
+    fun registerReceiver() {
+        registerReceiver(this)
+    }
 }
