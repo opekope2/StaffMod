@@ -5,6 +5,8 @@
   "death.attack.avm_staff.pranked.player.item": "%s was pranked by %s using %s",
   "entity.avm_staff.cake": "Cake",
   "entity.avm_staff.impact_tnt": "Impact TNT",
+  "gamerule.throwableCakes": "Throwable cakes",
+  "gamerule.throwableCakes.description": "Enable throwing cakes by players and dispensers",
   "item.avm_staff.faint_royal_staff": "Faint royal staff",
   "item.avm_staff.faint_royal_staff_head": "Faint royal staff head",
   "item.avm_staff.faint_staff_rod": "Faint staff rod",

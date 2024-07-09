@@ -18,13 +18,11 @@
 
 package opekope2.avm_staff.internal
 
+import dev.architectury.event.CompoundEventResult
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientLifecycleEvent
 import dev.architectury.event.events.client.ClientTickEvent
-import dev.architectury.event.events.common.EntityEvent
-import dev.architectury.event.events.common.InteractionEvent
-import dev.architectury.event.events.common.LootEvent
-import dev.architectury.event.events.common.PlayerEvent
+import dev.architectury.event.events.common.*
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
@@ -38,13 +36,17 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.entry.LootTableEntry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.*
+import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.internal.event_handler.*
@@ -52,10 +54,7 @@ import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
-import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.contains
-import opekope2.avm_staff.util.itemInStaff
-import opekope2.avm_staff.util.staffHandlerOrDefault
+import opekope2.avm_staff.util.*
 
 fun registerContent() {
     opekope2.avm_staff.api.registerContent()
@@ -91,6 +90,7 @@ fun modifyLootTables(
 
 fun subscribeToEvents() {
     InteractionEvent.LEFT_CLICK_BLOCK.register(::attackBlock)
+    InteractionEvent.RIGHT_CLICK_ITEM.register(::tryThrowCake)
     LootEvent.MODIFY_LOOT_TABLE.register(::modifyLootTables)
     EntityEvent.LIVING_DEATH.register(::stopUsingStaffOnPlayerDeath)
     PlayerEvent.DROP_ITEM.register(::stopUsingStaffWhenDropped)
@@ -111,6 +111,24 @@ fun stopUsingStaffOnPlayerDeath(entity: LivingEntity, damageSource: DamageSource
     }
 
     return EventResult.pass()
+}
+
+fun tryThrowCake(player: PlayerEntity, hand: Hand): CompoundEventResult<ItemStack> {
+    val world = player.entityWorld
+    val cake = player.getStackInHand(hand)
+
+    if (!world.gameRules.getBoolean(throwableCakesGameRule)) return CompoundEventResult.pass()
+    if (!cake.isOf(Items.CAKE)) return CompoundEventResult.pass()
+
+    if (!world.isClient) {
+        CakeEntity.throwCake(
+            world, player.eyePos + player.rotationVector, player.rotationVector * .5 + player.velocity, player
+        )
+    }
+
+    cake.decrementUnlessCreative(1, player)
+
+    return CompoundEventResult.interrupt(world.isClient, player.getStackInHand(hand))
 }
 
 fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity): EventResult {

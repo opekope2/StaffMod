@@ -46,6 +46,7 @@ import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
+import net.minecraft.world.GameRules
 import opekope2.avm_staff.api.block.CrownBlock
 import opekope2.avm_staff.api.block.WallCrownBlock
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
@@ -298,6 +299,13 @@ val cakeDamageType: RegistryKey<DamageType> =
  */
 val playerCakeDamageType: RegistryKey<DamageType> =
     RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier(MOD_ID, "pranked_by_player"))
+
+/**
+ * Throwable cakes game rule. When set to true, cakes can be thrown by right clicking, and dispensers will shoot cakes
+ * instead of dropping them as item.
+ */
+val throwableCakesGameRule: GameRules.Key<GameRules.BooleanRule> =
+    GameRules.register("throwableCakes", GameRules.Category.MISC, GameRules.BooleanRule.create(false))
 
 /**
  * @suppress

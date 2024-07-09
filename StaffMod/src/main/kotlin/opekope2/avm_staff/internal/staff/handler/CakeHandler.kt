@@ -25,7 +25,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.cakeEntityType
-import opekope2.avm_staff.api.cakeThrowSoundEvent
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
@@ -60,16 +59,6 @@ class CakeHandler : StaffHandler() {
 
         val spawnPos = cakeEntityType.get().getSpawnPosition(world, user.approximateStaffTipPosition) ?: return
 
-        world.spawnEntity(
-            CakeEntity(world, spawnPos, user.rotationVector * velocityMultiplier + user.velocity, user)
-        )
-        world.playSound(
-            null,
-            user.blockPos,
-            cakeThrowSoundEvent.get(),
-            user.soundCategory,
-            0.5f,
-            0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
-        )
+        CakeEntity.throwCake(world, spawnPos, user.rotationVector * velocityMultiplier + user.velocity, user)
     }
 }

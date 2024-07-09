@@ -40,10 +40,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
-import opekope2.avm_staff.api.cakeDamageType
-import opekope2.avm_staff.api.cakeEntityType
-import opekope2.avm_staff.api.cakeSplashSoundEvent
-import opekope2.avm_staff.api.playerCakeDamageType
+import opekope2.avm_staff.api.*
 import opekope2.avm_staff.util.damageSource
 import opekope2.avm_staff.util.times
 
@@ -204,7 +201,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         startPos = blockPos
     }
 
-    private companion object {
+    companion object {
         private val CAKE_STATE = Blocks.CAKE.defaultState
         private val BLOCK_POS = DataTracker.registerData(
             CakeEntity::class.java, TrackedDataHandlerRegistry.BLOCK_POS
@@ -218,5 +215,24 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
                 GraphicsMode.FANCY -> 5
                 GraphicsMode.FABULOUS -> 6
             }
+
+        /**
+         * Creates a new [CakeEntity] and throws it.
+         *
+         * @param world     The world to spawn the cake in
+         * @param position  The position to spawn the cake at
+         * @param velocity  The speed of the cake
+         * @param thrower   The owner of the cake, who takes credit for the cake's damage. If `null`, no sound is played
+         */
+        @JvmStatic
+        fun throwCake(world: World, position: Vec3d, velocity: Vec3d, thrower: LivingEntity?) {
+            world.spawnEntity(CakeEntity(world, position, velocity, thrower))
+            world.playSound(
+                null,
+                position.x, position.y, position.z,
+                cakeThrowSoundEvent.get(), thrower?.soundCategory ?: return,
+                0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
+            )
+        }
     }
 }
