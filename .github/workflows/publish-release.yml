@@ -209,3 +209,4 @@ jobs:
         uses: mhausenblas/mkdocs-deploy-gh-pages@1.26
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          REQUIREMENTS: requirements.txt
