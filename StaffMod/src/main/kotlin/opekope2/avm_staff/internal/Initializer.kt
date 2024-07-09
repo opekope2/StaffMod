@@ -28,6 +28,7 @@ import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.block.DispenserBlock
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.TntEntityRenderer
@@ -46,6 +47,7 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.*
+import opekope2.avm_staff.api.block.dispenser.CakeDispenserBehavior
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
@@ -91,6 +93,7 @@ fun modifyLootTables(
 fun subscribeToEvents() {
     InteractionEvent.LEFT_CLICK_BLOCK.register(::attackBlock)
     InteractionEvent.RIGHT_CLICK_ITEM.register(::tryThrowCake)
+    LifecycleEvent.SETUP.register(::setup)
     LootEvent.MODIFY_LOOT_TABLE.register(::modifyLootTables)
     EntityEvent.LIVING_DEATH.register(::stopUsingStaffOnPlayerDeath)
     PlayerEvent.DROP_ITEM.register(::stopUsingStaffWhenDropped)
@@ -129,6 +132,10 @@ fun tryThrowCake(player: PlayerEntity, hand: Hand): CompoundEventResult<ItemStac
     cake.decrementUnlessCreative(1, player)
 
     return CompoundEventResult.interrupt(world.isClient, player.getStackInHand(hand))
+}
+
+fun setup() {
+    DispenserBlock.registerBehavior(Items.CAKE, CakeDispenserBehavior())
 }
 
 fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity): EventResult {
