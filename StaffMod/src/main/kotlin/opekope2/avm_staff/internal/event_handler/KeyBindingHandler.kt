@@ -21,6 +21,7 @@
 
 package opekope2.avm_staff.internal.event_handler
 
+import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
@@ -35,14 +36,18 @@ import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPac
 import opekope2.avm_staff.util.MOD_ID
 import org.lwjgl.glfw.GLFW
 
-val addRemoveStaffItemKeyBinding = KeyBinding(
+private val addRemoveStaffItemKeyBinding = KeyBinding(
     "key.$MOD_ID.add_remove_staff_item",
     InputUtil.Type.KEYSYM,
     GLFW.GLFW_KEY_R,
     "key.categories.$MOD_ID"
 )
 
-fun handleKeyBindings(client: MinecraftClient) {
+internal fun registerKeyBindings() {
+    KeyMappingRegistry.register(addRemoveStaffItemKeyBinding)
+}
+
+internal fun handleKeyBindings(client: MinecraftClient) {
     if (!addRemoveStaffItemKeyBinding.isPressed) return
     addRemoveStaffItemKeyBinding.isPressed = false
 

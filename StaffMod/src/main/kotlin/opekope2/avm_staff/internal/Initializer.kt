@@ -23,7 +23,6 @@ import dev.architectury.event.EventResult
 import dev.architectury.event.events.client.ClientLifecycleEvent
 import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.*
-import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import net.fabricmc.api.EnvType
@@ -149,7 +148,7 @@ fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity): EventResu
 
 @Environment(EnvType.CLIENT)
 fun registerClientContent() {
-    KeyMappingRegistry.register(addRemoveStaffItemKeyBinding)
+    registerKeyBindings()
     EntityRendererRegistry.register(impactTntEntityType, ::TntEntityRenderer)
     EntityRendererRegistry.register(cakeEntityType, ::CakeEntityRenderer)
 }
@@ -165,8 +164,8 @@ fun registerSmithingTableTextures() {
 @Environment(EnvType.CLIENT)
 fun subscribeToClientEvents() {
     ClientLifecycleEvent.CLIENT_SETUP.register(::setupClient)
-    InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(::clientAttack)
     ClientTickEvent.CLIENT_POST.register(::handleKeyBindings)
+    InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(::clientAttack)
 }
 
 @Suppress("UNUSED_PARAMETER")
