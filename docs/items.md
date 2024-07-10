@@ -123,6 +123,10 @@
 
 **Crown of King Orange** has 100% change of generating in the [treasure room](https://minecraft.wiki/w/Bastion_Remnant#Treasure_room) of a [Bastion Remnant](https://minecraft.wiki/w/Bastion_Remnant). [See related loot table](data.md#avm_staffloot_tablesadd_loot_poolchestsbastion_treasurejson).
 
+### Placing
+
+Crown of King Orange can be placed on the floor or walls as decoration, similar to a [skull](https://minecraft.wiki/w/Skull) block.
+
 ## Staff infusion smithing template
 
 **Staff infusion smithing template** is a [common](https://minecraft.wiki/w/Rarity#Tiers) item used to infuse a material into a faint staff, transforming it into a functioning staff.
