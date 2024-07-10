@@ -19,13 +19,15 @@
 package opekope2.avm_staff.internal.networking.c2s.play
 
 import dev.architectury.networking.NetworkManager
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.internal.networking.IC2SPacket
-import opekope2.avm_staff.internal.networking.PacketRegistrar
-import opekope2.avm_staff.util.MOD_ID
+import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
+import opekope2.avm_staff.util.*
 
-class InsertItemIntoStaffC2SPacket() : IC2SPacket {
+internal class InsertItemIntoStaffC2SPacket() : IC2SPacket {
     @Suppress("UNUSED_PARAMETER")
     constructor(buf: PacketByteBuf) : this()
 
@@ -34,9 +36,43 @@ class InsertItemIntoStaffC2SPacket() : IC2SPacket {
     override fun write(buf: PacketByteBuf) {
     }
 
-    companion object : PacketRegistrar<InsertItemIntoStaffC2SPacket>(
+    companion object : PacketRegistrarAndReceiver<InsertItemIntoStaffC2SPacket>(
         NetworkManager.c2s(),
         Identifier(MOD_ID, "add_item"),
         ::InsertItemIntoStaffC2SPacket
-    )
+    ) {
+        override fun receive(packet: InsertItemIntoStaffC2SPacket, context: NetworkManager.PacketContext) {
+            context.player.tryInsertItemIntoStaff { player, staffStack, toInsert ->
+                staffStack.mutableItemStackInStaff = toInsert.split(1)
+                player.resetLastAttackedTicks()
+            }
+        }
+
+        inline fun PlayerEntity.tryInsertItemIntoStaff(insertAction: (PlayerEntity, ItemStack, ItemStack) -> Unit): Boolean {
+            val staffStack: ItemStack
+            val itemStackToAdd: ItemStack
+
+            when {
+                mainHandStack.isStaff && !offHandStack.isStaff -> {
+                    staffStack = mainHandStack
+                    itemStackToAdd = offHandStack
+                }
+
+                offHandStack.isStaff && !mainHandStack.isStaff -> {
+                    staffStack = offHandStack
+                    itemStackToAdd = mainHandStack
+                }
+
+                else -> return false
+            }
+
+            if (itemStackToAdd.isEmpty) return false
+            if (staffStack.isItemInStaff) return false
+            if (isItemCoolingDown(staffStack.item)) return false
+            if (!itemStackToAdd.item.hasStaffHandler) return false
+
+            insertAction(this, staffStack, itemStackToAdd)
+            return true
+        }
+    }
 }

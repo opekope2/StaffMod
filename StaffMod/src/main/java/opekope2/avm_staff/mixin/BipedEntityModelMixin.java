@@ -22,7 +22,8 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
 import opekope2.avm_staff.api.StaffMod;
-import opekope2.avm_staff.api.staff.StaffRendererOverrideComponent;
+import opekope2.avm_staff.api.component.StaffRendererOverrideComponent;
+import opekope2.avm_staff.util.ItemStackUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -70,9 +71,9 @@ public abstract class BipedEntityModelMixin {
     @Unique
     private boolean staffMod$pointForward(BipedEntityModel.ArmPose armPose, LivingEntity entity) {
         if (armPose != BipedEntityModel.ArmPose.ITEM) return false;
-        if (entity.getActiveItem().isIn(StaffMod.getStaffsTag())) return true;
+        if (!ItemStackUtil.isStaff(entity.getActiveItem())) return false;
 
-        StaffRendererOverrideComponent rendererOverride = entity.getMainHandStack().get(StaffMod.getStaffRendererOverrideComponentType().get());
-        return rendererOverride != null && rendererOverride.isActive();
+        StaffRendererOverrideComponent rendererOverride = entity.getActiveItem().get(StaffMod.getStaffRendererOverrideComponentType().get());
+        return rendererOverride == null || rendererOverride.isActive().orElse(true);
     }
 }

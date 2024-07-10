@@ -21,13 +21,10 @@ package opekope2.avm_staff.mixin.fabric;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import opekope2.avm_staff.api.StaffMod;
-import opekope2.avm_staff.api.staff.StaffHandler;
-import opekope2.avm_staff.util.StaffUtil;
+import opekope2.avm_staff.api.item.StaffItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -50,30 +47,20 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "disablesShield", at = @At("HEAD"), cancellable = true)
     public void disableShield(CallbackInfoReturnable<Boolean> cir) {
         ItemStack mainHandStack = getMainHandStack();
-        if (!mainHandStack.isIn(StaffMod.getStaffsTag())) return;
-
-        Item itemInStaff = StaffUtil.getItemInStaff(mainHandStack);
-        if (itemInStaff == null) return;
-
-        StaffHandler handlerOfItem = StaffUtil.getStaffHandlerOrDefault(itemInStaff);
-        if (handlerOfItem.disablesShield()) {
-            cir.setReturnValue(true);
+        if (mainHandStack.getItem() instanceof StaffItem staffItem) {
+            if (staffItem.disablesShield(mainHandStack, getEntityWorld(), (LivingEntity) (Object) this, Hand.MAIN_HAND)) {
+                cir.setReturnValue(true);
+            }
         }
     }
 
-    @SuppressWarnings("UnreachableCode") // Calm down IDEA, this is not what it looks like. Literally
     @Inject(method = "swingHand(Lnet/minecraft/util/Hand;Z)V", at = @At("HEAD"), cancellable = true)
     public void swingHand(Hand hand, boolean fromServerPlayer, CallbackInfo ci) {
         ItemStack stackInHand = getStackInHand(hand);
-        if (stackInHand.isEmpty()) return;
-        if (!stackInHand.isIn(StaffMod.getStaffsTag())) return;
-
-        Item itemInStaff = StaffUtil.getItemInStaff(stackInHand);
-        if (itemInStaff == null) return;
-
-        StaffHandler handlerOfItem = StaffUtil.getStaffHandlerOrDefault(itemInStaff);
-        if (!handlerOfItem.canSwingHand(stackInHand, getEntityWorld(), (LivingEntity) (Object) this, hand)) {
-            ci.cancel();
+        if (stackInHand.getItem() instanceof StaffItem staffItem) {
+            if (!staffItem.canSwingHand(stackInHand, getEntityWorld(), (LivingEntity) (Object) this, hand)) {
+                ci.cancel();
+            }
         }
     }
 }

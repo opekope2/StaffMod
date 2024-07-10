@@ -1,0 +1,16 @@
+{
+  "entity.cake.splash": {
+    "sounds": [
+      "block/cake/add_candle1",
+      "block/cake/add_candle2",
+      "block/cake/add_candle3"
+    ],
+    "subtitle": "subtitles.entity.avm_staff.cake.splash"
+  },
+  "entity.cake.throw": {
+    "sounds": [
+      "random/bow"
+    ],
+    "subtitle": "subtitles.entity.avm_staff.cake.throw"
+  }
+}

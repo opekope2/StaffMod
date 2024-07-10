@@ -23,7 +23,6 @@ import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -36,7 +35,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.util.addDefault
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -83,9 +81,8 @@ abstract class StaffHandler {
      * @param hand          The hand of the [user], in which the [staff][staffStack] is
      * @see Item.use
      */
-    open fun use(staffStack: ItemStack, world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        return TypedActionResult.pass(user.getStackInHand(hand))
-    }
+    open fun use(staffStack: ItemStack, world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> =
+        TypedActionResult.pass(user.getStackInHand(hand))
 
     /**
      * Called on both the client and the server by Minecraft every tick an entity uses the staff.
@@ -123,9 +120,7 @@ abstract class StaffHandler {
      * @return              The item stack after using the staff
      * @see Item.finishUsing
      */
-    open fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
-        return staffStack
-    }
+    open fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity) = staffStack
 
     /**
      * Called on both the client and the server by Minecraft, when an entity uses the staff on a block.
@@ -165,15 +160,8 @@ abstract class StaffHandler {
      * @see Item.useOnBlock
      */
     open fun useOnBlock(
-        staffStack: ItemStack,
-        world: World,
-        user: LivingEntity,
-        target: BlockPos,
-        side: Direction,
-        hand: Hand
-    ): ActionResult {
-        return ActionResult.PASS
-    }
+        staffStack: ItemStack, world: World, user: LivingEntity, target: BlockPos, side: Direction, hand: Hand
+    ) = ActionResult.PASS
 
     /**
      * Called on both the client and the server by Minecraft, when an entity uses the staff on an entity.
@@ -212,14 +200,8 @@ abstract class StaffHandler {
      * @see Item.useOnEntity
      */
     open fun useOnEntity(
-        staffStack: ItemStack,
-        world: World,
-        user: LivingEntity,
-        target: LivingEntity,
-        hand: Hand
-    ): ActionResult {
-        return ActionResult.PASS
-    }
+        staffStack: ItemStack, world: World, user: LivingEntity, target: LivingEntity, hand: Hand
+    ) = ActionResult.PASS
 
     /**
      * Called on both the client by Architectury API and the server by Staff Mod, when an entity attacks thin air with a
@@ -230,7 +212,8 @@ abstract class StaffHandler {
      * @param attacker      The entity, which attacked with the staff
      * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
      */
-    open fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {}
+    open fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
+    }
 
     /**
      * Called on both the client and the server by Architectury API, when an entity attacks a block with a staff.
@@ -249,15 +232,8 @@ abstract class StaffHandler {
      * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
      */
     open fun attackBlock(
-        staffStack: ItemStack,
-        world: World,
-        attacker: LivingEntity,
-        target: BlockPos,
-        side: Direction,
-        hand: Hand
-    ): EventResult {
-        return EventResult.pass()
-    }
+        staffStack: ItemStack, world: World, attacker: LivingEntity, target: BlockPos, side: Direction, hand: Hand
+    ): EventResult = EventResult.pass()
 
     /**
      * Called on both the client by Fabric/Neo/Forge API and the server by Fabric/Neo/Forge API, when an entity attacks
@@ -276,14 +252,8 @@ abstract class StaffHandler {
      * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
      */
     open fun attackEntity(
-        staffStack: ItemStack,
-        world: World,
-        attacker: LivingEntity,
-        target: Entity,
-        hand: Hand
-    ): EventResult {
-        return EventResult.pass()
-    }
+        staffStack: ItemStack, world: World, attacker: LivingEntity, target: Entity, hand: Hand
+    ): EventResult = EventResult.pass()
 
     /**
      * Called on both the client and the server by Staff Mod on Fabric and Neo/Forge API on Neo/Forge, when an entity
@@ -295,16 +265,17 @@ abstract class StaffHandler {
      * @param hand          The hand of the [holder], in which the [staff][staffStack] is
      * @return `true` to allow hand swing, `false` to cancel it
      */
-    open fun canSwingHand(staffStack: ItemStack, world: World, holder: LivingEntity, hand: Hand): Boolean {
-        return true
-    }
+    open fun canSwingHand(staffStack: ItemStack, world: World, holder: LivingEntity, hand: Hand) = true
 
     /**
      * Returns if attacking with the staff should disable the target's shield.
+     *
+     * @param staffStack    The item stack used for attacking
+     * @param world         The world [attacker] is in
+     * @param attacker      The entity, which attacks
+     * @param hand          The hand of [attacker], in which the [staff][staffStack] is
      */
-    open fun disablesShield(): Boolean {
-        return false
-    }
+    open fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) = false
 
     /**
      * Called on the client side by Fabric API, when the NBT of the held item gets updated.
@@ -316,13 +287,8 @@ abstract class StaffHandler {
      * @return `true` to play the update/equip animation, `false` to skip it
      */
     open fun allowComponentsUpdateAnimation(
-        oldStaffStack: ItemStack,
-        newStaffStack: ItemStack,
-        player: PlayerEntity,
-        hand: Hand
-    ): Boolean {
-        return true
-    }
+        oldStaffStack: ItemStack, newStaffStack: ItemStack, player: PlayerEntity, hand: Hand
+    ) = true
 
     /**
      * Called on the client side by Neo/Forge, when the NBT of the held item gets updated.
@@ -336,21 +302,14 @@ abstract class StaffHandler {
         oldStaffStack: ItemStack,
         newStaffStack: ItemStack,
         selectedSlotChanged: Boolean
-    ): Boolean {
-        return oldStaffStack != newStaffStack
-    }
+    ) = oldStaffStack != newStaffStack
 
     /**
      * Handler of a staff with no item inserted into it.
      */
     object Default : StaffHandler() {
         @JvmField
-        val ATTRIBUTE_MODIFIERS: AttributeModifiersComponent = AttributeModifiersComponent.builder()
-            .addDefault(EntityAttributes.GENERIC_ATTACK_DAMAGE)
-            .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
-            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
-            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-            .build()
+        val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder.default()
     }
 
     companion object {

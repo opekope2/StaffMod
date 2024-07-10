@@ -22,11 +22,12 @@ import dev.architectury.networking.NetworkManager
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.networking.IC2SPacket
-import opekope2.avm_staff.internal.networking.PacketRegistrar
+import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.MOD_ID
 
-class AttackC2SPacket(val hand: Hand) : IC2SPacket {
+internal class AttackC2SPacket(val hand: Hand) : IC2SPacket {
     constructor(buf: PacketByteBuf) : this(buf.readEnumConstant(Hand::class.java))
 
     override fun getId() = payloadId
@@ -35,9 +36,17 @@ class AttackC2SPacket(val hand: Hand) : IC2SPacket {
         buf.writeEnumConstant(hand)
     }
 
-    companion object : PacketRegistrar<AttackC2SPacket>(
+    companion object : PacketRegistrarAndReceiver<AttackC2SPacket>(
         NetworkManager.c2s(),
         Identifier(MOD_ID, "attack"),
         ::AttackC2SPacket
-    )
+    ) {
+        override fun receive(packet: AttackC2SPacket, context: NetworkManager.PacketContext) {
+            val player = context.player
+            val staffStack = player.mainHandStack
+            val staffItem = staffStack.item as? StaffItem ?: return
+
+            staffItem.attack(staffStack, player.entityWorld, player, packet.hand)
+        }
+    }
 }

@@ -19,6 +19,7 @@
 package opekope2.avm_staff.api.item
 
 import net.minecraft.component.DataComponentTypes
+import net.minecraft.entity.Entity
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -30,6 +31,8 @@ import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
@@ -86,14 +89,45 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
         return stack.itemInStaff.staffHandlerOrDefault.useOnEntity(stack, user.world, user, entity, hand)
     }
 
+    /**
+     * @see StaffHandler.attack
+     */
+    open fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) =
+        staffStack.itemInStaff.staffHandlerOrDefault.attack(staffStack, world, attacker, hand)
+
+    /**
+     * @see StaffHandler.attackBlock
+     */
+    open fun attackBlock(
+        staffStack: ItemStack, world: World, attacker: LivingEntity, target: BlockPos, side: Direction, hand: Hand
+    ) = staffStack.itemInStaff.staffHandlerOrDefault.attackBlock(staffStack, world, attacker, target, side, hand)
+
+    /**
+     * @see StaffHandler.attackEntity
+     */
+    open fun attackEntity(
+        staffStack: ItemStack, world: World, attacker: LivingEntity, target: Entity, hand: Hand
+    ) = staffStack.itemInStaff.staffHandlerOrDefault.attackEntity(staffStack, world, attacker, target, hand)
+
+    /**
+     * @see StaffHandler.canSwingHand
+     */
+    open fun canSwingHand(staffStack: ItemStack, world: World, holder: LivingEntity, hand: Hand) =
+        staffStack.itemInStaff.staffHandlerOrDefault.canSwingHand(staffStack, world, holder, hand)
+
+    /**
+     * @see StaffHandler.disablesShield
+     */
+    open fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) =
+        staffStack.itemInStaff.staffHandlerOrDefault.disablesShield(staffStack, world, attacker, hand)
+
     override fun getName(stack: ItemStack): Text {
         val staffItem = stack.itemStackInStaff ?: return super.getName(stack)
         val staffItemText = Text.translatable(staffItem.item.getTranslationKey(staffItem))
         return Text.translatable(getTranslationKey(stack), staffItemText)
     }
 
-    override fun getTranslationKey(stack: ItemStack): String {
-        return if (stack.isItemInStaff) "$translationKey.with_item"
+    override fun getTranslationKey(stack: ItemStack): String =
+        if (stack.isItemInStaff) "$translationKey.with_item"
         else super.getTranslationKey(stack)
-    }
 }

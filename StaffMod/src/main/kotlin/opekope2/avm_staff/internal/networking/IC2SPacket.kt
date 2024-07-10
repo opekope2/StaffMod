@@ -22,7 +22,7 @@ import dev.architectury.networking.NetworkManager
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 
-interface IC2SPacket : IPacket {
+internal interface IC2SPacket : IPacket {
     @Environment(EnvType.CLIENT)
     fun sendToServer() = NetworkManager.sendToServer(this)
 }

@@ -8,10 +8,14 @@
   },
   "client": [
     "BipedEntityModelMixin",
-    "IMinecraftClientMixin",
+    "IMinecraftClientAccessor",
     "IParticleMixin"
   ],
   "mixins": [
-    "LivingEntityMixin"
+    "IAbstractFurnaceBlockEntityInvoker",
+    "IAnvilBlockAccessor",
+    "ICakeBlockAccessor",
+    "IPiglinBrainInvoker",
+    "ISmithingTemplateItemAccessor"
   ]
 }

@@ -5,11 +5,33 @@
   "name": "Staff Mod (Animation vs Minecraft)",
   "description": "AvM Staff Mod is a fan-made, mostly canonically accurate, and close to vanilla mod adding staffs from Animation vs Minecraft series to the latest version of Minecraft: Java Edition",
   "authors": [
-    "opekope2"
+    {
+      "name": "opekope2",
+      "contact": {
+        "homepage": "https://opekope2.dev",
+        "github": "https://github.com/opekope2"
+      }
+    }
   ],
   "contributors": [
-    "Brother_Oliviär",
-    "Ink&Soul"
+    {
+      "name": "Alan Becker",
+      "contact": {
+        "youtube": "https://www.youtube.com/@alanbecker"
+      }
+    },
+    {
+      "name": "Brother_Oliviär"
+    },
+    {
+      "name": "Ink&Soul",
+      "contact": {
+        "github": "https://github.com/MBYL-InkAndSoul"
+      }
+    },
+    {
+      "name": "MoonWolf"
+    }
   ],
   "contact": {
     "homepage": "https://opekope2.dev/StaffMod",
@@ -39,7 +61,7 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.staff_handler.VanillaStaffHandlersKt::registerVanillaStaffHandlers"
+        "value": "opekope2.avm_staff.internal.staff.handler.VanillaStaffHandlersKt::registerVanillaStaffHandlers"
       }
     ],
     "client": [
@@ -61,7 +83,7 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.staff_handler.VanillaStaffHandlersKt::registerVanillaStaffItemRenderers"
+        "value": "opekope2.avm_staff.internal.staff.handler.VanillaStaffHandlersKt::registerVanillaStaffItemRenderers"
       }
     ]
   },

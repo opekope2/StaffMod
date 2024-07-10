@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "avm_staff:block/crown_of_king_orange_0",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "avm_staff:block/crown_of_king_orange_0",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "avm_staff:block/crown_of_king_orange_0",
+      "x": 90,
+      "y": -90
+    },
+    "facing=east": {
+      "model": "avm_staff:block/crown_of_king_orange_0",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

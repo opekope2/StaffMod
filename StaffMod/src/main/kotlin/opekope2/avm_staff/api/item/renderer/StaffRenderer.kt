@@ -27,19 +27,21 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
+import opekope2.avm_staff.api.component.StaffRendererPartComponent
 import opekope2.avm_staff.api.staffRendererOverrideComponentType
-import opekope2.avm_staff.internal.model.HEAD_SEED
-import opekope2.avm_staff.internal.model.ITEM_SEED
-import opekope2.avm_staff.internal.model.ROD_BOTTOM_SEED
-import opekope2.avm_staff.internal.model.ROD_TOP_SEED
+import opekope2.avm_staff.api.staffRendererPartComponentType
 import opekope2.avm_staff.util.itemStackInStaff
 import opekope2.avm_staff.util.push
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Builtin model item renderer for staffs.
  */
 @Environment(EnvType.CLIENT)
 object StaffRenderer {
+    private val bakedModelManager by lazy { MinecraftClient.getInstance().bakedModelManager }
+    private val itemRenderer by lazy { MinecraftClient.getInstance().itemRenderer }
+
     /**
      * Renders the staff.
      *
@@ -58,26 +60,26 @@ object StaffRenderer {
         light: Int,
         overlay: Int
     ) {
-        val renderMode = staffStack[staffRendererOverrideComponentType.get()]?.renderMode ?: mode
+        val renderMode = staffStack[staffRendererOverrideComponentType.get()]?.renderMode?.getOrNull() ?: mode
 
         when (renderMode) {
             ModelTransformationMode.GUI -> renderInventoryStaff(
-                renderMode, staffStack, matrices, vertexConsumers, light, overlay
+                staffStack, renderMode, matrices, vertexConsumers, light, overlay
             )
 
             ModelTransformationMode.FIXED -> renderItemFrameStaff(
-                renderMode, staffStack, matrices, vertexConsumers, light, overlay
+                staffStack, renderMode, matrices, vertexConsumers, light, overlay
             )
 
             else -> renderFullStaff(
-                renderMode, staffStack, matrices, vertexConsumers, light, overlay
+                staffStack, renderMode, matrices, vertexConsumers, light, overlay
             )
         }
     }
 
     private fun renderFullStaff(
-        mode: ModelTransformationMode,
         staffStack: ItemStack,
+        mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
@@ -89,31 +91,29 @@ object StaffRenderer {
             // Head
             push {
                 translate(0f, 16f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
 
                 // Item
-                staffStack.itemStackInStaff?.let { itemInStaff ->
-                    renderItem(mode, this, staffStack, itemInStaff, light, overlay, vertexConsumers)
-                }
+                renderItem(staffStack, mode, this, light, overlay, vertexConsumers)
             }
 
             // Rod (top)
             push {
                 translate(0f, 2f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_TOP_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.ROD_TOP)
             }
 
             // Rod (bottom)
             push {
                 translate(0f, -12f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_BOTTOM_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.ROD_BOTTOM)
             }
         }
     }
 
     private fun renderInventoryStaff(
-        mode: ModelTransformationMode,
         staffStack: ItemStack,
+        mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
@@ -124,19 +124,17 @@ object StaffRenderer {
 
             // Head
             push {
-                renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
 
                 // Item
-                staffStack.itemStackInStaff?.let { itemInStaff ->
-                    renderItem(mode, this, staffStack, itemInStaff, light, overlay, vertexConsumers)
-                }
+                renderItem(staffStack, mode, this, light, overlay, vertexConsumers)
             }
         }
     }
 
     private fun renderItemFrameStaff(
-        mode: ModelTransformationMode,
         staffStack: ItemStack,
+        mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
@@ -148,43 +146,61 @@ object StaffRenderer {
             // Head
             push {
                 translate(0f, 9f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, HEAD_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
 
                 // Item
-                staffStack.itemStackInStaff?.let { itemInStaff ->
-                    renderItem(mode, this, staffStack, itemInStaff, light, overlay, vertexConsumers)
-                }
+                renderItem(staffStack, mode, this, light, overlay, vertexConsumers)
             }
 
             // Rod (top)
             push {
                 translate(0f, -5f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, ROD_TOP_SEED)
+                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.ROD_TOP)
             }
         }
     }
 
     private fun renderItem(
+        staffStack: ItemStack,
         mode: ModelTransformationMode,
         matrices: MatrixStack,
-        staffStack: ItemStack,
-        itemStackInStaff: ItemStack,
         light: Int,
         overlay: Int,
         vertexConsumers: VertexConsumerProvider
     ) {
         matrices.push {
-            safeGetModel(staffStack, ITEM_SEED).transformation.fixed.apply(false, this)
+            safeGetModel(staffStack, StaffRendererPartComponent.ITEM).transformation.fixed.apply(false, this)
 
-            val staffItemRenderer = IStaffItemRenderer[Registries.ITEM.getId(itemStackInStaff.item)]
-            if (staffItemRenderer != null) {
-                staffItemRenderer.renderItemInStaff(staffStack, mode, this, vertexConsumers, light, overlay)
+            val blockStateOverride = staffStack[staffRendererOverrideComponentType.get()]?.blockState?.getOrNull()
+            if (blockStateOverride != null) {
+                BlockStateStaffItemRenderer.renderBlockState(
+                    blockStateOverride, matrices, vertexConsumers, light, overlay
+                )
             } else {
-                val itemRenderer = MinecraftClient.getInstance().itemRenderer
-
-                val model = MinecraftClient.getInstance().bakedModelManager.missingModel
-                itemRenderer.renderItem(itemStackInStaff, mode, false, this, vertexConsumers, light, overlay, model)
+                staffStack.itemStackInStaff?.let { itemInStaff ->
+                    renderItem(staffStack, itemInStaff, mode, matrices, light, overlay, vertexConsumers)
+                }
             }
+        }
+    }
+
+    private fun renderItem(
+        staffStack: ItemStack,
+        itemStackInStaff: ItemStack,
+        mode: ModelTransformationMode,
+        matrices: MatrixStack,
+        light: Int,
+        overlay: Int,
+        vertexConsumers: VertexConsumerProvider
+    ) {
+        val staffItemRenderer = IStaffItemRenderer[Registries.ITEM.getId(itemStackInStaff.item)]
+        if (staffItemRenderer != null) {
+            staffItemRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
+        } else {
+            val model = bakedModelManager.missingModel
+            itemRenderer.renderItem(
+                itemStackInStaff, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
+            )
         }
     }
 
@@ -194,24 +210,22 @@ object StaffRenderer {
         vertexConsumers: VertexConsumerProvider,
         light: Int,
         overlay: Int,
-        partSeed: Int
+        part: StaffRendererPartComponent
     ) {
-        val itemRenderer = MinecraftClient.getInstance().itemRenderer
-
-        val model = safeGetModel(staffStack, partSeed)
+        val model = safeGetModel(staffStack, part)
 
         itemRenderer.renderItem(
             staffStack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
         )
     }
 
-    private fun safeGetModel(staffStack: ItemStack, partSeed: Int): BakedModel {
-        val itemRenderer = MinecraftClient.getInstance().itemRenderer
-
-        val model = itemRenderer.getModel(staffStack, null, null, partSeed)
+    private fun safeGetModel(staffStack: ItemStack, part: StaffRendererPartComponent): BakedModel {
+        staffStack[staffRendererPartComponentType.get()] = part
+        val model = itemRenderer.getModel(staffStack, null, null, 0)
+        staffStack.remove(staffRendererPartComponentType.get())
 
         // Prevent StackOverflowError if an override is missing
         return if (!model.isBuiltin) model
-        else MinecraftClient.getInstance().bakedModelManager.missingModel
+        else bakedModelManager.missingModel
     }
 }

@@ -63,10 +63,6 @@ dependencies {
     modImplementation(libs.fabric.language.kotlin)
 }
 
-loom {
-    accessWidenerPath = project(":StaffMod").loom.accessWidenerPath
-}
-
 tasks {
     jar {
         archiveClassifier = "dev"

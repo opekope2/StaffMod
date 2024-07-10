@@ -17,39 +17,53 @@
  */
 
 @file: Environment(EnvType.CLIENT)
+@file: Suppress("UNUSED_PARAMETER")
 
 package opekope2.avm_staff.internal.event_handler
 
+import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket.Companion.tryInsertItemIntoStaff
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket.Companion.tryRemoveItemFromStaff
 import opekope2.avm_staff.util.MOD_ID
 import org.lwjgl.glfw.GLFW
 
-val addRemoveStaffItemKeyBinding = KeyBinding(
+private val addRemoveStaffItemKeyBinding = KeyBinding(
     "key.$MOD_ID.add_remove_staff_item",
     InputUtil.Type.KEYSYM,
     GLFW.GLFW_KEY_R,
     "key.categories.$MOD_ID"
 )
 
-fun handleKeyBindings(client: MinecraftClient) {
+internal fun registerKeyBindings() {
+    KeyMappingRegistry.register(addRemoveStaffItemKeyBinding)
+}
+
+internal fun handleKeyBindings(client: MinecraftClient) {
     if (!addRemoveStaffItemKeyBinding.isPressed) return
     addRemoveStaffItemKeyBinding.isPressed = false
 
     val player = client.player ?: return
 
-    player.canInsertIntoStaff().ifSuccess {
-        InsertItemIntoStaffC2SPacket().sendToServer()
-        player.resetLastAttackedTicks()
-    }.ifError {
-        player.canRemoveFromStaff().ifSuccess {
-            RemoveItemFromStaffC2SPacket().sendToServer()
-            player.resetLastAttackedTicks()
-        }
+    if (!player.tryInsertItemIntoStaff(::sendInsertPacket)) {
+        player.tryRemoveItemFromStaff(::sendRemovePacket)
     }
+}
+
+private fun sendRemovePacket(player: PlayerEntity, staffStack: ItemStack, targetSlot: Int) {
+    RemoveItemFromStaffC2SPacket().sendToServer()
+    player.resetLastAttackedTicks()
+}
+
+private fun sendInsertPacket(player: PlayerEntity, staffStack: ItemStack, itemStackToAdd: ItemStack) {
+    InsertItemIntoStaffC2SPacket().sendToServer()
+    player.resetLastAttackedTicks()
 }

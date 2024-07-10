@@ -42,10 +42,6 @@ dependencies {
     }
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/avm_staff.accesswidener")
-}
-
 tasks {
     dokkaHtml {
         moduleName = "Staff Mod"
@@ -69,12 +65,12 @@ tasks {
             )
 
             perPackageOption {
-                matchingRegex = ".*internal.*"
+                matchingRegex = """opekope2\.avm_staff\.internal(\..*)?"""
                 suppress = true
             }
 
             perPackageOption {
-                matchingRegex = ".*mixin.*"
+                matchingRegex = """opekope2\.avm_staff\.mixin"""
                 suppress = true
             }
 
@@ -94,6 +90,7 @@ tasks {
                 url = uri("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/").toURL()
                 packageListUrl = uri("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/element-list").toURL()
             }
+            // Fixme Architectury API
             externalDocumentationLink {
                 url = uri("https://joml-ci.github.io/JOML/apidocs/").toURL()
                 packageListUrl = uri("https://joml-ci.github.io/JOML/apidocs/element-list").toURL()

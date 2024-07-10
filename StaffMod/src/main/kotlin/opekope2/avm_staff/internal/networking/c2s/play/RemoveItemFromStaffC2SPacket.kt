@@ -19,13 +19,16 @@
 package opekope2.avm_staff.internal.networking.c2s.play
 
 import dev.architectury.networking.NetworkManager
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.internal.networking.IC2SPacket
-import opekope2.avm_staff.internal.networking.PacketRegistrar
-import opekope2.avm_staff.util.MOD_ID
+import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
+import opekope2.avm_staff.util.*
 
-class RemoveItemFromStaffC2SPacket() : IC2SPacket {
+internal class RemoveItemFromStaffC2SPacket() : IC2SPacket {
     @Suppress("UNUSED_PARAMETER")
     constructor(buf: PacketByteBuf) : this()
 
@@ -34,9 +37,50 @@ class RemoveItemFromStaffC2SPacket() : IC2SPacket {
     override fun write(buf: PacketByteBuf) {
     }
 
-    companion object : PacketRegistrar<RemoveItemFromStaffC2SPacket>(
+    companion object : PacketRegistrarAndReceiver<RemoveItemFromStaffC2SPacket>(
         NetworkManager.c2s(),
         Identifier(MOD_ID, "remove_item"),
         ::RemoveItemFromStaffC2SPacket
-    )
+    ) {
+        override fun receive(packet: RemoveItemFromStaffC2SPacket, context: NetworkManager.PacketContext) {
+            context.player.tryRemoveItemFromStaff { player, staffStack, targetSlot ->
+                player.inventory.insertStack(targetSlot, staffStack.mutableItemStackInStaff)
+                staffStack.mutableItemStackInStaff = null
+                player.resetLastAttackedTicks()
+            }
+        }
+
+        inline fun PlayerEntity.tryRemoveItemFromStaff(removeAction: (PlayerEntity, ItemStack, Int) -> Unit): Boolean {
+            if (isUsingItem) return false
+
+            val staffStack: ItemStack
+            val targetSlot: Int
+
+            when {
+                mainHandStack.isStaff && !offHandStack.isStaff -> {
+                    staffStack = mainHandStack
+                    targetSlot = PlayerInventory.OFF_HAND_SLOT
+                }
+
+                offHandStack.isStaff && !mainHandStack.isStaff -> {
+                    staffStack = offHandStack
+                    targetSlot = inventory.selectedSlot
+                }
+
+                else -> return false
+            }
+
+            val targetStack = inventory.getStack(targetSlot)
+            val itemStackInStaff = staffStack.itemStackInStaff ?: return false
+
+            if (isItemCoolingDown(staffStack.item)) return false
+            // ItemStack merge-ability check
+            if (targetStack.count + itemStackInStaff.count > itemStackInStaff.maxCount) return false
+            if (targetStack.isEmpty || ItemStack.areItemsAndComponentsEqual(targetStack, itemStackInStaff)) {
+                removeAction(this, staffStack, targetSlot)
+                return true
+            }
+            return false
+        }
+    }
 }

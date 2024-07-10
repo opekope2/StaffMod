@@ -15,6 +15,7 @@ Fan-made, mostly canonically accurate, and close to vanilla mod adding [staffs](
 * *[Alan Becker](https://www.youtube.com/@alanbecker)*, for animating Animation vs Minecraft series
 * *Brother Oliviär*, for drawing *Royal Staff Ingredient* and *Staff Infusion Smithing Template* textures
 * *[Ink&Soul](https://github.com/MBYL-InkAndSoul)*, for fixing a bug
+* *MoonWolf*, for giving unsolicited ideas
 
 ## Roadmap
 
@@ -40,6 +41,7 @@ Staff Mod implements functionalities for the following items:
 * [Anvil, chipped anvil, damaged anvil](https://opekope2.dev/StaffMod/staff.html#anvil-chipped-anvil-damaged-anvil)
 * [Bell](https://opekope2.dev/StaffMod/staff.html#bell)
 * [Bone block](https://opekope2.dev/StaffMod/staff.html#bone-block)
+* [Cake](https://opekope2.dev/StaffMod/staff.html#cake)
 * [Campfire, soul campfire](https://opekope2.dev/StaffMod/staff.html#campfire-soul-campfire)
 * [Furnace, blast furnace, smoker](https://opekope2.dev/StaffMod/staff.html#furnace-blast-furnace-smoker)
 * [Lightning rod](https://opekope2.dev/StaffMod/staff.html#lightning-rod)
