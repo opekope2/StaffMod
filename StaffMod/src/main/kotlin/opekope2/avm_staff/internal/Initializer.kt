@@ -31,9 +31,11 @@ import net.minecraft.block.DispenserBlock
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.TntEntityRenderer
+import net.minecraft.entity.Entity
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.mob.AbstractPiglinEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
@@ -45,15 +47,22 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Direction
+import net.minecraft.world.World
 import opekope2.avm_staff.api.*
 import opekope2.avm_staff.api.block.dispenser.CakeDispenserBehavior
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
-import opekope2.avm_staff.internal.event_handler.*
+import opekope2.avm_staff.internal.event_handler.handleKeyBindings
+import opekope2.avm_staff.internal.event_handler.registerKeyBindings
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.mixin.IPiglinBrainInvoker
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.*
 
@@ -72,35 +81,18 @@ private val MODIFIABLE_LOOT_TABLES = setOf(
     Identifier("chests/trial_chambers/reward_unique")
 )
 
-fun modifyLootTables(
-    lootTable: RegistryKey<LootTable>,
-    context: LootEvent.LootTableModificationContext,
-    builtin: Boolean
-) {
-    // FIXME builtin check after updating to 1.21 because Fabric detects experiments as data pack
-    if (lootTable.value !in MODIFIABLE_LOOT_TABLES) return
-
-    context.addPool(
-        LootPool.builder().with(
-            LootTableEntry.builder(
-                RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier(MOD_ID, "add_loot_pool/${lootTable.value.path}"))
-            )
-        )
-    )
-}
-
 fun subscribeToEvents() {
+    EntityEvent.LIVING_DEATH.register(::stopUsingStaffOnPlayerDeath)
     InteractionEvent.LEFT_CLICK_BLOCK.register(::attackBlock)
     InteractionEvent.RIGHT_CLICK_ITEM.register(::tryThrowCake)
     LifecycleEvent.SETUP.register(::setup)
     LootEvent.MODIFY_LOOT_TABLE.register(::modifyLootTables)
-    EntityEvent.LIVING_DEATH.register(::stopUsingStaffOnPlayerDeath)
-    PlayerEvent.DROP_ITEM.register(::stopUsingStaffWhenDropped)
     PlayerEvent.ATTACK_ENTITY.register(::tryAngerPiglins)
+    PlayerEvent.DROP_ITEM.register(::stopUsingStaffWhenDropped)
 }
 
 @Suppress("UNUSED_PARAMETER")
-fun stopUsingStaffOnPlayerDeath(entity: LivingEntity, damageSource: DamageSource): EventResult {
+private fun stopUsingStaffOnPlayerDeath(entity: LivingEntity, damageSource: DamageSource): EventResult {
     if (entity !is PlayerEntity) return EventResult.pass()
 
     iterator {
@@ -115,7 +107,17 @@ fun stopUsingStaffOnPlayerDeath(entity: LivingEntity, damageSource: DamageSource
     return EventResult.pass()
 }
 
-fun tryThrowCake(player: PlayerEntity, hand: Hand): CompoundEventResult<ItemStack> {
+private fun attackBlock(player: PlayerEntity, hand: Hand, target: BlockPos, direction: Direction): EventResult {
+    val staffStack = player.getStackInHand(hand)
+    if (staffStack !in staffsTag) return EventResult.pass()
+
+    val itemInStaff = staffStack.itemInStaff ?: return EventResult.pass()
+    val staffHandler = itemInStaff.staffHandler ?: return EventResult.pass()
+
+    return staffHandler.attackBlock(staffStack, player.entityWorld, player, target, direction, hand)
+}
+
+private fun tryThrowCake(player: PlayerEntity, hand: Hand): CompoundEventResult<ItemStack> {
     val world = player.entityWorld
     val cake = player.getStackInHand(hand)
 
@@ -133,8 +135,46 @@ fun tryThrowCake(player: PlayerEntity, hand: Hand): CompoundEventResult<ItemStac
     return CompoundEventResult.interrupt(world.isClient, player.getStackInHand(hand))
 }
 
-fun setup() {
+private fun setup() {
     DispenserBlock.registerBehavior(Items.CAKE, CakeDispenserBehavior())
+}
+
+private fun modifyLootTables(
+    lootTable: RegistryKey<LootTable>,
+    context: LootEvent.LootTableModificationContext,
+    builtin: Boolean
+) {
+    // FIXME builtin check after updating to 1.21 because Fabric detects experiments as data pack
+    if (lootTable.value !in MODIFIABLE_LOOT_TABLES) return
+
+    context.addPool(
+        LootPool.builder().with(
+            LootTableEntry.builder(
+                RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier(MOD_ID, "add_loot_pool/${lootTable.value.path}"))
+            )
+        )
+    )
+}
+
+private const val maxAngerDistance = 16.0
+
+@Suppress("UNUSED_PARAMETER")
+private fun tryAngerPiglins(
+    player: PlayerEntity, world: World, target: Entity, hand: Hand, hit: EntityHitResult?
+): EventResult {
+    if (world.isClient) return EventResult.pass()
+    if (target !is LivingEntity) return EventResult.pass()
+    if (player.getStackInHand(hand) !in staffsTag) return EventResult.pass()
+    if (!player.armorItems.any { it.isOf(crownOfKingOrangeItem.get()) }) return EventResult.pass()
+
+    val box = Box.of(player.pos, 2 * maxAngerDistance, 2 * maxAngerDistance, 2 * maxAngerDistance)
+    world.getEntitiesByClass(AbstractPiglinEntity::class.java, box) {
+        it !== target && it.squaredDistanceTo(player) <= maxAngerDistance * maxAngerDistance
+    }.forEach {
+        IPiglinBrainInvoker.becomeAngryWith(it, target)
+    }
+
+    return EventResult.pass()
 }
 
 fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity): EventResult {
@@ -172,4 +212,16 @@ fun subscribeToClientEvents() {
 @Environment(EnvType.CLIENT)
 private fun setupClient(client: MinecraftClient) {
     RenderTypeRegistry.register(RenderLayer.getCutout(), crownOfKingOrangeBlock.get(), wallCrownOfKingOrangeBlock.get())
+}
+
+@Environment(EnvType.CLIENT)
+private fun clientAttack(player: PlayerEntity, hand: Hand) {
+    val staffStack = player.getStackInHand(hand)
+    if (staffStack !in staffsTag) return
+
+    val itemInStaff = staffStack.itemInStaff ?: return
+    val staffHandler = itemInStaff.staffHandler ?: return
+
+    staffHandler.attack(staffStack, player.entityWorld, player, hand)
+    AttackC2SPacket(hand).sendToServer()
 }
