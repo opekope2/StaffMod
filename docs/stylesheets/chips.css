@@ -1,5 +1,6 @@
 .chip-darkgreen,
-.chip-darkblue {
+.chip-darkblue,
+.chip-red {
     display: inline-block;
     color: white;
     padding: 0px 16px;
@@ -12,4 +13,8 @@
 
 .chip-darkblue {
     background: royalblue;
+}
+
+.chip-red {
+    background: red;
 }
