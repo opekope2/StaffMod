@@ -15,6 +15,7 @@ Fan-made, mostly canonically accurate, and close to vanilla mod adding [staffs](
 * *[Alan Becker](https://www.youtube.com/@alanbecker)*, for animating Animation vs Minecraft series
 * *Brother Oliviär*, for drawing *Royal Staff Ingredient* and *Staff Infusion Smithing Template* textures
 * *[Ink&Soul](https://github.com/MBYL-InkAndSoul)*, for fixing a bug
+* *MoonWolf*, for giving unsolicited ideas
 
 ## Roadmap
 
