@@ -75,12 +75,12 @@ Every staff has these stats, unless noted otherwise
 * **Use (hold)**: Throw flame like a Flammenwerfer. Every entity touching the flame will be set on fire. The longer they stand in fire, the longer they are going to burn for. The flame stops when it reaches a block, and has a chance to set it on fire (see table below)
 * **Use (hold, while sneaking midair)**: Propel yourself backwards. Look down to fly up. Soul campfire can go faster than campfire. Sneaking is only required to start the flight, it doesn't need to be held down to fly
 
-Item in staff | Damage, when standing in fire    | Inflicted burning time/tick     | Flame chance/tick to cause fire
---------------|----------------------------------|---------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------
-Campfire      | 1 (:mc-halfheart:) / 10 ticks \* | +1 tick, when standing in fire  | 5% ([non-flammable](https://minecraft.wiki/w/Fire#Non-flammable_blocks)), 25% ([flammable](https://minecraft.wiki/w/Fire#Flammable_blocks))
-Soul campfire | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks, when standing in fire | 10% ([non-flammable](https://minecraft.wiki/w/Fire#Non-flammable_blocks)), 50% ([flammable](https://minecraft.wiki/w/Fire#Flammable_blocks))
+Item in staff | Fire duration     | Damage, when standing in fire    | Inflicted burning time/tick     | Flame chance/tick to cause fire
+--------------|-------------------|----------------------------------|---------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------
+Campfire      | 4s, when attacked | 1 (:mc-halfheart:) / 10 ticks \* | +1 tick, when standing in fire  | 5% ([non-flammable](https://minecraft.wiki/w/Fire#Non-flammable_blocks)), 25% ([flammable](https://minecraft.wiki/w/Fire#Flammable_blocks))
+Soul campfire | 6s, when attacked | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks, when standing in fire | 10% ([non-flammable](https://minecraft.wiki/w/Fire#Non-flammable_blocks)), 50% ([flammable](https://minecraft.wiki/w/Fire#Flammable_blocks))
 
-\* Invincibility frame lasts for 10 game ticks (0.5s)
+\* [Immunity](https://minecraft.wiki/w/Damage#Immunity) lasts for 10 game ticks (0.5s)
 
 ## Furnace, blast furnace, smoker
 
@@ -92,7 +92,7 @@ Soul campfire | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks, when standing in fi
 * **Range**: +1
 
 * **Use (hold)**: Ignite the furnace, and start a timer, which increases by 1 each game tick.
-  Each game tick, the furnace tries to smelt the closest item 1.75 blocks in front of the player (±0.5 blocks in each axis).
+  Each game tick, the furnace tries to smelt the closest item to the furnace in the staff or the tip of the staff (±0.5 blocks in each axis).
   If the item can be smelted in the given furnace, and its count doesn't exceed the timer's value, the whole stack will be smelted, XP will be dropped (same amount as a vanilla furnace), and the timer will be decreased by the amount of items smelted. The timer is reset when use key is released
 
 ## Lightning rod
@@ -104,7 +104,9 @@ Soul campfire | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks, when standing in fi
 * **Attack Speed**: 2/s
 * **Range**: +2
 
-* **Use on Block**: If thundering, summon a lightning bolt. The block on the block's clicked side needs to have sky light level 15 (just like vanila lightning rod) to summon the lightning bolt
+* **Attack Entity**: If thundering and not on cooldown, summon a lightning bolt at the target's position. The target's block position needs to have sky light level 15 (just like vanila lightning rod) to summon the lightning bolt
+* **Use on Entity**: If thundering and not on cooldown, summon a lightning bolt at the target's position. The target's block position needs to have sky light level 15 (just like vanila lightning rod) to summon the lightning bolt
+* **Use on Block**: If thundering and not on cooldown, summon a lightning bolt at the block's clicked side. This side needs to have sky light level 15 (just like vanila lightning rod) to summon the lightning bolt
 
 ## Magma block
 
