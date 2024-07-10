@@ -1,5 +1,13 @@
 # Data pack guide
 
+## Game rules
+
+### `throwableCakes`
+
+**Staff Mod 0.16.0+**{.chip-darkgreen}
+
+When enabled, players can throw cakes by right-clicking, and dispensers will shoot cakes instead of dropping them as an item.
+
 ## Loot tables
 
 ### `avm_staff:loot_tables/add_loot_pool/chests/trial_chambers/reward_unique.json`

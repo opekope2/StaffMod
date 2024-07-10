@@ -48,6 +48,7 @@ WIP
 
 ## [Data pack guide](data.md)
 
+* [Game rule guide](data.md#game-rules)
 * [Loot table guide](data.md#loot-tables)
 * [Tag guide](data.md#tags)
 
