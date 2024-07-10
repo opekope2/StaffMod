@@ -274,6 +274,7 @@ internal class CampfireHandler(
         }
 
         override fun tick(server: MinecraftServer) {
+            if (!server.tickManager.shouldTick()) return
             val damagedEntities = mutableSetOf<Entity>()
             val iterator = firePellets.iterator()
             while (iterator.hasNext()) {
