@@ -3,6 +3,10 @@ article p {
     text-align: justify;
 }
 
+#avm-staff-mod + p {
+    text-align: left;
+}
+
 .center {
     display: block;
     text-align: center;

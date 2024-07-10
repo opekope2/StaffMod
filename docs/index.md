@@ -23,7 +23,7 @@ Staff Mod adds the following items to the game:
 * [Crown of King Orange](items.md#crown-of-king-orange)
 * [Staff infusion smithing template](items.md#staff-infusion-smithing-template)
 
-## [Supported items](staff.md)
+## [Supported items in staffs](staff.md)
 
 Staff Mod implements functionalities for the following items:
 
@@ -48,9 +48,9 @@ WIP
 
 ## [Data pack guide](data.md)
 
-* [Game rule guide](data.md#game-rules)
-* [Loot table guide](data.md#loot-tables)
-* [Tag guide](data.md#tags)
+* [Game rules](data.md#game-rules)
+* [Loot tables](data.md#loot-tables)
+* [Tags](data.md#tags)
 
 ## [Developer guide](developers.md)
 
