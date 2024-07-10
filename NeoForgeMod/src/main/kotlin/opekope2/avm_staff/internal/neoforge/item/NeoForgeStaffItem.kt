@@ -43,9 +43,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         disablesShield(stack, attacker.entityWorld, attacker, Hand.MAIN_HAND) ||
                 super<IItemExtension>.canDisableShield(stack, shield, entity, attacker)
 
-    override fun isRepairable(arg: ItemStack): Boolean {
-        return false
-    }
+    override fun isRepairable(arg: ItemStack) = false
 
     override fun onEntitySwing(stack: ItemStack, entity: LivingEntity) = !canSwingHand(
         stack,
@@ -58,11 +56,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity) =
         attackEntity(stack, player.entityWorld, player, entity, Hand.MAIN_HAND).interruptsFurtherEvaluation()
 
-    override fun shouldCauseReequipAnimation(
-        oldStack: ItemStack,
-        newStack: ItemStack,
-        slotChanged: Boolean
-    ): Boolean {
+    override fun shouldCauseReequipAnimation(oldStack: ItemStack, newStack: ItemStack, slotChanged: Boolean): Boolean {
         val oldHandler = oldStack.itemInStaff.staffHandlerOrDefault
         val newHandler = newStack.itemInStaff.staffHandlerOrDefault
 

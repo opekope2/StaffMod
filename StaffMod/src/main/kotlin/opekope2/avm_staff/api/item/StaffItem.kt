@@ -127,8 +127,7 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
         return Text.translatable(getTranslationKey(stack), staffItemText)
     }
 
-    override fun getTranslationKey(stack: ItemStack): String {
-        return if (stack.isItemInStaff) "$translationKey.with_item"
+    override fun getTranslationKey(stack: ItemStack): String =
+        if (stack.isItemInStaff) "$translationKey.with_item"
         else super.getTranslationKey(stack)
-    }
 }
