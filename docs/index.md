@@ -30,6 +30,7 @@ Staff Mod implements functionalities for the following items:
 * [Anvil, chipped anvil, damaged anvil](staff.md#anvil-chipped-anvil-damaged-anvil)
 * [Bell](staff.md#bell)
 * [Bone block](staff.md#bone-block)
+* [Cake](staff.md#cake)
 * [Campfire, soul campfire](staff.md#campfire-soul-campfire)
 * [Furnace, blast furnace, smoker](staff.md#furnace-blast-furnace-smoker)
 * [Lightning rod](staff.md#lightning-rod)

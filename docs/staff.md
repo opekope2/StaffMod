@@ -51,6 +51,18 @@ Every staff has these stats, unless noted otherwise
 
 * **Use on Block**: Fertilize the crop, ground, or water the same way bone meal does
 
+## Cake
+
+[**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/40)
+**Staff Mod 0.16.0+**{.chip-darkgreen}
+
+* **Attack Damage**: 4 (:mc-heart::mc-heart:)
+* **Attack Speed**: 2/s
+* **Range**: +1
+
+* **Attack (air)**: Throw a cake
+* **Use**: Throw a cake every game tick, twice as fast
+
 ## Campfire, soul campfire
 
 [**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/32)
