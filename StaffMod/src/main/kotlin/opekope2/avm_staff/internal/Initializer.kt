@@ -65,10 +65,7 @@ import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPac
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.mixin.IPiglinBrainInvoker
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
-import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.isStaff
-import opekope2.avm_staff.util.plus
-import opekope2.avm_staff.util.times
+import opekope2.avm_staff.util.*
 
 fun registerContent() {
     opekope2.avm_staff.api.registerContent()
@@ -123,19 +120,17 @@ private fun dispatchStaffBlockAttack(
 private fun tryThrowCake(player: PlayerEntity, hand: Hand): CompoundEventResult<ItemStack> {
     val world = player.entityWorld
     val cake = player.getStackInHand(hand)
+    val spawnPos = cakeEntityType.get().getSpawnPosition(world, player.approximateStaffTipPosition)
 
-    if (!world.gameRules.getBoolean(throwableCakesGameRule)) return CompoundEventResult.pass()
     if (!cake.isOf(Items.CAKE)) return CompoundEventResult.pass()
+    if (spawnPos == null) return CompoundEventResult.pass()
+    if (world.isClient) return CompoundEventResult.interruptTrue(cake)
+    if (!world.gameRules.getBoolean(throwableCakesGameRule)) return CompoundEventResult.pass()
 
-    if (!world.isClient) {
-        CakeEntity.throwCake(
-            world, player.eyePos + player.rotationVector, player.rotationVector * .5 + player.velocity, player
-        )
-    }
-
+    CakeEntity.throwCake(world, spawnPos, player.rotationVector * .5 + player.velocity, player)
     cake.decrementUnlessCreative(1, player)
 
-    return CompoundEventResult.interrupt(world.isClient, player.getStackInHand(hand))
+    return CompoundEventResult.interruptFalse(cake)
 }
 
 private fun setup() {
