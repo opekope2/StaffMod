@@ -299,10 +299,13 @@ abstract class StaffHandler {
 
     /**
      * Returns if attacking with the staff should disable the target's shield.
+     *
+     * @param staffStack    The item stack used for attacking
+     * @param world         The world [attacker] is in
+     * @param attacker      The entity, which attacks
+     * @param hand          The hand of [attacker], in which the [staff][staffStack] is
      */
-    open fun disablesShield(): Boolean {
-        return false
-    }
+    open fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) = false
 
     /**
      * Called on the client side by Fabric API, when the NBT of the held item gets updated.

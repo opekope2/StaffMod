@@ -35,34 +35,24 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.item.CrownItem
+import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
-import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
-import opekope2.avm_staff.util.contains
-import opekope2.avm_staff.util.itemInStaff
-import opekope2.avm_staff.util.staffHandler
 
 @Suppress("unused")
 object StaffMod : ModInitializer, IStaffModPlatform {
     override fun onInitialize() {
-        AttackEntityCallback.EVENT.register(::handleEntityAttackEvent)
+        AttackEntityCallback.EVENT.register(::dispatchStaffEntityAttack)
     }
 
     @Suppress("UNUSED_PARAMETER")
-    private fun handleEntityAttackEvent(
-        player: PlayerEntity,
-        world: World,
-        hand: Hand,
-        target: Entity,
-        hit: EntityHitResult?
+    private fun dispatchStaffEntityAttack(
+        player: PlayerEntity, world: World, hand: Hand, target: Entity, hit: EntityHitResult?
     ): ActionResult {
-        val itemStack = player.getStackInHand(hand)
-        if (itemStack !in staffsTag) return ActionResult.PASS
+        val staffStack = player.getStackInHand(hand)
+        val staffItem = staffStack.item as? StaffItem ?: return ActionResult.PASS
+        val result = staffItem.attackEntity(staffStack, world, player, target, hand)
 
-        val itemInStaff = itemStack.itemInStaff ?: return ActionResult.PASS
-        val staffHandler = itemInStaff.staffHandler ?: return ActionResult.PASS
-
-        val result = staffHandler.attackEntity(itemStack, world, player, target, hand)
         return if (result.interruptsFurtherEvaluation()) ActionResult.SUCCESS
         else ActionResult.PASS
     }

@@ -22,13 +22,10 @@ import dev.architectury.networking.NetworkManager
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.staffsTag
+import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.contains
-import opekope2.avm_staff.util.itemInStaff
-import opekope2.avm_staff.util.staffHandler
 
 internal class AttackC2SPacket(val hand: Hand) : IC2SPacket {
     constructor(buf: PacketByteBuf) : this(buf.readEnumConstant(Hand::class.java))
@@ -47,13 +44,9 @@ internal class AttackC2SPacket(val hand: Hand) : IC2SPacket {
         override fun receive(packet: AttackC2SPacket, context: NetworkManager.PacketContext) {
             val player = context.player
             val staffStack = player.mainHandStack
+            val staffItem = staffStack.item as? StaffItem ?: return
 
-            if (staffStack !in staffsTag) return
-
-            val itemInStaff = staffStack.itemInStaff ?: return
-            val staffHandler = itemInStaff.staffHandler ?: return
-
-            staffHandler.attack(staffStack, player.entityWorld, player, packet.hand)
+            staffItem.attack(staffStack, player.entityWorld, player, packet.hand)
         }
     }
 }

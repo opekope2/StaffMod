@@ -39,35 +39,24 @@ import java.util.function.Consumer
 
 class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExtension {
     @Suppress("RemoveExplicitSuperQualifier") // Required because StaffItem apparently also has canDisableShield
-    override fun canDisableShield(
-        stack: ItemStack,
-        shield: ItemStack,
-        entity: LivingEntity,
-        attacker: LivingEntity
-    ): Boolean {
-        return stack.itemInStaff.staffHandlerOrDefault.disablesShield() ||
+    override fun canDisableShield(stack: ItemStack, shield: ItemStack, entity: LivingEntity, attacker: LivingEntity) =
+        disablesShield(stack, attacker.entityWorld, attacker, Hand.MAIN_HAND) ||
                 super<IItemExtension>.canDisableShield(stack, shield, entity, attacker)
-    }
 
     override fun isRepairable(arg: ItemStack): Boolean {
         return false
     }
 
-    override fun onEntitySwing(stack: ItemStack, entity: LivingEntity): Boolean {
-        return !stack.itemInStaff.staffHandlerOrDefault.canSwingHand(
-            stack,
-            entity.entityWorld,
-            entity,
-            if (stack === entity.getStackInHand(Hand.MAIN_HAND)) Hand.MAIN_HAND
-            else Hand.OFF_HAND
-        )
-    }
+    override fun onEntitySwing(stack: ItemStack, entity: LivingEntity) = !canSwingHand(
+        stack,
+        entity.entityWorld,
+        entity,
+        if (stack === entity.getStackInHand(Hand.MAIN_HAND)) Hand.MAIN_HAND
+        else Hand.OFF_HAND
+    )
 
-    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity): Boolean {
-        return stack.itemInStaff.staffHandlerOrDefault.attackEntity(
-            stack, player.entityWorld, player, entity, Hand.MAIN_HAND
-        ).interruptsFurtherEvaluation()
-    }
+    override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity) =
+        attackEntity(stack, player.entityWorld, player, entity, Hand.MAIN_HAND).interruptsFurtherEvaluation()
 
     override fun shouldCauseReequipAnimation(
         oldStack: ItemStack,

@@ -123,7 +123,7 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
         return ceil(holder.fallDistance - 1f) > 0f
     }
 
-    override fun disablesShield() = true
+    override fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) = true
 
     private companion object {
         private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
