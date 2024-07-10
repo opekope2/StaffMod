@@ -9,6 +9,8 @@
 
 AvM Staff Mod is a fan-made, mostly canonically accurate, and close to vanilla mod adding [staffs](https://animatorvsanimation.fandom.com/wiki/Staffs) from Animation vs Minecraft series to the latest version of Minecraft: Java Edition.
 
+-8<- "embed/introduction-video.html"
+
 ## [Staff Mod items](items.md)
 
 Staff Mod adds the following items to the game:

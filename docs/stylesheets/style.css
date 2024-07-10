@@ -22,3 +22,13 @@ img.x32 {
     height: 32px;
     vertical-align: inherit;
 }
+
+.youtube-container {
+    position: relative;
+    padding-bottom: calc(900% / 16);
+}
+.youtube-container > iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
