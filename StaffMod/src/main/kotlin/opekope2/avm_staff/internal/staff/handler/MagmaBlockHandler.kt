@@ -70,7 +70,7 @@ internal class MagmaBlockHandler : StaffHandler() {
         target: Entity,
         hand: Hand
     ): EventResult {
-        target.setOnFireFor(4)
+        target.setOnFireFor(8)
         return EventResult.pass()
     }
 
