@@ -57,7 +57,7 @@ import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityInvoker
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
 
-class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
+internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     private val recipeType: RecipeType<TRecipe>,
     private val smeltSound: SoundEvent
 ) : StaffHandler() {

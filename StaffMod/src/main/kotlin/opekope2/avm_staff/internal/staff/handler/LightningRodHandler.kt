@@ -48,7 +48,7 @@ import opekope2.avm_staff.util.interactionRange
 import opekope2.avm_staff.util.isItemCoolingDown
 import opekope2.avm_staff.util.push
 
-class LightningRodHandler : StaffHandler() {
+internal class LightningRodHandler : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
         get() = ATTRIBUTE_MODIFIERS
 

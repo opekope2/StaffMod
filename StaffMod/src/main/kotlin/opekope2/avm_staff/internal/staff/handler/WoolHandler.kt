@@ -42,7 +42,7 @@ import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.mutableItemStackInStaff
 
-class WoolHandler(private val woolBlockItem: BlockItem, private val carpetBlockItem: BlockItem) : StaffHandler() {
+internal class WoolHandler(private val woolItem: BlockItem, private val carpetItem: BlockItem) : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
         get() = ATTRIBUTE_MODIFIERS
 
@@ -62,7 +62,7 @@ class WoolHandler(private val woolBlockItem: BlockItem, private val carpetBlockI
         val originalState = world.getBlockState(target)
         if (originalState.isIn(BlockTags.WOOL) || originalState.isIn(BlockTags.WOOL_CARPETS)) return ActionResult.FAIL
 
-        val itemToPlace = if (side == Direction.UP) carpetBlockItem else woolBlockItem
+        val itemToPlace = if (side == Direction.UP) carpetItem else woolItem
         val woolPlaceContext = WoolPlacementContext(
             world,
             user as? PlayerEntity,

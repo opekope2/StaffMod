@@ -37,7 +37,7 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 
-class BoneBlockHandler : StaffHandler() {
+internal class BoneBlockHandler : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
         get() = ATTRIBUTE_MODIFIERS
 

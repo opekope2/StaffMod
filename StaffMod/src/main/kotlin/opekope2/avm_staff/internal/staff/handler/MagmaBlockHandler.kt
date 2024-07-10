@@ -36,7 +36,7 @@ import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
-class MagmaBlockHandler : StaffHandler() {
+internal class MagmaBlockHandler : StaffHandler() {
     override val maxUseTime = 72000
 
     override val attributeModifiers: AttributeModifiersComponent

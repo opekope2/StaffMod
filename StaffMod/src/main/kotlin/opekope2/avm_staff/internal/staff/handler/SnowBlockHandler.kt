@@ -30,7 +30,7 @@ import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
-class SnowBlockHandler : StaffHandler() {
+internal class SnowBlockHandler : StaffHandler() {
     override val maxUseTime = 72000
 
     override fun use(

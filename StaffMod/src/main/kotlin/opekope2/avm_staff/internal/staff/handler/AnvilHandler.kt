@@ -44,7 +44,7 @@ import opekope2.avm_staff.util.mutableItemStackInStaff
 import kotlin.math.ceil
 import kotlin.math.floor
 
-class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
+internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
         get() = ATTRIBUTE_MODIFIERS
 

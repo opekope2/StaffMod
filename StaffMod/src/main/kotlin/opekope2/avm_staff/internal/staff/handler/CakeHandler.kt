@@ -29,7 +29,7 @@ import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
-class CakeHandler : StaffHandler() {
+internal class CakeHandler : StaffHandler() {
     override val maxUseTime: Int
         get() = 72000
 

@@ -45,7 +45,7 @@ import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.push
 
-class BellBlockHandler : StaffHandler() {
+internal class BellBlockHandler : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
         get() = ATTRIBUTE_MODIFIERS
 

@@ -50,7 +50,7 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.util.*
 
-class CampfireHandler(
+internal class CampfireHandler(
     private val particleEffectSupplier: RegistrySupplier<SimpleParticleType>,
     private val properties: Properties
 ) : StaffHandler() {

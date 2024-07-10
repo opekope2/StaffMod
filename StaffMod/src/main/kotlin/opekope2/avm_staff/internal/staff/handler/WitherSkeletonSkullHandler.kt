@@ -45,7 +45,7 @@ import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
-class WitherSkeletonSkullHandler : StaffHandler() {
+internal class WitherSkeletonSkullHandler : StaffHandler() {
     override val maxUseTime = 20
 
     override fun use(
