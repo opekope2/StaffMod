@@ -7,7 +7,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/opekope2/StaffMod?style=flat&logo=kotlin&color=7f52ff)
 [![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-Ko--fi-f16061?style=flat&logo=ko-fi)](https://ko-fi.com/opekope2)
 
-AvM Staff Mod is a fan-made mod, which brings [staffs](https://animatorvsanimation.fandom.com/wiki/Staffs) form the Animation vs Minecraft series to Minecraft: Java Edition.
+AvM Staff Mod is a fan-made, mostly canonically accurate, and close to vanilla mod adding [staffs](https://animatorvsanimation.fandom.com/wiki/Staffs) from Animation vs Minecraft series to the latest version of Minecraft: Java Edition.
 
 ## [Staff Mod items](items.md)
 
