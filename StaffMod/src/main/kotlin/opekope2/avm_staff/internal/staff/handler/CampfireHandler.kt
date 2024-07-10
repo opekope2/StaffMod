@@ -151,14 +151,15 @@ internal class CampfireHandler(
         target: Entity,
         hand: Hand
     ): EventResult {
-        target.setOnFireFor(8)
+        target.setOnFireFor(properties.attackFireSeconds)
         return EventResult.pass()
     }
 
     data class Properties(
         val nonFlammableBlockFireChance: Double,
         val flammableBlockFireChance: Double,
-        val fireTicks: Int,
+        val attackFireSeconds: Int,
+        val flameFireTicks: Int,
         val rocketThrust: Double
     )
 
@@ -209,9 +210,9 @@ internal class CampfireHandler(
 
             if (target.isOnFire) {
                 // Technically inFire, but use onFire, because it has a more fitting death message
-                target.damage(target.damageSources.onFire(), properties.fireTicks.toFloat())
+                target.damage(target.damageSources.onFire(), properties.flameFireTicks.toFloat())
             }
-            target.fireTicks = target.fireTicks.coerceAtLeast(0) + properties.fireTicks + 1
+            target.fireTicks = target.fireTicks.coerceAtLeast(0) + properties.flameFireTicks + 1
             (target as? LivingEntity)?.attacker = shooter
             ignoredEntities += target
         }
