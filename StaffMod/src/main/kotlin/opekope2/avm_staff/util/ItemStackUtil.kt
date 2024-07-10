@@ -16,13 +16,15 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmSynthetic
-@file: Suppress("NOTHING_TO_INLINE")
+@file: JvmName("ItemStackUtil")
 
 package opekope2.avm_staff.util
 
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.tag.TagKey
+import opekope2.avm_staff.api.item.StaffItem
 
-inline operator fun TagKey<Item>.contains(stack: ItemStack) = stack.isIn(this)
+/**
+ * Checks if the given item stack is a staff.
+ */
+inline val ItemStack.isStaff
+    get() = item is StaffItem

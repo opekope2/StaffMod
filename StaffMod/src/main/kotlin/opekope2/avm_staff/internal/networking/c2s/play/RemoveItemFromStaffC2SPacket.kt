@@ -24,7 +24,6 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.*
@@ -58,12 +57,12 @@ internal class RemoveItemFromStaffC2SPacket() : IC2SPacket {
             val targetSlot: Int
 
             when {
-                mainHandStack in staffsTag && offHandStack !in staffsTag -> {
+                mainHandStack.isStaff && !offHandStack.isStaff -> {
                     staffStack = mainHandStack
                     targetSlot = PlayerInventory.OFF_HAND_SLOT
                 }
 
-                offHandStack in staffsTag && mainHandStack !in staffsTag -> {
+                offHandStack.isStaff && !mainHandStack.isStaff -> {
                     staffStack = offHandStack
                     targetSlot = inventory.selectedSlot
                 }

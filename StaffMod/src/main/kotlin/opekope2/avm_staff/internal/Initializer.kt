@@ -66,7 +66,7 @@ import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPac
 import opekope2.avm_staff.mixin.IPiglinBrainInvoker
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.contains
+import opekope2.avm_staff.util.isStaff
 import opekope2.avm_staff.util.plus
 import opekope2.avm_staff.util.times
 
@@ -103,7 +103,7 @@ private fun stopUsingStaffOnPlayerDeath(entity: LivingEntity, damageSource: Dama
         yieldAll(0 until PlayerInventory.MAIN_SIZE)
         yield(PlayerInventory.OFF_HAND_SLOT)
     }.forEach { slot ->
-        if (entity.inventory.getStack(slot) in staffsTag) {
+        if (entity.inventory.getStack(slot).isStaff) {
             entity.stopUsingItem()
         }
     }
@@ -167,7 +167,7 @@ private fun tryAngerPiglins(
 ): EventResult {
     if (world.isClient) return EventResult.pass()
     if (target !is LivingEntity) return EventResult.pass()
-    if (player.getStackInHand(hand) !in staffsTag) return EventResult.pass()
+    if (!player.getStackInHand(hand).isStaff) return EventResult.pass()
     if (!player.armorItems.any { it.isOf(crownOfKingOrangeItem.get()) }) return EventResult.pass()
 
     val box = Box.of(player.pos, 2 * maxAngerDistance, 2 * maxAngerDistance, 2 * maxAngerDistance)

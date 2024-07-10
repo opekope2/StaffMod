@@ -23,7 +23,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.staffsTag
 import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.*
@@ -54,12 +53,12 @@ internal class InsertItemIntoStaffC2SPacket() : IC2SPacket {
             val itemStackToAdd: ItemStack
 
             when {
-                mainHandStack in staffsTag && offHandStack !in staffsTag -> {
+                mainHandStack.isStaff && !offHandStack.isStaff -> {
                     staffStack = mainHandStack
                     itemStackToAdd = offHandStack
                 }
 
-                offHandStack in staffsTag && mainHandStack !in staffsTag -> {
+                offHandStack.isStaff && !mainHandStack.isStaff -> {
                     staffStack = offHandStack
                     itemStackToAdd = mainHandStack
                 }
