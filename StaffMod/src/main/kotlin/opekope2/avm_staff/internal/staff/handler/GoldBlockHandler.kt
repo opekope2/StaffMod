@@ -64,7 +64,8 @@ class GoldBlockHandler : StaffHandler() {
             world.breakBlock(pos, attacker !is PlayerEntity || !attacker.abilities.creativeMode, attacker)
         }
 
-        return EventResult.interruptTrue()
+        // "Mismatch in destroy block pos" in server logs if I interrupt on server but not on client side. Nothing bad should happen, right?
+        return EventResult.pass()
     }
 
     private companion object {
