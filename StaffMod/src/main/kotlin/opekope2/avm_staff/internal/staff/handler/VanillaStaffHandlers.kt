@@ -74,6 +74,8 @@ fun registerVanillaStaffHandlers() {
         FurnaceHandler(RecipeType.SMOKING, SoundEvents.BLOCK_SMOKER_SMOKE)
     )
 
+    GOLD_BLOCK.registerHandler(GoldBlockHandler())
+
     LIGHTNING_ROD.registerHandler(LightningRodHandler())
 
     MAGMA_BLOCK.registerHandler(MagmaBlockHandler())
@@ -134,6 +136,8 @@ fun registerVanillaStaffItemRenderers() {
     FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(Blocks.FURNACE))
     BLAST_FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(Blocks.BLAST_FURNACE))
     SMOKER.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(Blocks.SMOKER))
+
+    GOLD_BLOCK.registerStaffItemRenderer(Blocks.GOLD_BLOCK)
 
     LIGHTNING_ROD.registerStaffItemRenderer(LightningRodHandler.LightningRodStaffItemRenderer())
 
