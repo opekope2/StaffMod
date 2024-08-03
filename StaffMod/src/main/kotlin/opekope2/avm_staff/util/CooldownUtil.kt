@@ -34,4 +34,4 @@ fun PlayerEntity.isItemCoolingDown(item: Item) = itemCooldownManager.isCoolingDo
  * Checks if the player's attack is on cooldown.
  */
 val PlayerEntity.isAttackCoolingDown: Boolean
-    get() = getAttackCooldownProgress(0f) < 1f
+    get() = !abilities.creativeMode && getAttackCooldownProgress(0f) < 1f
