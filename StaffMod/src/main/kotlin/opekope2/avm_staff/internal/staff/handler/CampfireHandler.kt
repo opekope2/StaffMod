@@ -158,7 +158,7 @@ internal class CampfireHandler(
     data class Properties(
         val nonFlammableBlockFireChance: Double,
         val flammableBlockFireChance: Double,
-        val attackFireSeconds: Int,
+        val attackFireSeconds: Float,
         val flameFireTicks: Int,
         val rocketThrust: Double
     )

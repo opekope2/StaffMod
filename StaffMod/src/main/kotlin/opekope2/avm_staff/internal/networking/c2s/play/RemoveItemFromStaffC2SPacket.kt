@@ -39,7 +39,7 @@ internal class RemoveItemFromStaffC2SPacket() : IC2SPacket {
 
     companion object : PacketRegistrarAndReceiver<RemoveItemFromStaffC2SPacket>(
         NetworkManager.c2s(),
-        Identifier(MOD_ID, "remove_item"),
+        Identifier.of(MOD_ID, "remove_item"),
         ::RemoveItemFromStaffC2SPacket
     ) {
         override fun receive(packet: RemoveItemFromStaffC2SPacket, context: NetworkManager.PacketContext) {

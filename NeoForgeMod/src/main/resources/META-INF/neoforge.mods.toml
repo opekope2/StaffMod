@@ -29,7 +29,7 @@ side = "BOTH"
 [[dependencies.avm_staff]]
 modId = "minecraft"
 type = "required"
-versionRange = "[$minecraft]"
+versionRange = "[$minecraft,)"
 ordering = "NONE"
 side = "BOTH"
 

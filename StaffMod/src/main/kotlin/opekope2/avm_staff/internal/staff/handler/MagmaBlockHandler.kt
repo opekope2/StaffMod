@@ -70,7 +70,7 @@ internal class MagmaBlockHandler : StaffHandler() {
         target: Entity,
         hand: Hand
     ): EventResult {
-        target.setOnFireFor(8)
+        target.setOnFireFor(8f)
         return EventResult.pass()
     }
 
@@ -80,9 +80,8 @@ internal class MagmaBlockHandler : StaffHandler() {
         if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return
 
         val spawnPos = EntityType.SMALL_FIREBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition)
-        val (x, y, z) = shooter.rotationVector
 
-        world.spawnEntity(SmallFireballEntity(world, shooter, x, y, z).apply {
+        world.spawnEntity(SmallFireballEntity(world, shooter, shooter.rotationVector).apply {
             setPosition(spawnPos)
         })
         world.syncWorldEvent(WorldEvents.BLAZE_SHOOTS, shooter.blockPos, 0)

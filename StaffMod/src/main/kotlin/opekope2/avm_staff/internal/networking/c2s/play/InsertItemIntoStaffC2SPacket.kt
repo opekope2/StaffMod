@@ -38,7 +38,7 @@ internal class InsertItemIntoStaffC2SPacket() : IC2SPacket {
 
     companion object : PacketRegistrarAndReceiver<InsertItemIntoStaffC2SPacket>(
         NetworkManager.c2s(),
-        Identifier(MOD_ID, "add_item"),
+        Identifier.of(MOD_ID, "add_item"),
         ::InsertItemIntoStaffC2SPacket
     ) {
         override fun receive(packet: InsertItemIntoStaffC2SPacket, context: NetworkManager.PacketContext) {
