@@ -78,8 +78,8 @@ fun initializeNetworking() {
 }
 
 private val MODIFIABLE_LOOT_TABLES = setOf(
-    Identifier("chests/bastion_treasure"),
-    Identifier("chests/trial_chambers/reward_unique")
+    Identifier.ofVanilla("chests/bastion_treasure"),
+    Identifier.ofVanilla("chests/trial_chambers/reward_unique")
 )
 
 fun subscribeToEvents() {
@@ -142,13 +142,13 @@ private fun modifyLootTables(
     context: LootEvent.LootTableModificationContext,
     builtin: Boolean
 ) {
-    // FIXME builtin check after updating to 1.21 because Fabric detects experiments as data pack
+    if (!builtin) return
     if (lootTable.value !in MODIFIABLE_LOOT_TABLES) return
 
     context.addPool(
         LootPool.builder().with(
             LootTableEntry.builder(
-                RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier(MOD_ID, "add_loot_pool/${lootTable.value.path}"))
+                RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(MOD_ID, "add_loot_pool/${lootTable.value.path}"))
             )
         )
     )
@@ -191,7 +191,7 @@ fun registerClientContent() {
 @Environment(EnvType.CLIENT)
 fun registerSmithingTableTextures() {
     StaffInfusionSmithingRecipeTextures.register(
-        Identifier(MOD_ID, "item/smithing_table/empty_slot_royal_staff"),
+        Identifier.of(MOD_ID, "item/smithing_table/empty_slot_royal_staff"),
         ISmithingTemplateItemAccessor.emptySlotRedstoneDustTexture()
     )
 }

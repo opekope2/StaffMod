@@ -25,10 +25,10 @@ import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.AbstractBlock
-import net.minecraft.block.enums.Instrument
+import net.minecraft.block.enums.NoteBlockInstrument
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.client.particle.ParticleManager
-import net.minecraft.component.DataComponentType
+import net.minecraft.component.ComponentType
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
 import net.minecraft.entity.damage.DamageType
@@ -78,7 +78,7 @@ private val SOUND_EVENTS = DeferredRegister.create(MOD_ID, RegistryKeys.SOUND_EV
  */
 val crownOfKingOrangeBlock: RegistrySupplier<CrownBlock> = BLOCKS.register("crown_of_king_orange") {
     CrownBlock(
-        AbstractBlock.Settings.create().instrument(Instrument.BELL).strength(1.0f)
+        AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BELL).strength(1.0f)
             .pistonBehavior(PistonBehavior.DESTROY).sounds(BlockSoundGroup.COPPER_GRATE).nonOpaque()
     )
 }
@@ -181,7 +181,7 @@ val impactTntEntityType: RegistrySupplier<EntityType<ImpactTntEntity>> = ENTITY_
         .eyeHeight(EntityType.TNT.dimensions.eyeHeight)
         .maxTrackingRange(EntityType.TNT.maxTrackDistance)
         .trackingTickInterval(EntityType.TNT.trackTickInterval)
-        .build(Identifier(MOD_ID, "impact_tnt").toString())
+        .build(Identifier.of(MOD_ID, "impact_tnt").toString())
 }
 
 /**
@@ -196,7 +196,7 @@ val cakeEntityType: RegistrySupplier<EntityType<CakeEntity>> =
             .dimensions(cakeSize.toFloat(), cakeSize.toFloat())
             .maxTrackingRange(EntityType.FALLING_BLOCK.maxTrackDistance)
             .trackingTickInterval(EntityType.FALLING_BLOCK.trackTickInterval)
-            .build(Identifier(MOD_ID, "cake").toString())
+            .build(Identifier.of(MOD_ID, "cake").toString())
     }
 
 /**
@@ -218,9 +218,9 @@ val soulFlamethrowerParticleType: RegistrySupplier<SimpleParticleType> =
 /**
  * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.
  */
-val staffItemComponentType: RegistrySupplier<DataComponentType<StaffItemComponent>> =
+val staffItemComponentType: RegistrySupplier<ComponentType<StaffItemComponent>> =
     DATA_COMPONENT_TYPES.register("staff_item") {
-        DataComponentType.builder<StaffItemComponent>()
+        ComponentType.builder<StaffItemComponent>()
             .codec(StaffItemComponent.CODEC)
             .packetCodec(StaffItemComponent.PACKET_CODEC)
             .build()
@@ -229,9 +229,9 @@ val staffItemComponentType: RegistrySupplier<DataComponentType<StaffItemComponen
 /**
  * Data component registered as `avm_staff:rocket_mode`. Stores if a campfire staff should propel its user.
  */
-val rocketModeComponentType: RegistrySupplier<DataComponentType<MinecraftUnit>> =
+val rocketModeComponentType: RegistrySupplier<ComponentType<MinecraftUnit>> =
     DATA_COMPONENT_TYPES.register("rocket_mode") {
-        DataComponentType.builder<MinecraftUnit>()
+        ComponentType.builder<MinecraftUnit>()
             .packetCodec(PacketCodec.unit(MinecraftUnit.INSTANCE))
             .build()
     }
@@ -239,9 +239,9 @@ val rocketModeComponentType: RegistrySupplier<DataComponentType<MinecraftUnit>> 
 /**
  * Data component registered as `avm_staff:furnace_data`. If this is present, the furnace is lit.
  */
-val staffFurnaceDataComponentType: RegistrySupplier<DataComponentType<StaffFurnaceDataComponent>> =
+val staffFurnaceDataComponentType: RegistrySupplier<ComponentType<StaffFurnaceDataComponent>> =
     DATA_COMPONENT_TYPES.register("furnace_data") {
-        DataComponentType.builder<StaffFurnaceDataComponent>()
+        ComponentType.builder<StaffFurnaceDataComponent>()
             .packetCodec(StaffFurnaceDataComponent.PACKET_CODEC)
             .build()
     }
@@ -250,9 +250,9 @@ val staffFurnaceDataComponentType: RegistrySupplier<DataComponentType<StaffFurna
  * Data component registered as `avm_staff:staff_renderer_override`. Specifies how a staff is rendered. Intended for
  * Isometric Renders mod compatibility.
  */
-val staffRendererOverrideComponentType: RegistrySupplier<DataComponentType<StaffRendererOverrideComponent>> =
+val staffRendererOverrideComponentType: RegistrySupplier<ComponentType<StaffRendererOverrideComponent>> =
     DATA_COMPONENT_TYPES.register("staff_renderer_override") {
-        DataComponentType.builder<StaffRendererOverrideComponent>()
+        ComponentType.builder<StaffRendererOverrideComponent>()
             .codec(StaffRendererOverrideComponent.CODEC)
             .packetCodec(StaffRendererOverrideComponent.PACKET_CODEC)
             .build()
@@ -261,9 +261,9 @@ val staffRendererOverrideComponentType: RegistrySupplier<DataComponentType<Staff
 /**
  * Data component registered as `avm_staff:staff_renderer_part`. Only used for rendering.
  */
-val staffRendererPartComponentType: RegistrySupplier<DataComponentType<StaffRendererPartComponent>> =
+val staffRendererPartComponentType: RegistrySupplier<ComponentType<StaffRendererPartComponent>> =
     DATA_COMPONENT_TYPES.register("staff_renderer_part") {
-        DataComponentType.builder<StaffRendererPartComponent>()
+        ComponentType.builder<StaffRendererPartComponent>()
             .packetCodec(StaffRendererPartComponent.PACKET_CODEC)
             .build()
     }
@@ -272,27 +272,27 @@ val staffRendererPartComponentType: RegistrySupplier<DataComponentType<StaffRend
  * Sound event registered as `avm_staff:entity.cake.splash`.
  */
 val cakeSplashSoundEvent: RegistrySupplier<SoundEvent> = SOUND_EVENTS.register("entity.cake.splash") {
-    SoundEvent.of(Identifier(MOD_ID, "entity.cake.splash"))
+    SoundEvent.of(Identifier.of(MOD_ID, "entity.cake.splash"))
 }
 
 /**
  * Sound event registered as `avm_staff:entity.cake.throw`.
  */
 val cakeThrowSoundEvent: RegistrySupplier<SoundEvent> = SOUND_EVENTS.register("entity.cake.throw") {
-    SoundEvent.of(Identifier(MOD_ID, "entity.cake.throw"))
+    SoundEvent.of(Identifier.of(MOD_ID, "entity.cake.throw"))
 }
 
 /**
  * `avm_staff:pranked` damage type.
  */
 val cakeDamageType: RegistryKey<DamageType> =
-    RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier(MOD_ID, "pranked"))
+    RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(MOD_ID, "pranked"))
 
 /**
  * `avm_staff:pranked_by_player` damage type.
  */
 val playerCakeDamageType: RegistryKey<DamageType> =
-    RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier(MOD_ID, "pranked_by_player"))
+    RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(MOD_ID, "pranked_by_player"))
 
 /**
  * Throwable cakes game rule. When set to true, cakes can be thrown by right clicking, and dispensers will shoot cakes

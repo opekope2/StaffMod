@@ -38,7 +38,7 @@ internal class AttackC2SPacket(val hand: Hand) : IC2SPacket {
 
     companion object : PacketRegistrarAndReceiver<AttackC2SPacket>(
         NetworkManager.c2s(),
-        Identifier(MOD_ID, "attack"),
+        Identifier.of(MOD_ID, "attack"),
         ::AttackC2SPacket
     ) {
         override fun receive(packet: AttackC2SPacket, context: NetworkManager.PacketContext) {

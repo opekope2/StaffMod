@@ -34,11 +34,11 @@ import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.SingleStackInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.recipe.AbstractCookingRecipe
 import net.minecraft.recipe.RecipeType
+import net.minecraft.recipe.input.SingleStackRecipeInput
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -95,8 +95,8 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val stackToSmelt = itemToSmelt?.stack ?: return
         if (furnaceData.serverBurnTicks < stackToSmelt.count) return
 
-        val inventory = ItemEntityInventory(itemToSmelt)
-        val recipe = world.recipeManager.getFirstMatch(recipeType, inventory, world).getOrNull()?.value ?: return
+        val recipeInput = SingleStackRecipeInput(itemToSmelt.stack)
+        val recipe = world.recipeManager.getFirstMatch(recipeType, recipeInput, world).getOrNull()?.value ?: return
         val resultItem = recipe.getResult(world.registryManager).copyWithCount(stackToSmelt.count)
 
         val (vx, vy, vz) = itemToSmelt.velocity
@@ -163,18 +163,6 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 
             renderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
         }
-    }
-
-    private class ItemEntityInventory(private val itemEntity: ItemEntity) : SingleStackInventory {
-        override fun getStack(): ItemStack = itemEntity.stack
-
-        override fun setStack(stack: ItemStack?) {}
-
-        override fun markDirty() {}
-
-        override fun canPlayerUse(player: PlayerEntity?) = false
-
-        override fun decreaseStack(count: Int): ItemStack = ItemStack.EMPTY
     }
 
     private companion object {
