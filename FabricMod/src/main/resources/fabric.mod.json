@@ -95,7 +95,7 @@
     "fabric-api": ">=$fabric_api",
     "fabric-language-kotlin": ">=$fabric_language_kotlin",
     "architectury": ">=$architectury",
-    "minecraft": "=$minecraft",
+    "minecraft": ">=$minecraft",
     "java": ">=$java"
   },
   "custom": {
