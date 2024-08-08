@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>StaffMod</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Staff Mod
+                    </a>
+            </div>
+            <div class="library-version">
+0.17.1            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":StaffMod:dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Staff Mod::opekope2.avm_staff.api/StaffMod///PointingToDeclaration//-1660635063">
+  <div class="breadcrumbs"><a href="../../../index.html">Staff Mod</a><span class="delimiter">/</span><a href="../index.html">opekope2.avm_staff.api</a><span class="delimiter">/</span><span class="current">StaffMod</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Staff</span><wbr></wbr><span><span>Mod</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword">class </span><a href="index.html">StaffMod</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-686405936%2FProperties%2F-1660635063" anchor-label="cakeDamageType" id="-686405936%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-686405936%2FProperties%2F-1660635063"><span>cake</span><wbr></wbr><span>Damage</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-686405936%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/registry/RegistryKey.html">RegistryKey</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/entity/damage/DamageType.html">DamageType</a><span class="token operator">&gt;</span> <a href="index.html#-686405936%2FProperties%2F-1660635063">cakeDamageType</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">avm_staff:pranked</code> damage type.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="675525340%2FProperties%2F-1660635063" anchor-label="cakeEntityType" id="675525340%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#675525340%2FProperties%2F-1660635063"><span>cake</span><wbr></wbr><span>Entity</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="675525340%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/entity/EntityType.html">EntityType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.entity/-cake-entity/index.html">CakeEntity</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="index.html#675525340%2FProperties%2F-1660635063">cakeEntityType</a></div><div class="brief "><p class="paragraph">Entity registered as <code class="lang-kotlin">avm_staff:cake</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="537510055%2FProperties%2F-1660635063" anchor-label="cakeSplashSoundEvent" id="537510055%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#537510055%2FProperties%2F-1660635063"><span>cake</span><wbr></wbr><span>Splash</span><wbr></wbr><span>Sound</span><wbr></wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="537510055%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/sound/SoundEvent.html">SoundEvent</a><span class="token operator">&gt;</span> <a href="index.html#537510055%2FProperties%2F-1660635063">cakeSplashSoundEvent</a></div><div class="brief "><p class="paragraph">Sound event registered as <code class="lang-kotlin">avm_staff:entity.cake.splash</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-974175792%2FProperties%2F-1660635063" anchor-label="cakeThrowSoundEvent" id="-974175792%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-974175792%2FProperties%2F-1660635063"><span>cake</span><wbr></wbr><span>Throw</span><wbr></wbr><span>Sound</span><wbr></wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-974175792%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/sound/SoundEvent.html">SoundEvent</a><span class="token operator">&gt;</span> <a href="index.html#-974175792%2FProperties%2F-1660635063">cakeThrowSoundEvent</a></div><div class="brief "><p class="paragraph">Sound event registered as <code class="lang-kotlin">avm_staff:entity.cake.throw</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-859583369%2FProperties%2F-1660635063" anchor-label="crownOfKingOrangeBlock" id="-859583369%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-859583369%2FProperties%2F-1660635063"><span>crown</span><wbr></wbr><span>Of</span><wbr></wbr><span>King</span><wbr></wbr><span>Orange</span><wbr></wbr><span><span>Block</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-859583369%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.block/-crown-block/index.html">CrownBlock</a><span class="token operator">&gt;</span> <a href="index.html#-859583369%2FProperties%2F-1660635063">crownOfKingOrangeBlock</a></div><div class="brief "><p class="paragraph">Block registered as <code class="lang-kotlin">avm_staff:crown_of_king_orange</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1851761021%2FProperties%2F-1660635063" anchor-label="crownOfKingOrangeItem" id="-1851761021%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1851761021%2FProperties%2F-1660635063"><span>crown</span><wbr></wbr><span>Of</span><wbr></wbr><span>King</span><wbr></wbr><span>Orange</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1851761021%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.item/-crown-item/index.html">CrownItem</a><span class="token operator">&gt;</span> <a href="index.html#-1851761021%2FProperties%2F-1660635063">crownOfKingOrangeItem</a></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:crown_of_king_orange</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="454988265%2FProperties%2F-1660635063" anchor-label="faintRoyalStaffHeadItem" id="454988265%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#454988265%2FProperties%2F-1660635063"><span>faint</span><wbr></wbr><span>Royal</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Head</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="454988265%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="index.html#454988265%2FProperties%2F-1660635063">faintRoyalStaffHeadItem</a></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:faint_royal_staff_head</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="775908201%2FProperties%2F-1660635063" anchor-label="faintRoyalStaffItem" id="775908201%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#775908201%2FProperties%2F-1660635063"><span>faint</span><wbr></wbr><span>Royal</span><wbr></wbr><span>Staff</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="775908201%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="index.html#775908201%2FProperties%2F-1660635063">faintRoyalStaffItem</a></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:faint_royal_staff</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1890024827%2FProperties%2F-1660635063" anchor-label="faintStaffRodItem" id="1890024827%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1890024827%2FProperties%2F-1660635063"><span>faint</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Rod</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1890024827%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="index.html#1890024827%2FProperties%2F-1660635063">faintStaffRodItem</a></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:faint_staff_rod</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1595035695%2FProperties%2F-1660635063" anchor-label="flamethrowerParticleType" id="-1595035695%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1595035695%2FProperties%2F-1660635063"><span>flamethrower</span><wbr></wbr><span>Particle</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1595035695%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/particle/SimpleParticleType.html">SimpleParticleType</a><span class="token operator">&gt;</span> <a href="index.html#-1595035695%2FProperties%2F-1660635063">flamethrowerParticleType</a></div><div class="brief "><p class="paragraph">Particle registered as <code class="lang-kotlin">avm_staff:flame</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-801650984%2FProperties%2F-1660635063" anchor-label="impactTntEntityType" id="-801650984%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-801650984%2FProperties%2F-1660635063"><span>impact</span><wbr></wbr><span>Tnt</span><wbr></wbr><span>Entity</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-801650984%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/entity/EntityType.html">EntityType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.entity/-impact-tnt-entity/index.html">ImpactTntEntity</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="index.html#-801650984%2FProperties%2F-1660635063">impactTntEntityType</a></div><div class="brief "><p class="paragraph">Entity registered as <code class="lang-kotlin">avm_staff:impact_tnt</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="660486575%2FProperties%2F-1660635063" anchor-label="playerCakeDamageType" id="660486575%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#660486575%2FProperties%2F-1660635063"><span>player</span><wbr></wbr><span>Cake</span><wbr></wbr><span>Damage</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="660486575%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/registry/RegistryKey.html">RegistryKey</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/entity/damage/DamageType.html">DamageType</a><span class="token operator">&gt;</span> <a href="index.html#660486575%2FProperties%2F-1660635063">playerCakeDamageType</a></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">avm_staff:pranked_by_player</code> damage type.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-117013975%2FProperties%2F-1660635063" anchor-label="rocketModeComponentType" id="-117013975%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-117013975%2FProperties%2F-1660635063"><span>rocket</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-117013975%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/Unit.html">Unit</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="index.html#-117013975%2FProperties%2F-1660635063">rocketModeComponentType</a></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:rocket_mode</code>. Stores if a campfire staff should propel its user.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1925320716%2FProperties%2F-1660635063" anchor-label="royalStaffIngredientItem" id="-1925320716%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1925320716%2FProperties%2F-1660635063"><span>royal</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Ingredient</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1925320716%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="index.html#-1925320716%2FProperties%2F-1660635063">royalStaffIngredientItem</a></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:royal_staff_ingredient</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1735406085%2FProperties%2F-1660635063" anchor-label="royalStaffItem" id="1735406085%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1735406085%2FProperties%2F-1660635063"><span>royal</span><wbr></wbr><span>Staff</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1735406085%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.item/-staff-item/index.html">StaffItem</a><span class="token operator">&gt;</span> <a href="index.html#1735406085%2FProperties%2F-1660635063">royalStaffItem</a></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:royal_staff</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-765566946%2FProperties%2F-1660635063" anchor-label="soulFlamethrowerParticleType" id="-765566946%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-765566946%2FProperties%2F-1660635063"><span>soul</span><wbr></wbr><span>Flamethrower</span><wbr></wbr><span>Particle</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-765566946%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/particle/SimpleParticleType.html">SimpleParticleType</a><span class="token operator">&gt;</span> <a href="index.html#-765566946%2FProperties%2F-1660635063">soulFlamethrowerParticleType</a></div><div class="brief "><p class="paragraph">Particle registered as <code class="lang-kotlin">avm_staff:soul_fire_flame</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1757801356%2FProperties%2F-1660635063" anchor-label="staffFurnaceDataComponentType" id="-1757801356%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1757801356%2FProperties%2F-1660635063"><span>staff</span><wbr></wbr><span>Furnace</span><wbr></wbr><span>Data</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1757801356%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.component/-staff-furnace-data-component/index.html">StaffFurnaceDataComponent</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="index.html#-1757801356%2FProperties%2F-1660635063">staffFurnaceDataComponentType</a></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:furnace_data</code>. If this is present, the furnace is lit.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1057583628%2FProperties%2F-1660635063" anchor-label="staffInfusionSmithingTemplateItem" id="-1057583628%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1057583628%2FProperties%2F-1660635063"><span>staff</span><wbr></wbr><span>Infusion</span><wbr></wbr><span>Smithing</span><wbr></wbr><span>Template</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1057583628%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="index.html#-1057583628%2FProperties%2F-1660635063">staffInfusionSmithingTemplateItem</a></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:staff_infusion_smithing_template</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="709531981%2FProperties%2F-1660635063" anchor-label="staffItemComponentType" id="709531981%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#709531981%2FProperties%2F-1660635063"><span>staff</span><wbr></wbr><span>Item</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="709531981%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.component/-staff-item-component/index.html">StaffItemComponent</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="index.html#709531981%2FProperties%2F-1660635063">staffItemComponentType</a></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:staff_item</code>. Stores the item inserted into the staff.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1102314081%2FProperties%2F-1660635063" anchor-label="staffModItemGroup" id="-1102314081%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1102314081%2FProperties%2F-1660635063"><span>staff</span><wbr></wbr><span>Mod</span><wbr></wbr><span>Item</span><wbr></wbr><span><span>Group</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1102314081%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/ItemGroup.html">ItemGroup</a><span class="token operator">&gt;</span> <a href="index.html#-1102314081%2FProperties%2F-1660635063">staffModItemGroup</a></div><div class="brief "><p class="paragraph">Item group containing items added by Staff Mod.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2126010601%2FProperties%2F-1660635063" anchor-label="staffRendererOverrideComponentType" id="2126010601%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2126010601%2FProperties%2F-1660635063"><span>staff</span><wbr></wbr><span>Renderer</span><wbr></wbr><span>Override</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2126010601%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.component/-staff-renderer-override-component/index.html">StaffRendererOverrideComponent</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="index.html#2126010601%2FProperties%2F-1660635063">staffRendererOverrideComponentType</a></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:staff_renderer_override</code>. Specifies how a staff is rendered. Intended for Isometric Renders mod compatibility.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-785645744%2FProperties%2F-1660635063" anchor-label="staffRendererPartComponentType" id="-785645744%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-785645744%2FProperties%2F-1660635063"><span>staff</span><wbr></wbr><span>Renderer</span><wbr></wbr><span>Part</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-785645744%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.component/-staff-renderer-part-component/index.html">StaffRendererPartComponent</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="index.html#-785645744%2FProperties%2F-1660635063">staffRendererPartComponentType</a></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:staff_renderer_part</code>. Only used for rendering.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1429738600%2FProperties%2F-1660635063" anchor-label="throwableCakesGameRule" id="1429738600%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1429738600%2FProperties%2F-1660635063"><span>throwable</span><wbr></wbr><span>Cakes</span><wbr></wbr><span>Game</span><wbr></wbr><span><span>Rule</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1429738600%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/world/GameRules.Key.html">GameRules.Key</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/world/GameRules.BooleanRule.html">GameRules.BooleanRule</a><span class="token operator">&gt;</span> <a href="index.html#1429738600%2FProperties%2F-1660635063">throwableCakesGameRule</a></div><div class="brief "><p class="paragraph">Throwable cakes game rule. When set to true, cakes can be thrown by right clicking, and dispensers will shoot cakes instead of dropping them as item.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1381835597%2FProperties%2F-1660635063" anchor-label="wallCrownOfKingOrangeBlock" id="1381835597%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1381835597%2FProperties%2F-1660635063"><span>wall</span><wbr></wbr><span>Crown</span><wbr></wbr><span>Of</span><wbr></wbr><span>King</span><wbr></wbr><span>Orange</span><wbr></wbr><span><span>Block</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1381835597%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword">static </span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.block/-wall-crown-block/index.html">WallCrownBlock</a><span class="token operator">&gt;</span> <a href="index.html#1381835597%2FProperties%2F-1660635063">wallCrownOfKingOrangeBlock</a></div><div class="brief "><p class="paragraph">Block registered as <code class="lang-kotlin">avm_staff:wall_crown_of_king_orange</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1692940432%2FFunctions%2F-1660635063" anchor-label="getCakeDamageType" id="1692940432%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-cake-damage-type.html"><span>get</span><wbr></wbr><span>Cake</span><wbr></wbr><span>Damage</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1692940432%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/registry/RegistryKey.html">RegistryKey</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/entity/damage/DamageType.html">DamageType</a><span class="token operator">&gt;</span> <a href="get-cake-damage-type.html"><span class="token function">getCakeDamageType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">avm_staff:pranked</code> damage type.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1240095588%2FFunctions%2F-1660635063" anchor-label="getCakeEntityType" id="-1240095588%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-cake-entity-type.html"><span>get</span><wbr></wbr><span>Cake</span><wbr></wbr><span>Entity</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1240095588%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/entity/EntityType.html">EntityType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.entity/-cake-entity/index.html">CakeEntity</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="get-cake-entity-type.html"><span class="token function">getCakeEntityType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Entity registered as <code class="lang-kotlin">avm_staff:cake</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1215339929%2FFunctions%2F-1660635063" anchor-label="getCakeSplashSoundEvent" id="-1215339929%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-cake-splash-sound-event.html"><span>get</span><wbr></wbr><span>Cake</span><wbr></wbr><span>Splash</span><wbr></wbr><span>Sound</span><wbr></wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1215339929%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/sound/SoundEvent.html">SoundEvent</a><span class="token operator">&gt;</span> <a href="get-cake-splash-sound-event.html"><span class="token function">getCakeSplashSoundEvent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sound event registered as <code class="lang-kotlin">avm_staff:entity.cake.splash</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1169266672%2FFunctions%2F-1660635063" anchor-label="getCakeThrowSoundEvent" id="-1169266672%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-cake-throw-sound-event.html"><span>get</span><wbr></wbr><span>Cake</span><wbr></wbr><span>Throw</span><wbr></wbr><span>Sound</span><wbr></wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1169266672%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/sound/SoundEvent.html">SoundEvent</a><span class="token operator">&gt;</span> <a href="get-cake-throw-sound-event.html"><span class="token function">getCakeThrowSoundEvent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sound event registered as <code class="lang-kotlin">avm_staff:entity.cake.throw</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1721237961%2FFunctions%2F-1660635063" anchor-label="getCrownOfKingOrangeBlock" id="-1721237961%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-crown-of-king-orange-block.html"><span>get</span><wbr></wbr><span>Crown</span><wbr></wbr><span>Of</span><wbr></wbr><span>King</span><wbr></wbr><span>Orange</span><wbr></wbr><span><span>Block</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1721237961%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.block/-crown-block/index.html">CrownBlock</a><span class="token operator">&gt;</span> <a href="get-crown-of-king-orange-block.html"><span class="token function">getCrownOfKingOrangeBlock</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Block registered as <code class="lang-kotlin">avm_staff:crown_of_king_orange</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-355535677%2FFunctions%2F-1660635063" anchor-label="getCrownOfKingOrangeItem" id="-355535677%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-crown-of-king-orange-item.html"><span>get</span><wbr></wbr><span>Crown</span><wbr></wbr><span>Of</span><wbr></wbr><span>King</span><wbr></wbr><span>Orange</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-355535677%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.item/-crown-item/index.html">CrownItem</a><span class="token operator">&gt;</span> <a href="get-crown-of-king-orange-item.html"><span class="token function">getCrownOfKingOrangeItem</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:crown_of_king_orange</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-486500311%2FFunctions%2F-1660635063" anchor-label="getFaintRoyalStaffHeadItem" id="-486500311%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-faint-royal-staff-head-item.html"><span>get</span><wbr></wbr><span>Faint</span><wbr></wbr><span>Royal</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Head</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-486500311%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="get-faint-royal-staff-head-item.html"><span class="token function">getFaintRoyalStaffHeadItem</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:faint_royal_staff_head</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="580817321%2FFunctions%2F-1660635063" anchor-label="getFaintRoyalStaffItem" id="580817321%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-faint-royal-staff-item.html"><span>get</span><wbr></wbr><span>Faint</span><wbr></wbr><span>Royal</span><wbr></wbr><span>Staff</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="580817321%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="get-faint-royal-staff-item.html"><span class="token function">getFaintRoyalStaffItem</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:faint_royal_staff</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="857420731%2FFunctions%2F-1660635063" anchor-label="getFaintStaffRodItem" id="857420731%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-faint-staff-rod-item.html"><span>get</span><wbr></wbr><span>Faint</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Rod</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="857420731%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="get-faint-staff-rod-item.html"><span class="token function">getFaintStaffRodItem</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:faint_staff_rod</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-716410479%2FFunctions%2F-1660635063" anchor-label="getFlamethrowerParticleType" id="-716410479%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-flamethrower-particle-type.html"><span>get</span><wbr></wbr><span>Flamethrower</span><wbr></wbr><span>Particle</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-716410479%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/particle/SimpleParticleType.html">SimpleParticleType</a><span class="token operator">&gt;</span> <a href="get-flamethrower-particle-type.html"><span class="token function">getFlamethrowerParticleType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Particle registered as <code class="lang-kotlin">avm_staff:flame</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-996741864%2FFunctions%2F-1660635063" anchor-label="getImpactTntEntityType" id="-996741864%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-impact-tnt-entity-type.html"><span>get</span><wbr></wbr><span>Impact</span><wbr></wbr><span>Tnt</span><wbr></wbr><span>Entity</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-996741864%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/entity/EntityType.html">EntityType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.entity/-impact-tnt-entity/index.html">ImpactTntEntity</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="get-impact-tnt-entity-type.html"><span class="token function">getImpactTntEntityType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Entity registered as <code class="lang-kotlin">avm_staff:impact_tnt</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1092363409%2FFunctions%2F-1660635063" anchor-label="getPlayerCakeDamageType" id="-1092363409%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-player-cake-damage-type.html"><span>get</span><wbr></wbr><span>Player</span><wbr></wbr><span>Cake</span><wbr></wbr><span>Damage</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1092363409%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/registry/RegistryKey.html">RegistryKey</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/entity/damage/DamageType.html">DamageType</a><span class="token operator">&gt;</span> <a href="get-player-cake-damage-type.html"><span class="token function">getPlayerCakeDamageType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph"><code class="lang-kotlin">avm_staff:pranked_by_player</code> damage type.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1058502551%2FFunctions%2F-1660635063" anchor-label="getRocketModeComponentType" id="-1058502551%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-rocket-mode-component-type.html"><span>get</span><wbr></wbr><span>Rocket</span><wbr></wbr><span>Mode</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1058502551%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/Unit.html">Unit</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="get-rocket-mode-component-type.html"><span class="token function">getRocketModeComponentType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:rocket_mode</code>. Stores if a campfire staff should propel its user.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1046695500%2FFunctions%2F-1660635063" anchor-label="getRoyalStaffIngredientItem" id="-1046695500%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-royal-staff-ingredient-item.html"><span>get</span><wbr></wbr><span>Royal</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Ingredient</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1046695500%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="get-royal-staff-ingredient-item.html"><span class="token function">getRoyalStaffIngredientItem</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:royal_staff_ingredient</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-180214843%2FFunctions%2F-1660635063" anchor-label="getRoyalStaffItem" id="-180214843%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-royal-staff-item.html"><span>get</span><wbr></wbr><span>Royal</span><wbr></wbr><span>Staff</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-180214843%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.item/-staff-item/index.html">StaffItem</a><span class="token operator">&gt;</span> <a href="get-royal-staff-item.html"><span class="token function">getRoyalStaffItem</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:royal_staff</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1376141790%2FFunctions%2F-1660635063" anchor-label="getSoulFlamethrowerParticleType" id="1376141790%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-soul-flamethrower-particle-type.html"><span>get</span><wbr></wbr><span>Soul</span><wbr></wbr><span>Flamethrower</span><wbr></wbr><span>Particle</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1376141790%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/particle/SimpleParticleType.html">SimpleParticleType</a><span class="token operator">&gt;</span> <a href="get-soul-flamethrower-particle-type.html"><span class="token function">getSoulFlamethrowerParticleType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Particle registered as <code class="lang-kotlin">avm_staff:soul_fire_flame</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="210660020%2FFunctions%2F-1660635063" anchor-label="getStaffFurnaceDataComponentType" id="210660020%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-staff-furnace-data-component-type.html"><span>get</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Furnace</span><wbr></wbr><span>Data</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="210660020%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.component/-staff-furnace-data-component/index.html">StaffFurnaceDataComponent</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="get-staff-furnace-data-component-type.html"><span class="token function">getStaffFurnaceDataComponentType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:furnace_data</code>. If this is present, the furnace is lit.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="733332532%2FFunctions%2F-1660635063" anchor-label="getStaffInfusionSmithingTemplateItem" id="733332532%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-staff-infusion-smithing-template-item.html"><span>get</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Infusion</span><wbr></wbr><span>Smithing</span><wbr></wbr><span>Template</span><wbr></wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="733332532%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/Item.html">Item</a><span class="token operator">&gt;</span> <a href="get-staff-infusion-smithing-template-item.html"><span class="token function">getStaffInfusionSmithingTemplateItem</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Item registered as <code class="lang-kotlin">avm_staff:staff_infusion_smithing_template</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-152122611%2FFunctions%2F-1660635063" anchor-label="getStaffItemComponentType" id="-152122611%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-staff-item-component-type.html"><span>get</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Item</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-152122611%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.component/-staff-item-component/index.html">StaffItemComponent</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="get-staff-item-component-type.html"><span class="token function">getStaffItemComponentType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:staff_item</code>. Stores the item inserted into the staff.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2134918177%2FFunctions%2F-1660635063" anchor-label="getStaffModItemGroup" id="-2134918177%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-staff-mod-item-group.html"><span>get</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Mod</span><wbr></wbr><span>Item</span><wbr></wbr><span><span>Group</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2134918177%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/ItemGroup.html">ItemGroup</a><span class="token operator">&gt;</span> <a href="get-staff-mod-item-group.html"><span class="token function">getStaffModItemGroup</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Item group containing items added by Staff Mod.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1809836713%2FFunctions%2F-1660635063" anchor-label="getStaffRendererOverrideComponentType" id="1809836713%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-staff-renderer-override-component-type.html"><span>get</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Renderer</span><wbr></wbr><span>Override</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1809836713%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.component/-staff-renderer-override-component/index.html">StaffRendererOverrideComponent</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="get-staff-renderer-override-component-type.html"><span class="token function">getStaffRendererOverrideComponentType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:staff_renderer_override</code>. Specifies how a staff is rendered. Intended for Isometric Renders mod compatibility.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="107114768%2FFunctions%2F-1660635063" anchor-label="getStaffRendererPartComponentType" id="107114768%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-staff-renderer-part-component-type.html"><span>get</span><wbr></wbr><span>Staff</span><wbr></wbr><span>Renderer</span><wbr></wbr><span>Part</span><wbr></wbr><span>Component</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="107114768%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/component/ComponentType.html">ComponentType</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.component/-staff-renderer-part-component/index.html">StaffRendererPartComponent</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="get-staff-renderer-part-component-type.html"><span class="token function">getStaffRendererPartComponentType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Data component registered as <code class="lang-kotlin">avm_staff:staff_renderer_part</code>. Only used for rendering.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="568084008%2FFunctions%2F-1660635063" anchor-label="getThrowableCakesGameRule" id="568084008%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-throwable-cakes-game-rule.html"><span>get</span><wbr></wbr><span>Throwable</span><wbr></wbr><span>Cakes</span><wbr></wbr><span>Game</span><wbr></wbr><span><span>Rule</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="568084008%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/world/GameRules.Key.html">GameRules.Key</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/world/GameRules.BooleanRule.html">GameRules.BooleanRule</a><span class="token operator">&gt;</span> <a href="get-throwable-cakes-game-rule.html"><span class="token function">getThrowableCakesGameRule</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Throwable cakes game rule. When set to true, cakes can be thrown by right clicking, and dispensers will shoot cakes instead of dropping them as item.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-367889139%2FFunctions%2F-1660635063" anchor-label="getWallCrownOfKingOrangeBlock" id="-367889139%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-wall-crown-of-king-orange-block.html"><span>get</span><wbr></wbr><span>Wall</span><wbr></wbr><span>Crown</span><wbr></wbr><span>Of</span><wbr></wbr><span>King</span><wbr></wbr><span>Orange</span><wbr></wbr><span><span>Block</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-367889139%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span data-unresolved-link="dev.architectury.registry.registries/RegistrySupplier///PointingToDeclaration/">RegistrySupplier</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../opekope2.avm_staff.api.block/-wall-crown-block/index.html">WallCrownBlock</a><span class="token operator">&gt;</span> <a href="get-wall-crown-of-king-orange-block.html"><span class="token function">getWallCrownOfKingOrangeBlock</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Block registered as <code class="lang-kotlin">avm_staff:wall_crown_of_king_orange</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023-2024 opekope2. AvM Staff Mod is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
