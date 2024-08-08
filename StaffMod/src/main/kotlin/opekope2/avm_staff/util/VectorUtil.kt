@@ -22,8 +22,15 @@
 package opekope2.avm_staff.util
 
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.Vec3i
 import org.joml.Vector3f
 import org.joml.Vector3fc
+
+inline operator fun Vec3i.component1(): Int = x
+
+inline operator fun Vec3i.component2(): Int = y
+
+inline operator fun Vec3i.component3(): Int = z
 
 inline operator fun Vec3d.component1(): Double = x
 
