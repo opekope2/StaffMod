@@ -95,6 +95,17 @@ Soul campfire | 6s, when attacked | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks,
   Each game tick, the furnace tries to smelt the closest item to the furnace in the staff or the tip of the staff (±0.5 blocks in each axis).
   If the item can be smelted in the given furnace, and its count doesn't exceed the timer's value, the whole stack will be smelted, XP will be dropped (same amount as a vanilla furnace), and the timer will be decreased by the amount of items smelted. The timer is reset when use key is released
 
+## Gold Block
+
+[**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/43)
+**Staff Mod 0.17.0+**{.chip-darkgreen}
+
+* **Attack Damage**: 14 (:mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart:)
+* **Attack Speed**: 1/s
+* **Range**: +1
+
+* **Attack (block)**: Break blocks that are not stronger than Obsidian in a 3x3x2 area in front of the player, except for the 4 corners facing away from the player
+
 ## Lightning rod
 
 [**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/23)

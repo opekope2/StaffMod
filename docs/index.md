@@ -33,6 +33,7 @@ Staff Mod implements functionalities for the following items:
 * [Cake](staff.md#cake)
 * [Campfire, soul campfire](staff.md#campfire-soul-campfire)
 * [Furnace, blast furnace, smoker](staff.md#furnace-blast-furnace-smoker)
+* [Gold Block](staff.md#gold-block)
 * [Lightning rod](staff.md#lightning-rod)
 * [Magma block](staff.md#magma-block)
 * [Snow block](staff.md#snow-block)
