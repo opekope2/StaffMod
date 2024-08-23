@@ -79,7 +79,7 @@ internal class MagmaBlockHandler : StaffHandler() {
         if (!shooter.canUseStaff) return
         if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return
 
-        val spawnPos = EntityType.SMALL_FIREBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition)
+        val spawnPos = EntityType.SMALL_FIREBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return
 
         world.spawnEntity(SmallFireballEntity(world, shooter, shooter.rotationVector).apply {
             setPosition(spawnPos)
