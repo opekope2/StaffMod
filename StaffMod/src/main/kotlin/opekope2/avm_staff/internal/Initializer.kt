@@ -63,7 +63,7 @@ import opekope2.avm_staff.internal.event_handler.registerKeyBindings
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
-import opekope2.avm_staff.mixin.IPiglinBrainInvoker
+import opekope2.avm_staff.mixin.IPiglinBrainAccessor
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.*
 
@@ -169,7 +169,7 @@ private fun tryAngerPiglins(
     world.getEntitiesByClass(AbstractPiglinEntity::class.java, box) {
         it !== target && it.squaredDistanceTo(player) <= maxAngerDistance * maxAngerDistance
     }.forEach {
-        IPiglinBrainInvoker.becomeAngryWith(it, target)
+        IPiglinBrainAccessor.callBecomeAngryWith(it, target)
     }
 
     return EventResult.pass()

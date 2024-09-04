@@ -25,9 +25,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(PiglinBrain.class)
-public interface IPiglinBrainInvoker {
-    @Invoker("becomeAngryWith")
-    static void becomeAngryWith(AbstractPiglinEntity piglin, LivingEntity target) {
+public interface IPiglinBrainAccessor {
+    @Invoker
+    static void callBecomeAngryWith(AbstractPiglinEntity piglin, LivingEntity target) {
         throw new AssertionError();
     }
 }

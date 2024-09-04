@@ -12,10 +12,10 @@
     "IParticleMixin"
   ],
   "mixins": [
-    "IAbstractFurnaceBlockEntityInvoker",
+    "IAbstractFurnaceBlockEntityAccesor",
     "IAnvilBlockAccessor",
     "ICakeBlockAccessor",
-    "IPiglinBrainInvoker",
+    "IPiglinBrainAccessor",
     "ISmithingTemplateItemAccessor"
   ]
 }

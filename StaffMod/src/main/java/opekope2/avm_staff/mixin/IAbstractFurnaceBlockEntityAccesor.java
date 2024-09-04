@@ -25,9 +25,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(AbstractFurnaceBlockEntity.class)
-public interface IAbstractFurnaceBlockEntityInvoker {
-    @Invoker("dropExperience")
-    static void dropExperience(ServerWorld world, Vec3d pos, int multiplier, float experience) {
+public interface IAbstractFurnaceBlockEntityAccesor {
+    @Invoker
+    static void callDropExperience(ServerWorld world, Vec3d pos, int multiplier, float experience) {
         throw new AssertionError();
     }
 }
