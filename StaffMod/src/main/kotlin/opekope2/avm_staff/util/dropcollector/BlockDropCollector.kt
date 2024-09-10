@@ -57,9 +57,9 @@ class BlockDropCollector : IBlockDropCollector {
             val total = drops.sumOf { it.drop.count }
             val stacks = total / max
             val remaining = total % max
-            val x = drops.map { it.pos.x }.average() + world.random.nextDouble() * 2 - 1
-            val y = drops.map { it.pos.y }.average() + world.random.nextDouble() * 2 - 1
-            val z = drops.map { it.pos.z }.average() + world.random.nextDouble() * 2 - 1
+            val x = drops.map { it.pos.x }.average()
+            val y = drops.map { it.pos.y }.average()
+            val z = drops.map { it.pos.z }.average()
             val pos = BlockPos.ofFloored(x, y, z)
 
             repeat(stacks) {
