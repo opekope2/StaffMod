@@ -26,14 +26,17 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Hand
+import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
+import opekope2.avm_staff.util.dropcollector.NoOpBlockDropCollector
+import opekope2.avm_staff.util.dropcollector.VanillaBlockDropCollector
 
 class GoldBlockHandler : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
@@ -50,19 +53,34 @@ class GoldBlockHandler : StaffHandler() {
         if (world.isClient) return EventResult.pass()
         if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return EventResult.pass()
 
-        val facing = attacker.facing.vector
-        val (x, y, z) = facing
-        val signedOne = x + y + z
-        val perpendiculars = Vec3i(x - signedOne, y - signedOne, z - signedOne)
+        val forwardVector = attacker.facing.vector
+        val upVector = attacker.cameraUp.vector
+        val rightVector = forwardVector.crossProduct(upVector)
 
-        for (pos in BlockPos.iterate(target.subtract(perpendiculars), target.add(perpendiculars).add(facing))) {
-            if (!pos.isWithinDistance(target, 1.5)) continue // 3x3x3 except for corners
+        val nearBox = BlockBox.create(
+            target.add(-rightVector - upVector),
+            target.add(rightVector + upVector)
+        )
+        val farHorizontalBox = BlockBox.create(
+            target.add(-rightVector + forwardVector),
+            target.add(rightVector + forwardVector)
+        )
+        val farTopBox = BlockBox(
+            target.add(upVector + forwardVector)
+        )
+        val farBottomBox = BlockBox(
+            target.add(-upVector + forwardVector)
+        )
+        val dropCollector =
+            if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
+            else VanillaBlockDropCollector()
 
-            val hardness = world.getBlockState(pos).getHardness(world, pos)
-            if (hardness == -1f || hardness > Blocks.OBSIDIAN.hardness) continue
+        destroyBox(world as ServerWorld, nearBox, dropCollector, attacker, staffStack, Blocks.OBSIDIAN.hardness)
+        destroyBox(world, farHorizontalBox, dropCollector, attacker, staffStack, Blocks.OBSIDIAN.hardness)
+        destroyBox(world, farTopBox, dropCollector, attacker, staffStack, Blocks.OBSIDIAN.hardness)
+        destroyBox(world, farBottomBox, dropCollector, attacker, staffStack, Blocks.OBSIDIAN.hardness)
 
-            world.breakBlock(pos, attacker !is PlayerEntity || !attacker.abilities.creativeMode, attacker)
-        }
+        dropCollector.dropAll(world)
 
         // "Mismatch in destroy block pos" in server logs if I interrupt on server but not on client side. Nothing bad should happen, right?
         return EventResult.pass()
