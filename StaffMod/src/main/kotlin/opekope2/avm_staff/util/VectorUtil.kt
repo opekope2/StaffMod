@@ -32,6 +32,14 @@ inline operator fun Vec3i.component2(): Int = y
 
 inline operator fun Vec3i.component3(): Int = z
 
+inline operator fun Vec3i.plus(other: Vec3i): Vec3i = add(other)
+
+inline operator fun Vec3i.minus(other: Vec3i): Vec3i = subtract(other)
+
+inline operator fun Vec3i.unaryMinus(): Vec3i = multiply(-1)
+
+inline operator fun Vec3i.times(scalar: Int): Vec3i = multiply(scalar)
+
 inline operator fun Vec3d.component1(): Double = x
 
 inline operator fun Vec3d.component2(): Double = y
