@@ -22,8 +22,19 @@ package opekope2.avm_staff.util
 
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
+import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+
+/**
+ * Calculates the camera's upward direction based on [Entity.getFacing] and [Entity.getHorizontalFacing].
+ */
+val Entity.cameraUp: Direction
+    get() = when (facing) {
+        Direction.DOWN -> horizontalFacing
+        Direction.UP -> horizontalFacing.opposite
+        else -> Direction.UP
+    }
 
 /**
  * Gets the spawn position if the given entity has enough space to spawn at the given position, or `null`, if the
