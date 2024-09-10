@@ -80,6 +80,8 @@ fun registerVanillaStaffHandlers() {
 
     MAGMA_BLOCK.registerHandler(MagmaBlockHandler())
 
+    NETHERITE_BLOCK.registerHandler(NetheriteBlockHandler())
+
     SNOW_BLOCK.registerHandler(SnowBlockHandler())
 
     TNT.registerHandler(TntHandler())
@@ -142,6 +144,8 @@ fun registerVanillaStaffItemRenderers() {
     LIGHTNING_ROD.registerStaffItemRenderer(LightningRodHandler.LightningRodStaffItemRenderer())
 
     MAGMA_BLOCK.registerStaffItemRenderer(Blocks.MAGMA_BLOCK)
+
+    NETHERITE_BLOCK.registerStaffItemRenderer(Blocks.NETHERITE_BLOCK)
 
     SNOW_BLOCK.registerStaffItemRenderer(Blocks.SNOW_BLOCK)
 
