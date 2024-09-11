@@ -32,6 +32,7 @@ import net.minecraft.util.math.BlockPos
  */
 class BlockDropCollector : IBlockDropCollector {
     private val drops = mutableMapOf<ItemStack, MutableList<BlockDrop>>()
+    private val brokenBlocks: MutableList<BrokenBlock> = mutableListOf()
 
     override fun collect(
         world: ServerWorld,
@@ -45,8 +46,10 @@ class BlockDropCollector : IBlockDropCollector {
 
         for (stack in droppedStacks) {
             val reference = drops.keys.firstOrNull { ItemStack.areItemsAndComponentsEqual(it, stack) } ?: stack
-            drops.getOrPut(reference, ::mutableListOf) += BlockDrop(world, pos, state, stack, tool)
+            drops.getOrPut(reference, ::mutableListOf) += BlockDrop(pos, stack)
         }
+
+        brokenBlocks += BrokenBlock(pos, state, tool)
     }
 
     override fun dropAll(world: ServerWorld) {
@@ -68,12 +71,12 @@ class BlockDropCollector : IBlockDropCollector {
             if (remaining > 0) {
                 Block.dropStack(world, pos, referenceItem.copyWithCount(remaining))
             }
-
-            drops.forEach {
-                it.state.onStacksDropped(it.world, pos, it.tool, true)
-            }
+        }
+        for ((pos, state, tool) in brokenBlocks) {
+            state.onStacksDropped(world, pos, tool, true)
         }
 
         drops.clear()
+        brokenBlocks.clear()
     }
 }

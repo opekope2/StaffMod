@@ -31,6 +31,7 @@ import net.minecraft.util.math.BlockPos
  */
 class VanillaBlockDropCollector : IBlockDropCollector {
     private val drops = mutableListOf<BlockDrop>()
+    private val brokenBlocks = mutableListOf<BrokenBlock>()
 
     override fun collect(
         world: ServerWorld,
@@ -43,16 +44,21 @@ class VanillaBlockDropCollector : IBlockDropCollector {
         val droppedStacks = Block.getDroppedStacks(state, world, pos, blockEntity, destroyer, tool)
 
         for (stack in droppedStacks) {
-            drops += BlockDrop(world, pos, state, stack, tool)
+            drops += BlockDrop(pos, stack)
         }
+
+        brokenBlocks += BrokenBlock(pos, state, tool)
     }
 
     override fun dropAll(world: ServerWorld) {
-        for (drop in drops) {
-            Block.dropStack(world, drop.pos, drop.drop)
-            drop.state.onStacksDropped(world, drop.pos, drop.tool, true)
+        for ((pos, drop) in drops) {
+            Block.dropStack(world, pos, drop)
+        }
+        for ((pos, state, tool) in brokenBlocks) {
+            state.onStacksDropped(world, pos, tool, true)
         }
 
         drops.clear()
+        brokenBlocks.clear()
     }
 }

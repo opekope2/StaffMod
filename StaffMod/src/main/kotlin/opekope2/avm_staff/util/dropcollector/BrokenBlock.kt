@@ -18,16 +18,19 @@
 
 package opekope2.avm_staff.util.dropcollector
 
+import net.minecraft.block.BlockState
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 
 /**
- * Stores information about a block's item drop.
+ * Stores information about a broken block.
  *
  * @param pos   The position of the broken block
- * @param drop  The item stack dropped by the block
+ * @param state The broken block state
+ * @param tool  The item used to break the block
  */
-data class BlockDrop(
+data class BrokenBlock(
     val pos: BlockPos,
-    val drop: ItemStack
+    val state: BlockState,
+    val tool: ItemStack
 )
