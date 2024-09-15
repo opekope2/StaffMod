@@ -21,10 +21,23 @@
 
 package opekope2.avm_staff.util
 
+import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 import org.joml.Vector3f
 import org.joml.Vector3fc
+
+inline operator fun Vec2f.component1(): Float = x
+
+inline operator fun Vec2f.component2(): Float = y
+
+inline operator fun Vec2f.plus(other: Vec2f): Vec2f = add(other)
+
+inline operator fun Vec2f.minus(other: Vec2f): Vec2f = add(-other)
+
+inline operator fun Vec2f.unaryMinus(): Vec2f = negate()
+
+inline operator fun Vec2f.times(scalar: Float): Vec2f = multiply(scalar)
 
 inline operator fun Vec3i.component1(): Int = x
 
