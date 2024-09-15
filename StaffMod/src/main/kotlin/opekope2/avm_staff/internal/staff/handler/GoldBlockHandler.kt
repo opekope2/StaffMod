@@ -35,6 +35,8 @@ import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
+import opekope2.avm_staff.util.destruction.MaxHardnessPredicate
+import opekope2.avm_staff.util.destruction.destroyBox
 import opekope2.avm_staff.util.dropcollector.NoOpBlockDropCollector
 import opekope2.avm_staff.util.dropcollector.VanillaBlockDropCollector
 
@@ -52,6 +54,7 @@ class GoldBlockHandler : StaffHandler() {
     ): EventResult {
         if (world.isClient) return EventResult.pass()
         if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return EventResult.pass()
+        require(world is ServerWorld)
 
         val forwardVector = attacker.facing.vector
         val upVector = attacker.cameraUp.vector
@@ -75,10 +78,10 @@ class GoldBlockHandler : StaffHandler() {
             if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
             else VanillaBlockDropCollector()
 
-        destroyBox(world as ServerWorld, nearBox, dropCollector, attacker, staffStack, Blocks.OBSIDIAN.hardness)
-        destroyBox(world, farHorizontalBox, dropCollector, attacker, staffStack, Blocks.OBSIDIAN.hardness)
-        destroyBox(world, farTopBox, dropCollector, attacker, staffStack, Blocks.OBSIDIAN.hardness)
-        destroyBox(world, farBottomBox, dropCollector, attacker, staffStack, Blocks.OBSIDIAN.hardness)
+        destroyBox(world, nearBox, dropCollector, attacker, staffStack, maxObsidianHard)
+        destroyBox(world, farHorizontalBox, dropCollector, attacker, staffStack, maxObsidianHard)
+        destroyBox(world, farTopBox, dropCollector, attacker, staffStack, maxObsidianHard)
+        destroyBox(world, farBottomBox, dropCollector, attacker, staffStack, maxObsidianHard)
 
         dropCollector.dropAll(world)
 
@@ -93,5 +96,7 @@ class GoldBlockHandler : StaffHandler() {
             .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
             .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
             .build()
+
+        private val maxObsidianHard = MaxHardnessPredicate(Blocks.OBSIDIAN)
     }
 }

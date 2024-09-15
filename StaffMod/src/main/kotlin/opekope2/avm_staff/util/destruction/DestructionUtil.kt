@@ -16,34 +16,36 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("DestructionUtil")
-
-package opekope2.avm_staff.util
+package opekope2.avm_staff.util.destruction
 
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.OperatorBlock
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.stat.Stats
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.WorldEvents
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.util.dropcollector.IBlockDropCollector
+import java.util.function.BiPredicate
+
+/**
+ * A predicate specifying if a block should be broken.
+ */
+typealias BlockDestructionPredicate = BiPredicate<ServerWorld, BlockPos>
 
 /**
  * Destroys a volume of blocks.
  *
- * @param world         The world to destroy blocks in
- * @param box           The volume to destroy blocks in
- * @param dropCollector The collector of the dropped items
- * @param destroyer     The entity destroying the blocks
- * @param tool          The tool [destroyer] destroys blocks with
- * @param maxHardness   The block hardness threshold. Blocks with bigger hardness values will not be broken
+ * @param world                 The world to destroy blocks in
+ * @param box                   The volume to destroy blocks in
+ * @param dropCollector         The collector of the dropped items
+ * @param destroyer             The entity destroying the blocks
+ * @param tool                  The tool [destroyer] destroys blocks with
+ * @param destructionPredicate  A predicate specifying if a block should be broken
  */
 fun destroyBox(
     world: ServerWorld,
@@ -51,19 +53,16 @@ fun destroyBox(
     dropCollector: IBlockDropCollector,
     destroyer: Entity,
     tool: ItemStack,
-    maxHardness: Float
+    destructionPredicate: BlockDestructionPredicate
 ) {
     if (destroyer is ServerPlayerEntity) {
-        destroyBox(world, box, dropCollector, destroyer, tool, maxHardness)
+        destroyBox(world, box, dropCollector, destroyer, tool, destructionPredicate)
         return
     }
 
     for (pos in BlockPos.iterate(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ)) {
-        val state = world.getBlockState(pos)
-        val hardness = state.getHardness(world, pos)
-        if (hardness == -1f || hardness > maxHardness) continue
-
-        destroyBlock(world, pos, state, dropCollector, destroyer, tool)
+        if (!destructionPredicate.test(world, pos)) continue
+        destroyBlock(world, pos, world.getBlockState(pos), dropCollector, destroyer, tool)
     }
 }
 
@@ -93,12 +92,12 @@ private fun destroyBlock(
 /**
  * Destroys a volume of blocks.
  *
- * @param world         The world to destroy blocks in
- * @param box           The volume to destroy blocks in
- * @param dropCollector The collector of the dropped items
- * @param destroyer     The player destroying the blocks
- * @param tool          The tool [destroyer] destroys blocks with
- * @param maxHardness   The block hardness threshold. Blocks with bigger hardness values will not be broken
+ * @param world                 The world to destroy blocks in
+ * @param box                   The volume to destroy blocks in
+ * @param dropCollector         The collector of the dropped items
+ * @param destroyer             The player destroying the blocks
+ * @param tool                  The tool [destroyer] destroys blocks with
+ * @param destructionPredicate  A predicate specifying if a block should be broken
  */
 fun destroyBox(
     world: ServerWorld,
@@ -106,19 +105,16 @@ fun destroyBox(
     dropCollector: IBlockDropCollector,
     destroyer: ServerPlayerEntity,
     tool: ItemStack,
-    maxHardness: Float
+    destructionPredicate: BlockDestructionPredicate
 ) {
     var exhaustion = 0
 
     for (pos in BlockPos.iterate(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ)) {
-        val state = world.getBlockState(pos)
-        val hardness = state.getHardness(world, pos)
-        if (hardness == -1f || hardness > maxHardness) continue
-
-        if (destroyBlock(world, pos, state, dropCollector, destroyer, tool)) exhaustion++
+        if (!destructionPredicate.test(world, pos)) continue
+        if (destroyBlock(world, pos, world.getBlockState(pos), dropCollector, destroyer, tool)) exhaustion++
     }
 
-    (destroyer as? PlayerEntity)?.addExhaustion(exhaustion * .005f)
+    destroyer.addExhaustion(exhaustion * .005f)
 }
 
 private fun destroyBlock(
