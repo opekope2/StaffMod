@@ -29,7 +29,10 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Hand
-import net.minecraft.util.math.*
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
+import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.Vec2f
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
@@ -37,6 +40,7 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 import opekope2.avm_staff.util.destruction.InTruncatedPyramidPredicate
 import opekope2.avm_staff.util.destruction.MaxHardnessPredicate
+import opekope2.avm_staff.util.destruction.NetheriteBlockStaffShapePredicate
 import opekope2.avm_staff.util.destruction.destroyBox
 import opekope2.avm_staff.util.dropcollector.ChunkedBlockDropCollector
 import opekope2.avm_staff.util.dropcollector.NoOpBlockDropCollector
@@ -109,41 +113,19 @@ class NetheriteBlockHandler : StaffHandler() {
 
         val forwardVector = attacker.facing.vector
         val upVector = attacker.cameraUp.vector
-        val rightVector = forwardVector.crossProduct(upVector)
-
-        val frontMidBackBox = BlockBox.create(
-            target.add(rightVector * -5 + upVector * -2),
-            target.add(rightVector * 5 + upVector * 8 + forwardVector * 11)
-        )
-        val topBox = BlockBox.create(
-            target.add(rightVector * -5 + upVector * 9 + forwardVector),
-            target.add(rightVector * 5 + upVector * 9 + forwardVector * 9)
-        )
-        val bottomBox = BlockBox.create(
-            target.add(rightVector * -5 + upVector * -3 + forwardVector),
-            target.add(rightVector * 5 + upVector * -3 + forwardVector * 9)
-        )
-        val leftBox = BlockBox.create(
-            target.add(rightVector * -6 + upVector * 8 + forwardVector),
-            target.add(rightVector * -6 + upVector * -2 + forwardVector * 9)
-        )
-        val rightBox = BlockBox.create(
-            target.add(rightVector * 6 + upVector * 8 + forwardVector),
-            target.add(rightVector * 6 + upVector * -2 + forwardVector * 9)
-        )
+        val shapePredicate = NetheriteBlockStaffShapePredicate(target, forwardVector, upVector)
         val dropCollector =
             if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
-            else ChunkedBlockDropCollector(
-                BlockBox.encompass(listOf(frontMidBackBox, topBox, bottomBox, leftBox, rightBox)).get(),
-                MAX_CHUNK_SIZE
-            )
+            else ChunkedBlockDropCollector(shapePredicate.volume, MAX_CHUNK_SIZE)
 
-        destroyBox(world, frontMidBackBox, dropCollector, attacker, staffStack, maxNetheriteHard)
-        destroyBox(world, topBox, dropCollector, attacker, staffStack, maxNetheriteHard)
-        destroyBox(world, bottomBox, dropCollector, attacker, staffStack, maxNetheriteHard)
-        destroyBox(world, leftBox, dropCollector, attacker, staffStack, maxNetheriteHard)
-        destroyBox(world, rightBox, dropCollector, attacker, staffStack, maxNetheriteHard)
-
+        destroyBox(
+            world,
+            shapePredicate.volume,
+            dropCollector,
+            attacker,
+            staffStack,
+            maxNetheriteHard.and(shapePredicate)
+        )
         dropCollector.dropAll(world)
 
         // "Mismatch in destroy block pos" in server logs if I interrupt on server but not on client side. Nothing bad should happen, right?
