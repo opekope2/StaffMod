@@ -26,40 +26,23 @@ import opekope2.avm_staff.util.plus
 import opekope2.avm_staff.util.times
 
 /**
- * A [BlockDestructionPredicate], which only allow breaking blocks in the Netherite Block Staff's shape.
+ * A [BlockDestructionPredicate], which only allow breaking blocks in the Gold Block Staff's shape.
  *
  * @param origin        The starting point of the destruction
  * @param forwardVector Vector pointing "forward" relative to the block destroyer's POV
  * @param upVector      Vector pointing "upward" relative to the block destroyer's POV
  */
-class NetheriteBlockStaffShapePredicate(origin: BlockPos, forwardVector: Vec3i, upVector: Vec3i) :
+class GoldBlockStaffShapePredicate(private val origin: BlockPos, forwardVector: Vec3i, upVector: Vec3i) :
     BlockDestructionPredicate {
     private val rightVector = forwardVector.crossProduct(upVector)
-
-    private val farBottomLeft = origin + forwardVector * 10 + upVector * -3 + rightVector * -6
-    private val furtherBottomLeft = origin + forwardVector * 11 + upVector * -3 + rightVector * -6
-    private val nearTopRight = origin + upVector * 9 + rightVector * 6
 
     /**
      * The bounding volume of the destroyable blocks.
      */
-    val volume = encompassPositions(furtherBottomLeft, nearTopRight)!!
+    val volume = encompassPositions(
+        origin + forwardVector + upVector + rightVector * -1,
+        origin + upVector * -1 + rightVector
+    )!!
 
-    override fun test(world: ServerWorld, pos: BlockPos): Boolean {
-        val nearCoordMatch = getMatchingCoordinates(nearTopRight, pos)
-        val farCoordMatch = getMatchingCoordinates(farBottomLeft, pos)
-        val furtherCoordMatch = getMatchingCoordinates(furtherBottomLeft, pos)
-
-        return nearCoordMatch + farCoordMatch < 2 && nearCoordMatch + furtherCoordMatch < 2
-    }
-
-    private fun getMatchingCoordinates(a: Vec3i, b: Vec3i): Int {
-        var match = 0
-
-        if (a.x == b.x) match++
-        if (a.y == b.y) match++
-        if (a.z == b.z) match++
-
-        return match
-    }
+    override fun test(world: ServerWorld, pos: BlockPos) = pos.isWithinDistance(origin, 1.5)
 }

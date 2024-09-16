@@ -28,17 +28,20 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Hand
-import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.util.*
+import opekope2.avm_staff.util.attackDamage
+import opekope2.avm_staff.util.attackSpeed
+import opekope2.avm_staff.util.cameraUp
+import opekope2.avm_staff.util.destruction.GoldBlockStaffShapePredicate
 import opekope2.avm_staff.util.destruction.MaxHardnessPredicate
 import opekope2.avm_staff.util.destruction.destroyBox
 import opekope2.avm_staff.util.dropcollector.NoOpBlockDropCollector
 import opekope2.avm_staff.util.dropcollector.VanillaBlockDropCollector
+import opekope2.avm_staff.util.isAttackCoolingDown
 
 class GoldBlockHandler : StaffHandler() {
     override val attributeModifiers: AttributeModifiersComponent
@@ -58,31 +61,19 @@ class GoldBlockHandler : StaffHandler() {
 
         val forwardVector = attacker.facing.vector
         val upVector = attacker.cameraUp.vector
-        val rightVector = forwardVector.crossProduct(upVector)
-
-        val nearBox = BlockBox.create(
-            target.add(-rightVector - upVector),
-            target.add(rightVector + upVector)
-        )
-        val farHorizontalBox = BlockBox.create(
-            target.add(-rightVector + forwardVector),
-            target.add(rightVector + forwardVector)
-        )
-        val farTopBox = BlockBox(
-            target.add(upVector + forwardVector)
-        )
-        val farBottomBox = BlockBox(
-            target.add(-upVector + forwardVector)
-        )
+        val shapePredicate = GoldBlockStaffShapePredicate(target, forwardVector, upVector)
         val dropCollector =
             if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
             else VanillaBlockDropCollector()
 
-        destroyBox(world, nearBox, dropCollector, attacker, staffStack, maxObsidianHard)
-        destroyBox(world, farHorizontalBox, dropCollector, attacker, staffStack, maxObsidianHard)
-        destroyBox(world, farTopBox, dropCollector, attacker, staffStack, maxObsidianHard)
-        destroyBox(world, farBottomBox, dropCollector, attacker, staffStack, maxObsidianHard)
-
+        destroyBox(
+            world,
+            shapePredicate.volume,
+            dropCollector,
+            attacker,
+            staffStack,
+            maxObsidianHard.and(shapePredicate)
+        )
         dropCollector.dropAll(world)
 
         // "Mismatch in destroy block pos" in server logs if I interrupt on server but not on client side. Nothing bad should happen, right?

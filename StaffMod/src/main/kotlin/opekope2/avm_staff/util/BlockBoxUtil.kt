@@ -26,6 +26,15 @@ import net.minecraft.util.math.Vec3d
 import kotlin.jvm.optionals.getOrNull
 
 /**
+ * Creates a [BlockBox] from encompassing the given positions.
+ *
+ * @param positions The positions to encompass in a [BlockBox]
+ * @return A [BlockBox] instance containing the given positions or `null`, if no positions were given
+ * @see BlockBox.encompassPositions
+ */
+fun encompassPositions(vararg positions: BlockPos) = BlockBox.encompassPositions(positions.asIterable()).getOrNull()
+
+/**
  * Creates a [BlockBox] from encompassing the given vectors.
  *
  * @param posVectors    The vectors to encompass in a [BlockBox]
