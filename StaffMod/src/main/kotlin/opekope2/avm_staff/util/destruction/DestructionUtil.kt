@@ -21,7 +21,7 @@ package opekope2.avm_staff.util.destruction
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.OperatorBlock
-import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -29,6 +29,7 @@ import net.minecraft.stat.Stats
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.event.GameEvent
+import opekope2.avm_staff.api.block.IBlockAfterDestroyHandler
 import opekope2.avm_staff.internal.networking.s2c.play.MassDestructionS2CPacket
 import opekope2.avm_staff.util.dropcollector.IBlockDropCollector
 import java.util.function.BiPredicate
@@ -52,7 +53,7 @@ fun destroyBox(
     world: ServerWorld,
     box: BlockBox,
     dropCollector: IBlockDropCollector,
-    destroyer: Entity,
+    destroyer: LivingEntity,
     tool: ItemStack,
     destructionPredicate: BlockDestructionPredicate
 ) {
@@ -87,20 +88,34 @@ private fun destroyBlock(
     pos: BlockPos,
     state: BlockState,
     dropCollector: IBlockDropCollector,
-    destroyer: Entity,
+    destroyer: LivingEntity,
     tool: ItemStack
 ): Boolean {
-    if (state.block is OperatorBlock) {
+    val block = state.block
+    val blockEntity = world.getBlockEntity(pos)
+    if (block is OperatorBlock) {
         world.updateListeners(pos, state, state, Block.NOTIFY_ALL)
         return false
     }
 
     if (world.removeBlock(pos, false)) {
-        state.block.onBroken(world, pos, state)
+        block.onBroken(world, pos, state)
         world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(destroyer, state))
     } else return false
 
-    dropCollector.collect(world, pos.toImmutable(), state, world.getBlockEntity(pos), destroyer, tool.copy())
+    dropCollector.collect(world, pos.toImmutable(), state, blockEntity, destroyer, tool.copy())
+    if (block is IBlockAfterDestroyHandler) {
+        block.staffMod_afterBlockDestroyed(
+            world,
+            pos.toImmutable(),
+            state,
+            blockEntity,
+            dropCollector,
+            destroyer,
+            tool.copy()
+        )
+    }
+
     return true
 }
 
@@ -112,16 +127,18 @@ private fun destroyBlock(
     destroyer: ServerPlayerEntity,
     tool: ItemStack
 ): Boolean {
-    if (state.block is OperatorBlock && !destroyer.isCreativeLevelTwoOp) {
+    val block = state.block
+    val blockEntity = world.getBlockEntity(pos)
+    if (block is OperatorBlock && !destroyer.isCreativeLevelTwoOp) {
         world.updateListeners(pos, state, state, Block.NOTIFY_ALL)
         return false
     }
     if (destroyer.isBlockBreakingRestricted(world, pos, destroyer.interactionManager.gameMode)) return false
 
-    val breakState = state.block.onBreak(world, pos, state, destroyer)
+    val breakState = block.onBreak(world, pos, state, destroyer)
     val broke = world.removeBlock(pos, false)
     if (broke) {
-        state.block.onBroken(world, pos, breakState)
+        block.onBroken(world, pos, breakState)
         world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(destroyer, state))
     }
 
@@ -129,8 +146,19 @@ private fun destroyBlock(
 
     if (!broke) return false
 
-    destroyer.incrementStat(Stats.MINED.getOrCreateStat(state.block))
+    destroyer.incrementStat(Stats.MINED.getOrCreateStat(block))
+    dropCollector.collect(world, pos.toImmutable(), breakState, blockEntity, destroyer, tool.copy())
+    if (block is IBlockAfterDestroyHandler) {
+        block.staffMod_afterBlockDestroyed(
+            world,
+            pos.toImmutable(),
+            state,
+            blockEntity,
+            dropCollector,
+            destroyer,
+            tool.copy()
+        )
+    }
 
-    dropCollector.collect(world, pos.toImmutable(), breakState, world.getBlockEntity(pos), destroyer, tool.copy())
     return true
 }
