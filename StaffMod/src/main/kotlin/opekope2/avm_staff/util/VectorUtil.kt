@@ -21,6 +21,7 @@
 
 package opekope2.avm_staff.util
 
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
@@ -84,3 +85,11 @@ inline operator fun Vector3f.minusAssign(other: Vector3fc) {
 inline operator fun Vector3f.timesAssign(scalar: Float) {
     mul(scalar)
 }
+
+inline operator fun BlockPos.plus(other: Vec3i): BlockPos = add(other)
+
+inline operator fun BlockPos.minus(other: Vec3i): BlockPos = subtract(other)
+
+inline operator fun BlockPos.unaryMinus(): BlockPos = multiply(-1)
+
+inline operator fun BlockPos.times(scalar: Int): BlockPos = multiply(scalar)
