@@ -49,7 +49,7 @@ class ChunkedBlockDropCollector(private val box: BlockBox, maxChunkSize: Int) : 
         destroyer: Entity,
         tool: ItemStack
     ) {
-        if (pos !in box) throw IllegalArgumentException("Position is outside the specified box")
+        require(pos in box) { "Position is outside the specified box" }
 
         this[
             floor((pos.x - box.minX).toFloat() * clumpsX / box.blockCountX).toInt(),

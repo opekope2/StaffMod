@@ -29,7 +29,7 @@ import kotlin.jvm.optionals.getOrNull
  * Creates a [BlockBox] from encompassing the given vectors.
  *
  * @param posVectors    The vectors to encompass in a [BlockBox]
- * @return              A [BlockBox] instance containing the given vectors or `null`, if no vectors were given
+ * @return A [BlockBox] instance containing the given vectors or `null`, if no vectors were given
  * @see BlockBox.encompassPositions
  */
 fun encompassVectors(vararg posVectors: Vec3d) =

@@ -117,7 +117,7 @@ abstract class StaffHandler {
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [user] is in
      * @param user          The entity, which used the staff
-     * @return              The item stack after using the staff
+     * @return The item stack after using the staff
      * @see Item.finishUsing
      */
     open fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity) = staffStack

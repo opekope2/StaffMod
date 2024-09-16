@@ -73,9 +73,9 @@ fun registerContent() {
 }
 
 fun initializeNetworking() {
+    AttackC2SPacket.registerReceiver()
     InsertItemIntoStaffC2SPacket.registerReceiver()
     RemoveItemFromStaffC2SPacket.registerReceiver()
-    AttackC2SPacket.registerReceiver()
 
     MassDestructionS2CPacket.registerReceiver()
 }
