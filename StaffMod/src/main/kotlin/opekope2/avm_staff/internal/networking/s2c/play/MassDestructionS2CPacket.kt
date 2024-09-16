@@ -83,7 +83,7 @@ internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawId
 
     companion object : PacketRegistrarAndReceiver<MassDestructionS2CPacket>(
         NetworkManager.s2c(),
-        Identifier.of(MOD_ID, "mass_destruction"),
+        Identifier(MOD_ID, "mass_destruction"),
         ::MassDestructionS2CPacket
     ) {
         private val MAX_PARTICLES = IParticleManagerAccessor.maxParticleCount() / (4 * 4 * 4)

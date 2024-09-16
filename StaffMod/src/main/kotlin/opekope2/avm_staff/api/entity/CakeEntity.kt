@@ -35,7 +35,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.predicate.entity.EntityPredicates
-import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
@@ -193,8 +192,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
 
     override fun entityDataRequiresOperator() = true
 
-    override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry) =
-        EntitySpawnS2CPacket(this, entityTrackerEntry)
+    override fun createSpawnPacket() = EntitySpawnS2CPacket(this)
 
     override fun onSpawnPacket(packet: EntitySpawnS2CPacket) {
         super.onSpawnPacket(packet)

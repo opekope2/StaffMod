@@ -77,8 +77,9 @@ internal class WitherSkeletonSkullHandler : StaffHandler() {
         if (user is PlayerEntity && user.isAttackCoolingDown) return
 
         val spawnPos = EntityType.WITHER_SKULL.getSpawnPosition(world, user.approximateStaffTipPosition) ?: return
+        val (x, y, z) = user.rotationVector
 
-        world.spawnEntity(WitherSkullEntity(world, user, user.rotationVector).apply {
+        world.spawnEntity(WitherSkullEntity(world, user, x, y, z).apply {
             isCharged = charged
             setPosition(spawnPos)
         })

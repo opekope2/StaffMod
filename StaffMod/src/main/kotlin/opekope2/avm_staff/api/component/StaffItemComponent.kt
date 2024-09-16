@@ -20,13 +20,13 @@ package opekope2.avm_staff.api.component
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.component.ComponentType
+import net.minecraft.component.DataComponentType
 import net.minecraft.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 
 /**
- * [ItemStack] wrapper to make them compatible with [ComponentType]s.
+ * [ItemStack] wrapper to make them compatible with [DataComponentType]s.
  *
  * @param item  The item stored in this component. Must be [copied][ItemStack.copy] before modifying it
  */

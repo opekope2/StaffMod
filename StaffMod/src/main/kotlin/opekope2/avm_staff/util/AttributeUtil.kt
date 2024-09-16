@@ -22,7 +22,6 @@ package opekope2.avm_staff.util
 
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.item.Item
-import net.minecraft.util.Identifier
 
 private const val PLAYER_BASE_ATTACK_DAMAGE = 1.0
 private const val PLAYER_BASE_ATTACK_SPEED = 4.0
@@ -34,7 +33,8 @@ private const val PLAYER_BASE_ATTACK_SPEED = 4.0
  * @param totalAttackDamage The desired amount of damage in half hearts
  */
 fun attackDamage(totalAttackDamage: Double): EntityAttributeModifier = EntityAttributeModifier(
-    Item.BASE_ATTACK_DAMAGE_MODIFIER_ID,
+    Item.ATTACK_DAMAGE_MODIFIER_ID,
+    "Staff modifier",
     totalAttackDamage - PLAYER_BASE_ATTACK_DAMAGE,
     EntityAttributeModifier.Operation.ADD_VALUE
 )
@@ -46,7 +46,8 @@ fun attackDamage(totalAttackDamage: Double): EntityAttributeModifier = EntityAtt
  * @param totalAttackSpeed  The desired attack speed in attack/second
  */
 fun attackSpeed(totalAttackSpeed: Double): EntityAttributeModifier = EntityAttributeModifier(
-    Item.BASE_ATTACK_SPEED_MODIFIER_ID,
+    Item.ATTACK_SPEED_MODIFIER_ID,
+    "Staff modifier",
     totalAttackSpeed - PLAYER_BASE_ATTACK_SPEED,
     EntityAttributeModifier.Operation.ADD_VALUE
 )
@@ -65,7 +66,7 @@ fun equipTime(totalEquipTime: Double): EntityAttributeModifier = attackSpeed(1.0
  * @param additionalRange   The number of blocks to add to the interaction range
  */
 fun interactionRange(additionalRange: Double) = EntityAttributeModifier(
-    Identifier.of(MOD_ID, "staff_modifier"),
+    "Staff modifier",
     additionalRange,
     EntityAttributeModifier.Operation.ADD_VALUE
 )

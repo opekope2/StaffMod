@@ -25,11 +25,11 @@ import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -56,7 +56,7 @@ public abstract class BeehiveBlockMixin extends BlockWithEntity implements IBloc
     @Override
     public void staffMod_afterBlockDestroyed(@NotNull ServerWorld world, @NotNull BlockPos pos, @NotNull BlockState state, @Nullable BlockEntity blockEntity, @NotNull IBlockDropCollector dropCollector, @NotNull LivingEntity destroyer, @NotNull ItemStack tool) {
         if (!(blockEntity instanceof BeehiveBlockEntity beehiveBlockEntity)) return;
-        if (!EnchantmentHelper.hasAnyEnchantmentsIn(tool, EnchantmentTags.PREVENTS_BEE_SPAWNS_WHEN_MINING)) {
+        if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) == 0) {
             staffMod_angerBees(destroyer, state, (IBeehiveBlockEntityAccessor) beehiveBlockEntity);
             world.updateComparators(pos, this);
             angerNearbyBees(world, pos);

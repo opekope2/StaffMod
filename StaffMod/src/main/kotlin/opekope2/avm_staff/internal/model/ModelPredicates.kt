@@ -32,7 +32,7 @@ import kotlin.jvm.optionals.getOrNull
 // ModelPredicateProviderRegistry.register is private in common project
 @Environment(EnvType.CLIENT)
 fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicateProvider) -> Unit) {
-    register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->
+    register(Identifier(MOD_ID, "using_item")) { stack, _, entity, _ ->
         val isActiveOverride = stack[staffRendererOverrideComponentType.get()]?.isActive?.getOrNull()
         when {
             isActiveOverride == true -> 1f
@@ -41,10 +41,10 @@ fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicate
             else -> 0f
         }
     }
-    register(Identifier.of(MOD_ID, "head"), matchStaffRendererPart(StaffRendererPartComponent.HEAD))
-    register(Identifier.of(MOD_ID, "item"), matchStaffRendererPart(StaffRendererPartComponent.ITEM))
-    register(Identifier.of(MOD_ID, "rod_top"), matchStaffRendererPart(StaffRendererPartComponent.ROD_TOP))
-    register(Identifier.of(MOD_ID, "rod_bottom"), matchStaffRendererPart(StaffRendererPartComponent.ROD_BOTTOM))
+    register(Identifier(MOD_ID, "head"), matchStaffRendererPart(StaffRendererPartComponent.HEAD))
+    register(Identifier(MOD_ID, "item"), matchStaffRendererPart(StaffRendererPartComponent.ITEM))
+    register(Identifier(MOD_ID, "rod_top"), matchStaffRendererPart(StaffRendererPartComponent.ROD_TOP))
+    register(Identifier(MOD_ID, "rod_bottom"), matchStaffRendererPart(StaffRendererPartComponent.ROD_BOTTOM))
 }
 
 private fun matchStaffRendererPart(part: StaffRendererPartComponent) = ClampedModelPredicateProvider { stack, _, _, _ ->

@@ -30,7 +30,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
@@ -38,7 +37,10 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.mixin.IAnvilBlockAccessor
-import opekope2.avm_staff.util.*
+import opekope2.avm_staff.util.attackDamage
+import opekope2.avm_staff.util.equipTime
+import opekope2.avm_staff.util.itemStackInStaff
+import opekope2.avm_staff.util.mutableItemStackInStaff
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -134,7 +136,7 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
             .build()
 
         private fun anvilModifier() = EntityAttributeModifier(
-            Identifier.of(MOD_ID, "anvil_modifier"), -1.0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+            "Anvil modifier", -1.0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
         )
     }
 }

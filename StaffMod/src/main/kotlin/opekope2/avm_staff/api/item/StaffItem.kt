@@ -53,8 +53,8 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
         stack[DataComponentTypes.ATTRIBUTE_MODIFIERS] = stack.itemInStaff.staffHandlerOrDefault.attributeModifiers
     }
 
-    override fun getMaxUseTime(stack: ItemStack, user: LivingEntity): Int {
-        return stack.itemInStaff.staffHandlerOrDefault.maxUseTime // TODO extend API
+    override fun getMaxUseTime(stack: ItemStack): Int {
+        return stack.itemInStaff.staffHandlerOrDefault.maxUseTime
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
