@@ -20,8 +20,6 @@ package opekope2.avm_staff.util.dropcollector
 
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
@@ -30,20 +28,11 @@ import net.minecraft.util.math.BlockPos
  * A block drop collector, which merges compatible items passed in, and drops them at their (non-weighed) average
  * position.
  */
-class BlockDropCollector : IBlockDropCollector {
+class MergerBlockDropCollector : IBlockDropCollector {
     private val drops = mutableMapOf<ItemStack, MutableList<BlockDrop>>()
     private val brokenBlocks: MutableList<BrokenBlock> = mutableListOf()
 
-    override fun collect(
-        world: ServerWorld,
-        pos: BlockPos,
-        state: BlockState,
-        blockEntity: BlockEntity?,
-        destroyer: Entity,
-        tool: ItemStack
-    ) {
-        val droppedStacks = Block.getDroppedStacks(state, world, pos, blockEntity, destroyer, tool)
-
+    override fun collect(pos: BlockPos, state: BlockState, tool: ItemStack, droppedStacks: List<ItemStack>) {
         for (stack in droppedStacks) {
             val reference = drops.keys.firstOrNull { ItemStack.areItemsAndComponentsEqual(it, stack) } ?: stack
             drops.getOrPut(reference, ::mutableListOf) += BlockDrop(pos, stack)

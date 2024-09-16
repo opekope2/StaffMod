@@ -49,7 +49,17 @@ interface IBlockDropCollector {
         blockEntity: BlockEntity?,
         destroyer: Entity,
         tool: ItemStack
-    )
+    ) = collect(pos, state, tool, Block.getDroppedStacks(state, world, pos, blockEntity, destroyer, tool))
+
+    /**
+     * Stores the dropped items of a broken block.
+     *
+     * @param pos           The position of the broken block
+     * @param state         The block state broken
+     * @param tool          The item used to break the block
+     * @param droppedStacks The dropped items of the block
+     */
+    fun collect(pos: BlockPos, state: BlockState, tool: ItemStack, droppedStacks: List<ItemStack>)
 
     /**
      * Drops all collected items into the world.

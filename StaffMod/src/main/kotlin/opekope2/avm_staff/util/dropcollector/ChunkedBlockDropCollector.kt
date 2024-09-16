@@ -39,7 +39,7 @@ class ChunkedBlockDropCollector(private val box: BlockBox, maxChunkSize: Int) : 
     private val clumpsX = ceil(box.blockCountX / maxChunkSize.toFloat()).toInt()
     private val clumpsY = ceil(box.blockCountY / maxChunkSize.toFloat()).toInt()
     private val clumpsZ = ceil(box.blockCountZ / maxChunkSize.toFloat()).toInt()
-    private val clumps = Array(clumpsX * clumpsY * clumpsZ) { BlockDropCollector() }
+    private val clumps = Array(clumpsX * clumpsY * clumpsZ) { MergerBlockDropCollector() }
 
     override fun collect(
         world: ServerWorld,
@@ -50,13 +50,19 @@ class ChunkedBlockDropCollector(private val box: BlockBox, maxChunkSize: Int) : 
         tool: ItemStack
     ) {
         require(pos in box) { "Position is outside the specified box" }
-
-        this[
-            floor((pos.x - box.minX).toFloat() * clumpsX / box.blockCountX).toInt(),
-            floor((pos.y - box.minY).toFloat() * clumpsY / box.blockCountY).toInt(),
-            floor((pos.z - box.minZ).toFloat() * clumpsZ / box.blockCountZ).toInt()
-        ].collect(world, pos, state, blockEntity, destroyer, tool)
+        getBlockDropCollectorAt(pos).collect(world, pos, state, blockEntity, destroyer, tool)
     }
+
+    override fun collect(pos: BlockPos, state: BlockState, tool: ItemStack, droppedStacks: List<ItemStack>) {
+        require(pos in box) { "Position is outside the specified box" }
+        getBlockDropCollectorAt(pos).collect(pos, state, tool, droppedStacks)
+    }
+
+    private fun getBlockDropCollectorAt(pos: BlockPos) = this[
+        floor((pos.x - box.minX).toFloat() * clumpsX / box.blockCountX).toInt(),
+        floor((pos.y - box.minY).toFloat() * clumpsY / box.blockCountY).toInt(),
+        floor((pos.z - box.minZ).toFloat() * clumpsZ / box.blockCountZ).toInt()
+    ]
 
     private operator fun get(x: Int, y: Int, z: Int): IBlockDropCollector {
         return clumps[x * clumpsY * clumpsZ + y * clumpsZ + z]

@@ -39,6 +39,9 @@ class NoOpBlockDropCollector : IBlockDropCollector {
     ) {
     }
 
+    override fun collect(pos: BlockPos, state: BlockState, tool: ItemStack, droppedStacks: List<ItemStack>) {
+    }
+
     override fun dropAll(world: ServerWorld) {
     }
 }

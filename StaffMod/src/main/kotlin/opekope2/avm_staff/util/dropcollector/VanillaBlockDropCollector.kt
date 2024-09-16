@@ -20,8 +20,6 @@ package opekope2.avm_staff.util.dropcollector
 
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
@@ -33,16 +31,7 @@ class VanillaBlockDropCollector : IBlockDropCollector {
     private val drops = mutableListOf<BlockDrop>()
     private val brokenBlocks = mutableListOf<BrokenBlock>()
 
-    override fun collect(
-        world: ServerWorld,
-        pos: BlockPos,
-        state: BlockState,
-        blockEntity: BlockEntity?,
-        destroyer: Entity,
-        tool: ItemStack
-    ) {
-        val droppedStacks = Block.getDroppedStacks(state, world, pos, blockEntity, destroyer, tool)
-
+    override fun collect(pos: BlockPos, state: BlockState, tool: ItemStack, droppedStacks: List<ItemStack>) {
         for (stack in droppedStacks) {
             drops += BlockDrop(pos, stack)
         }
