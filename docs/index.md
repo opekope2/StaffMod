@@ -36,6 +36,7 @@ Staff Mod implements functionalities for the following items:
 * [Gold Block](staff.md#gold-block)
 * [Lightning rod](staff.md#lightning-rod)
 * [Magma block](staff.md#magma-block)
+* [Netherite block](staff.md#netherite-block)
 * [Snow block](staff.md#snow-block)
 * [TNT](staff.md#tnt)
 * [Wither Skeleton Skull](staff.md#wither-skeleton-skull)

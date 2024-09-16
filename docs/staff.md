@@ -131,6 +131,18 @@ Soul campfire | 6s, when attacked | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks,
 * **Attack (air)**: Shoot a single fireball
 * **Use (hold)**: Shoot a fireball every other game tick
 
+## Netherite block
+
+[**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/48)
+**Staff Mod 0.18.0+**{.chip-darkgreen}
+
+* **Attack Damage**: 20 (:mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart:)
+* **Attack Speed**: 1/s
+* **Range**: +1
+
+* **Attack Entity**: Knock back the target and break blocks in its way. This takes [knockback resistance](https://minecraft.wiki/w/Knockback_(mechanic)#Natural_knockback_resistance) into account
+* **Attack Block**: Break a 13x13x13 volume of blocks except for its edges
+
 ## Snow block
 
 [**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/4)
