@@ -44,5 +44,5 @@ class GoldBlockStaffShapePredicate(private val origin: BlockPos, forwardVector: 
         origin + upVector * -1 + rightVector
     )!!
 
-    override fun test(world: ServerWorld, pos: BlockPos) = pos.isWithinDistance(origin, 1.5)
+    override fun test(world: ServerWorld, pos: BlockPos) = pos in volume && pos.isWithinDistance(origin, 1.5)
 }

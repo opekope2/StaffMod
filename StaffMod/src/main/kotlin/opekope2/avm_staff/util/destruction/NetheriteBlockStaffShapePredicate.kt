@@ -46,6 +46,8 @@ class NetheriteBlockStaffShapePredicate(origin: BlockPos, forwardVector: Vec3i, 
     val volume = encompassPositions(furtherBottomLeft, nearTopRight)!!
 
     override fun test(world: ServerWorld, pos: BlockPos): Boolean {
+        if (pos !in volume) return false
+
         val nearCoordMatch = getMatchingCoordinates(nearTopRight, pos)
         val farCoordMatch = getMatchingCoordinates(farBottomLeft, pos)
         val furtherCoordMatch = getMatchingCoordinates(furtherBottomLeft, pos)
