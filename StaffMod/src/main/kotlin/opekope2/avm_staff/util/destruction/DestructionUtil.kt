@@ -29,6 +29,7 @@ import net.minecraft.stat.Stats
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.event.GameEvent
+import opekope2.avm_staff.internal.networking.s2c.play.MassDestructionS2CPacket
 import opekope2.avm_staff.util.dropcollector.IBlockDropCollector
 import java.util.function.BiPredicate
 
@@ -55,14 +56,29 @@ fun destroyBox(
     tool: ItemStack,
     destructionPredicate: BlockDestructionPredicate
 ) {
-    if (destroyer is ServerPlayerEntity) {
-        destroyBox(world, box, dropCollector, destroyer, tool, destructionPredicate)
-        return
-    }
+    var exhaustion = 0
+    val destroyerPlayer = destroyer as? ServerPlayerEntity
+    val destroyedBlocks = mutableListOf<BlockPos>()
+    val destroyedBlockStates = mutableListOf<Int>()
 
     for (pos in BlockPos.iterate(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ)) {
         if (!destructionPredicate.test(world, pos)) continue
-        destroyBlock(world, pos, world.getBlockState(pos), dropCollector, destroyer, tool)
+
+        val state = world.getBlockState(pos)
+        val blockDestroyed =
+            if (destroyerPlayer != null) destroyBlock(world, pos, state, dropCollector, destroyerPlayer, tool)
+            else destroyBlock(world, pos, state, dropCollector, destroyer, tool)
+        if (!blockDestroyed) continue
+
+        exhaustion++
+        destroyedBlocks += pos.toImmutable()
+        destroyedBlockStates += Block.getRawIdFromState(state)
+    }
+
+    destroyerPlayer?.addExhaustion(exhaustion * .005f)
+    if (destroyedBlocks.isNotEmpty()) {
+        MassDestructionS2CPacket(destroyedBlocks, destroyedBlockStates)
+            .sendToAround(world.server, destroyer.world.registryKey)
     }
 }
 
@@ -81,40 +97,11 @@ private fun destroyBlock(
 
     if (world.removeBlock(pos, false)) {
         state.block.onBroken(world, pos, state)
-        world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(state))
         world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(destroyer, state))
     } else return false
 
     dropCollector.collect(world, pos.toImmutable(), state, world.getBlockEntity(pos), destroyer, tool.copy())
     return true
-}
-
-/**
- * Destroys a volume of blocks.
- *
- * @param world                 The world to destroy blocks in
- * @param box                   The volume to destroy blocks in
- * @param dropCollector         The collector of the dropped items
- * @param destroyer             The player destroying the blocks
- * @param tool                  The tool [destroyer] destroys blocks with
- * @param destructionPredicate  A predicate specifying if a block should be broken
- */
-fun destroyBox(
-    world: ServerWorld,
-    box: BlockBox,
-    dropCollector: IBlockDropCollector,
-    destroyer: ServerPlayerEntity,
-    tool: ItemStack,
-    destructionPredicate: BlockDestructionPredicate
-) {
-    var exhaustion = 0
-
-    for (pos in BlockPos.iterate(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ)) {
-        if (!destructionPredicate.test(world, pos)) continue
-        if (destroyBlock(world, pos, world.getBlockState(pos), dropCollector, destroyer, tool)) exhaustion++
-    }
-
-    destroyer.addExhaustion(exhaustion * .005f)
 }
 
 private fun destroyBlock(
@@ -135,7 +122,6 @@ private fun destroyBlock(
     val broke = world.removeBlock(pos, false)
     if (broke) {
         state.block.onBroken(world, pos, breakState)
-        world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(state))
         world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(destroyer, state))
     }
 

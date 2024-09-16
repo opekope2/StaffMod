@@ -63,6 +63,7 @@ import opekope2.avm_staff.internal.event_handler.registerKeyBindings
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.internal.networking.s2c.play.MassDestructionS2CPacket
 import opekope2.avm_staff.mixin.IPiglinBrainAccessor
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.*
@@ -75,6 +76,8 @@ fun initializeNetworking() {
     InsertItemIntoStaffC2SPacket.registerReceiver()
     RemoveItemFromStaffC2SPacket.registerReceiver()
     AttackC2SPacket.registerReceiver()
+
+    MassDestructionS2CPacket.registerReceiver()
 }
 
 private val MODIFIABLE_LOOT_TABLES = setOf(
