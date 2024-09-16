@@ -72,6 +72,7 @@ Every staff has these stats, unless noted otherwise
 * **Attack Speed**: 2/s
 * **Range**: +1
 
+* **Attack Entity**: Set the target on fire (see table below)
 * **Use (hold)**: Throw flame like a Flammenwerfer. Every entity touching the flame will be set on fire. The longer they stand in fire, the longer they are going to burn for. The flame stops when it reaches a block, and has a chance to set it on fire (see table below)
 * **Use (hold, while sneaking midair)**: Propel yourself backwards. Look down to fly up. Soul campfire can go faster than campfire. Sneaking is only required to start the flight, it doesn't need to be held down to fly
 
@@ -104,7 +105,7 @@ Soul campfire | 6s, when attacked | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks,
 * **Attack Speed**: 1/s
 * **Range**: +1
 
-* **Attack (block)**: Break blocks that are not stronger than Obsidian in a 3x3x2 area in front of the player, except for the 4 corners facing away from the player
+* **Attack Block**: Break blocks that are not stronger than Obsidian in a 3x3x2 area in front of the player, except for the 4 corners facing away from the player
 
 ## Lightning rod
 
@@ -129,6 +130,7 @@ Soul campfire | 6s, when attacked | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks,
 * **Range**: +1
 
 * **Attack (air)**: Shoot a single fireball
+* **Attack Entity**: Set the target on fire for 8s
 * **Use (hold)**: Shoot a fireball every other game tick
 
 ## Netherite block
