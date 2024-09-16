@@ -53,7 +53,7 @@ import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.api.staffFurnaceDataComponentType
-import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityAccesor
+import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityAccessor
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
 
@@ -101,7 +101,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 
         val (vx, vy, vz) = itemToSmelt.velocity
         world.spawnEntity(ItemEntity(world, itemToSmelt.x, itemToSmelt.y, itemToSmelt.z, resultItem, vx, vy, vz))
-        IAbstractFurnaceBlockEntityAccesor.callDropExperience(
+        IAbstractFurnaceBlockEntityAccessor.callDropExperience(
             world as ServerWorld, itemToSmelt.pos, stackToSmelt.count, recipe.experience
         )
         itemToSmelt.discard()

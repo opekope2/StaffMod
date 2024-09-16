@@ -13,7 +13,7 @@
     "IParticleMixin"
   ],
   "mixins": [
-    "IAbstractFurnaceBlockEntityAccesor",
+    "IAbstractFurnaceBlockEntityAccessor",
     "IAnvilBlockAccessor",
     "ICakeBlockAccessor",
     "IPiglinBrainAccessor",
