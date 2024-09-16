@@ -32,7 +32,8 @@ import opekope2.avm_staff.util.*
  * @param nearSize  The width and height of the near side of the truncated pyramid
  * @param far       The center point on the far side of the truncated pyramid
  * @param farSize   The width and height of the far side if the truncated pyramid
- * @param up        The direction pointing "upwards" (perpendicular to `far-near` vector)
+ * @param up        The direction pointing "upwards" relative to the block destroyer's POV (perpendicular to `far-near`
+ *  vector)
  */
 class InTruncatedPyramidPredicate(near: Vec3d, nearSize: Vec2f, far: Vec3d, farSize: Vec2f, up: Vec3d) :
     BlockDestructionPredicate {
@@ -57,6 +58,9 @@ class InTruncatedPyramidPredicate(near: Vec3d, nearSize: Vec2f, far: Vec3d, farS
         createPlane(farBottomRight, farBottomRight - nearBottomRight, farBottomRight - farTopRight) // Right
     )
 
+    /**
+     * The bounding volume of the truncated pyramid.
+     */
     val volume = encompassVectors(
         nearTopLeft,
         nearTopRight,
