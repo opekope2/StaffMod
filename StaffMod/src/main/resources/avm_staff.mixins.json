@@ -19,6 +19,7 @@
     "IBeehiveBlockEntityAccessor",
     "ICakeBlockAccessor",
     "IPiglinBrainAccessor",
-    "ISmithingTemplateItemAccessor"
+    "ISmithingTemplateItemAccessor",
+    "TurtleEggBlockMixin"
   ]
 }
