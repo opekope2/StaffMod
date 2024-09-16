@@ -19,24 +19,30 @@
 package opekope2.avm_staff.internal.networking.s2c.play
 
 import dev.architectury.networking.NetworkManager
+import net.minecraft.block.Block
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.registry.RegistryKey
 import net.minecraft.server.MinecraftServer
+import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
-import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.internal.networking.IS2CPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
+import opekope2.avm_staff.mixin.IParticleManagerAccessor
 import opekope2.avm_staff.util.MOD_ID
+import opekope2.avm_staff.util.countingSort
+import java.util.function.IntSupplier
+import kotlin.math.max
 import kotlin.math.sqrt
 
 internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawIds: List<Int>) : IS2CPacket {
     init {
         require(positions.isNotEmpty()) { "positions must not be empty" }
+        require(positions.size < MAX_DATA_IN_PACKET) { "too much data (max. $MAX_DATA_IN_PACKET)" }
         require(positions.size == rawIds.size) { "positions and rawIds must contain the same amount of elements" }
     }
 
@@ -67,14 +73,57 @@ internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawId
         NetworkManager.sendToPlayers(players, this)
     }
 
+    private data class BlockBrokenWorldEvent(
+        val pos: BlockPos,
+        val blockStateRawId: Int,
+        var squaredDistanceFromPlayer: Int
+    ) : IntSupplier {
+        override fun getAsInt() = squaredDistanceFromPlayer
+    }
+
     companion object : PacketRegistrarAndReceiver<MassDestructionS2CPacket>(
         NetworkManager.s2c(),
         Identifier.of(MOD_ID, "mass_destruction"),
         ::MassDestructionS2CPacket
     ) {
+        private val MAX_PARTICLES = IParticleManagerAccessor.maxParticleCount() / (4 * 4 * 4)
+        private const val MAX_SOUNDS = 128
+
+        const val MAX_DATA_IN_PACKET = 1024 * 1024
+
         override fun receive(packet: MassDestructionS2CPacket, context: NetworkManager.PacketContext) {
-            for (i in 0 until packet.positions.size) { // TODO reduce lag
-                context.player.world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, packet.positions[i], packet.rawIds[i])
+            val world = context.player.entityWorld
+            val playerPos = context.player.pos
+            val blockBrokenEvents = Array(packet.positions.size) { i ->
+                val pos = packet.positions[i]
+                BlockBrokenWorldEvent(pos, packet.rawIds[i], pos.getSquaredDistance(playerPos).toInt())
+            }
+            val min = blockBrokenEvents.minOf { it.squaredDistanceFromPlayer }
+            val max = blockBrokenEvents.maxOf { it.squaredDistanceFromPlayer } - min
+
+            for (event in blockBrokenEvents) {
+                event.squaredDistanceFromPlayer -= min
+            }
+
+            val sortedBlockBrokenEvents = countingSort(blockBrokenEvents, max)
+            val maxProcessableEvents = max(MAX_SOUNDS, MAX_PARTICLES)
+
+            sortedBlockBrokenEvents.take(maxProcessableEvents).forEachIndexed { i, (pos, blockStateRawId) ->
+                val blockState = Block.getStateFromRawId(blockStateRawId)
+                if (i < MAX_SOUNDS && !blockState.isAir) {
+                    val soundGroup = blockState.soundGroup
+                    world.playSoundAtBlockCenter(
+                        pos,
+                        soundGroup.breakSound,
+                        SoundCategory.BLOCKS,
+                        (soundGroup.volume + 1.0f) / 2.0f,
+                        soundGroup.pitch * 0.8f,
+                        false
+                    )
+                }
+                if (i < MAX_PARTICLES) {
+                    world.addBlockBreakParticles(pos, blockState)
+                }
             }
         }
     }

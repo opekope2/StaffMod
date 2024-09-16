@@ -9,6 +9,7 @@
   "client": [
     "BipedEntityModelMixin",
     "IMinecraftClientAccessor",
+    "IParticleManagerAccessor",
     "IParticleMixin"
   ],
   "mixins": [
