@@ -3,7 +3,7 @@ name: Publish Staff Mod
 on:
   push:
     tags:
-      - release/*
+      - "*"
 
 jobs:
   build:
