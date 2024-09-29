@@ -79,10 +79,6 @@
       },
       {
         "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.InitializerKt::subscribeToClientEvents"
-      },
-      {
-        "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.staff.handler.VanillaStaffHandlersKt::registerVanillaStaffItemRenderers"
       }
     ]
