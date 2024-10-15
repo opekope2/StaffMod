@@ -36,7 +36,6 @@ import opekope2.avm_staff.mixin.IParticleManagerAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.countingSort
 import java.util.function.IntSupplier
-import kotlin.math.max
 import kotlin.math.sqrt
 
 internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawIds: List<Int>) : IS2CPacket {
@@ -86,12 +85,11 @@ internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawId
         Identifier(MOD_ID, "mass_destruction"),
         ::MassDestructionS2CPacket
     ) {
-        private val MAX_PARTICLES = IParticleManagerAccessor.maxParticleCount() / (4 * 4 * 4)
-        private const val MAX_SOUNDS = 128
-
         const val MAX_DATA_IN_PACKET = 1024 * 1024
 
         override fun receive(packet: MassDestructionS2CPacket, context: NetworkManager.PacketContext) {
+            val maxParticles = IParticleManagerAccessor.maxParticleCount() / (4 * 4 * 4)
+            val maxSounds = 128
             val world = context.player.entityWorld
             val playerPos = context.player.pos
             val blockBrokenEvents = Array(packet.positions.size) { i ->
@@ -106,24 +104,23 @@ internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawId
             }
 
             val sortedBlockBrokenEvents = countingSort(blockBrokenEvents, max)
-            val maxProcessableEvents = max(MAX_SOUNDS, MAX_PARTICLES)
-
-            sortedBlockBrokenEvents.take(maxProcessableEvents).forEachIndexed { i, (pos, blockStateRawId) ->
+            sortedBlockBrokenEvents.take(maxSounds).forEach { (pos, blockStateRawId) ->
                 val blockState = Block.getStateFromRawId(blockStateRawId)
-                if (i < MAX_SOUNDS && !blockState.isAir) {
-                    val soundGroup = blockState.soundGroup
-                    world.playSoundAtBlockCenter(
-                        pos,
-                        soundGroup.breakSound,
-                        SoundCategory.BLOCKS,
-                        (soundGroup.volume + 1.0f) / 2.0f,
-                        soundGroup.pitch * 0.8f,
-                        false
-                    )
-                }
-                if (i < MAX_PARTICLES) {
-                    world.addBlockBreakParticles(pos, blockState)
-                }
+                if (blockState.isAir) return@forEach
+
+                val soundGroup = blockState.soundGroup
+                world.playSoundAtBlockCenter(
+                    pos,
+                    soundGroup.breakSound,
+                    SoundCategory.BLOCKS,
+                    (soundGroup.volume + 1.0f) / 2.0f,
+                    soundGroup.pitch * 0.8f,
+                    false
+                )
+            }
+            sortedBlockBrokenEvents.take(maxParticles).asReversed().forEach { (pos, blockStateRawId) ->
+                val blockState = Block.getStateFromRawId(blockStateRawId)
+                world.addBlockBreakParticles(pos, blockState)
             }
         }
     }

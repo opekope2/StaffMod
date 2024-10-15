@@ -38,11 +38,17 @@ import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
+import opekope2.avm_staff.internal.subscribeToClientEvents
 
 @Suppress("unused")
 object StaffMod : ModInitializer, IStaffModPlatform {
     override fun onInitialize() {
         AttackEntityCallback.EVENT.register(::dispatchStaffEntityAttack)
+
+        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
+            // Needs to be called before client entry point because of Fabric Loader and Architectury API
+            subscribeToClientEvents()
+        }
     }
 
     @Suppress("UNUSED_PARAMETER")

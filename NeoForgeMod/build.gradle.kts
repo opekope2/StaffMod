@@ -62,7 +62,9 @@ dependencies {
     common(project(":StaffMod", configuration = "namedElements")) { isTransitive = false }
     shadowBundle(project(":StaffMod", configuration = "transformProductionNeoForge")) { isTransitive = false }
 
-    implementation(libs.kotlinforforge.neoforge)
+    implementation(libs.kotlinforforge.neoforge) {
+        exclude("net.neoforged.fancymodloader", "loader")
+    }
 }
 
 tasks {
