@@ -19,6 +19,8 @@
 package opekope2.avm_staff.internal.networking
 
 import dev.architectury.networking.NetworkManager
+import dev.architectury.platform.Platform
+import dev.architectury.utils.Env
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.packet.CustomPayload
@@ -33,6 +35,10 @@ internal abstract class PacketRegistrar<TPacket : IPacket>(
     private val codec = PacketCodec.of(IPacket::write, packetConstructor)
 
     fun registerReceiver(receiver: NetworkManager.NetworkReceiver<TPacket>) {
-        NetworkManager.registerReceiver(side, payloadId, codec, receiver)
+        if (side == NetworkManager.Side.S2C && Platform.getEnvironment() == Env.SERVER) {
+            NetworkManager.registerS2CPayloadType(payloadId, codec)
+        } else {
+            NetworkManager.registerReceiver(side, payloadId, codec, receiver)
+        }
     }
 }

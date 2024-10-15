@@ -1,7 +1,7 @@
 [versions]
 java = "21" # Don't forget to update *.mixins.json
 kotlin = "2.0.0"
-staff-mod = "0.18.1"
+staff-mod = "0.18.3"
 architectury-plugin = "3.4-SNAPSHOT"
 architectury-loom = "1.7-SNAPSHOT"
 yarn = "1.21+build.9"
