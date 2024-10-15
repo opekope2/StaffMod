@@ -1,0 +1,2570 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="items.html">
+      
+      
+        <link rel="next" href="resources.html">
+      
+      
+      <link rel="icon" href="images/logo-icon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>Staff items - Staff Mod documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+  
+  
+    
+    
+  
+  
+  <style>:root{--md-admonition-icon--render:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18-.21 0-.41-.06-.57-.18l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18.21 0 .41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9M12 4.15 6.04 7.5 12 10.85l5.96-3.35L12 4.15M5 15.91l6 3.38v-6.71L5 9.21v6.7m14 0v-6.7l-6 3.37v6.71l6-3.38Z"/></svg>');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/admonitions.css">
+    
+      <link rel="stylesheet" href="stylesheets/chips.css">
+    
+      <link rel="stylesheet" href="stylesheets/style.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#supported-items-in-a-staff" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Staff Mod documentation" class="md-header__button md-logo" aria-label="Staff Mod documentation" data-md-component="logo">
+      
+  <img src="images/logo-icon.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Staff Mod documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Staff items
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/opekope2/StaffMod" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Staff Mod documentation" class="md-nav__button md-logo" aria-label="Staff Mod documentation" data-md-component="logo">
+      
+  <img src="images/logo-icon.svg" alt="logo">
+
+    </a>
+    Staff Mod documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/opekope2/StaffMod" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="items.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Items
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Staff items
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="staff.html" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Staff items
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#no-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      No item
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anvil-chipped-anvil-damaged-anvil" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anvil, chipped anvil, damaged anvil
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bell
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bone-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bone block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cake
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#campfire-soul-campfire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Campfire, soul campfire
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#furnace-blast-furnace-smoker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Furnace, blast furnace, smoker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gold-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gold Block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lightning-rod" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lightning rod
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#magma-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Magma block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netherite-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Netherite block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#snow-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Snow block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tnt" class="md-nav__link">
+    <span class="md-ellipsis">
+      TNT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wither-skeleton-skull" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wither Skeleton Skull
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wool-any-color" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wool (any color)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resource pack guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data pack guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="developers.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developer guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API docs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            API docs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/latest" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Latest
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.18.3" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.18.3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.18.2" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.18.2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.18.1" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.18.1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.18.0" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.18.0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.17.1" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.17.1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.17.0" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.17.0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.16.2" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.16.2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.16.1" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.16.1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.16.0" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.16.0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.15.0" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.15.0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.14.1-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.14.1-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.14.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.14.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.13.1-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.13.1-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.13.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.13.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.12.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.12.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.11.0-beta.2" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.11.0-beta.2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.11.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.11.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.10.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.10.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.9.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.9.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.8.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.8.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.7.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.7.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.6.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.6.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.5.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.5.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.4.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.4.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.3.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.3.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.2.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.2.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.1.1-alpha.2" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.1.1-alpha.2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kdoc/0.1.1-alpha" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.1.1-alpha
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API docs (Java syntax)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            API docs (Java syntax)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/latest" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Latest
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.18.3" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.18.3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.18.2" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.18.2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.18.1" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.18.1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.18.0" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.18.0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.17.1" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.17.1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.17.0" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.17.0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.16.2" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.16.2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.16.1" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.16.1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.16.0" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.16.0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.15.0" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.15.0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.14.1-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.14.1-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.14.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.14.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.13.1-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.13.1-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.13.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.13.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.12.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.12.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.11.0-beta.2" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.11.0-beta.2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.11.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.11.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.10.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.10.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.9.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.9.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.8.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.8.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.7.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.7.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.6.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.6.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.5.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.5.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.4.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.4.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.3.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.3.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.2.0-beta" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.2.0-beta
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.1.1-alpha.2" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.1.1-alpha.2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="javadoc/0.1.1-alpha" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0.1.1-alpha
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#no-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      No item
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anvil-chipped-anvil-damaged-anvil" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anvil, chipped anvil, damaged anvil
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bell
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bone-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bone block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cake
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#campfire-soul-campfire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Campfire, soul campfire
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#furnace-blast-furnace-smoker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Furnace, blast furnace, smoker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gold-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gold Block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lightning-rod" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lightning rod
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#magma-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Magma block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netherite-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Netherite block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#snow-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      Snow block
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tnt" class="md-nav__link">
+    <span class="md-ellipsis">
+      TNT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wither-skeleton-skull" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wither Skeleton Skull
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wool-any-color" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wool (any color)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="supported-items-in-a-staff">Supported items in a staff</h1>
+<p>Each update, I'm adding a new item to the staff, see the <a href="https://github.com/opekope2/StaffMod/discussions/31">roadmap</a>.</p>
+<p>Throughout this page, <a href="https://minecraft.wiki/w/Controls#Use_Item/Place_Block">use</a>, <a href="https://minecraft.wiki/w/Controls#Attack/Destroy">attack</a>, and <a href="https://minecraft.wiki/w/Controls#Sneak">sneak</a> keys refer to the linked key bindings.</p>
+<h2 id="no-item">No item</h2>
+<p><strong class="chip-darkgreen">Staff Mod 0.1.0 alpha+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 4 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 2/s</li>
+<li><strong>Range</strong>: +1</li>
+</ul>
+<p>Every staff has these stats, unless noted otherwise</p>
+<h2 id="anvil-chipped-anvil-damaged-anvil">Anvil, chipped anvil, damaged anvil</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/16"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.6.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 40 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>×20)</li>
+<li><strong>Attack Speed</strong>: 0.25/s</li>
+<li><strong>Movement Speed</strong>: -100% (in either hand)</li>
+<li>
+<p><strong>Jump Strength</strong>: -100% (in either hand)</p>
+</li>
+<li>
+<p><strong>Attack Entity</strong>: not possible</p>
+</li>
+<li><strong>Attack Entity (while falling)</strong>: Deal up to 40 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>×20) damage to entities within a sphere around the attacked entity's feet with a radius of fall distance/20. The damage dealt is directly proportional to the fall distance (same as a falling anvil), and inversely proportional to the distance to the attacked entity. See <a href="https://github.com/opekope2/StaffMod/blob/fe437e857f22405ffef3cc039a5dbcb650cdc7f7/StaffMod/src/main/kotlin/opekope2/avm_staff/internal/staff_handler/AnvilHandler.kt#L88-L105"><code>AnvilHandler.aoeAttack</code></a> for the alorithm. Upon successful attack, the anvil has 5% chance to degrade for every block fallen after the 1st block, the attacker's fall distance is reset to 0 (but the velocity will be unaffected), and the <a href="https://minecraft.wiki/w/Anvil#Unique"><code>anvil landed</code></a> sound is played</li>
+<li><strong>Break Block</strong>: not possible</li>
+</ul>
+<h2 id="bell">Bell</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/21"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.8.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 8 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 1.5/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Attack Entity</strong>: Ring the bell without sending villagers home or making raiders glow</p>
+</li>
+<li><strong>Use</strong>: Ring the bell without sending villagers home or making raiders glow</li>
+</ul>
+<h2 id="bone-block">Bone block</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/7"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.3.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 5 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L5 4 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 2/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Use on Block</strong>: Fertilize the crop, ground, or water the same way bone meal does</p>
+</li>
+</ul>
+<h2 id="cake">Cake</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/40"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.16.0+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 4 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 2/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Attack (air)</strong>: Throw a cake</p>
+</li>
+<li><strong>Use</strong>: Throw a cake every game tick, twice as fast</li>
+</ul>
+<h2 id="campfire-soul-campfire">Campfire, soul campfire</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/32"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.13.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 4 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 2/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Attack Entity</strong>: Set the target on fire (see table below)</p>
+</li>
+<li><strong>Use (hold)</strong>: Throw flame like a Flammenwerfer. Every entity touching the flame will be set on fire. The longer they stand in fire, the longer they are going to burn for. The flame stops when it reaches a block, and has a chance to set it on fire (see table below)</li>
+<li><strong>Use (hold, while sneaking midair)</strong>: Propel yourself backwards. Look down to fly up. Soul campfire can go faster than campfire. Sneaking is only required to start the flight, it doesn't need to be held down to fly</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Item in staff</th>
+<th>Fire duration</th>
+<th>Damage, when standing in fire</th>
+<th>Inflicted burning time/tick</th>
+<th>Flame chance/tick to cause fire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Campfire</td>
+<td>4s, when attacked</td>
+<td>1 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L5 4 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>) / 10 ticks *</td>
+<td>+1 tick, when standing in fire</td>
+<td>5% (<a href="https://minecraft.wiki/w/Fire#Non-flammable_blocks">non-flammable</a>), 25% (<a href="https://minecraft.wiki/w/Fire#Flammable_blocks">flammable</a>)</td>
+</tr>
+<tr>
+<td>Soul campfire</td>
+<td>6s, when attacked</td>
+<td>2 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>) / 10 ticks *</td>
+<td>+2 ticks, when standing in fire</td>
+<td>10% (<a href="https://minecraft.wiki/w/Fire#Non-flammable_blocks">non-flammable</a>), 50% (<a href="https://minecraft.wiki/w/Fire#Flammable_blocks">flammable</a>)</td>
+</tr>
+</tbody>
+</table>
+<p>* <a href="https://minecraft.wiki/w/Damage#Immunity">Immunity</a> lasts for 10 game ticks (0.5s)</p>
+<h2 id="furnace-blast-furnace-smoker">Furnace, blast furnace, smoker</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/14"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.7.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 10 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 1.25/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Use (hold)</strong>: Ignite the furnace, and start a timer, which increases by 1 each game tick.
+  Each game tick, the furnace tries to smelt the closest item to the furnace in the staff or the tip of the staff (±0.5 blocks in each axis).
+  If the item can be smelted in the given furnace, and its count doesn't exceed the timer's value, the whole stack will be smelted, XP will be dropped (same amount as a vanilla furnace), and the timer will be decreased by the amount of items smelted. The timer is reset when use key is released</p>
+</li>
+</ul>
+<h2 id="gold-block">Gold Block</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/43"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.17.0+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 14 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 1/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Attack Block</strong>: Break blocks that are not stronger than Obsidian in a 3x3x2 area in front of the player, except for the 4 corners facing away from the player</p>
+</li>
+</ul>
+<h2 id="lightning-rod">Lightning rod</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/23"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.9.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 4 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 2/s</li>
+<li>
+<p><strong>Range</strong>: +2</p>
+</li>
+<li>
+<p><strong>Attack Entity</strong>: If thundering and not on cooldown, summon a lightning bolt at the target's position. The target's block position needs to have sky light level 15 (just like vanila lightning rod) to summon the lightning bolt</p>
+</li>
+<li><strong>Use on Entity</strong>: If thundering and not on cooldown, summon a lightning bolt at the target's position. The target's block position needs to have sky light level 15 (just like vanila lightning rod) to summon the lightning bolt</li>
+<li><strong>Use on Block</strong>: If thundering and not on cooldown, summon a lightning bolt at the block's clicked side. This side needs to have sky light level 15 (just like vanila lightning rod) to summon the lightning bolt</li>
+</ul>
+<h2 id="magma-block">Magma block</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/17"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.5.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 10 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>) + 8s of burning (same as <a href="https://minecraft.wiki/w/Fire_Aspect">Fire Aspect II</a>)</li>
+<li><strong>Attack Speed</strong>: 1.25/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Attack (air)</strong>: Shoot a single fireball</p>
+</li>
+<li><strong>Attack Entity</strong>: Set the target on fire for 8s</li>
+<li><strong>Use (hold)</strong>: Shoot a fireball every other game tick</li>
+</ul>
+<h2 id="netherite-block">Netherite block</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/48"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.18.0+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 20 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 1/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Attack Entity</strong>: Knock back the target and break blocks in its way. This takes <a href="https://minecraft.wiki/w/Knockback_(mechanic)#Natural_knockback_resistance">knockback resistance</a> into account</p>
+</li>
+<li><strong>Attack Block</strong>: Break a 13x13x13 volume of blocks except for its edges</li>
+</ul>
+<h2 id="snow-block">Snow block</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/4"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.2.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 4 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 2/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Attack (air)</strong>: Throw a single snowball</p>
+</li>
+<li><strong>Use (hold)</strong>: Throw a snowball every game tick</li>
+</ul>
+<h2 id="tnt">TNT</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/25"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.10.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 4 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 2/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Attack (air)</strong>: Throw a TNT forwards, which explodes when it collides with a block or entity</p>
+</li>
+</ul>
+<h2 id="wither-skeleton-skull">Wither Skeleton Skull</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/36"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.14.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 4 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span><span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>) + 10s of <a href="https://minecraft.wiki/w/Wither_(effect)">Wither I</a> (<a href="https://minecraft.wiki/w/Wither_(effect)">Wither II</a> on <a href="https://minecraft.wiki/w/Difficulty#Hard">hard difficulty</a>)</li>
+<li><strong>Attack Speed</strong>: 2/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Attack (air)</strong>: Shoot a black wither skull</p>
+</li>
+<li><strong>Use (hold)</strong>: Shoot wither skulls up to 1 second, with 10% chance for being a blue skull</li>
+</ul>
+<h2 id="wool-any-color">Wool (any color)</h2>
+<p><a href="https://github.com/opekope2/StaffMod/discussions/5"><strong class="chip-darkblue">Discuss</strong></a>
+<strong class="chip-darkgreen">Staff Mod 0.4.0-beta+</strong></p>
+<ul>
+<li><strong>Attack Damage</strong>: 2 (<span class="twemoji"><svg viewBox="0 0 9 9" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+	<path d="M1 4 L8 4 L8 5 L7 5 L7 6 L6 6 L6 7 L5 7 L5 8 L4 8 L4 7 L3 7 L3 6 L2 6 L2 5 L1 5 Z" style="fill: #bb1313" />
+	<path d="M2 1 L4 1 L4 2 L5 2 L5 1 L7 1 L7 2 L8 2 L8 4 L7 4 L7 5 L6 5 L6 6 L5 6 L5 7 L4 7 L4 6 L3 6 L3 5 L2 5 L2 4 L1 4 L1 2 L2 2 Z" style="fill: #ff1313" />
+	<path d="M2 2 L3 2 L3 3 L2 3 Z" style="fill: #ffc0c0" />
+</svg>
+</span>)</li>
+<li><strong>Attack Speed</strong>: 2/s</li>
+<li>
+<p><strong>Range</strong>: +1</p>
+</li>
+<li>
+<p><strong>Use (click or hold)</strong>: Place a wool on the wall or ceiling at the crosshair, or a carpet on the ground. Can't place wool or carpet against other wool or carpet</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2023-2024 opekope2. Staff Mod is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.expand", "content.code.copy"], "search": "assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>

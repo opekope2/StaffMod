@@ -1,0 +1,20 @@
+.chip-darkgreen,
+.chip-darkblue,
+.chip-red {
+    display: inline-block;
+    color: white;
+    padding: 0px 16px;
+    border-radius: 20px;
+}
+
+.chip-darkgreen {
+    background: teal;
+}
+
+.chip-darkblue {
+    background: royalblue;
+}
+
+.chip-red {
+    background: red;
+}
