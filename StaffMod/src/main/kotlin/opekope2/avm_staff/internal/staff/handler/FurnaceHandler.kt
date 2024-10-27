@@ -28,7 +28,6 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -63,8 +62,12 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 ) : StaffHandler() {
     override val maxUseTime = 72000
 
-    override val attributeModifiers: AttributeModifiersComponent
-        get() = ATTRIBUTE_MODIFIERS
+    override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
+        .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
+        .build()
 
     override fun use(
         staffStack: ItemStack,
@@ -171,11 +174,5 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(
             ITEM_DIMENSIONS.width / 2.0, ITEM_DIMENSIONS.height / 2.0, ITEM_DIMENSIONS.width / 2.0
         )
-        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
-            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
-            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-            .build()
     }
 }

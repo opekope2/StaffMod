@@ -27,7 +27,6 @@ import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
@@ -46,8 +45,12 @@ import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.push
 
 internal class BellBlockHandler : StaffHandler() {
-    override val attributeModifiers: AttributeModifiersComponent
-        get() = ATTRIBUTE_MODIFIERS
+    override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(8.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.5), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
+        .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
+        .build()
 
     override fun use(
         staffStack: ItemStack,
@@ -108,14 +111,5 @@ internal class BellBlockHandler : StaffHandler() {
                 )
             }
         }
-    }
-
-    companion object {
-        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(8.0), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.5), AttributeModifierSlot.MAINHAND)
-            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
-            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-            .build()
     }
 }

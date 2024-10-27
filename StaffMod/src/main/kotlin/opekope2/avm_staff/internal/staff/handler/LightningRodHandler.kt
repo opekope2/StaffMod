@@ -26,7 +26,6 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -49,8 +48,12 @@ import opekope2.avm_staff.util.isItemCoolingDown
 import opekope2.avm_staff.util.push
 
 internal class LightningRodHandler : StaffHandler() {
-    override val attributeModifiers: AttributeModifiersComponent
-        get() = ATTRIBUTE_MODIFIERS
+    override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
+        .addDefault(EntityAttributes.GENERIC_ATTACK_DAMAGE)
+        .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
+        .add(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE, interactionRange(2.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, interactionRange(2.0), AttributeModifierSlot.MAINHAND)
+        .build()
 
     override fun useOnBlock(
         staffStack: ItemStack,
@@ -131,16 +134,5 @@ internal class LightningRodHandler : StaffHandler() {
                 lightningRodRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
             }
         }
-    }
-
-    private companion object {
-        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
-            .addDefault(EntityAttributes.GENERIC_ATTACK_DAMAGE)
-            .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
-            .add(
-                EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE, interactionRange(2.0), AttributeModifierSlot.MAINHAND
-            )
-            .add(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, interactionRange(2.0), AttributeModifierSlot.MAINHAND)
-            .build()
     }
 }
