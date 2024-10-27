@@ -83,6 +83,17 @@ Soul campfire | 6s, when attacked | 2 (:mc-heart:) / 10 ticks \*     | +2 ticks,
 
 \* [Immunity](https://minecraft.wiki/w/Damage#Immunity) lasts for 10 game ticks (0.5s)
 
+## Netherite block
+
+[**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/50)
+**Staff Mod 0.19.0+**{.chip-darkgreen}
+
+* **Attack Damage**: 18 (:mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart::mc-heart:)
+* **Attack Speed**: 1/s
+* **Range**: +1
+
+* **Attack Block**: Break a 9x11x9 volume of blocks while leaving a bunch of blocks on each face of the volume intact
+
 ## Furnace, blast furnace, smoker
 
 [**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/14)
