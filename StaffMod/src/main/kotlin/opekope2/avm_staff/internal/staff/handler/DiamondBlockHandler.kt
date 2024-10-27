@@ -35,16 +35,16 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.cameraUp
-import opekope2.avm_staff.util.destruction.GoldBlockStaffShapePredicate
+import opekope2.avm_staff.util.destruction.DiamondBlockStaffShapePredicate
 import opekope2.avm_staff.util.destruction.MaxHardnessPredicate
 import opekope2.avm_staff.util.destruction.destroyBox
+import opekope2.avm_staff.util.dropcollector.ChunkedBlockDropCollector
 import opekope2.avm_staff.util.dropcollector.NoOpBlockDropCollector
-import opekope2.avm_staff.util.dropcollector.VanillaBlockDropCollector
 import opekope2.avm_staff.util.isAttackCoolingDown
 
-class GoldBlockHandler : StaffHandler() {
+class DiamondBlockHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
-        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(14.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(18.0), AttributeModifierSlot.MAINHAND)
         .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.0), AttributeModifierSlot.MAINHAND)
         .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
         .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
@@ -64,10 +64,10 @@ class GoldBlockHandler : StaffHandler() {
 
         val forwardVector = attacker.facing.vector
         val upVector = attacker.cameraUp.vector
-        val shapePredicate = GoldBlockStaffShapePredicate(target, forwardVector, upVector)
+        val shapePredicate = DiamondBlockStaffShapePredicate(target, forwardVector, upVector, world.random)
         val dropCollector =
             if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
-            else VanillaBlockDropCollector()
+            else ChunkedBlockDropCollector(shapePredicate.volume, MAX_CHUNK_SIZE)
 
         destroyBox(
             world,
@@ -75,7 +75,7 @@ class GoldBlockHandler : StaffHandler() {
             dropCollector,
             attacker,
             staffStack,
-            MAX_OBSIDIAN_HARDNESS.and(shapePredicate)
+            MAX_DIAMOND_HARDNESS.and(shapePredicate)
         )
         dropCollector.dropAll(world)
 
@@ -84,6 +84,7 @@ class GoldBlockHandler : StaffHandler() {
     }
 
     private companion object {
-        private val MAX_OBSIDIAN_HARDNESS = MaxHardnessPredicate(Blocks.OBSIDIAN)
+        private const val MAX_CHUNK_SIZE = 3
+        private val MAX_DIAMOND_HARDNESS = MaxHardnessPredicate(Blocks.DIAMOND_BLOCK)
     }
 }

@@ -20,7 +20,6 @@ package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
@@ -35,6 +34,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
+import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.mixin.IAnvilBlockAccessor
 import opekope2.avm_staff.util.attackDamage
@@ -45,8 +45,14 @@ import kotlin.math.ceil
 import kotlin.math.floor
 
 internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
-    override val attributeModifiers: AttributeModifiersComponent
-        get() = ATTRIBUTE_MODIFIERS
+    override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(40.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_ATTACK_SPEED, equipTime(4.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, anvilModifier(), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, anvilModifier(), AttributeModifierSlot.OFFHAND)
+        .add(EntityAttributes.GENERIC_JUMP_STRENGTH, anvilModifier(), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_JUMP_STRENGTH, anvilModifier(), AttributeModifierSlot.OFFHAND)
+        .build()
 
     override fun attackBlock(
         staffStack: ItemStack,
@@ -125,18 +131,7 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
 
     override fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) = true
 
-    private companion object {
-        private val ATTRIBUTE_MODIFIERS = AttributeModifiersComponent.builder()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(40.0), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_ATTACK_SPEED, equipTime(4.0), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, anvilModifier(), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, anvilModifier(), AttributeModifierSlot.OFFHAND)
-            .add(EntityAttributes.GENERIC_JUMP_STRENGTH, anvilModifier(), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_JUMP_STRENGTH, anvilModifier(), AttributeModifierSlot.OFFHAND)
-            .build()
-
-        private fun anvilModifier() = EntityAttributeModifier(
-            "Anvil modifier", -1.0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-        )
-    }
+    private fun anvilModifier() = EntityAttributeModifier(
+        "Anvil modifier", -1.0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+    )
 }

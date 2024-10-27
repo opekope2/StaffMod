@@ -90,14 +90,6 @@ jobs:
           path: |
             NeoForgeMod/build/libs/*.jar
           if-no-files-found: error
-      - name: Upload Forge jars
-        if: inputs.build-project && inputs.upload-output && false
-        uses: actions/upload-artifact@v4.3.1
-        with:
-          name: forge-jars
-          path: |
-            ForgeMod/build/libs/*.jar
-          if-no-files-found: error
       - name: Upload documentation output
         if: inputs.build-docs && inputs.upload-output
         uses: actions/upload-artifact@v4.3.1

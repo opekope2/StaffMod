@@ -64,6 +64,8 @@ fun registerVanillaStaffHandlers() {
 
     // TODO command block
 
+    DIAMOND_BLOCK.registerHandler(DiamondBlockHandler())
+
     FURNACE.registerHandler(
         FurnaceHandler(RecipeType.SMELTING, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE)
     )
@@ -134,6 +136,8 @@ fun registerVanillaStaffItemRenderers() {
     SOUL_CAMPFIRE.registerStaffItemRenderer(Blocks.SOUL_CAMPFIRE)
 
     COMMAND_BLOCK.registerStaffItemRenderer(Blocks.COMMAND_BLOCK)
+
+    DIAMOND_BLOCK.registerStaffItemRenderer(Blocks.DIAMOND_BLOCK)
 
     FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(Blocks.FURNACE))
     BLAST_FURNACE.registerStaffItemRenderer(FurnaceHandler.FurnaceStaffItemRenderer(Blocks.BLAST_FURNACE))

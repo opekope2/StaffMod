@@ -45,7 +45,7 @@ object StaffMod : IStaffModPlatform {
         subscribeToEvents()
         subscribeToNeoForgeEvents()
         registerVanillaStaffHandlers()
-        runWhenOn(Dist.CLIENT, StaffModClient::initializeClient)
+        runWhenOn(Dist.CLIENT) { StaffModClient.initializeClient() }
     }
 
     private fun subscribeToNeoForgeEvents() {

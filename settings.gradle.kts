@@ -36,5 +36,4 @@ include(
     "StaffMod",
     "FabricMod",
     "NeoForgeMod",
-    //"ForgeMod"
 )

@@ -21,7 +21,6 @@ package opekope2.avm_staff.internal.staff.handler
 import dev.architectury.event.EventResult
 import net.minecraft.block.Blocks
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
@@ -46,8 +45,12 @@ import opekope2.avm_staff.util.dropcollector.ChunkedBlockDropCollector
 import opekope2.avm_staff.util.dropcollector.NoOpBlockDropCollector
 
 class NetheriteBlockHandler : StaffHandler() {
-    override val attributeModifiers: AttributeModifiersComponent
-        get() = ATTRIBUTE_MODIFIERS
+    override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(20.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.0), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
+        .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
+        .build()
 
     override fun attackEntity(
         staffStack: ItemStack,
@@ -84,7 +87,7 @@ class NetheriteBlockHandler : StaffHandler() {
             dropCollector,
             attacker,
             staffStack,
-            maxNetheriteHard.and(pyramidPredicate)
+            MAX_NETHERITE_HARDNESS.and(pyramidPredicate)
         )
         dropCollector.dropAll(world)
 
@@ -124,7 +127,7 @@ class NetheriteBlockHandler : StaffHandler() {
             dropCollector,
             attacker,
             staffStack,
-            maxNetheriteHard.and(shapePredicate)
+            MAX_NETHERITE_HARDNESS.and(shapePredicate)
         )
         dropCollector.dropAll(world)
 
@@ -133,15 +136,7 @@ class NetheriteBlockHandler : StaffHandler() {
     }
 
     private companion object {
-        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(20.0), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.0), AttributeModifierSlot.MAINHAND)
-            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
-            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-            .build()
-
         private const val MAX_CHUNK_SIZE = 3
-
-        private val maxNetheriteHard = MaxHardnessPredicate(Blocks.NETHERITE_BLOCK)
+        private val MAX_NETHERITE_HARDNESS = MaxHardnessPredicate(Blocks.NETHERITE_BLOCK)
     }
 }

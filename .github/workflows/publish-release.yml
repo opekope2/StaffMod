@@ -32,12 +32,6 @@ jobs:
         with:
           name: neoforge-jars
           path: dist/neoforge
-      - name: Download Forge jars
-        if: false
-        uses: actions/download-artifact@v4.1.7
-        with:
-          name: forge-jars
-          path: dist/forge
       - name: Fetch release tag
         run: git fetch origin $GITHUB_REF:$GITHUB_REF -f
       - name: Generate changelog
@@ -92,25 +86,6 @@ jobs:
           files: |
             dist/neoforge/!(*-@(dev|dev-shadow|sources|javadoc)).jar
             dist/neoforge/*-@(dev|dev-shadow|sources|javadoc).jar
-          changelog-file: CHANGELOG.g.md
-          game-version-filter: releases
-          java: ${{ steps.load-java-version.outputs.value }}
-      - name: Publish Forge mod to Modrinth and CurseForge
-        if: false
-        uses: Kir-Antipov/mc-publish@v3.3.0
-        with:
-          modrinth-id: ${{ vars.MODRINTH_ID }}
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          modrinth-featured: false
-
-          curseforge-id: ${{ vars.CURSEFORGE_ID }}
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
-          name: Staff Mod ${{ github.ref_name }} for Forge
-          version: ${{ github.ref_name }}+forge
-          files: |
-            dist/forge/!(*-@(dev|dev-shadow|sources|javadoc)).jar
-            dist/forge/*-@(dev|dev-shadow|sources|javadoc).jar
           changelog-file: CHANGELOG.g.md
           game-version-filter: releases
           java: ${{ steps.load-java-version.outputs.value }}
