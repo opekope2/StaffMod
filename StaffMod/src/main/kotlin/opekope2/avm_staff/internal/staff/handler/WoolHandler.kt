@@ -21,7 +21,6 @@ package opekope2.avm_staff.internal.staff.handler
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
@@ -43,8 +42,12 @@ import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.mutableItemStackInStaff
 
 internal class WoolHandler(private val woolItem: BlockItem, private val carpetItem: BlockItem) : StaffHandler() {
-    override val attributeModifiers: AttributeModifiersComponent
-        get() = ATTRIBUTE_MODIFIERS
+    override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(2.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
+        .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
+        .build()
 
     override fun useOnBlock(
         staffStack: ItemStack,
@@ -80,13 +83,4 @@ internal class WoolHandler(private val woolItem: BlockItem, private val carpetIt
         itemStack: ItemStack,
         blockHitResult: BlockHitResult
     ) : ItemPlacementContext(world, playerEntity, hand, itemStack, blockHitResult)
-
-    private companion object {
-        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(2.0), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
-            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
-            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-            .build()
-    }
 }

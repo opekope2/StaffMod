@@ -20,7 +20,6 @@ package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -39,8 +38,12 @@ import opekope2.avm_staff.util.*
 internal class MagmaBlockHandler : StaffHandler() {
     override val maxUseTime = 72000
 
-    override val attributeModifiers: AttributeModifiersComponent
-        get() = ATTRIBUTE_MODIFIERS
+    override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
+        .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
+        .build()
 
     override fun use(
         staffStack: ItemStack,
@@ -85,14 +88,5 @@ internal class MagmaBlockHandler : StaffHandler() {
             setPosition(spawnPos)
         })
         world.syncWorldEvent(WorldEvents.BLAZE_SHOOTS, shooter.blockPos, 0)
-    }
-
-    private companion object {
-        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
-            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
-            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-            .build()
     }
 }

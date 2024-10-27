@@ -21,7 +21,6 @@ package opekope2.avm_staff.internal.staff.handler
 import dev.architectury.event.EventResult
 import net.minecraft.block.Blocks
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
@@ -44,8 +43,12 @@ import opekope2.avm_staff.util.dropcollector.VanillaBlockDropCollector
 import opekope2.avm_staff.util.isAttackCoolingDown
 
 class GoldBlockHandler : StaffHandler() {
-    override val attributeModifiers: AttributeModifiersComponent
-        get() = ATTRIBUTE_MODIFIERS
+    override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(14.0), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.0), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
+        .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
+        .build()
 
     override fun attackBlock(
         staffStack: ItemStack,
@@ -72,7 +75,7 @@ class GoldBlockHandler : StaffHandler() {
             dropCollector,
             attacker,
             staffStack,
-            maxObsidianHard.and(shapePredicate)
+            MAX_OBSIDIAN_HARDNESS.and(shapePredicate)
         )
         dropCollector.dropAll(world)
 
@@ -81,13 +84,6 @@ class GoldBlockHandler : StaffHandler() {
     }
 
     private companion object {
-        private val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(14.0), AttributeModifierSlot.MAINHAND)
-            .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.0), AttributeModifierSlot.MAINHAND)
-            .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
-            .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
-            .build()
-
-        private val maxObsidianHard = MaxHardnessPredicate(Blocks.OBSIDIAN)
+        private val MAX_OBSIDIAN_HARDNESS = MaxHardnessPredicate(Blocks.OBSIDIAN)
     }
 }

@@ -75,7 +75,7 @@ class DiamondBlockHandler : StaffHandler() {
             dropCollector,
             attacker,
             staffStack,
-            maxDiamondHard.and(shapePredicate)
+            MAX_DIAMOND_HARDNESS.and(shapePredicate)
         )
         dropCollector.dropAll(world)
 
@@ -85,6 +85,6 @@ class DiamondBlockHandler : StaffHandler() {
 
     private companion object {
         private const val MAX_CHUNK_SIZE = 3
-        private val maxDiamondHard = MaxHardnessPredicate(Blocks.DIAMOND_BLOCK)
+        private val MAX_DIAMOND_HARDNESS = MaxHardnessPredicate(Blocks.DIAMOND_BLOCK)
     }
 }
