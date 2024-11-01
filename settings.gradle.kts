@@ -34,6 +34,4 @@ dependencyResolutionManagement {
 
 include(
     "StaffMod",
-    "FabricMod",
-    "NeoForgeMod",
 )

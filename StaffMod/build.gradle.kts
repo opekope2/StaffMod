@@ -22,20 +22,52 @@ import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import java.time.Year
 
 plugins {
+    alias(libs.plugins.shadow)
     alias(libs.plugins.dokka)
 }
 
 architectury {
-    common("fabric", "neoforge")
+    platformSetupLoomIde()
+    forge()
 }
 
-repositories {}
+val common: Configuration by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+val compileClasspath: Configuration by configurations.getting {
+    extendsFrom(common)
+}
+val runtimeClasspath: Configuration by configurations.getting {
+    extendsFrom(common)
+}
+val developmentForge: Configuration by configurations.getting {
+    extendsFrom(common)
+}
+// Files in this configuration will be bundled into your mod using the Shadow plugin.
+// Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
+val shadowBundle: Configuration by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+
+repositories {
+    maven("https://thedarkcolour.github.io/KotlinForForge/") { name = "Kotlin for Forge" }
+}
 
 dependencies {
+    forge(libs.forge)
+
+    compileOnly(libs.mixinextras.common)
+    annotationProcessor(libs.mixinextras.common)
+    implementation(libs.mixinextras.forge)
+    include(libs.mixinextras.forge)
+
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
     modImplementation(libs.fabric.loader)
-    modApi(libs.architectury)
+
+    implementation(libs.kotlinforforge)
 
     if (project.hasProperty("javaSyntax")) {
         dokkaPlugin(libs.dokka.plugin.java.syntax)
@@ -43,6 +75,46 @@ dependencies {
 }
 
 tasks {
+    jar {
+        archiveClassifier = "dev"
+    }
+
+    processResources {
+        filesMatching("META-INF/mods.toml") {
+            expand(
+                mutableMapOf(
+                    "version" to version as String,
+                    "forge" to libs.versions.forge.get(),
+                    "kotlin_for_forge" to libs.versions.kotlinforforge.get(),
+                    "minecraft" to libs.versions.minecraft.get(),
+                    "java" to libs.versions.java.get()
+                )
+            )
+        }
+    }
+
+    shadowJar {
+        exclude("architectury.common.json")
+
+        configurations = listOf(shadowBundle)
+        archiveClassifier = "dev-shadow"
+
+        from(rootDir.resolve("COPYING"))
+        from(rootDir.resolve("COPYING.LESSER"))
+        from(rootDir.resolve("README.md"))
+    }
+
+    remapJar {
+        dependsOn(shadowJar)
+        inputFile = shadowJar.get().archiveFile
+        injectAccessWidener = true
+        archiveClassifier = null
+
+        from(rootDir.resolve("COPYING"))
+        from(rootDir.resolve("COPYING.LESSER"))
+        from(rootDir.resolve("README.md"))
+    }
+
     dokkaHtml {
         moduleName = "Staff Mod"
         moduleVersion = version as String
@@ -86,12 +158,6 @@ tasks {
                 packageListUrl = uri("https://maven.fabricmc.net/docs/yarn-$mappingsVersion/element-list").toURL()
             }
             externalDocumentationLink {
-                val fabricVersion = libs.versions.fabric.api.get()
-                url = uri("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/").toURL()
-                packageListUrl = uri("https://maven.fabricmc.net/docs/fabric-api-$fabricVersion/element-list").toURL()
-            }
-            // Fixme Architectury API
-            externalDocumentationLink {
                 url = uri("https://joml-ci.github.io/JOML/apidocs/").toURL()
                 packageListUrl = uri("https://joml-ci.github.io/JOML/apidocs/element-list").toURL()
             }
@@ -100,6 +166,15 @@ tasks {
             // You don't want to know how many hours I spent on this...
             jdkVersion = libs.versions.java.get().toInt()
             languageVersion = libs.versions.kotlin.get()
+        }
+    }
+}
+
+components {
+    getByName("java") {
+        this as AdhocComponentWithVariants
+        this.withVariantsFromConfiguration(project.configurations["shadowRuntimeElements"]) {
+            skip()
         }
     }
 }

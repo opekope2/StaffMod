@@ -42,15 +42,9 @@ buildscript {
 subprojects {
     apply(plugin = "dev.architectury.loom")
 
-    val loom = project.extensions.getByName<net.fabricmc.loom.api.LoomGradleExtensionAPI>("loom")
-
     dependencies {
         "minecraft"(rootProject.libs.minecraft)
-        //"mappings"(variantOf(rootProject.libs.yarn) { classifier("v2") })
-        "mappings"(loom.layered { // FIXME
-            mappings(variantOf(rootProject.libs.yarn) { classifier("v2") })
-            mappings(rootProject.libs.yarn.patch.neoforge)
-        })
+        "mappings"(variantOf(rootProject.libs.yarn) { classifier("v2") })
     }
 }
 
