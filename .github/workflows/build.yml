@@ -74,21 +74,13 @@ jobs:
       - name: Build documentation (Java syntax)
         if: inputs.build-docs
         run: ./gradlew dokkaHtml -PjavaSyntax
-      - name: Upload Fabric jars
+      - name: Upload Forge jars
         if: inputs.build-project && inputs.upload-output
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: fabric-jars
+          name: forge-jars
           path: |
-            FabricMod/build/libs/*.jar
-          if-no-files-found: error
-      - name: Upload NeoForge jars
-        if: inputs.build-project && inputs.upload-output
-        uses: actions/upload-artifact@v4.3.1
-        with:
-          name: neoforge-jars
-          path: |
-            NeoForgeMod/build/libs/*.jar
+            ForgeMod/build/libs/*.jar
           if-no-files-found: error
       - name: Upload documentation output
         if: inputs.build-docs && inputs.upload-output
