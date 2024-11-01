@@ -21,7 +21,6 @@
 
 package opekope2.avm_staff.internal.event_handler
 
-import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
@@ -29,6 +28,7 @@ import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket.Companion.tryInsertItemIntoStaff
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
@@ -36,15 +36,17 @@ import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPac
 import opekope2.avm_staff.util.MOD_ID
 import org.lwjgl.glfw.GLFW
 
-private val addRemoveStaffItemKeyBinding = KeyBinding(
-    "key.$MOD_ID.add_remove_staff_item",
-    InputUtil.Type.KEYSYM,
-    GLFW.GLFW_KEY_R,
-    "key.categories.$MOD_ID"
-)
+private val addRemoveStaffItemKeyBinding by lazy {
+    KeyBinding(
+        "key.$MOD_ID.add_remove_staff_item",
+        InputUtil.Type.KEYSYM,
+        GLFW.GLFW_KEY_R,
+        "key.categories.$MOD_ID"
+    )
+}
 
-internal fun registerKeyBindings() {
-    KeyMappingRegistry.register(addRemoveStaffItemKeyBinding)
+internal fun registerKeyBindings(event: RegisterKeyMappingsEvent) {
+    event.register(addRemoveStaffItemKeyBinding)
 }
 
 internal fun handleKeyBindings(client: MinecraftClient) {

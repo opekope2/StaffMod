@@ -21,9 +21,6 @@
 
 package opekope2.avm_staff.api
 
-import dev.architectury.registry.CreativeTabRegistry
-import dev.architectury.registry.registries.DeferredRegister
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.enums.NoteBlockInstrument
 import net.minecraft.block.piston.PistonBehavior
@@ -46,6 +43,9 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import net.minecraft.world.GameRules
+import net.minecraftforge.registries.DeferredRegister
+import net.minecraftforge.registries.ForgeRegistries
+import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.block.CrownBlock
 import opekope2.avm_staff.api.block.WallCrownBlock
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
@@ -63,20 +63,21 @@ import opekope2.avm_staff.mixin.ICakeBlockAccessor
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.mutableItemStackInStaff
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import kotlin.math.max
 
-private val BLOCKS = DeferredRegister.create(MOD_ID, RegistryKeys.BLOCK)
-private val ITEMS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM)
-private val ITEM_GROUPS = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROUP)
-private val ENTITY_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.ENTITY_TYPE)
-private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTICLE_TYPE)
-private val DATA_COMPONENT_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE)
-private val SOUND_EVENTS = DeferredRegister.create(MOD_ID, RegistryKeys.SOUND_EVENT)
+private val BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID)
+private val ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID)
+private val ITEM_GROUPS = DeferredRegister.create(RegistryKeys.ITEM_GROUP, MOD_ID)
+private val ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MOD_ID)
+private val PARTICLE_TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MOD_ID)
+private val DATA_COMPONENT_TYPES = DeferredRegister.create(RegistryKeys.DATA_COMPONENT_TYPE, MOD_ID)
+private val SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID)
 
 /**
  * Block registered as `avm_staff:crown_of_king_orange`.
  */
-val crownOfKingOrangeBlock: RegistrySupplier<CrownBlock> = BLOCKS.register("crown_of_king_orange") {
+val crownOfKingOrangeBlock: RegistryObject<CrownBlock> = BLOCKS.register("crown_of_king_orange") {
     CrownBlock(
         AbstractBlock.Settings.create().instrument(NoteBlockInstrument.BELL).strength(1.0f)
             .pistonBehavior(PistonBehavior.DESTROY).sounds(BlockSoundGroup.COPPER_GRATE).nonOpaque()
@@ -86,67 +87,62 @@ val crownOfKingOrangeBlock: RegistrySupplier<CrownBlock> = BLOCKS.register("crow
 /**
  * Block registered as `avm_staff:wall_crown_of_king_orange`.
  */
-val wallCrownOfKingOrangeBlock: RegistrySupplier<WallCrownBlock> = BLOCKS.register("wall_crown_of_king_orange") {
+val wallCrownOfKingOrangeBlock: RegistryObject<WallCrownBlock> = BLOCKS.register("wall_crown_of_king_orange") {
     WallCrownBlock(AbstractBlock.Settings.copy(crownOfKingOrangeBlock.get()))
 }
 
 /**
  * Item registered as `avm_staff:faint_staff_rod`.
  */
-val faintStaffRodItem: RegistrySupplier<Item> = ITEMS.register("faint_staff_rod") {
-    Item(Item.Settings().`arch$tab`(staffModItemGroup))
+val faintStaffRodItem: RegistryObject<Item> = ITEMS.register("faint_staff_rod") {
+    Item(Item.Settings())
 }
 
 /**
  * Item registered as `avm_staff:faint_royal_staff_head`.
  */
-val faintRoyalStaffHeadItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff_head") {
-    Item(
-        Item.Settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(staffModItemGroup)
-    )
+val faintRoyalStaffHeadItem: RegistryObject<Item> = ITEMS.register("faint_royal_staff_head") {
+    Item(Item.Settings().maxCount(16).rarity(Rarity.RARE))
 }
 
 /**
  * Item registered as `avm_staff:faint_royal_staff`.
  */
-val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_staff") {
-    IStaffModPlatform.itemWithStaffRenderer(
-        Item.Settings().maxCount(1).rarity(Rarity.RARE).`arch$tab`(staffModItemGroup)
-    )
+val faintRoyalStaffItem: RegistryObject<Item> = ITEMS.register("faint_royal_staff") {
+    IStaffModPlatform.itemWithStaffRenderer(Item.Settings().maxCount(1).rarity(Rarity.RARE))
 }
 
 /**
  * Item registered as `avm_staff:royal_staff`.
  */
-val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") {
+val royalStaffItem: RegistryObject<StaffItem> = ITEMS.register("royal_staff") {
     IStaffModPlatform.staffItem(
         Item.Settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Default.ATTRIBUTE_MODIFIERS)
-            .`arch$tab`(staffModItemGroup)
     )
 }
 
 /**
  * Item registered as `avm_staff:royal_staff_ingredient`.
  */
-val royalStaffIngredientItem: RegistrySupplier<Item> = ITEMS.register("royal_staff_ingredient") {
-    Item(Item.Settings().`arch$tab`(staffModItemGroup))
+val royalStaffIngredientItem: RegistryObject<Item> = ITEMS.register("royal_staff_ingredient") {
+    Item(Item.Settings())
 }
 
 /**
  * Item registered as `avm_staff:crown_of_king_orange`.
  */
-val crownOfKingOrangeItem: RegistrySupplier<CrownItem> = ITEMS.register("crown_of_king_orange") {
+val crownOfKingOrangeItem: RegistryObject<CrownItem> = ITEMS.register("crown_of_king_orange") {
     IStaffModPlatform.crownItem(
         crownOfKingOrangeBlock.get(),
         wallCrownOfKingOrangeBlock.get(),
-        Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).`arch$tab`(staffModItemGroup)
+        Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)
     )
 }
 
 /**
  * Item registered as `avm_staff:staff_infusion_smithing_template`.
  */
-val staffInfusionSmithingTemplateItem: RegistrySupplier<Item> = ITEMS.register("staff_infusion_smithing_template") {
+val staffInfusionSmithingTemplateItem: RegistryObject<Item> = ITEMS.register("staff_infusion_smithing_template") {
     SmithingTemplateItem(
         Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.applies_to")
             .formatted(ISmithingTemplateItemAccessor.descriptionFormatting()),
@@ -163,18 +159,30 @@ val staffInfusionSmithingTemplateItem: RegistrySupplier<Item> = ITEMS.register("
 /**
  * Item group containing items added by Staff Mod.
  */
-val staffModItemGroup: RegistrySupplier<ItemGroup> = ITEM_GROUPS.register("${MOD_ID}_items") {
-    CreativeTabRegistry.create(Text.translatable("itemGroup.${MOD_ID}_items")) {
-        royalStaffItem.get().defaultStack.apply {
-            mutableItemStackInStaff = Items.COMMAND_BLOCK.defaultStack
+val staffModItemGroup: RegistryObject<ItemGroup> = ITEM_GROUPS.register("${MOD_ID}_items") {
+    ItemGroup.builder()
+        .displayName(Text.translatable("itemGroup.${MOD_ID}_items"))
+        .icon {
+            royalStaffItem.get().defaultStack.apply {
+                mutableItemStackInStaff = Items.COMMAND_BLOCK.defaultStack
+            }
         }
-    }
+        .entries { _, entries ->
+            entries.add(faintStaffRodItem.get())
+            entries.add(faintRoyalStaffHeadItem.get())
+            entries.add(faintRoyalStaffItem.get())
+            entries.add(royalStaffItem.get())
+            entries.add(royalStaffIngredientItem.get())
+            entries.add(crownOfKingOrangeItem.get())
+            entries.add(staffInfusionSmithingTemplateItem.get())
+        }
+        .build()
 }
 
 /**
  * Entity registered as `avm_staff:impact_tnt`.
  */
-val impactTntEntityType: RegistrySupplier<EntityType<ImpactTntEntity>> = ENTITY_TYPES.register("impact_tnt") {
+val impactTntEntityType: RegistryObject<EntityType<ImpactTntEntity>> = ENTITY_TYPES.register("impact_tnt") {
     EntityType.Builder.create(::ImpactTntEntity, SpawnGroup.MISC)
         .makeFireImmune()
         .dimensions(EntityType.TNT.dimensions.width, EntityType.TNT.dimensions.height)
@@ -187,24 +195,23 @@ val impactTntEntityType: RegistrySupplier<EntityType<ImpactTntEntity>> = ENTITY_
 /**
  * Entity registered as `avm_staff:cake`
  */
-val cakeEntityType: RegistrySupplier<EntityType<CakeEntity>> =
-    ENTITY_TYPES.register("cake") {
-        val cakeBox = ICakeBlockAccessor.bitesToShape()[0].boundingBox
-        val cakeSize = max(cakeBox.lengthX, max(cakeBox.lengthY, cakeBox.lengthZ))
+val cakeEntityType: RegistryObject<EntityType<CakeEntity>> = ENTITY_TYPES.register("cake") {
+    val cakeBox = ICakeBlockAccessor.bitesToShape()[0].boundingBox
+    val cakeSize = max(cakeBox.lengthX, max(cakeBox.lengthY, cakeBox.lengthZ))
 
-        EntityType.Builder.create(::CakeEntity, SpawnGroup.MISC)
-            .dimensions(cakeSize.toFloat(), cakeSize.toFloat())
-            .maxTrackingRange(EntityType.FALLING_BLOCK.maxTrackDistance)
-            .trackingTickInterval(EntityType.FALLING_BLOCK.trackTickInterval)
-            .build(Identifier.of(MOD_ID, "cake").toString())
-    }
+    EntityType.Builder.create(::CakeEntity, SpawnGroup.MISC)
+        .dimensions(cakeSize.toFloat(), cakeSize.toFloat())
+        .maxTrackingRange(EntityType.FALLING_BLOCK.maxTrackDistance)
+        .trackingTickInterval(EntityType.FALLING_BLOCK.trackTickInterval)
+        .build(Identifier.of(MOD_ID, "cake").toString())
+}
 
 /**
  * Particle registered as `avm_staff:flame`.
  *
  * @see ParticleManager.addParticle
  */
-val flamethrowerParticleType: RegistrySupplier<SimpleParticleType> =
+val flamethrowerParticleType: RegistryObject<SimpleParticleType> =
     PARTICLE_TYPES.register("flame") { IStaffModPlatform.simpleParticleType(false) }
 
 /**
@@ -212,13 +219,13 @@ val flamethrowerParticleType: RegistrySupplier<SimpleParticleType> =
  *
  * @see ParticleManager.addParticle
  */
-val soulFlamethrowerParticleType: RegistrySupplier<SimpleParticleType> =
+val soulFlamethrowerParticleType: RegistryObject<SimpleParticleType> =
     PARTICLE_TYPES.register("soul_fire_flame") { IStaffModPlatform.simpleParticleType(false) }
 
 /**
  * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.
  */
-val staffItemComponentType: RegistrySupplier<ComponentType<StaffItemComponent>> =
+val staffItemComponentType: RegistryObject<ComponentType<StaffItemComponent>> =
     DATA_COMPONENT_TYPES.register("staff_item") {
         ComponentType.builder<StaffItemComponent>()
             .codec(StaffItemComponent.CODEC)
@@ -229,7 +236,7 @@ val staffItemComponentType: RegistrySupplier<ComponentType<StaffItemComponent>> 
 /**
  * Data component registered as `avm_staff:rocket_mode`. Stores if a campfire staff should propel its user.
  */
-val rocketModeComponentType: RegistrySupplier<ComponentType<MinecraftUnit>> =
+val rocketModeComponentType: RegistryObject<ComponentType<MinecraftUnit>> =
     DATA_COMPONENT_TYPES.register("rocket_mode") {
         ComponentType.builder<MinecraftUnit>()
             .packetCodec(PacketCodec.unit(MinecraftUnit.INSTANCE))
@@ -239,7 +246,7 @@ val rocketModeComponentType: RegistrySupplier<ComponentType<MinecraftUnit>> =
 /**
  * Data component registered as `avm_staff:furnace_data`. If this is present, the furnace is lit.
  */
-val staffFurnaceDataComponentType: RegistrySupplier<ComponentType<StaffFurnaceDataComponent>> =
+val staffFurnaceDataComponentType: RegistryObject<ComponentType<StaffFurnaceDataComponent>> =
     DATA_COMPONENT_TYPES.register("furnace_data") {
         ComponentType.builder<StaffFurnaceDataComponent>()
             .packetCodec(StaffFurnaceDataComponent.PACKET_CODEC)
@@ -250,7 +257,7 @@ val staffFurnaceDataComponentType: RegistrySupplier<ComponentType<StaffFurnaceDa
  * Data component registered as `avm_staff:staff_renderer_override`. Specifies how a staff is rendered. Intended for
  * Isometric Renders mod compatibility.
  */
-val staffRendererOverrideComponentType: RegistrySupplier<ComponentType<StaffRendererOverrideComponent>> =
+val staffRendererOverrideComponentType: RegistryObject<ComponentType<StaffRendererOverrideComponent>> =
     DATA_COMPONENT_TYPES.register("staff_renderer_override") {
         ComponentType.builder<StaffRendererOverrideComponent>()
             .codec(StaffRendererOverrideComponent.CODEC)
@@ -261,7 +268,7 @@ val staffRendererOverrideComponentType: RegistrySupplier<ComponentType<StaffRend
 /**
  * Data component registered as `avm_staff:staff_renderer_part`. Only used for rendering.
  */
-val staffRendererPartComponentType: RegistrySupplier<ComponentType<StaffRendererPartComponent>> =
+val staffRendererPartComponentType: RegistryObject<ComponentType<StaffRendererPartComponent>> =
     DATA_COMPONENT_TYPES.register("staff_renderer_part") {
         ComponentType.builder<StaffRendererPartComponent>()
             .packetCodec(StaffRendererPartComponent.PACKET_CODEC)
@@ -271,14 +278,14 @@ val staffRendererPartComponentType: RegistrySupplier<ComponentType<StaffRenderer
 /**
  * Sound event registered as `avm_staff:entity.cake.splash`.
  */
-val cakeSplashSoundEvent: RegistrySupplier<SoundEvent> = SOUND_EVENTS.register("entity.cake.splash") {
+val cakeSplashSoundEvent: RegistryObject<SoundEvent> = SOUND_EVENTS.register("entity.cake.splash") {
     SoundEvent.of(Identifier.of(MOD_ID, "entity.cake.splash"))
 }
 
 /**
  * Sound event registered as `avm_staff:entity.cake.throw`.
  */
-val cakeThrowSoundEvent: RegistrySupplier<SoundEvent> = SOUND_EVENTS.register("entity.cake.throw") {
+val cakeThrowSoundEvent: RegistryObject<SoundEvent> = SOUND_EVENTS.register("entity.cake.throw") {
     SoundEvent.of(Identifier.of(MOD_ID, "entity.cake.throw"))
 }
 
@@ -306,14 +313,11 @@ val throwableCakesGameRule: GameRules.Key<GameRules.BooleanRule> =
  */
 @JvmSynthetic
 internal fun registerContent() {
-    BLOCKS.register()
-    ITEMS.register()
-    ITEM_GROUPS.register()
-    ENTITY_TYPES.register()
-    PARTICLE_TYPES.register()
-    DATA_COMPONENT_TYPES.register()
-    SOUND_EVENTS.register()
-
-    // Because SmithingTemplateItem doesn't take Item.Settings in its constructor
-    CreativeTabRegistry.append(staffModItemGroup, staffInfusionSmithingTemplateItem)
+    BLOCKS.register(MOD_BUS)
+    ITEMS.register(MOD_BUS)
+    ITEM_GROUPS.register(MOD_BUS)
+    ENTITY_TYPES.register(MOD_BUS)
+    PARTICLE_TYPES.register(MOD_BUS)
+    DATA_COMPONENT_TYPES.register(MOD_BUS)
+    SOUND_EVENTS.register(MOD_BUS)
 }
