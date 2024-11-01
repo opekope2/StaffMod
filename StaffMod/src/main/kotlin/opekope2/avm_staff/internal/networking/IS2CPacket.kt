@@ -18,11 +18,6 @@
 
 package opekope2.avm_staff.internal.networking
 
-import dev.architectury.networking.NetworkManager
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.network.PacketByteBuf
 
-internal interface IS2CPacket : IPacket {
-    fun sendToPlayer(player: ServerPlayerEntity) = NetworkManager.sendToPlayer(player, this)
-
-    fun sendToPlayers(players: Iterable<ServerPlayerEntity>) = NetworkManager.sendToPlayers(players, this)
-}
+internal interface IS2CPacket<T, TByteBuf : PacketByteBuf> : IPacket<T, TByteBuf>

@@ -18,32 +18,34 @@
 
 package opekope2.avm_staff.internal.networking.c2s.play
 
-import dev.architectury.networking.NetworkManager
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
+import net.minecraftforge.event.network.CustomPayloadEvent
+import net.minecraftforge.network.NetworkDirection
 import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.*
 
-internal class RemoveItemFromStaffC2SPacket() : IC2SPacket {
+internal class RemoveItemFromStaffC2SPacket() : IC2SPacket<RemoveItemFromStaffC2SPacket, RegistryByteBuf> {
     @Suppress("UNUSED_PARAMETER")
-    constructor(buf: PacketByteBuf) : this()
+    constructor(buf: RegistryByteBuf) : this()
 
-    override fun getId() = payloadId
-
-    override fun write(buf: PacketByteBuf) {
+    override fun write(buf: RegistryByteBuf) {
     }
 
-    companion object : PacketRegistrarAndReceiver<RemoveItemFromStaffC2SPacket>(
-        NetworkManager.c2s(),
+    override fun sendToServer() = sendToServer(channel)
+
+    companion object : PacketRegistrarAndReceiver<RemoveItemFromStaffC2SPacket, RegistryByteBuf>(
+        NetworkDirection.PLAY_TO_SERVER,
         Identifier.of(MOD_ID, "remove_item"),
+        RemoveItemFromStaffC2SPacket::class.java,
         ::RemoveItemFromStaffC2SPacket
     ) {
-        override fun receive(packet: RemoveItemFromStaffC2SPacket, context: NetworkManager.PacketContext) {
-            context.player.tryRemoveItemFromStaff { player, staffStack, targetSlot ->
+        override fun receive(packet: RemoveItemFromStaffC2SPacket, context: CustomPayloadEvent.Context) {
+            context.sender!!.tryRemoveItemFromStaff { player, staffStack, targetSlot ->
                 player.inventory.insertStack(targetSlot, staffStack.mutableItemStackInStaff)
                 staffStack.mutableItemStackInStaff = null
                 player.resetLastAttackedTicks()

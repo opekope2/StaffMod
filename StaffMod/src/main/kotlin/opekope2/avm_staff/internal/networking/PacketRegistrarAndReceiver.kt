@@ -18,16 +18,27 @@
 
 package opekope2.avm_staff.internal.networking
 
-import dev.architectury.networking.NetworkManager
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.codec.PacketCodec
 import net.minecraft.util.Identifier
+import net.minecraftforge.event.network.CustomPayloadEvent
+import net.minecraftforge.network.ChannelBuilder
+import net.minecraftforge.network.NetworkDirection
+import net.minecraftforge.network.SimpleChannel
 
-internal abstract class PacketRegistrarAndReceiver<TPacket : IPacket>(
-    side: NetworkManager.Side,
+internal abstract class PacketRegistrarAndReceiver<TPacket : IPacket<TPacket, TByteBuf>, TByteBuf : PacketByteBuf>(
+    direction: NetworkDirection<TByteBuf>,
     id: Identifier,
-    packetConstructor: (PacketByteBuf) -> TPacket
-) : PacketRegistrar<TPacket>(side, id, packetConstructor), NetworkManager.NetworkReceiver<TPacket> {
-    fun registerReceiver() {
-        registerReceiver(this)
+    packetClass: Class<TPacket>,
+    packetConstructor: (TByteBuf) -> TPacket,
+) {
+    private val codec = PacketCodec.of(IPacket<TPacket, TByteBuf>::write, packetConstructor)
+    protected val channel: SimpleChannel = ChannelBuilder.named(id).simpleChannel()
+        .messageBuilder(packetClass, 0, direction).codec(codec).consumerNetworkThread(::receiveOnNetworkThread).add()
+
+    private fun receiveOnNetworkThread(packet: TPacket, context: CustomPayloadEvent.Context) {
+        context.enqueueWork { receive(packet, context) }
     }
+
+    abstract fun receive(packet: TPacket, context: CustomPayloadEvent.Context)
 }

@@ -19,8 +19,7 @@
 package opekope2.avm_staff.internal.networking
 
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.packet.CustomPayload
 
-internal interface IPacket : CustomPayload {
-    fun write(buf: PacketByteBuf)
+internal interface IPacket<T, TByteBuf : PacketByteBuf> {
+    fun write(buf: TByteBuf)
 }

@@ -18,11 +18,16 @@
 
 package opekope2.avm_staff.internal.networking
 
-import dev.architectury.networking.NetworkManager
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.network.PacketByteBuf
+import net.minecraftforge.network.PacketDistributor
+import net.minecraftforge.network.SimpleChannel
 
-internal interface IC2SPacket : IPacket {
+internal interface IC2SPacket<T, TByteBuf : PacketByteBuf> : IPacket<T, TByteBuf> {
     @Environment(EnvType.CLIENT)
-    fun sendToServer() = NetworkManager.sendToServer(this)
+    fun sendToServer(channel: SimpleChannel) = channel.send(this, PacketDistributor.SERVER.noArg())
+
+    @Environment(EnvType.CLIENT)
+    fun sendToServer()
 }

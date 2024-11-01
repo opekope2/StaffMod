@@ -18,31 +18,33 @@
 
 package opekope2.avm_staff.internal.networking.c2s.play
 
-import dev.architectury.networking.NetworkManager
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraftforge.event.network.CustomPayloadEvent
+import net.minecraftforge.network.NetworkDirection
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.MOD_ID
 
-internal class AttackC2SPacket(val hand: Hand) : IC2SPacket {
-    constructor(buf: PacketByteBuf) : this(buf.readEnumConstant(Hand::class.java))
+internal class AttackC2SPacket(val hand: Hand) : IC2SPacket<AttackC2SPacket, RegistryByteBuf> {
+    constructor(buf: RegistryByteBuf) : this(buf.readEnumConstant(Hand::class.java))
 
-    override fun getId() = payloadId
-
-    override fun write(buf: PacketByteBuf) {
+    override fun write(buf: RegistryByteBuf) {
         buf.writeEnumConstant(hand)
     }
 
-    companion object : PacketRegistrarAndReceiver<AttackC2SPacket>(
-        NetworkManager.c2s(),
+    override fun sendToServer() = sendToServer(channel)
+
+    companion object : PacketRegistrarAndReceiver<AttackC2SPacket, RegistryByteBuf>(
+        NetworkDirection.PLAY_TO_SERVER,
         Identifier.of(MOD_ID, "attack"),
+        AttackC2SPacket::class.java,
         ::AttackC2SPacket
     ) {
-        override fun receive(packet: AttackC2SPacket, context: NetworkManager.PacketContext) {
-            val player = context.player
+        override fun receive(packet: AttackC2SPacket, context: CustomPayloadEvent.Context) {
+            val player = context.sender!!
             val staffStack = player.mainHandStack
             val staffItem = staffStack.item as? StaffItem ?: return
 

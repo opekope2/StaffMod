@@ -18,18 +18,20 @@
 
 package opekope2.avm_staff.internal.networking.s2c.play
 
-import dev.architectury.networking.NetworkManager
 import net.minecraft.block.Block
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.client.MinecraftClient
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.registry.RegistryKey
-import net.minecraft.server.MinecraftServer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
+import net.minecraftforge.event.network.CustomPayloadEvent
+import net.minecraftforge.network.NetworkDirection
+import net.minecraftforge.network.PacketDistributor
 import opekope2.avm_staff.internal.networking.IS2CPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.mixin.IParticleManagerAccessor
@@ -38,7 +40,8 @@ import opekope2.avm_staff.util.countingSort
 import java.util.function.IntSupplier
 import kotlin.math.sqrt
 
-internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawIds: List<Int>) : IS2CPacket {
+internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawIds: List<Int>) :
+    IS2CPacket<MassDestructionS2CPacket, RegistryByteBuf> {
     init {
         require(positions.isNotEmpty()) { "positions must not be empty" }
         require(positions.size < MAX_DATA_IN_PACKET) { "too much data (max. $MAX_DATA_IN_PACKET)" }
@@ -50,26 +53,26 @@ internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawId
     private val volumeHalfDiagonal =
         sqrt((MathHelper.square(volume.blockCountX) + MathHelper.square(volume.blockCountY) + MathHelper.square(volume.blockCountZ)).toDouble()) / 2.0
 
-    constructor(buf: PacketByteBuf) : this(buf.readList(BlockPos.PACKET_CODEC), buf.readList(PacketCodecs.INTEGER))
+    constructor(buf: RegistryByteBuf) : this(buf.readList(BlockPos.PACKET_CODEC), buf.readList(PacketCodecs.INTEGER))
 
-    override fun getId() = payloadId
-
-    override fun write(buf: PacketByteBuf) {
+    override fun write(buf: RegistryByteBuf) {
         buf.writeCollection(positions, BlockPos.PACKET_CODEC)
         buf.writeCollection(rawIds, PacketCodecs.INTEGER)
     }
 
-    fun sendToAround(server: MinecraftServer, worldKey: RegistryKey<World>) {
-        positions.sortedBy { it.x }
-        intArrayOf().sort()
-
-        val maxDistanceSquare = MathHelper.square(64 + volumeHalfDiagonal)
-        val players = server.playerManager.playerList.filter { player ->
-            if (player.world.registryKey !== worldKey) false
-            else player.squaredDistanceTo(volumeCenter) <= maxDistanceSquare
-        }
-
-        NetworkManager.sendToPlayers(players, this)
+    fun sendToAround(worldKey: RegistryKey<World>) {
+        channel.send(
+            this,
+            PacketDistributor.NEAR.with(
+                PacketDistributor.TargetPoint(
+                    volumeCenter.x,
+                    volumeCenter.y,
+                    volumeCenter.z,
+                    64 + volumeHalfDiagonal,
+                    worldKey
+                )
+            )
+        )
     }
 
     private data class BlockBrokenWorldEvent(
@@ -80,18 +83,20 @@ internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawId
         override fun getAsInt() = squaredDistanceFromPlayer
     }
 
-    companion object : PacketRegistrarAndReceiver<MassDestructionS2CPacket>(
-        NetworkManager.s2c(),
+    companion object : PacketRegistrarAndReceiver<MassDestructionS2CPacket, RegistryByteBuf>(
+        NetworkDirection.PLAY_TO_CLIENT,
         Identifier.of(MOD_ID, "mass_destruction"),
+        MassDestructionS2CPacket::class.java,
         ::MassDestructionS2CPacket
     ) {
         const val MAX_DATA_IN_PACKET = 1024 * 1024
 
-        override fun receive(packet: MassDestructionS2CPacket, context: NetworkManager.PacketContext) {
+        override fun receive(packet: MassDestructionS2CPacket, context: CustomPayloadEvent.Context) {
             val maxParticles = IParticleManagerAccessor.maxParticleCount() / (4 * 4 * 4)
             val maxSounds = 128
-            val world = context.player.entityWorld
-            val playerPos = context.player.pos
+            val player = MinecraftClient.getInstance().player ?: return
+            val world = player.entityWorld
+            val playerPos = player.pos
             val blockBrokenEvents = Array(packet.positions.size) { i ->
                 val pos = packet.positions[i]
                 BlockBrokenWorldEvent(pos, packet.rawIds[i], pos.getSquaredDistance(playerPos).toInt())
