@@ -51,6 +51,16 @@ val shadowBundle: Configuration by configurations.creating {
     isCanBeConsumed = false
 }
 
+configurations.configureEach {
+    resolutionStrategy.force("net.sf.jopt-simple:jopt-simple:5.0.4")
+}
+
+loom {
+    forge {
+        mixinConfig("avm_staff.mixins.json")
+    }
+}
+
 repositories {
     maven("https://thedarkcolour.github.io/KotlinForForge/") { name = "Kotlin for Forge" }
 }
