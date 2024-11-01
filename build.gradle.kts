@@ -59,8 +59,7 @@ allprojects {
         archivesName = "staff-mod"
     }
 
-    val suffix = if (extra.has("loom.platform")) "+${extra["loom.platform"]}" else ""
-    version = rootProject.libs.versions.staff.mod.get() + suffix
+    version = rootProject.libs.versions.staff.mod.get()
     group = "opekope2.avm_staff"
 
     repositories {
