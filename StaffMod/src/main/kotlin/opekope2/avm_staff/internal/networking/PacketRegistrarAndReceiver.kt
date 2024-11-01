@@ -19,7 +19,6 @@
 package opekope2.avm_staff.internal.networking
 
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.codec.PacketCodec
 import net.minecraft.util.Identifier
 import net.minecraftforge.event.network.CustomPayloadEvent
 import net.minecraftforge.network.ChannelBuilder
@@ -32,12 +31,14 @@ internal abstract class PacketRegistrarAndReceiver<TPacket : IPacket<TPacket, TB
     packetClass: Class<TPacket>,
     packetConstructor: (TByteBuf) -> TPacket,
 ) {
-    private val codec = PacketCodec.of(IPacket<TPacket, TByteBuf>::write, packetConstructor)
     protected val channel: SimpleChannel = ChannelBuilder.named(id).simpleChannel()
-        .messageBuilder(packetClass, 0, direction).codec(codec).consumerNetworkThread(::receiveOnNetworkThread).add()
 
-    private fun receiveOnNetworkThread(packet: TPacket, context: CustomPayloadEvent.Context) {
-        context.enqueueWork { receive(packet, context) }
+    init {
+        channel.messageBuilder(packetClass, direction)
+            .encoder(IPacket<TPacket, TByteBuf>::write)
+            .decoder(packetConstructor)
+            .consumerMainThread(::receive)
+            .add()
     }
 
     abstract fun receive(packet: TPacket, context: CustomPayloadEvent.Context)
