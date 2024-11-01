@@ -80,7 +80,7 @@ jobs:
         with:
           name: forge-jars
           path: |
-            ForgeMod/build/libs/*.jar
+            StaffMod/build/libs/*.jar
           if-no-files-found: error
       - name: Upload documentation output
         if: inputs.build-docs && inputs.upload-output
