@@ -16,39 +16,28 @@ logoFile = "assets/avm_staff/icon.png"
 features = { java_version = "[$java,)" }
 displayURL = "https://opekope2.dev/StaffMod"
 
-[[mixins]]
-config = "avm_staff.mixins.json"
-
 [[dependencies.avm_staff]]
-modId = "neoforge"
-type = "required"
-versionRange = "[$neoforge,)"
+modId = "forge"
+mandatory = true
+versionRange = "[$forge,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.avm_staff]]
 modId = "minecraft"
-type = "required"
+mandatory = true
 versionRange = "[$minecraft,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.avm_staff]]
 modId = "kotlinforforge"
-type = "required"
+mandatory = true
 versionRange = "[$kotlin_for_forge,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.avm_staff]]
-modId = "architectury"
-type = "required"
-versionRange = "[$architectury,)"
-ordering = "AFTER"
-side = "BOTH"
-
 [mc-publish]
 dependencies = [
-    "architectury-api@$architectury",
     "kotlin-for-forge@$kotlin_for_forge"
 ]

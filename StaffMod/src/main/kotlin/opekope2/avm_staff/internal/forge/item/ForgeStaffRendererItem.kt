@@ -16,16 +16,16 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.neoforge.item
+package opekope2.avm_staff.internal.forge.item
 
 import net.minecraft.item.Item
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
+import net.minecraftforge.client.extensions.common.IClientItemExtensions
 import java.util.function.Consumer
 
-class NeoForgeStaffRendererItem(settings: Settings) : Item(settings) {
+class ForgeStaffRendererItem(settings: Settings) : Item(settings) {
     override fun initializeClient(consumer: Consumer<IClientItemExtensions>) {
         consumer.accept(object : IClientItemExtensions {
-            override fun getCustomRenderer() = NeoForgeStaffItem.Renderer
+            override fun getCustomRenderer() = ForgeStaffItem.Renderer
         })
     }
 }

@@ -16,14 +16,14 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.neoforge
+package opekope2.avm_staff.internal.forge
 
 import net.minecraft.client.item.ModelPredicateProviderRegistry
-import net.neoforged.api.distmarker.Dist
-import net.neoforged.api.distmarker.OnlyIn
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.api.soulFlamethrowerParticleType
@@ -32,7 +32,7 @@ import opekope2.avm_staff.internal.registerClientContent
 import opekope2.avm_staff.internal.registerSmithingTableTextures
 import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffItemRenderers
 import opekope2.avm_staff.internal.subscribeToClientEvents
-import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @OnlyIn(Dist.CLIENT)
 object StaffModClient {

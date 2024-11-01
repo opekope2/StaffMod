@@ -16,13 +16,15 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("StaffModPlatformHolder")
+package opekope2.avm_staff.internal.forge.item
 
-package opekope2.avm_staff.internal
+import net.minecraft.block.Block
+import net.minecraft.entity.LivingEntity
+import net.minecraft.item.ItemStack
+import net.minecraftforge.common.extensions.IForgeItem
+import opekope2.avm_staff.api.item.CrownItem
 
-import dev.architectury.injectables.annotations.ExpectPlatform
-import opekope2.avm_staff.api.IStaffModPlatform
-
-internal val staffModPlatform: IStaffModPlatform
-    @ExpectPlatform
-    get() = throw AssertionError()
+class ForgeCrownItem(groundBlock: Block, wallBlock: Block, settings: Settings) :
+    CrownItem(groundBlock, wallBlock, settings), IForgeItem {
+    override fun makesPiglinsNeutral(stack: ItemStack, wearer: LivingEntity) = stack.item is CrownItem
+}

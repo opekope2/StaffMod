@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.neoforge.item
+package opekope2.avm_staff.internal.forge.item
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
@@ -26,24 +26,20 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
-import net.neoforged.neoforge.common.extensions.IItemExtension
+import net.minecraftforge.client.extensions.common.IClientItemExtensions
+import net.minecraftforge.common.extensions.IForgeItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandlerOrDefault
 import java.util.function.Consumer
 
-class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExtension {
-    @Suppress("RemoveExplicitSuperQualifier") // Required because StaffItem apparently also has canDisableShield
+class ForgeStaffItem(settings: Settings) : StaffItem(settings), IForgeItem {
     override fun canDisableShield(stack: ItemStack, shield: ItemStack, entity: LivingEntity, attacker: LivingEntity) =
         disablesShield(stack, attacker.entityWorld, attacker, Hand.MAIN_HAND) ||
-                super<IItemExtension>.canDisableShield(stack, shield, entity, attacker)
-
-    override fun isRepairable(arg: ItemStack) = false
+                super<IForgeItem>.canDisableShield(stack, shield, entity, attacker)
 
     override fun onEntitySwing(stack: ItemStack, entity: LivingEntity) = !canSwingHand(
         stack,
@@ -64,7 +60,6 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         else oldHandler.allowReequipAnimation(oldStack, newStack, slotChanged)
     }
 
-    // Calm down IDEA, this is beyond your understanding
     override fun initializeClient(consumer: Consumer<IClientItemExtensions>) {
         consumer.accept(object : IClientItemExtensions {
             override fun getCustomRenderer() = Renderer

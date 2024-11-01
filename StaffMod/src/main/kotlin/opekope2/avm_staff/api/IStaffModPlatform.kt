@@ -24,7 +24,7 @@ import net.minecraft.particle.SimpleParticleType
 import opekope2.avm_staff.api.IStaffModPlatform.Instance
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.internal.staffModPlatform
+import opekope2.avm_staff.internal.forge.StaffMod
 
 /**
  * Loader-specific functionality
@@ -65,5 +65,5 @@ interface IStaffModPlatform {
     /**
      * Wrapper around the current loader's [IStaffModPlatform] implementation.
      */
-    companion object Instance : IStaffModPlatform by staffModPlatform
+    companion object Instance : IStaffModPlatform by StaffMod
 }

@@ -16,26 +16,26 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.internal.neoforge
+package opekope2.avm_staff.internal.forge
 
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
-import net.neoforged.api.distmarker.Dist
-import net.neoforged.fml.common.Mod
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.event.entity.living.LivingDropsEvent
+import net.minecraftforge.fml.common.Mod
 import opekope2.avm_staff.api.IStaffModPlatform
+import opekope2.avm_staff.internal.forge.item.ForgeCrownItem
+import opekope2.avm_staff.internal.forge.item.ForgeStaffItem
+import opekope2.avm_staff.internal.forge.item.ForgeStaffRendererItem
 import opekope2.avm_staff.internal.initializeNetworking
-import opekope2.avm_staff.internal.neoforge.item.NeoForgeCrownItem
-import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffItem
-import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffRendererItem
 import opekope2.avm_staff.internal.registerContent
 import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffHandlers
 import opekope2.avm_staff.internal.stopUsingStaffWhenDropped
 import opekope2.avm_staff.internal.subscribeToEvents
 import opekope2.avm_staff.util.MOD_ID
-import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
-import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
+import thedarkcolour.kotlinforforge.forge.FORGE_BUS
+import thedarkcolour.kotlinforforge.forge.runWhenOn
 
 @Mod(MOD_ID)
 object StaffMod : IStaffModPlatform {
@@ -43,12 +43,12 @@ object StaffMod : IStaffModPlatform {
         registerContent()
         initializeNetworking()
         subscribeToEvents()
-        subscribeToNeoForgeEvents()
+        subscribeForgeEvents()
         registerVanillaStaffHandlers()
         runWhenOn(Dist.CLIENT) { StaffModClient.initializeClient() }
     }
 
-    private fun subscribeToNeoForgeEvents() {
+    private fun subscribeForgeEvents() {
         FORGE_BUS.addListener(::dropInventory)
     }
 
@@ -58,12 +58,12 @@ object StaffMod : IStaffModPlatform {
         }
     }
 
-    override fun staffItem(settings: Item.Settings) = NeoForgeStaffItem(settings)
+    override fun staffItem(settings: Item.Settings) = ForgeStaffItem(settings)
 
-    override fun itemWithStaffRenderer(settings: Item.Settings) = NeoForgeStaffRendererItem(settings)
+    override fun itemWithStaffRenderer(settings: Item.Settings) = ForgeStaffRendererItem(settings)
 
     override fun crownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) =
-        NeoForgeCrownItem(groundBlock, wallBlock, settings)
+        ForgeCrownItem(groundBlock, wallBlock, settings)
 
     override fun simpleParticleType(alwaysShow: Boolean) = SimpleParticleType(alwaysShow)
 }
