@@ -78,8 +78,7 @@ fun destroyBox(
 
     destroyerPlayer?.addExhaustion(exhaustion * .005f)
     if (destroyedBlocks.isNotEmpty()) {
-        MassDestructionS2CPacket(destroyedBlocks, destroyedBlockStates)
-            .sendToAround(world.server, destroyer.world.registryKey)
+        MassDestructionS2CPacket(destroyedBlocks, destroyedBlockStates, world.registryKey).sendToAround(world.server)
     }
 }
 
