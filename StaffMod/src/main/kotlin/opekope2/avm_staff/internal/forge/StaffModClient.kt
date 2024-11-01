@@ -20,7 +20,6 @@ package opekope2.avm_staff.internal.forge
 
 import net.minecraft.block.DispenserBlock
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.render.entity.TntEntityRenderer
 import net.minecraft.item.Items
 import net.minecraftforge.api.distmarker.Dist
@@ -65,7 +64,7 @@ object StaffModClient {
     @SubscribeEvent
     fun initializeClient(event: FMLClientSetupEvent) {
         event.enqueueWork {
-            registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric)
+            registerModelPredicateProviders()
             DispenserBlock.registerBehavior(Items.CAKE, CakeDispenserBehavior())
         }
     }
