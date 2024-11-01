@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import dev.architectury.event.EventResult
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.RenderLayer
@@ -34,6 +33,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
@@ -69,7 +69,7 @@ internal class BellBlockHandler : StaffHandler() {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): EventResult {
+    ): ActionResult {
         world.playSound(
             target as? PlayerEntity,
             target.blockPos,
@@ -79,7 +79,7 @@ internal class BellBlockHandler : StaffHandler() {
             1f
         )
 
-        return EventResult.pass()
+        return ActionResult.PASS
     }
 
     @Environment(EnvType.CLIENT)

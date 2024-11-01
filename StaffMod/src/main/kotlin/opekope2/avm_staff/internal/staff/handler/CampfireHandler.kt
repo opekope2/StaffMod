@@ -18,9 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.TickEvent
-import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.*
@@ -32,8 +29,8 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.SimpleParticleType
-import net.minecraft.server.MinecraftServer
 import net.minecraft.state.property.Properties.LIT
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.hit.BlockHitResult
@@ -45,13 +42,16 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import net.minecraftforge.event.TickEvent
+import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.rocketModeComponentType
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.util.*
+import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 
 internal class CampfireHandler(
-    private val particleEffectSupplier: RegistrySupplier<SimpleParticleType>,
+    private val particleEffectSupplier: RegistryObject<SimpleParticleType>,
     private val properties: Properties
 ) : StaffHandler() {
     override val maxUseTime: Int
@@ -152,9 +152,9 @@ internal class CampfireHandler(
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): EventResult {
+    ): ActionResult {
         target.setOnFireFor(properties.attackFireSeconds)
-        return EventResult.pass()
+        return ActionResult.PASS
     }
 
     data class Properties(
@@ -245,7 +245,7 @@ internal class CampfireHandler(
         }
     }
 
-    private companion object : TickEvent.Server {
+    private companion object {
         private const val FLAME_SPEED = 1.0
         private const val FLAME_MAX_AGE = 16
         private const val FLAME_MAX_DISTANCE = FLAME_SPEED * FLAME_MAX_AGE
@@ -265,15 +265,15 @@ internal class CampfireHandler(
         private val firePellets = mutableListOf<FirePellet>()
 
         init {
-            TickEvent.SERVER_PRE.register(this)
+            FORGE_BUS.addListener(::tick)
         }
 
         private fun shootFire(firePellet: FirePellet) {
             firePellets += firePellet
         }
 
-        override fun tick(server: MinecraftServer) {
-            if (!server.tickManager.shouldTick()) return
+        fun tick(event: TickEvent.ServerTickEvent.Pre) {
+            if (!event.server.tickManager.shouldTick()) return
             val damagedEntities = mutableSetOf<Entity>()
             val iterator = firePellets.iterator()
             while (iterator.hasNext()) {

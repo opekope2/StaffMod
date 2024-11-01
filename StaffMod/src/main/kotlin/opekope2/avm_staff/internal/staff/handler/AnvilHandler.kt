@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import dev.architectury.event.EventResult
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -28,6 +27,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -59,8 +59,8 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
         target: BlockPos,
         side: Direction,
         hand: Hand
-    ): EventResult {
-        return EventResult.interruptFalse()
+    ): ActionResult {
+        return ActionResult.FAIL
     }
 
     override fun attackEntity(
@@ -69,11 +69,11 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): EventResult {
-        if (world.isClient) return EventResult.interruptDefault()
+    ): ActionResult {
+        if (world.isClient) return ActionResult.FAIL
 
         val fallDistance = ceil(attacker.fallDistance - 1f)
-        if (fallDistance <= 0) return EventResult.interruptDefault()
+        if (fallDistance <= 0) return ActionResult.FAIL
 
         aoeAttack(world, attacker, target, fallDistance)
         world.syncWorldEvent(WorldEvents.SMASH_ATTACK, target.steppingPos, 750)
@@ -87,7 +87,7 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
             0
         )
 
-        return EventResult.interruptDefault()
+        return ActionResult.FAIL
     }
 
     private fun aoeAttack(world: World, attacker: LivingEntity, target: Entity, fallDistance: Float) {

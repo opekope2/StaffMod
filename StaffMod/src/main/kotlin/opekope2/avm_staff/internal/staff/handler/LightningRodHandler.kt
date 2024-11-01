@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import dev.architectury.event.EventResult
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.Blocks
@@ -83,9 +82,9 @@ internal class LightningRodHandler : StaffHandler() {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): EventResult {
+    ): ActionResult {
         tryStrike(staffStack, world, attacker, target.pos)
-        return EventResult.pass()
+        return ActionResult.PASS
     }
 
     private fun tryStrike(staffStack: ItemStack, world: World, user: LivingEntity, lightningPos: Vec3d): ActionResult {

@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import dev.architectury.event.EventResult
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractSkullBlock
@@ -36,6 +35,7 @@ import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.WitherSkullEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.Difficulty
@@ -91,14 +91,14 @@ internal class WitherSkeletonSkullHandler : StaffHandler() {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): EventResult {
-        if (world.isClient) return EventResult.pass()
+    ): ActionResult {
+        if (world.isClient) return ActionResult.PASS
         if (target is LivingEntity && !target.isInvulnerableTo(world.damageSources.wither())) {
             val amplifier = if (world.difficulty == Difficulty.HARD) 1 else 0
             target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 10 * 20, amplifier))
         }
 
-        return EventResult.pass()
+        return ActionResult.PASS
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {

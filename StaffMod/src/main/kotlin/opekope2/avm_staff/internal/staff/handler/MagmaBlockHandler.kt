@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import dev.architectury.event.EventResult
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -27,6 +26,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
@@ -72,9 +72,9 @@ internal class MagmaBlockHandler : StaffHandler() {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): EventResult {
+    ): ActionResult {
         target.setOnFireFor(8f)
-        return EventResult.pass()
+        return ActionResult.PASS
     }
 
     private fun tryShootFireball(world: World, shooter: LivingEntity) {

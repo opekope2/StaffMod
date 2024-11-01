@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import dev.architectury.event.EventResult
 import net.minecraft.block.Blocks
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
@@ -27,6 +26,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -58,9 +58,9 @@ class NetheriteBlockHandler : StaffHandler() {
         attacker: LivingEntity,
         target: Entity,
         hand: Hand
-    ): EventResult {
-        if (world.isClient) return EventResult.pass()
-        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return EventResult.pass()
+    ): ActionResult {
+        if (world.isClient) return ActionResult.PASS
+        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return ActionResult.PASS
         require(world is ServerWorld)
 
         val knockbackMultiplier = 1.0 -
@@ -99,7 +99,7 @@ class NetheriteBlockHandler : StaffHandler() {
 
         world.syncWorldEvent(WorldEvents.SMASH_ATTACK, target.steppingPos, 750)
 
-        return EventResult.pass()
+        return ActionResult.PASS
     }
 
     override fun attackBlock(
@@ -109,9 +109,9 @@ class NetheriteBlockHandler : StaffHandler() {
         target: BlockPos,
         side: Direction,
         hand: Hand
-    ): EventResult {
-        if (world.isClient) return EventResult.pass()
-        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return EventResult.pass()
+    ): ActionResult {
+        if (world.isClient) return ActionResult.PASS
+        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return ActionResult.PASS
         require(world is ServerWorld)
 
         val forwardVector = attacker.facing.vector
@@ -132,7 +132,7 @@ class NetheriteBlockHandler : StaffHandler() {
         dropCollector.dropAll(world)
 
         // "Mismatch in destroy block pos" in server logs if I interrupt on server but not on client side. Nothing bad should happen, right?
-        return EventResult.pass()
+        return ActionResult.PASS
     }
 
     private companion object {

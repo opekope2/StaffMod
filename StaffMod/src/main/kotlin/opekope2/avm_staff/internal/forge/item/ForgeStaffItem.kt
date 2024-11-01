@@ -27,6 +27,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraftforge.client.extensions.common.IClientItemExtensions
 import net.minecraftforge.common.extensions.IForgeItem
@@ -50,7 +51,7 @@ class ForgeStaffItem(settings: Settings) : StaffItem(settings), IForgeItem {
     )
 
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity) =
-        attackEntity(stack, player.entityWorld, player, entity, Hand.MAIN_HAND).interruptsFurtherEvaluation()
+        attackEntity(stack, player.entityWorld, player, entity, Hand.MAIN_HAND) != ActionResult.PASS
 
     override fun shouldCauseReequipAnimation(oldStack: ItemStack, newStack: ItemStack, slotChanged: Boolean): Boolean {
         val oldHandler = oldStack.itemInStaff.staffHandlerOrDefault

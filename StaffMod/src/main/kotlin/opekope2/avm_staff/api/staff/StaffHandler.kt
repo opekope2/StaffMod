@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.api.staff
 
-import dev.architectury.event.EventResult
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
@@ -219,10 +218,10 @@ abstract class StaffHandler {
      * Called on both the client and the server by Architectury API, when an entity attacks a block with a staff.
      *
      * @return
-     * - [EventResult.interruptTrue], [EventResult.interruptFalse]:
-     *   Cancels vanilla block breaking, and on a Neo/Forge logical client, sends a packet to the server.
-     * - [EventResult.interruptDefault], [EventResult.pass]:
+     * - [ActionResult.PASS]:
      *   Lets Minecraft handle vanilla block breaking.
+     * - Anything else:
+     *   Cancels vanilla block breaking, and on the logical client, sends a packet to the server.
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [attacker] is in
@@ -233,17 +232,17 @@ abstract class StaffHandler {
      */
     open fun attackBlock(
         staffStack: ItemStack, world: World, attacker: LivingEntity, target: BlockPos, side: Direction, hand: Hand
-    ): EventResult = EventResult.pass()
+    ) = ActionResult.PASS
 
     /**
      * Called on both the client by Fabric/Neo/Forge API and the server by Fabric/Neo/Forge API, when an entity attacks
      * an entity with a staff.
      *
      * @return
-     * - [EventResult.interrupt], [EventResult.interruptTrue], [EventResult.interruptFalse], [EventResult.interruptDefault]:
-     *   Cancels vanilla entity attack, and on the logical client, sends a packet to the server.
-     * - [EventResult.pass]:
+     * - [ActionResult.PASS]:
      *   Lets Minecraft handle vanilla entity attack.
+     * - Anything else:
+     *   Cancels vanilla entity attack, and on the logical client, sends a packet to the server.
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [attacker] is in
@@ -253,7 +252,7 @@ abstract class StaffHandler {
      */
     open fun attackEntity(
         staffStack: ItemStack, world: World, attacker: LivingEntity, target: Entity, hand: Hand
-    ): EventResult = EventResult.pass()
+    ) = ActionResult.PASS
 
     /**
      * Called on both the client and the server by Staff Mod on Fabric and Neo/Forge API on Neo/Forge, when an entity
