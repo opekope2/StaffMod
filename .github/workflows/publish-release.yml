@@ -58,8 +58,8 @@ jobs:
           curseforge-id: ${{ vars.CURSEFORGE_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-          name: Staff Mod ${{ github.ref_name }} for Forge
-          version: ${{ github.ref_name }}+forge
+          name: Staff Mod ${{ github.ref_name }}
+          version: ${{ github.ref_name }}
           files: |
             dist/forge/!(*-@(dev|dev-shadow|sources|javadoc)).jar
             dist/forge/*-@(dev|dev-shadow|sources|javadoc).jar
