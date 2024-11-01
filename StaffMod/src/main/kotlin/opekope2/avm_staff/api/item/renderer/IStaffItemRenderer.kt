@@ -18,20 +18,20 @@
 
 package opekope2.avm_staff.api.item.renderer
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * A renderer for an item, which can be placed into a staff.
  *
  * @see IStaffItemRenderer.register
  */
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 fun interface IStaffItemRenderer {
     /**
      * Renders an item.
@@ -53,7 +53,7 @@ fun interface IStaffItemRenderer {
         overlay: Int
     )
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     companion object {
         private val staffItemRenderers = mutableMapOf<Identifier, IStaffItemRenderer>()
 

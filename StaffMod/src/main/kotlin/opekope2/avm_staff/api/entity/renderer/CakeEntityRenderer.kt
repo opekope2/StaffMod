@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.api.entity.renderer
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.Blocks
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayers
@@ -32,6 +30,8 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.random.Random
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.mixin.ICakeBlockAccessor
 import opekope2.avm_staff.util.push
@@ -41,7 +41,7 @@ import kotlin.math.sqrt
 /**
  * Renderer of [CakeEntity].
  */
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 class CakeEntityRenderer(context: EntityRendererFactory.Context) : EntityRenderer<CakeEntity>(context) {
     private val blockRenderManager = context.blockRenderManager
 

@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.item.BlockItem
@@ -28,6 +26,8 @@ import net.minecraft.item.Items.*
 import net.minecraft.recipe.RecipeType
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvents
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
@@ -110,17 +110,17 @@ fun registerVanillaStaffHandlers() {
     BLACK_WOOL.registerHandler(WoolHandler(BLACK_WOOL as BlockItem, BLACK_CARPET as BlockItem))
 }
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 private fun Item.registerStaffItemRenderer(renderer: IStaffItemRenderer) {
     IStaffItemRenderer.register(Registries.ITEM.getId(this), renderer)
 }
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 private fun Item.registerStaffItemRenderer(staffItem: Block) {
     registerStaffItemRenderer(BlockStateStaffItemRenderer(staffItem.defaultState))
 }
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 fun registerVanillaStaffItemRenderers() {
     ANVIL.registerStaffItemRenderer(Blocks.ANVIL)
     CHIPPED_ANVIL.registerStaffItemRenderer(Blocks.CHIPPED_ANVIL)

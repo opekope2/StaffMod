@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -46,6 +44,8 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
@@ -118,7 +118,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         return closest
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private fun playSmeltingEffects(world: World, itemToSmelt: ItemEntity) {
         if (Math.random() >= 0.1) return
 
@@ -143,7 +143,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         return staffStack
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     class FurnaceStaffItemRenderer(unlitState: BlockState, litState: BlockState) : IStaffItemRenderer {
         constructor(furnaceBlock: Block) : this(
             furnaceBlock.defaultState,

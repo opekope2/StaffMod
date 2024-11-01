@@ -16,18 +16,18 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: Environment(EnvType.CLIENT)
+@file: OnlyIn(Dist.CLIENT)
 @file: Suppress("UNUSED_PARAMETER")
 
 package opekope2.avm_staff.internal.event_handler
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket.Companion.tryInsertItemIntoStaff

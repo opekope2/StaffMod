@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.api.item.renderer
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.BakedModel
@@ -27,6 +25,8 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
 import opekope2.avm_staff.api.staffRendererOverrideComponentType
 import opekope2.avm_staff.api.staffRendererPartComponentType
@@ -37,7 +37,7 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * Builtin model item renderer for staffs.
  */
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 object StaffRenderer {
     /**
      * Renders the staff.

@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractSkullBlock
 import net.minecraft.block.Blocks
 import net.minecraft.client.render.VertexConsumerProvider
@@ -41,6 +39,8 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
@@ -110,7 +110,7 @@ internal class WitherSkeletonSkullHandler : StaffHandler() {
         return staffStack
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     class WitherSkeletonSkullStaffItemRenderer : IStaffItemRenderer {
         private val skullModel = SkullEntityModel.getSkullTexturedModelData().createModel()
 

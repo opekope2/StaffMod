@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.api.entity
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.Blocks
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.GraphicsMode
@@ -41,6 +39,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.*
 import opekope2.avm_staff.util.damageSource
 import opekope2.avm_staff.util.times
@@ -98,7 +98,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         addCakeSplashParticles()
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private fun addCakeSplashParticles() {
         val rng = Random.create(CAKE_STATE.getRenderingSeed(startPos))
         val particlePerSide = particlePerSide - 1
@@ -211,7 +211,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         private val particleManager by lazy { MinecraftClient.getInstance().particleManager }
         private val graphicsModeOption by lazy { MinecraftClient.getInstance().options.graphicsMode }
         private val particlePerSide: Int
-            @Environment(EnvType.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             get() = when (graphicsModeOption.value!!) {
                 GraphicsMode.FAST -> 4
                 GraphicsMode.FANCY -> 5

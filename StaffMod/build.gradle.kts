@@ -63,10 +63,6 @@ dependencies {
     implementation(libs.mixinextras.forge)
     include(libs.mixinextras.forge)
 
-    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
-    // Do NOT use other classes from fabric loader
-    modImplementation(libs.fabric.loader)
-
     implementation(libs.kotlinforforge)
 
     if (project.hasProperty("javaSyntax")) {

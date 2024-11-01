@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.api.item.renderer
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
@@ -28,13 +26,15 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * A [IStaffItemRenderer], always which renders a single block state.
  *
  * @param blockState    The block state to render
  */
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 class BlockStateStaffItemRenderer(blockState: BlockState) : IStaffItemRenderer {
     private val blockStateId = BlockModels.getModelId(blockState)
     private val blockItem = blockState.block.asItem().defaultStack

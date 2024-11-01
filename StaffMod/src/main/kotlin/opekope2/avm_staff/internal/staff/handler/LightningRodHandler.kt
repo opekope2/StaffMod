@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.Blocks
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
@@ -38,6 +36,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
@@ -114,7 +114,7 @@ internal class LightningRodHandler : StaffHandler() {
         return true
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     class LightningRodStaffItemRenderer : IStaffItemRenderer {
         private val lightningRodRenderer = BlockStateStaffItemRenderer(Blocks.LIGHTNING_ROD.defaultState)
 

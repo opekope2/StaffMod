@@ -18,16 +18,16 @@
 
 package opekope2.avm_staff.internal.networking
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.network.PacketByteBuf
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.network.PacketDistributor
 import net.minecraftforge.network.SimpleChannel
 
 internal interface IC2SPacket<T, TByteBuf : PacketByteBuf> : IPacket<T, TByteBuf> {
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     fun sendToServer(channel: SimpleChannel) = channel.send(this, PacketDistributor.SERVER.noArg())
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     fun sendToServer()
 }

@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
@@ -37,6 +35,8 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
@@ -82,7 +82,7 @@ internal class BellBlockHandler : StaffHandler() {
         return ActionResult.PASS
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     class BellStaffItemRenderer : IStaffItemRenderer {
         private val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().apply {
             setPivot(-8f, -12f, -8f)

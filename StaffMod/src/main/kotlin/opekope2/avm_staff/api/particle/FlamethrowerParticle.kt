@@ -18,12 +18,12 @@
 
 package opekope2.avm_staff.api.particle
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.particle.*
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.util.math.BlockPos
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.mixin.IParticleMixin
@@ -40,7 +40,7 @@ import opekope2.avm_staff.mixin.IParticleMixin
  * @param velocityZ The Z component of the particle's velocity
  * @see FlamethrowerParticle.Factory
  */
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 class FlamethrowerParticle(
     world: ClientWorld,
     x: Double,

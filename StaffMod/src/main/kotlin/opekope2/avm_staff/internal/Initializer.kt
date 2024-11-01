@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.AbstractPiglinEntity
@@ -34,6 +32,8 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.event.LootTableLoadEvent
 import net.minecraftforge.event.entity.item.ItemTossEvent
 import net.minecraftforge.event.entity.living.LivingDeathEvent
@@ -173,7 +173,7 @@ fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity) {
     staffItem.onStoppedUsing(item.stack, entity.entityWorld, entity, entity.itemUseTimeLeft)
 }
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 fun registerSmithingTableTextures() {
     StaffInfusionSmithingRecipeTextures.register(
         Identifier.of(MOD_ID, "item/smithing_table/empty_slot_royal_staff"),
@@ -181,7 +181,7 @@ fun registerSmithingTableTextures() {
     )
 }
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 fun clientAttack(player: PlayerEntity, hand: Hand) {
     val staffStack = player.getStackInHand(hand)
     val staffItem = staffStack.item as? StaffItem ?: return

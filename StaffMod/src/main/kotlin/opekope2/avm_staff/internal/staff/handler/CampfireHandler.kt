@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.*
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.GraphicsMode
@@ -42,6 +40,8 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.rocketModeComponentType
@@ -112,7 +112,7 @@ internal class CampfireHandler(
         }
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     fun throwFlameParticles(user: LivingEntity, target: Vec3d, relativeRight: Vec3d, relativeUp: Vec3d) {
         val random = Random.create()
         val particleManager = MinecraftClient.getInstance().particleManager
@@ -256,7 +256,7 @@ internal class CampfireHandler(
         private const val FLAMETHROWER_CONE_RAYS_TOTAL = FLAMETHROWER_CONE_RAYS * FLAMETHROWER_CONE_RAYS
 
         private val flameParticleCount: Int
-            @Environment(EnvType.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             get() = when (MinecraftClient.getInstance().options.graphicsMode.value!!) {
                 GraphicsMode.FAST -> 4 * 4
                 GraphicsMode.FANCY -> 8 * 8
