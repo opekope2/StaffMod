@@ -21,7 +21,6 @@ package opekope2.avm_staff.api.entity
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.Blocks
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.GraphicsMode
 import net.minecraft.client.particle.BlockDustParticle
 import net.minecraft.client.world.ClientWorld
@@ -226,14 +225,12 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
 
     companion object {
         private val CAKE_STATE = Blocks.CAKE.defaultState
-        private val particleManager by lazy { MinecraftClient.getInstance().particleManager }
-        private val graphicsModeOption by lazy { MinecraftClient.getInstance().options.graphicsMode }
         private val particlePerSide: Int
             @Environment(EnvType.CLIENT)
-            get() = when (graphicsModeOption.value!!) {
-                GraphicsMode.FAST -> 4
-                GraphicsMode.FANCY -> 5
+            get() = when (clientOptions.graphicsMode.value) {
                 GraphicsMode.FABULOUS -> 6
+                GraphicsMode.FANCY -> 5
+                else -> 4
             }
 
         /**

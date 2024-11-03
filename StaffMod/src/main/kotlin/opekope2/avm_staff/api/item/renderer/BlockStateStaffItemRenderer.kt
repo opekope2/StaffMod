@@ -21,13 +21,14 @@ package opekope2.avm_staff.api.item.renderer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.BlockState
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.BlockModels
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
+import opekope2.avm_staff.util.bakedModelManager
+import opekope2.avm_staff.util.itemRenderer
 
 /**
  * A [IStaffItemRenderer], always which renders a single block state.
@@ -90,11 +91,15 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : IStaffItemRenderer {
             light: Int,
             overlay: Int
         ) {
-            val itemRenderer = MinecraftClient.getInstance().itemRenderer
-            val modelManager = MinecraftClient.getInstance().bakedModelManager
-            val model = modelManager.getModel(blockStateId)
             itemRenderer.renderItem(
-                blockStateItem, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
+                blockStateItem,
+                ModelTransformationMode.NONE,
+                false,
+                matrices,
+                vertexConsumers,
+                light,
+                overlay,
+                bakedModelManager.getModel(blockStateId)
             )
         }
     }

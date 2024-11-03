@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.neoforge.item
 
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.item.BuiltinModelItemRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
@@ -33,6 +32,8 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
+import opekope2.avm_staff.util.blockEntityRenderDispatcher
+import opekope2.avm_staff.util.entityModelLoader
 import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandlerOrDefault
 import java.util.function.Consumer
@@ -71,10 +72,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         })
     }
 
-    object Renderer : BuiltinModelItemRenderer(
-        MinecraftClient.getInstance().blockEntityRenderDispatcher,
-        MinecraftClient.getInstance().entityModelLoader
-    ) {
+    object Renderer : BuiltinModelItemRenderer(blockEntityRenderDispatcher, entityModelLoader) {
         override fun render(
             stack: ItemStack,
             mode: ModelTransformationMode,

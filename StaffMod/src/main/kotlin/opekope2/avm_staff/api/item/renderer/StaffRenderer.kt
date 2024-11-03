@@ -20,7 +20,6 @@ package opekope2.avm_staff.api.item.renderer
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.render.model.json.ModelTransformationMode
@@ -30,6 +29,8 @@ import net.minecraft.registry.Registries
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
 import opekope2.avm_staff.api.staffRendererOverrideComponentType
 import opekope2.avm_staff.api.staffRendererPartComponentType
+import opekope2.avm_staff.util.bakedModelManager
+import opekope2.avm_staff.util.itemRenderer
 import opekope2.avm_staff.util.itemStackInStaff
 import opekope2.avm_staff.util.push
 import kotlin.jvm.optionals.getOrNull
@@ -194,11 +195,15 @@ object StaffRenderer {
         if (staffItemRenderer != null) {
             staffItemRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
         } else {
-            val itemRenderer = MinecraftClient.getInstance().itemRenderer
-            val model = MinecraftClient.getInstance().bakedModelManager.missingModel
-
             itemRenderer.renderItem(
-                itemStackInStaff, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
+                itemStackInStaff,
+                ModelTransformationMode.NONE,
+                false,
+                matrices,
+                vertexConsumers,
+                light,
+                overlay,
+                bakedModelManager.missingModel
             )
         }
     }
@@ -211,23 +216,25 @@ object StaffRenderer {
         overlay: Int,
         part: StaffRendererPartComponent
     ) {
-        val itemRenderer = MinecraftClient.getInstance().itemRenderer
-        val model = safeGetModel(staffStack, part)
-
         itemRenderer.renderItem(
-            staffStack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
+            staffStack,
+            ModelTransformationMode.NONE,
+            false,
+            matrices,
+            vertexConsumers,
+            light,
+            overlay,
+            safeGetModel(staffStack, part)
         )
     }
 
     private fun safeGetModel(staffStack: ItemStack, part: StaffRendererPartComponent): BakedModel {
-        val itemRenderer = MinecraftClient.getInstance().itemRenderer
-
         staffStack[staffRendererPartComponentType.get()] = part
         val model = itemRenderer.getModel(staffStack, null, null, 0)
         staffStack.remove(staffRendererPartComponentType.get())
 
         // Prevent StackOverflowError if an override is missing
         return if (!model.isBuiltin) model
-        else MinecraftClient.getInstance().bakedModelManager.missingModel
+        else bakedModelManager.missingModel
     }
 }

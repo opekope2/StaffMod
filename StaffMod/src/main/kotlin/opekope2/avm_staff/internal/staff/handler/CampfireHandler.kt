@@ -24,7 +24,6 @@ import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.*
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.GraphicsMode
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -115,8 +114,6 @@ internal class CampfireHandler(
     @Environment(EnvType.CLIENT)
     fun throwFlameParticles(user: LivingEntity, target: Vec3d, relativeRight: Vec3d, relativeUp: Vec3d) {
         val random = Random.create()
-        val particleManager = MinecraftClient.getInstance().particleManager
-
         val origin = user.approximateStaffTipPosition
 
         for (i in 0..flameParticleCount) {
@@ -257,10 +254,10 @@ internal class CampfireHandler(
 
         private val flameParticleCount: Int
             @Environment(EnvType.CLIENT)
-            get() = when (MinecraftClient.getInstance().options.graphicsMode.value!!) {
-                GraphicsMode.FAST -> 4 * 4
-                GraphicsMode.FANCY -> 8 * 8
+            get() = when (clientOptions.graphicsMode.value) {
                 GraphicsMode.FABULOUS -> 16 * 16
+                GraphicsMode.FANCY -> 8 * 8
+                else -> 4 * 4
             }
         private val firePellets = mutableListOf<FirePellet>()
 
