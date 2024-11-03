@@ -176,35 +176,11 @@ object StaffRenderer {
                 )
             } else {
                 staffStack.itemStackInStaff?.let { itemInStaff ->
-                    renderItem(staffStack, itemInStaff, mode, matrices, light, overlay, vertexConsumers)
+                    val staffItemRenderer = IStaffItemRenderer[Registries.ITEM.getId(itemInStaff.item)]
+                        ?: MissingModelRenderer
+                    staffItemRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
                 }
             }
-        }
-    }
-
-    private fun renderItem(
-        staffStack: ItemStack,
-        itemStackInStaff: ItemStack,
-        mode: ModelTransformationMode,
-        matrices: MatrixStack,
-        light: Int,
-        overlay: Int,
-        vertexConsumers: VertexConsumerProvider
-    ) {
-        val staffItemRenderer = IStaffItemRenderer[Registries.ITEM.getId(itemStackInStaff.item)]
-        if (staffItemRenderer != null) {
-            staffItemRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
-        } else {
-            itemRenderer.renderItem(
-                itemStackInStaff,
-                ModelTransformationMode.NONE,
-                false,
-                matrices,
-                vertexConsumers,
-                light,
-                overlay,
-                bakedModelManager.missingModel
-            )
         }
     }
 
