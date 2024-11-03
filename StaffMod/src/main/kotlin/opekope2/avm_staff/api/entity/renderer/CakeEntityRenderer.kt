@@ -33,7 +33,6 @@ import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.mixin.ICakeBlockAccessor
 import opekope2.avm_staff.util.push
 import org.joml.Quaternionf
-import kotlin.math.sqrt
 
 /**
  * Renderer of [CakeEntity].
@@ -54,10 +53,8 @@ class CakeEntityRenderer(context: EntityRendererFactory.Context) : EntityRendere
         vertexConsumers: VertexConsumerProvider,
         light: Int
     ) {
-        val normalSpeed = cake.velocity.normalize()
-        val horizontalSpeed = sqrt(normalSpeed.x * normalSpeed.x + normalSpeed.z * normalSpeed.z)
-        val cakeYaw = MathHelper.atan2(normalSpeed.x, normalSpeed.z).toFloat()
-        val cakePitch = MathHelper.atan2(horizontalSpeed, normalSpeed.y).toFloat()
+        val cakeYaw = MathHelper.lerpAngleDegrees(tickDelta, cake.prevYaw, cake.yaw)
+        val cakePitch = MathHelper.lerpAngleDegrees(tickDelta, cake.prevPitch, cake.pitch)
 
         matrices.push {
             translate(0f, cake.getDimensions(cake.pose).height / 2, 0f)

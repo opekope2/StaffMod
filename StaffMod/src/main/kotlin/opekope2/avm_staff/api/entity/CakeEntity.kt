@@ -38,12 +38,13 @@ import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import opekope2.avm_staff.api.*
-import opekope2.avm_staff.util.damageSource
-import opekope2.avm_staff.util.times
+import opekope2.avm_staff.util.*
+import kotlin.math.sqrt
 
 /**
  * A flying cake entity, which splashes on collision damaging target(s).
@@ -136,9 +137,11 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     override fun getGravity() = 0.04
 
     override fun tick() {
+        setPrevData()
         ++timeFalling
         applyGravity()
         move(MovementType.SELF, velocity)
+        setYawAndPitch()
         if (!world.isClient) {
             if (timeFalling > 100 && blockPos.y !in world.topY downTo (world.bottomY + 1) || timeFalling > 600) {
                 discard()
@@ -147,6 +150,19 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
             }
         }
         velocity *= 0.98
+    }
+
+    private fun setPrevData() {
+        prevYaw = yaw
+        prevPitch = pitch
+        prevHorizontalSpeed = horizontalSpeed
+    }
+
+    private fun setYawAndPitch() {
+        val (vx, vy, vz) = velocity.normalize()
+        val horizontalSpeed = sqrt(vx * vx + vz * vz)
+        yaw = MathHelper.atan2(vx, vz).toFloat()
+        pitch = MathHelper.atan2(horizontalSpeed, vy).toFloat()
     }
 
     private fun splashOnImpact() {
