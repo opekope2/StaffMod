@@ -31,7 +31,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MovementType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.predicate.entity.EntityPredicates
@@ -55,12 +54,20 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
 
     constructor(world: World, position: Vec3d, velocity: Vec3d, thrower: LivingEntity?) :
             this(cakeEntityType.get(), world) {
+        val (x, y, z) = position
+        val (vx, vy, vz) = velocity
+        init(x, y, z, vx, vy, vz, thrower)
+    }
+
+    private fun init(x: Double, y: Double, z: Double, vx: Double, vy: Double, vz: Double, thrower: LivingEntity?) {
         intersectionChecked = true
-        setPosition(position)
-        this.velocity = velocity
-        prevX = position.x
-        prevY = position.y
-        prevZ = position.z
+        setPosition(x, y, z)
+        setVelocity(vx, vy, vz)
+        prevX = x
+        prevY = y
+        prevZ = z
+        setYawAndPitch()
+        setPrevData()
         startPos = blockPos
         this.thrower = thrower
     }
@@ -75,18 +82,14 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     /**
      * The position, where the cake was spawned.
      */
-    var startPos: BlockPos
-        get() = dataTracker[BLOCK_POS]
-        set(pos) {
-            dataTracker[BLOCK_POS] = pos
-        }
+    var startPos: BlockPos = BlockPos.ORIGIN
+        private set
 
     override fun getMoveEffect(): MoveEffect {
         return MoveEffect.NONE
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
-        builder.add(BLOCK_POS, BlockPos.ORIGIN)
     }
 
     override fun onRemoved() {
@@ -210,20 +213,19 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     override fun entityDataRequiresOperator() = true
 
     override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry) =
-        EntitySpawnS2CPacket(this, entityTrackerEntry)
+        EntitySpawnS2CPacket(this, entityTrackerEntry, thrower?.id ?: 0)
 
     override fun onSpawnPacket(packet: EntitySpawnS2CPacket) {
         super.onSpawnPacket(packet)
-        intersectionChecked = true
-        setPosition(packet.x, packet.y, packet.z)
-        startPos = blockPos
+        init(
+            packet.x, packet.y, packet.z,
+            packet.velocityX, packet.velocityY, packet.velocityZ,
+            world.getEntityById(packet.entityData) as? LivingEntity
+        )
     }
 
     companion object {
         private val CAKE_STATE = Blocks.CAKE.defaultState
-        private val BLOCK_POS = DataTracker.registerData(
-            CakeEntity::class.java, TrackedDataHandlerRegistry.BLOCK_POS
-        )
         private val particleManager by lazy { MinecraftClient.getInstance().particleManager }
         private val graphicsModeOption by lazy { MinecraftClient.getInstance().options.graphicsMode }
         private val particlePerSide: Int
