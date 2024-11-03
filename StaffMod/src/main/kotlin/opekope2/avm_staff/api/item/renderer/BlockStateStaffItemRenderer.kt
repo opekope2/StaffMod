@@ -24,7 +24,6 @@ import net.minecraft.block.BlockState
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.BlockModels
 import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import opekope2.avm_staff.util.bakedModelManager
@@ -47,60 +46,16 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : IStaffItemRenderer {
         vertexConsumers: VertexConsumerProvider,
         light: Int,
         overlay: Int
-    ) = renderBlockState(blockStateId, blockItem, matrices, vertexConsumers, light, overlay)
-
-    companion object {
-        /**
-         * Renders a [BlockState].
-         *
-         * @param blockState        The block state to render
-         * @param matrices          The render transformation matrix
-         * @param vertexConsumers   The render output
-         * @param light             Light parameter from the game
-         * @param overlay           Overlay parameter from the game
-         */
-        @JvmStatic
-        fun renderBlockState(
-            blockState: BlockState,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            val blockStateId = BlockModels.getModelId(blockState)
-            val blockStateItem = blockState.block.asItem().defaultStack
-            renderBlockState(blockStateId, blockStateItem, matrices, vertexConsumers, light, overlay)
-        }
-
-        /**
-         * Renders a [BlockState].
-         *
-         * @param blockStateId      The ID of the block state
-         * @param blockStateItem    The item form of the block state
-         * @param matrices          The render transformation matrix
-         * @param vertexConsumers   The render output
-         * @param light             Light parameter from the game
-         * @param overlay           Overlay parameter from the game
-         */
-        @JvmStatic
-        fun renderBlockState(
-            blockStateId: ModelIdentifier,
-            blockStateItem: ItemStack,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            itemRenderer.renderItem(
-                blockStateItem,
-                ModelTransformationMode.NONE,
-                false,
-                matrices,
-                vertexConsumers,
-                light,
-                overlay,
-                bakedModelManager.getModel(blockStateId)
-            )
-        }
+    ) {
+        itemRenderer.renderItem(
+            blockItem,
+            ModelTransformationMode.NONE,
+            false,
+            matrices,
+            vertexConsumers,
+            light,
+            overlay,
+            bakedModelManager.getModel(blockStateId)
+        )
     }
 }
