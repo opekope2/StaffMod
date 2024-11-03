@@ -186,17 +186,16 @@ val impactTntEntityType: RegistrySupplier<EntityType<ImpactTntEntity>> = ENTITY_
 /**
  * Entity registered as `avm_staff:cake`
  */
-val cakeEntityType: RegistrySupplier<EntityType<CakeEntity>> =
-    ENTITY_TYPES.register("cake") {
-        val cakeBox = ICakeBlockAccessor.bitesToShape()[0].boundingBox
-        val cakeSize = max(cakeBox.lengthX, max(cakeBox.lengthY, cakeBox.lengthZ))
+val cakeEntityType: RegistrySupplier<EntityType<CakeEntity>> = ENTITY_TYPES.register("cake") {
+    val cakeBox = ICakeBlockAccessor.bitesToShape()[0].boundingBox
+    val cakeSize = max(cakeBox.lengthX, max(cakeBox.lengthY, cakeBox.lengthZ))
 
-        EntityType.Builder.create(::CakeEntity, SpawnGroup.MISC)
-            .dimensions(cakeSize.toFloat(), cakeSize.toFloat())
-            .maxTrackingRange(EntityType.FALLING_BLOCK.maxTrackDistance)
-            .trackingTickInterval(EntityType.FALLING_BLOCK.trackTickInterval)
-            .build(Identifier.of(MOD_ID, "cake").toString())
-    }
+    EntityType.Builder.create(::CakeEntity, SpawnGroup.MISC)
+        .dimensions(cakeSize.toFloat(), cakeSize.toFloat())
+        .maxTrackingRange(EntityType.FALLING_BLOCK.maxTrackDistance)
+        .trackingTickInterval(EntityType.FALLING_BLOCK.trackTickInterval)
+        .build(Identifier.of(MOD_ID, "cake").toString())
+}
 
 /**
  * Particle registered as `avm_staff:flame`.
