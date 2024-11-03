@@ -29,7 +29,7 @@ import opekope2.avm_staff.util.MOD_ID
 
 // ModelPredicateProviderRegistry.register is private in common project
 @Environment(EnvType.CLIENT)
-fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicateProvider) -> Unit) {
+inline fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicateProvider) -> Unit) {
     register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->
         if (entity != null && entity.isUsingItem && ItemStack.areEqual(entity.activeItem, stack)) 1f
         else 0f
@@ -40,7 +40,7 @@ fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicate
     register(Identifier.of(MOD_ID, "rod_bottom"), matchStaffRendererPart(StaffRendererPartComponent.ROD_BOTTOM))
 }
 
-private fun matchStaffRendererPart(part: StaffRendererPartComponent) = ClampedModelPredicateProvider { stack, _, _, _ ->
+fun matchStaffRendererPart(part: StaffRendererPartComponent) = ClampedModelPredicateProvider { stack, _, _, _ ->
     if (stack[staffRendererPartComponentType.get()] == part) 1f
     else 0f
 }
