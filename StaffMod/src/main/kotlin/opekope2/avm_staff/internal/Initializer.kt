@@ -34,7 +34,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.mob.AbstractPiglinEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.loot.LootPool
@@ -96,13 +95,8 @@ fun subscribeToEvents() {
 private fun stopUsingStaffOnPlayerDeath(entity: LivingEntity, damageSource: DamageSource): EventResult {
     if (entity !is PlayerEntity) return EventResult.pass()
 
-    iterator {
-        yieldAll(0 until PlayerInventory.MAIN_SIZE)
-        yield(PlayerInventory.OFF_HAND_SLOT)
-    }.forEach { slot ->
-        if (entity.inventory.getStack(slot).isStaff) {
-            entity.stopUsingItem()
-        }
+    if (entity.activeItem.isStaff) {
+        entity.stopUsingItem()
     }
 
     return EventResult.pass()
