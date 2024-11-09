@@ -24,10 +24,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.client.option.GraphicsMode
 import net.minecraft.client.particle.BlockDustParticle
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.MovementType
+import net.minecraft.entity.*
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.nbt.NbtCompound
@@ -36,21 +33,27 @@ import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import opekope2.avm_staff.api.*
 import opekope2.avm_staff.util.*
-import kotlin.math.sqrt
 
 /**
  * A flying cake entity, which splashes on collision damaging target(s).
  */
-class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(entityType, world) {
+class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(entityType, world), Ownable {
     private var thrower: LivingEntity? = null
     private var timeFalling = 0
 
+    /**
+     * Creates a new [CakeEntity].
+     *
+     * @param world     The world to create the cake in
+     * @param position  The position of the cake to spawn at
+     * @param velocity  The velocity of the spawned cake
+     * @param thrower   The entity that threw the cake
+     */
     constructor(world: World, position: Vec3d, velocity: Vec3d, thrower: LivingEntity?) :
             this(cakeEntityType.get(), world) {
         val (x, y, z) = position
@@ -65,7 +68,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         prevX = x
         prevY = y
         prevZ = z
-        setYawAndPitch()
+        lookForward()
         setPrevData()
         startPos = blockPos
         this.thrower = thrower
@@ -143,7 +146,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         ++timeFalling
         applyGravity()
         move(MovementType.SELF, velocity)
-        setYawAndPitch()
+        lookForward()
         if (!world.isClient) {
             if (timeFalling > 100 && blockPos.y !in world.topY downTo (world.bottomY + 1) || timeFalling > 600) {
                 discard()
@@ -158,13 +161,6 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         prevYaw = yaw
         prevPitch = pitch
         prevHorizontalSpeed = horizontalSpeed
-    }
-
-    private fun setYawAndPitch() {
-        val (vx, vy, vz) = velocity.normalize()
-        val horizontalSpeed = sqrt(vx * vx + vz * vz)
-        yaw = MathHelper.atan2(vx, vz).toFloat()
-        pitch = MathHelper.atan2(horizontalSpeed, vy).toFloat()
     }
 
     private fun splashOnImpact() {
@@ -222,6 +218,8 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
             world.getEntityById(packet.entityData) as? LivingEntity
         )
     }
+
+    override fun getOwner() = thrower
 
     companion object {
         private val CAKE_STATE = Blocks.CAKE.defaultState
