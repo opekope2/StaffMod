@@ -52,6 +52,7 @@ import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
 import opekope2.avm_staff.api.entity.CakeEntity
+import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
@@ -196,6 +197,20 @@ val cakeEntityType: RegistrySupplier<EntityType<CakeEntity>> = ENTITY_TYPES.regi
         .trackingTickInterval(EntityType.FALLING_BLOCK.trackTickInterval)
         .build(Identifier.of(MOD_ID, "cake").toString())
 }
+
+val campfireFlameEntityType: RegistrySupplier<EntityType<CampfireFlameEntity>> =
+    ENTITY_TYPES.register("campfire_flame") {
+        EntityType.Builder.create(::CampfireFlameEntity, SpawnGroup.MISC)
+            .dimensions(0f, 0f)
+            .maxTrackingRange(EntityType.AREA_EFFECT_CLOUD.maxTrackDistance)
+            // Don't send existing entities (the ones entering tracking distance) to the client
+            // The tracking distance is high enough compared to the max age of the flame
+            .trackingTickInterval(Int.MAX_VALUE)
+            .disableSaving()
+            .disableSummon()
+            .makeFireImmune()
+            .build(Identifier.of(MOD_ID, "campfire_flame").toString())
+    }
 
 /**
  * Particle registered as `avm_staff:flame`.

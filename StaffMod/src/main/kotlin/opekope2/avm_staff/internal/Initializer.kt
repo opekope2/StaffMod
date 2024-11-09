@@ -26,6 +26,7 @@ import dev.architectury.registry.client.level.entity.EntityRendererRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.DispenserBlock
+import net.minecraft.client.render.entity.EmptyEntityRenderer
 import net.minecraft.client.render.entity.TntEntityRenderer
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ItemEntity
@@ -48,15 +49,12 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import opekope2.avm_staff.api.*
 import opekope2.avm_staff.api.block.dispenser.CakeDispenserBehavior
-import opekope2.avm_staff.api.cakeEntityType
-import opekope2.avm_staff.api.crownOfKingOrangeItem
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
-import opekope2.avm_staff.api.impactTntEntityType
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
-import opekope2.avm_staff.api.throwableCakesGameRule
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.event_handler.registerKeyBindings
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
@@ -188,6 +186,7 @@ fun registerClientContent() {
     registerKeyBindings()
     EntityRendererRegistry.register(impactTntEntityType, ::TntEntityRenderer)
     EntityRendererRegistry.register(cakeEntityType, ::CakeEntityRenderer)
+    EntityRendererRegistry.register(campfireFlameEntityType, ::EmptyEntityRenderer)
 }
 
 @Environment(EnvType.CLIENT)
