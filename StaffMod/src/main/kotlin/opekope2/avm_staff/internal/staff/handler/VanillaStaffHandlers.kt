@@ -51,14 +51,12 @@ fun registerVanillaStaffHandlers() {
 
     CAMPFIRE.registerHandler(
         CampfireHandler(
-            flamethrowerParticleType,
-            CampfireHandler.Properties(1 / 20.0, 5 / 20.0, 4f, 1, 0.1)
+            CampfireHandler.Parameters(5 / 20.0, 1 / 20.0, 4f, 1, 0.1, flamethrowerParticleType)
         )
     )
     SOUL_CAMPFIRE.registerHandler(
         CampfireHandler(
-            soulFlamethrowerParticleType,
-            CampfireHandler.Properties(2 / 20.0, 10 / 20.0, 6f, 2, 0.12)
+            CampfireHandler.Parameters(10 / 20.0, 2 / 20.0, 6f, 2, 0.12, soulFlamethrowerParticleType)
         )
     )
 

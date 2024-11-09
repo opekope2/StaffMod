@@ -49,10 +49,7 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.util.*
 
-internal class CampfireHandler(
-    private val particleEffectSupplier: RegistrySupplier<SimpleParticleType>,
-    private val properties: Properties
-) : StaffHandler() {
+internal class CampfireHandler(private val parameters: Parameters) : StaffHandler() {
     override val maxUseTime: Int
         get() = 72000
 
@@ -150,16 +147,17 @@ internal class CampfireHandler(
         target: Entity,
         hand: Hand
     ): EventResult {
-        target.setOnFireFor(properties.attackFireSeconds)
+        target.setOnFireFor(parameters.attackFireSeconds)
         return EventResult.pass()
     }
 
-    data class Properties(
-        val nonFlammableBlockFireChance: Double,
+    data class Parameters(
         val flammableBlockFireChance: Double,
+        val nonFlammableBlockFireChance: Double,
         val attackFireSeconds: Float,
         val flameFireTicks: Int,
-        val rocketThrust: Double
+        val rocketThrust: Double,
+        val particleEffectSupplier: RegistrySupplier<SimpleParticleType>
     )
 
     private inner class FirePellet(
