@@ -4,6 +4,7 @@
   "death.attack.avm_staff.pranked.player": "%s was pranked by %s",
   "death.attack.avm_staff.pranked.player.item": "%s was pranked by %s using %s",
   "entity.avm_staff.cake": "Cake",
+  "entity.avm_staff.campfire_flame": "Campfire flame",
   "entity.avm_staff.impact_tnt": "Impact TNT",
   "gamerule.throwableCakes": "Throwable cakes",
   "gamerule.throwableCakes.description": "Enable throwing cakes by players and dispensers",
