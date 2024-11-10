@@ -47,6 +47,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import net.minecraft.world.GameRules
+import opekope2.avm_staff.api.advancement.criterion.BreakBlockWithStaffCriterion
 import opekope2.avm_staff.api.advancement.criterion.TakeDamageWhileUsingItemCriterion
 import opekope2.avm_staff.api.block.CrownBlock
 import opekope2.avm_staff.api.block.WallCrownBlock
@@ -310,6 +311,14 @@ val throwableCakesGameRule: GameRules.Key<GameRules.BooleanRule> =
 val takeDamageWhileUsingItemCriterion: TakeDamageWhileUsingItemCriterion = Criteria.register(
     Identifier.of(MOD_ID, "get_hurt_while_using_item").toString(),
     TakeDamageWhileUsingItemCriterion()
+)
+
+/**
+ * Criterion registered as `avm_staff:break_block_with_staff`. Triggers before a block is broken by a staff.
+ */
+val breakBlockWithStaffCriterion: BreakBlockWithStaffCriterion = Criteria.register(
+    Identifier.of(MOD_ID, "break_block_with_staff").toString(),
+    BreakBlockWithStaffCriterion()
 )
 
 /**

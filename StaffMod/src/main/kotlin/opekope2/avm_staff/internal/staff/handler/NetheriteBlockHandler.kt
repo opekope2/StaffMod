@@ -26,6 +26,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -34,6 +35,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec2f
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
+import opekope2.avm_staff.api.breakBlockWithStaffCriterion
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
@@ -120,6 +122,8 @@ class NetheriteBlockHandler : StaffHandler() {
         val dropCollector =
             if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
             else ChunkedBlockDropCollector(shapePredicate.volume, MAX_CHUNK_SIZE)
+
+        if (attacker is ServerPlayerEntity) breakBlockWithStaffCriterion.trigger(attacker, world, target)
 
         destroyBox(
             world,
