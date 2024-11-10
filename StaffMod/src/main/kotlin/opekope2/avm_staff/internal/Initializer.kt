@@ -41,6 +41,7 @@ import net.minecraft.loot.LootTable
 import net.minecraft.loot.entry.LootTableEntry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.EntityHitResult
@@ -89,6 +90,7 @@ fun subscribeToEvents() {
     LootEvent.MODIFY_LOOT_TABLE.register(::modifyLootTables)
     PlayerEvent.ATTACK_ENTITY.register(::tryAngerPiglins)
     PlayerEvent.DROP_ITEM.register(::stopUsingStaffWhenDropped)
+    EntityEvent.LIVING_HURT.register(::triggerDamageWhileUsingItemCriterion)
 }
 
 @Suppress("UNUSED_PARAMETER")
@@ -172,6 +174,14 @@ private fun tryAngerPiglins(
 fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity): EventResult {
     val staffItem = item.stack.item as? StaffItem ?: return EventResult.pass()
     staffItem.onStoppedUsing(item.stack, entity.entityWorld, entity, entity.itemUseTimeLeft)
+    return EventResult.pass()
+}
+
+@Suppress("UNUSED_PARAMETER")
+fun triggerDamageWhileUsingItemCriterion(entity: LivingEntity, damage: DamageSource, amount: Float): EventResult {
+    if (entity is ServerPlayerEntity && entity.isUsingItem) {
+        takeDamageWhileUsingItemCriterion.trigger(entity, entity.activeItem, damage)
+    }
     return EventResult.pass()
 }
 

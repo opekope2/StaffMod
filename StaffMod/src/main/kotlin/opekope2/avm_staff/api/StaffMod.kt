@@ -24,6 +24,7 @@ package opekope2.avm_staff.api
 import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.enums.NoteBlockInstrument
 import net.minecraft.block.piston.PistonBehavior
@@ -46,6 +47,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import net.minecraft.world.GameRules
+import opekope2.avm_staff.api.advancement.criterion.TakeDamageWhileUsingItemCriterion
 import opekope2.avm_staff.api.block.CrownBlock
 import opekope2.avm_staff.api.block.WallCrownBlock
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
@@ -301,6 +303,14 @@ val playerCakeDamageType: RegistryKey<DamageType> =
  */
 val throwableCakesGameRule: GameRules.Key<GameRules.BooleanRule> =
     GameRules.register("throwableCakes", GameRules.Category.MISC, GameRules.BooleanRule.create(false))
+
+/**
+ * Criterion registered as `avm_staff:get_hurt_while_using_item`.
+ */
+val takeDamageWhileUsingItemCriterion: TakeDamageWhileUsingItemCriterion = Criteria.register(
+    Identifier.of(MOD_ID, "get_hurt_while_using_item").toString(),
+    TakeDamageWhileUsingItemCriterion()
+)
 
 /**
  * @suppress
