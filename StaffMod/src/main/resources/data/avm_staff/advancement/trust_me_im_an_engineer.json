@@ -1,0 +1,51 @@
+{
+  "parent": "avm_staff:prankster",
+  "display": {
+    "icon": {
+      "id": "minecraft:cake"
+    },
+    "title": {
+      "translate": "advancements.avm_staff.engineered_attack.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.engineered_attack.description",
+      "with": [
+        {
+          "translate": "entity.avm_staff.impact_tnt"
+        },
+        {
+          "translate": "block.minecraft.cake"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "hidden": true
+  },
+  "criteria": {
+    "engineered_attack": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "player"
+        },
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "avm_staff:is_prank",
+                "expected": true
+              }
+            ],
+            "direct_entity": {
+              "type": "avm_staff:cake",
+              "nbt": "{EngineeredAttack:1b}"
+            }
+          }
+        }
+      }
+    }
+  },
+  "rewards": {
+    "experience": 50
+  }
+}

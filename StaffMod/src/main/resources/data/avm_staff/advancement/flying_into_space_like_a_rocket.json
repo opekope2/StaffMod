@@ -1,0 +1,89 @@
+{
+  "parent": "avm_staff:learning_to_fly",
+  "display": {
+    "icon": {
+      "id": "avm_staff:royal_staff",
+      "components": {
+        "avm_staff:staff_item": {
+          "item": {
+            "id": "minecraft:soul_campfire"
+          }
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.avm_staff.flying_into_space_like_a_rocket.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.flying_into_space_like_a_rocket.description",
+      "with": [
+        {
+          "translate": "item.avm_staff.staff_template.with_item",
+          "with": [
+            {
+              "translate": "block.minecraft.campfire"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "flying_above_build_limit_using_campfire_staff": {
+      "trigger": "minecraft:using_item",
+      "conditions": {
+        "player": {
+          "location": {
+            "position": {
+              "y": {
+                "min": 320
+              }
+            }
+          }
+        },
+        "item": {
+          "items": "#avm_staff:staffs",
+          "components": {
+            "avm_staff:rocket_mode": {},
+            "avm_staff:staff_item": {
+              "item": {
+                "id": "minecraft:campfire"
+              }
+            }
+          }
+        }
+      }
+    },
+    "flying_above_build_limit_using_soul_campfire_staff": {
+      "trigger": "minecraft:using_item",
+      "conditions": {
+        "player": {
+          "location": {
+            "position": {
+              "y": {
+                "min": 320
+              }
+            }
+          }
+        },
+        "item": {
+          "items": "#avm_staff:staffs",
+          "components": {
+            "avm_staff:rocket_mode": {},
+            "avm_staff:staff_item": {
+              "item": {
+                "id": "minecraft:soul_campfire"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "flying_above_build_limit_using_campfire_staff",
+      "flying_above_build_limit_using_soul_campfire_staff"
+    ]
+  ]
+}

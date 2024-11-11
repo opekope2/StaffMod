@@ -254,6 +254,7 @@ val staffItemComponentType: RegistrySupplier<ComponentType<StaffItemComponent>> 
 val rocketModeComponentType: RegistrySupplier<ComponentType<MinecraftUnit>> =
     DATA_COMPONENT_TYPES.register("rocket_mode") {
         ComponentType.builder<MinecraftUnit>()
+            .codec(MinecraftUnit.CODEC)
             .packetCodec(PacketCodec.unit(MinecraftUnit.INSTANCE))
             .build()
     }

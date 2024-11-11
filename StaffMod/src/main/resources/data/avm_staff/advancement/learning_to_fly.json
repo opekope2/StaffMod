@@ -1,0 +1,85 @@
+{
+  "parent": "avm_staff:infinite_power",
+  "display": {
+    "icon": {
+      "id": "avm_staff:royal_staff",
+      "components": {
+        "avm_staff:staff_item": {
+          "item": {
+            "id": "minecraft:campfire"
+          }
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.avm_staff.learning_to_fly.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.learning_to_fly.description",
+      "with": [
+        {
+          "translate": "item.avm_staff.staff_template.with_item",
+          "with": [
+            {
+              "translate": "block.minecraft.campfire"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "flying_using_campfire_staff": {
+      "trigger": "minecraft:using_item",
+      "conditions": {
+        "player": {
+          "movement": {
+            "y": {
+              "min": 5
+            }
+          }
+        },
+        "item": {
+          "items": "#avm_staff:staffs",
+          "components": {
+            "avm_staff:rocket_mode": {},
+            "avm_staff:staff_item": {
+              "item": {
+                "id": "minecraft:campfire"
+              }
+            }
+          }
+        }
+      }
+    },
+    "flying_using_soul_campfire_staff": {
+      "trigger": "minecraft:using_item",
+      "conditions": {
+        "player": {
+          "movement": {
+            "y": {
+              "min": 5
+            }
+          }
+        },
+        "item": {
+          "items": "#avm_staff:staffs",
+          "components": {
+            "avm_staff:rocket_mode": {},
+            "avm_staff:staff_item": {
+              "item": {
+                "id": "minecraft:soul_campfire"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "flying_using_campfire_staff",
+      "flying_using_soul_campfire_staff"
+    ]
+  ]
+}

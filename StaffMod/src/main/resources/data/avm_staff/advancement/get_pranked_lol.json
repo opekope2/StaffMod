@@ -1,0 +1,39 @@
+{
+  "parent": "avm_staff:infinite_power",
+  "display": {
+    "icon": {
+      "id": "minecraft:cake"
+    },
+    "title": {
+      "translate": "advancements.avm_staff.get_pranked_lol.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.get_pranked_lol.description",
+      "with": [
+        {
+          "translate": "block.minecraft.cake"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "get_pranked": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "avm_staff:is_prank",
+                "expected": true
+              }
+            ],
+            "direct_entity": {
+              "type": "avm_staff:cake"
+            }
+          }
+        }
+      }
+    }
+  }
+}

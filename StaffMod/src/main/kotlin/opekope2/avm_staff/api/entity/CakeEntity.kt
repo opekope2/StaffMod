@@ -45,6 +45,7 @@ import opekope2.avm_staff.util.*
 class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(entityType, world), Ownable {
     private var thrower: LivingEntity? = null
     private var timeFalling = 0
+    private var redirectedByImpactTnt = false
 
     /**
      * Creates a new [CakeEntity].
@@ -195,12 +196,23 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
 
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
 
+    override fun damage(source: DamageSource, amount: Float): Boolean {
+        val causer = source.source
+        if (causer is ImpactTntEntity && causer.owner != null) {
+            thrower = causer.owner
+            redirectedByImpactTnt = true
+        }
+        return super.damage(source, amount)
+    }
+
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
-        nbt.putInt("Time", timeFalling)
+        nbt.putInt(TIME_KEY, timeFalling)
+        nbt.putBoolean(REDIRECTED_BY_IMPACT_TNT_KEY, redirectedByImpactTnt)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
-        timeFalling = nbt.getInt("Time")
+        timeFalling = nbt.getInt(TIME_KEY)
+        redirectedByImpactTnt = nbt.getBoolean(REDIRECTED_BY_IMPACT_TNT_KEY)
     }
 
     override fun doesRenderOnFire() = false
@@ -222,6 +234,8 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     override fun getOwner() = thrower
 
     companion object {
+        private const val TIME_KEY = "Time"
+        private const val REDIRECTED_BY_IMPACT_TNT_KEY = "EngineeredAttack"
         private val CAKE_STATE = Blocks.CAKE.defaultState
         private val particlePerSide: Int
             @Environment(EnvType.CLIENT)
