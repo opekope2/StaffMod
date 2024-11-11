@@ -41,6 +41,7 @@ import net.minecraft.network.codec.PacketCodec
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
@@ -162,6 +163,11 @@ val staffInfusionSmithingTemplateItem: RegistrySupplier<Item> = ITEMS.register("
         StaffInfusionSmithingRecipeTextures.additionsSlotTextures
     )
 }
+
+/**
+ * Tag registered as `avm_staff:staffs`.
+ */
+val staffsTag: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "staffs"))
 
 /**
  * Item group containing items added by Staff Mod.
