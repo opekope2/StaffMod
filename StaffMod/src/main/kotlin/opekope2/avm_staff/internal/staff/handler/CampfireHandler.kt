@@ -38,8 +38,7 @@ import opekope2.avm_staff.util.canUseStaff
 import opekope2.avm_staff.util.times
 
 internal class CampfireHandler(private val parameters: Parameters) : StaffHandler() {
-    override val maxUseTime: Int
-        get() = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
 
     override fun use(
         staffStack: ItemStack,

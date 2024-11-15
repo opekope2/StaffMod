@@ -46,7 +46,7 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
 internal class WitherSkeletonSkullHandler : StaffHandler() {
-    override val maxUseTime = 20
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 20
 
     override fun use(
         staffStack: ItemStack,
@@ -102,7 +102,10 @@ internal class WitherSkeletonSkullHandler : StaffHandler() {
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        (user as? PlayerEntity)?.itemCooldownManager?.set(staffStack.item, 4 * (maxUseTime - remainingUseTicks))
+        (user as? PlayerEntity)?.itemCooldownManager?.set(
+            staffStack.item,
+            4 * (getMaxUseTime(staffStack, world, user) - remainingUseTicks)
+        )
     }
 
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {

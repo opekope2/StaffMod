@@ -30,8 +30,7 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
 internal class CakeHandler : StaffHandler() {
-    override val maxUseTime: Int
-        get() = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
 
     override fun use(
         staffStack: ItemStack,

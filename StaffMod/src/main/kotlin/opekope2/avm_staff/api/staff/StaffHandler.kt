@@ -42,21 +42,25 @@ import opekope2.avm_staff.api.breakBlockWithStaffCriterion
  */
 abstract class StaffHandler {
     /**
-     * The number of ticks the staff can be used for using the current item.
-     */
-    open val maxUseTime: Int
-        get() = 0
-
-    /**
      * Gets the attribute modifiers (damage, attack speed, etc.) of the staff when held.
      */
     open val attributeModifiers: AttributeModifiersComponent
         get() = Default.ATTRIBUTE_MODIFIERS
 
     /**
+     * Called on both the client and the server my Minecraft to get the number of ticks the staff can be used for using
+     * the current item.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [user] is in
+     * @param user          The player, which uses the staff
+     */
+    open fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity): Int = 0
+
+    /**
      * Called on both the client and the server by Minecraft when the player uses the staff.
      *
-     * If the staff can be used for multiple ticks, override [maxUseTime] to return a positive number, and call
+     * If the staff can be used for multiple ticks, override [getMaxUseTime] to return a positive number, and call
      * [PlayerEntity.setCurrentHand] on [user] with [hand] as the argument.
      *
      * @return
@@ -92,7 +96,7 @@ abstract class StaffHandler {
      * @param world             The world [user] is in
      * @param user              The entity, which uses the staff
      * @param remainingUseTicks The number of ticks remaining before an entity finishes using the staff counting down
-     *   from [maxUseTime] to 0
+     *   from [getMaxUseTime] to 0
      * @see Item.usageTick
      */
     open fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
@@ -100,12 +104,12 @@ abstract class StaffHandler {
 
     /**
      * Called on both the client and the server by Minecraft, when an entity stops using the staff before being used for
-     * [maxUseTime]. If that time is reached, [finishUsing] will be called.
+     * [getMaxUseTime]. If that time is reached, [finishUsing] will be called.
      *
      * @param staffStack        The item stack used to perform the action
      * @param world             The world the [user] is in
      * @param user              The entity, which used the staff
-     * @param remainingUseTicks The number of ticks left until reaching [maxUseTime]
+     * @param remainingUseTicks The number of ticks left until reaching [getMaxUseTime]
      * @see Item.onStoppedUsing
      */
     open fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
@@ -113,7 +117,7 @@ abstract class StaffHandler {
 
     /**
      * Called on both the client and the server by Minecraft, when an entity finishes using the staff
-     * (usage ticks reach [maxUseTime]).
+     * (usage ticks reach [getMaxUseTime]).
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [user] is in

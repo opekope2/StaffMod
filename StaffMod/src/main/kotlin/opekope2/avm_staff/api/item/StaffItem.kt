@@ -54,7 +54,7 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
     }
 
     override fun getMaxUseTime(stack: ItemStack, user: LivingEntity): Int {
-        return stack.itemInStaff.staffHandlerOrDefault.maxUseTime // TODO extend API
+        return stack.itemInStaff.staffHandlerOrDefault.getMaxUseTime(stack, user.entityWorld, user)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
