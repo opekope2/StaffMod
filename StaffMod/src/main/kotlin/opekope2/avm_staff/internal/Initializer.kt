@@ -180,7 +180,7 @@ fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity): EventResu
 @Suppress("UNUSED_PARAMETER")
 fun triggerDamageWhileUsingItemCriterion(entity: LivingEntity, damage: DamageSource, amount: Float): EventResult {
     if (entity is ServerPlayerEntity && entity.isUsingItem) {
-        takeDamageWhileUsingItemCriterion.trigger(entity, entity.activeItem, damage)
+        takeDamageWhileUsingItemCriterion.get().trigger(entity, entity.activeItem, damage)
     }
     return EventResult.pass()
 }

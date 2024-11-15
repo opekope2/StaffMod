@@ -123,7 +123,7 @@ class NetheriteBlockHandler : StaffHandler() {
             if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
             else ChunkedBlockDropCollector(shapePredicate.volume, MAX_CHUNK_SIZE)
 
-        if (attacker is ServerPlayerEntity) breakBlockWithStaffCriterion.trigger(attacker, world, target)
+        if (attacker is ServerPlayerEntity) breakBlockWithStaffCriterion.get().trigger(attacker, world, target)
 
         destroyBox(
             world,

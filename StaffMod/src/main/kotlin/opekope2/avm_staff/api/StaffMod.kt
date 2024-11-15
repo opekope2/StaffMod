@@ -24,7 +24,6 @@ package opekope2.avm_staff.api
 import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
-import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.enums.NoteBlockInstrument
 import net.minecraft.block.piston.PistonBehavior
@@ -76,6 +75,7 @@ private val ENTITY_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.ENTITY_T
 private val PARTICLE_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.PARTICLE_TYPE)
 private val DATA_COMPONENT_TYPES = DeferredRegister.create(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE)
 private val SOUND_EVENTS = DeferredRegister.create(MOD_ID, RegistryKeys.SOUND_EVENT)
+private val CRITERIA = DeferredRegister.create(MOD_ID, RegistryKeys.CRITERION)
 
 /**
  * Block registered as `avm_staff:crown_of_king_orange`.
@@ -315,18 +315,18 @@ val throwableCakesGameRule: GameRules.Key<GameRules.BooleanRule> =
 /**
  * Criterion registered as `avm_staff:get_hurt_while_using_item`.
  */
-val takeDamageWhileUsingItemCriterion: TakeDamageWhileUsingItemCriterion = Criteria.register(
-    Identifier.of(MOD_ID, "get_hurt_while_using_item").toString(),
-    TakeDamageWhileUsingItemCriterion()
-)
+val takeDamageWhileUsingItemCriterion: RegistrySupplier<TakeDamageWhileUsingItemCriterion> =
+    CRITERIA.register(Identifier.of(MOD_ID, "get_hurt_while_using_item")) {
+        TakeDamageWhileUsingItemCriterion()
+    }
 
 /**
  * Criterion registered as `avm_staff:break_block_with_staff`. Triggers before a block is broken by a staff.
  */
-val breakBlockWithStaffCriterion: BreakBlockWithStaffCriterion = Criteria.register(
-    Identifier.of(MOD_ID, "break_block_with_staff").toString(),
-    BreakBlockWithStaffCriterion()
-)
+val breakBlockWithStaffCriterion: RegistrySupplier<BreakBlockWithStaffCriterion> =
+    CRITERIA.register(Identifier.of(MOD_ID, "break_block_with_staff")) {
+        BreakBlockWithStaffCriterion()
+    }
 
 /**
  * @suppress
@@ -340,6 +340,7 @@ internal fun registerContent() {
     PARTICLE_TYPES.register()
     DATA_COMPONENT_TYPES.register()
     SOUND_EVENTS.register()
+    CRITERIA.register()
 
     // Because SmithingTemplateItem doesn't take Item.Settings in its constructor
     CreativeTabRegistry.append(staffModItemGroup, staffInfusionSmithingTemplateItem)
