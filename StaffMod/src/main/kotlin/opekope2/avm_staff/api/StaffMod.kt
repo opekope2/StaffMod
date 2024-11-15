@@ -125,7 +125,8 @@ val faintRoyalStaffItem: RegistrySupplier<Item> = ITEMS.register("faint_royal_st
 val royalStaffItem: RegistrySupplier<StaffItem> = ITEMS.register("royal_staff") {
     IStaffModPlatform.staffItem(
         Item.Settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Default.ATTRIBUTE_MODIFIERS)
-            .`arch$tab`(staffModItemGroup)
+            .maxDamage(5179).`arch$tab`(staffModItemGroup),
+        royalStaffIngredientItem
     )
 }
 

@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.fabric
 
+import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
@@ -63,7 +64,8 @@ object StaffMod : ModInitializer, IStaffModPlatform {
         else ActionResult.PASS
     }
 
-    override fun staffItem(settings: Item.Settings) = FabricStaffItem(settings)
+    override fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) =
+        FabricStaffItem(settings, repairIngredient)
 
     override fun itemWithStaffRenderer(settings: Item.Settings) = Item(settings).also { item ->
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {

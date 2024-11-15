@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.fabric.item
 
+import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.item.v1.FabricItem
@@ -31,7 +32,8 @@ import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandlerOrDefault
 
-class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem {
+class FabricStaffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) :
+    StaffItem(settings, repairIngredient), FabricItem {
     init {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
             BuiltinItemRendererRegistry.INSTANCE.register(this, StaffRenderer::renderStaff)

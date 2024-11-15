@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.neoforge
 
+import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
@@ -58,7 +59,8 @@ object StaffMod : IStaffModPlatform {
         }
     }
 
-    override fun staffItem(settings: Item.Settings) = NeoForgeStaffItem(settings)
+    override fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) =
+        NeoForgeStaffItem(settings, repairIngredient)
 
     override fun itemWithStaffRenderer(settings: Item.Settings) = NeoForgeStaffRendererItem(settings)
 
