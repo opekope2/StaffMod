@@ -46,6 +46,12 @@ internal class TntHandler : StaffHandler() {
         val (x, y, z) = spawnPos
 
         world.spawnEntity(ImpactTntEntity(world, x, y, z, shooter.rotationVector + shooter.velocity, shooter))
+        world.playSound(
+            null,
+            x, y, z,
+            SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS,
+            1f, world.random.nextFloat() * 0.4f + 0.8f
+        )
         world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1f, 1f)
         world.emitGameEvent(shooter, GameEvent.PRIME_FUSE, spawnPos)
     }
