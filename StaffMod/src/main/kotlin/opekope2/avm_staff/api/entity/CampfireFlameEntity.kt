@@ -49,8 +49,8 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.campfireFlameEntityType
-import opekope2.avm_staff.api.flamethrowerParticleType
+import opekope2.avm_staff.content.EntityTypes
+import opekope2.avm_staff.content.ParticleTypes
 import opekope2.avm_staff.util.*
 import java.util.*
 
@@ -90,7 +90,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
      * @param shooter       The entity shooting the flame
      */
     constructor(world: World, parameters: ServerParameters, shooter: LivingEntity) :
-            super(campfireFlameEntityType.get(), world) {
+            super(EntityTypes.campfireFlame, world) {
         this.setPosition(parameters.origin)
         this.velocity = shooter.velocity + parameters.relativeTarget * (1.0 / parameters.stepResolution)
 
@@ -121,7 +121,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         if (world.isClient) {
             @Suppress("UNCHECKED_CAST")
             val particleType = Registries.PARTICLE_TYPE[parameters.particleType as RegistryKey<ParticleType<*>>]
-            val particleEffect = particleType as? ParticleEffect ?: flamethrowerParticleType.get()
+            val particleEffect = particleType as? ParticleEffect ?: ParticleTypes.flame
 
             tickRays(nextPos, nextRelativeRight, nextRelativeUp) { start, end ->
                 val result = tickRayClient(start, end)

@@ -35,9 +35,9 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec2f
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.breakBlockWithStaffCriterion
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.Criteria
 import opekope2.avm_staff.util.*
 import opekope2.avm_staff.util.destruction.InTruncatedPyramidPredicate
 import opekope2.avm_staff.util.destruction.MaxHardnessPredicate
@@ -123,7 +123,7 @@ class NetheriteBlockHandler : StaffHandler() {
             if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
             else ChunkedBlockDropCollector(shapePredicate.volume, MAX_CHUNK_SIZE)
 
-        if (attacker is ServerPlayerEntity) breakBlockWithStaffCriterion.get().trigger(attacker, world, target)
+        if (attacker is ServerPlayerEntity) Criteria.breakBlockWithStaff.trigger(attacker, world, target)
 
         destroyBox(
             world,

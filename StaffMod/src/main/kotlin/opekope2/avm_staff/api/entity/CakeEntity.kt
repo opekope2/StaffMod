@@ -36,7 +36,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
-import opekope2.avm_staff.api.*
+import opekope2.avm_staff.content.DamageTypes
+import opekope2.avm_staff.content.EntityTypes
+import opekope2.avm_staff.content.SoundEvents
 import opekope2.avm_staff.util.*
 
 /**
@@ -56,7 +58,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
      * @param thrower   The entity that threw the cake
      */
     constructor(world: World, position: Vec3d, velocity: Vec3d, thrower: LivingEntity?) :
-            this(cakeEntityType.get(), world) {
+            this(EntityTypes.cake, world) {
         val (x, y, z) = position
         val (vx, vy, vz) = velocity
         init(x, y, z, vx, vy, vz, thrower)
@@ -98,7 +100,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     override fun onRemoved() {
         world.playSound(
             x, y, z,
-            cakeSplashSoundEvent.get(), SoundCategory.BLOCKS,
+            SoundEvents.cakeSplash, SoundCategory.BLOCKS,
             (CAKE_STATE.soundGroup.volume + 1f) / 2f, CAKE_STATE.soundGroup.pitch * .8f,
             false
         )
@@ -186,8 +188,8 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         val damageables = EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.and(EntityPredicates.VALID_LIVING_ENTITY)
         val thrower = thrower
         val damageSource =
-            if (thrower == null) world.damageSource(cakeDamageType)
-            else world.damageSource(playerCakeDamageType, this, thrower)
+            if (thrower == null) world.damageSource(DamageTypes.PRANKED)
+            else world.damageSource(DamageTypes.PRANKED_BY_PLAYER, this, thrower)
 
         world.getOtherEntities(this, boundingBox, damageables).forEach {
             it.damage(damageSource, 1f)
@@ -259,7 +261,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
             world.playSound(
                 null,
                 position.x, position.y, position.z,
-                cakeThrowSoundEvent.get(), thrower?.soundCategory ?: return,
+                SoundEvents.cakeThrow, thrower?.soundCategory ?: return,
                 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
             )
         }

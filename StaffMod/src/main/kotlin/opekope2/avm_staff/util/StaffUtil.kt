@@ -29,20 +29,20 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.api.staffItemComponentType
+import opekope2.avm_staff.content.ComponentTypes
 
 /**
  * Checks if an item is added the given staff item stack.
  */
 val ItemStack.isItemInStaff: Boolean
     @JvmName("isItemInStaff")
-    get() = staffItemComponentType.get() in this
+    get() = ComponentTypes.staffItem in this
 
 /**
  * Gets the item inserted into the given staff item stack.
  */
 val ItemStack.itemInStaff: Item?
-    get() = getOrDefault(staffItemComponentType.get(), null)?.item?.item
+    get() = getOrDefault(ComponentTypes.staffItem, null)?.item?.item
 
 /**
  * Gets the item stack inserted into the given staff item stack.
@@ -51,7 +51,7 @@ val ItemStack.itemInStaff: Item?
  * @see mutableItemStackInStaff
  */
 val ItemStack.itemStackInStaff: ItemStack?
-    get() = getOrDefault(staffItemComponentType.get(), null)?.item
+    get() = getOrDefault(ComponentTypes.staffItem, null)?.item
 
 /**
  * Gets or sets a copy of the item stack inserted into the given staff item stack. The value returned or passed in can
@@ -65,9 +65,9 @@ var ItemStack.mutableItemStackInStaff: ItemStack?
         val changes = ComponentChanges.builder()
 
         if (value == null || value.isEmpty) {
-            changes.remove(staffItemComponentType.get())
+            changes.remove(ComponentTypes.staffItem)
         } else {
-            changes.add(staffItemComponentType.get(), StaffItemComponent(value.copy()))
+            changes.add(ComponentTypes.staffItem, StaffItemComponent(value.copy()))
         }
 
         applyChanges(changes.build())

@@ -29,7 +29,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
-import opekope2.avm_staff.api.staffFurnaceDataComponentType
+import opekope2.avm_staff.content.ComponentTypes
 
 @Environment(EnvType.CLIENT)
 class FurnaceStaffItemRenderer(unlitState: BlockState, litState: BlockState) : StaffItemRenderer() {
@@ -50,7 +50,7 @@ class FurnaceStaffItemRenderer(unlitState: BlockState, litState: BlockState) : S
         overlay: Int
     ) {
         val renderer =
-            if (staffFurnaceDataComponentType.get() in staffStack) litRenderer
+            if (ComponentTypes.furnaceData in staffStack) litRenderer
             else unlitRenderer
 
         renderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)

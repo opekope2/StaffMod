@@ -24,7 +24,7 @@ import net.minecraft.client.item.ClampedModelPredicateProvider
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
-import opekope2.avm_staff.api.staffRendererPartComponentType
+import opekope2.avm_staff.content.ComponentTypes
 import opekope2.avm_staff.util.MOD_ID
 
 // ModelPredicateProviderRegistry.register is private in common project
@@ -41,6 +41,6 @@ inline fun registerModelPredicateProviders(register: (Identifier, ClampedModelPr
 }
 
 fun matchStaffRendererPart(part: StaffRendererPartComponent) = ClampedModelPredicateProvider { stack, _, _, _ ->
-    if (stack[staffRendererPartComponentType.get()] == part) 1f
+    if (stack[ComponentTypes.staffRendererPart] == part) 1f
     else 0f
 }

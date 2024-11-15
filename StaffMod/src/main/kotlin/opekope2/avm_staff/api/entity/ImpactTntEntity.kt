@@ -22,7 +22,7 @@ import net.minecraft.entity.*
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import opekope2.avm_staff.api.impactTntEntityType
+import opekope2.avm_staff.content.EntityTypes
 
 /**
  * A TNT entity, which explodes on collision.
@@ -42,7 +42,7 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
      *
      */
     constructor(world: World, x: Double, y: Double, z: Double, velocity: Vec3d, owner: LivingEntity?) :
-            this(impactTntEntityType.get(), world) {
+            this(EntityTypes.impactTnt, world) {
         setPosition(x, y, z)
         this.velocity = velocity
         fuse = 80

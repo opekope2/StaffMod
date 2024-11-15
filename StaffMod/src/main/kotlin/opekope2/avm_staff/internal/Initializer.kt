@@ -35,7 +35,6 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.mob.AbstractPiglinEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.entry.LootTableEntry
@@ -49,12 +48,12 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
-import opekope2.avm_staff.api.*
 import opekope2.avm_staff.api.block.dispenser.CakeDispenserBehavior
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
+import opekope2.avm_staff.content.*
 import opekope2.avm_staff.internal.event_handler.handleKeyBindings
 import opekope2.avm_staff.internal.event_handler.registerKeyBindings
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
@@ -64,9 +63,17 @@ import opekope2.avm_staff.internal.networking.s2c.play.MassDestructionS2CPacket
 import opekope2.avm_staff.mixin.IPiglinBrainAccessor
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.*
+import net.minecraft.item.Items as MinecraftItems
 
 fun registerContent() {
-    opekope2.avm_staff.api.registerContent()
+    Blocks.register()
+    ComponentTypes.register()
+    Criteria.register()
+    EntityTypes.register()
+    ItemGroups.register()
+    Items.register()
+    ParticleTypes.register()
+    SoundEvents.register()
 }
 
 fun initializeNetworking() {
@@ -76,11 +83,6 @@ fun initializeNetworking() {
 
     MassDestructionS2CPacket.registerReceiver()
 }
-
-private val MODIFIABLE_LOOT_TABLES = setOf(
-    Identifier.ofVanilla("chests/bastion_treasure"),
-    Identifier.ofVanilla("chests/trial_chambers/reward_unique")
-)
 
 fun subscribeToEvents() {
     EntityEvent.LIVING_DEATH.register(::stopUsingStaffOnPlayerDeath)
@@ -116,12 +118,12 @@ private fun dispatchStaffBlockAttack(
 private fun tryThrowCake(player: PlayerEntity, hand: Hand): CompoundEventResult<ItemStack> {
     val world = player.entityWorld
     val cake = player.getStackInHand(hand)
-    val spawnPos = cakeEntityType.get().getSpawnPosition(world, player.approximateStaffTipPosition)
+    val spawnPos = EntityTypes.cake.getSpawnPosition(world, player.approximateStaffTipPosition)
 
-    if (!cake.isOf(Items.CAKE)) return CompoundEventResult.pass()
+    if (!cake.isOf(MinecraftItems.CAKE)) return CompoundEventResult.pass()
     if (spawnPos == null) return CompoundEventResult.pass()
     if (world.isClient) return CompoundEventResult.interruptTrue(cake)
-    if (!world.gameRules.getBoolean(throwableCakesGameRule)) return CompoundEventResult.pass()
+    if (!world.gameRules.getBoolean(GameRules.THROWABLE_CAKES)) return CompoundEventResult.pass()
 
     CakeEntity.throwCake(world, spawnPos, player.rotationVector * .5 + player.velocity, player)
     cake.decrementUnlessCreative(1, player)
@@ -130,8 +132,13 @@ private fun tryThrowCake(player: PlayerEntity, hand: Hand): CompoundEventResult<
 }
 
 private fun setup() {
-    DispenserBlock.registerBehavior(Items.CAKE, CakeDispenserBehavior())
+    DispenserBlock.registerBehavior(MinecraftItems.CAKE, CakeDispenserBehavior())
 }
+
+private val MODIFIABLE_LOOT_TABLES = setOf(
+    Identifier.ofVanilla("chests/bastion_treasure"),
+    Identifier.ofVanilla("chests/trial_chambers/reward_unique")
+)
 
 private fun modifyLootTables(
     lootTable: RegistryKey<LootTable>,
@@ -150,7 +157,7 @@ private fun modifyLootTables(
     )
 }
 
-private const val maxAngerDistance = 16.0
+private const val MAX_ANGER_DISTANCE = 16.0
 
 @Suppress("UNUSED_PARAMETER")
 private fun tryAngerPiglins(
@@ -159,11 +166,11 @@ private fun tryAngerPiglins(
     if (world.isClient) return EventResult.pass()
     if (target !is LivingEntity) return EventResult.pass()
     if (!player.getStackInHand(hand).isStaff) return EventResult.pass()
-    if (!player.armorItems.any { it.isOf(crownOfKingOrangeItem.get()) }) return EventResult.pass()
+    if (!player.armorItems.any { it.isOf(Items.crownOfKingOrange) }) return EventResult.pass()
 
-    val box = Box.of(player.pos, 2 * maxAngerDistance, 2 * maxAngerDistance, 2 * maxAngerDistance)
+    val box = Box.of(player.pos, 2 * MAX_ANGER_DISTANCE, 2 * MAX_ANGER_DISTANCE, 2 * MAX_ANGER_DISTANCE)
     world.getEntitiesByClass(AbstractPiglinEntity::class.java, box) {
-        it !== target && it.squaredDistanceTo(player) <= maxAngerDistance * maxAngerDistance
+        it !== target && it.squaredDistanceTo(player) <= MAX_ANGER_DISTANCE * MAX_ANGER_DISTANCE
     }.forEach {
         IPiglinBrainAccessor.callBecomeAngryWith(it, target)
     }
@@ -180,7 +187,7 @@ fun stopUsingStaffWhenDropped(entity: LivingEntity, item: ItemEntity): EventResu
 @Suppress("UNUSED_PARAMETER")
 fun triggerDamageWhileUsingItemCriterion(entity: LivingEntity, damage: DamageSource, amount: Float): EventResult {
     if (entity is ServerPlayerEntity && entity.isUsingItem) {
-        takeDamageWhileUsingItemCriterion.get().trigger(entity, entity.activeItem, damage)
+        Criteria.takeDamageWhileUsingItem.trigger(entity, entity.activeItem, damage)
     }
     return EventResult.pass()
 }
@@ -188,9 +195,9 @@ fun triggerDamageWhileUsingItemCriterion(entity: LivingEntity, damage: DamageSou
 @Environment(EnvType.CLIENT)
 fun registerClientContent() {
     registerKeyBindings()
-    EntityRendererRegistry.register(impactTntEntityType, ::TntEntityRenderer)
-    EntityRendererRegistry.register(cakeEntityType, ::CakeEntityRenderer)
-    EntityRendererRegistry.register(campfireFlameEntityType, ::EmptyEntityRenderer)
+    EntityRendererRegistry.register(EntityTypes.IMPACT_TNT, ::TntEntityRenderer)
+    EntityRendererRegistry.register(EntityTypes.CAKE, ::CakeEntityRenderer)
+    EntityRendererRegistry.register(EntityTypes.CAMPFIRE_FLAME, ::EmptyEntityRenderer)
 }
 
 @Environment(EnvType.CLIENT)

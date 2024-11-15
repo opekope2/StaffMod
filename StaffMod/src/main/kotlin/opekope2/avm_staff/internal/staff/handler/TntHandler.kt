@@ -27,8 +27,8 @@ import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.entity.ImpactTntEntity
-import opekope2.avm_staff.api.impactTntEntityType
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.util.*
 
 internal class TntHandler : StaffHandler() {
@@ -42,7 +42,7 @@ internal class TntHandler : StaffHandler() {
         if (!shooter.canUseStaff) return
         if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return
 
-        val spawnPos = impactTntEntityType.get().getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return
+        val spawnPos = EntityTypes.impactTnt.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return
         val (x, y, z) = spawnPos
 
         world.spawnEntity(ImpactTntEntity(world, x, y, z, shooter.rotationVector + shooter.velocity, shooter))

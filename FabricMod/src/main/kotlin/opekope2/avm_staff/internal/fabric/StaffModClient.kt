@@ -25,11 +25,9 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.render.RenderLayer
-import opekope2.avm_staff.api.crownOfKingOrangeBlock
-import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
-import opekope2.avm_staff.api.soulFlamethrowerParticleType
-import opekope2.avm_staff.api.wallCrownOfKingOrangeBlock
+import opekope2.avm_staff.content.Blocks
+import opekope2.avm_staff.content.ParticleTypes
 import opekope2.avm_staff.internal.model.registerModelPredicateProviders
 
 @Suppress("unused")
@@ -37,14 +35,14 @@ import opekope2.avm_staff.internal.model.registerModelPredicateProviders
 object StaffModClient : ClientModInitializer {
     override fun onInitializeClient() {
         ParticleFactoryRegistry.getInstance().apply {
-            register(flamethrowerParticleType.get(), FlamethrowerParticle::Factory)
-            register(soulFlamethrowerParticleType.get(), FlamethrowerParticle::Factory)
+            register(ParticleTypes.flame, FlamethrowerParticle::Factory)
+            register(ParticleTypes.soulFireFlame, FlamethrowerParticle::Factory)
         }
 
         BlockRenderLayerMap.INSTANCE.putBlocks(
             RenderLayer.getCutout(),
-            crownOfKingOrangeBlock.get(),
-            wallCrownOfKingOrangeBlock.get()
+            Blocks.crownOfKingOrange,
+            Blocks.wallCrownOfKingOrange
         )
 
         registerModelPredicateProviders(ModelPredicateProviderRegistry::register)

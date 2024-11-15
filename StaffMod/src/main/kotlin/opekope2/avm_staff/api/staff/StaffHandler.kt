@@ -36,7 +36,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.api.breakBlockWithStaffCriterion
 import opekope2.avm_staff.api.registry.RegistryBase
 
 /**
@@ -237,7 +236,7 @@ abstract class StaffHandler {
      * @param target        The block the [attacker] attacked
      * @param side          The side of the [block][target], which was attacked
      * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
-     * @see breakBlockWithStaffCriterion
+     * @see opekope2.avm_staff.content.Criteria.breakBlockWithStaff
      */
     open fun attackBlock(
         staffStack: ItemStack, world: World, attacker: LivingEntity, target: BlockPos, side: Direction, hand: Hand

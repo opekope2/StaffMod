@@ -24,9 +24,9 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import opekope2.avm_staff.api.cakeEntityType
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.util.*
 
 internal class CakeHandler : StaffHandler() {
@@ -56,7 +56,7 @@ internal class CakeHandler : StaffHandler() {
         if (!user.canUseStaff) return
         if (user is PlayerEntity && user.isAttackCoolingDown) return
 
-        val spawnPos = cakeEntityType.get().getSpawnPosition(world, user.approximateStaffTipPosition) ?: return
+        val spawnPos = EntityTypes.cake.getSpawnPosition(world, user.approximateStaffTipPosition) ?: return
 
         CakeEntity.throwCake(world, spawnPos, user.rotationVector * velocityMultiplier + user.velocity, user)
     }

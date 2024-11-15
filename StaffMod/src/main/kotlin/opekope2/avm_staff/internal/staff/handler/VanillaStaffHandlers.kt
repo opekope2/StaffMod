@@ -25,11 +25,10 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.Items.*
 import net.minecraft.recipe.RecipeType
 import net.minecraft.sound.SoundEvents
-import opekope2.avm_staff.api.flamethrowerParticleType
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
-import opekope2.avm_staff.api.soulFlamethrowerParticleType
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.ParticleTypes
 import opekope2.avm_staff.internal.staff.item_renderer.BellStaffItemRenderer
 import opekope2.avm_staff.internal.staff.item_renderer.FurnaceStaffItemRenderer
 import opekope2.avm_staff.internal.staff.item_renderer.LightningRodStaffItemRenderer
@@ -49,13 +48,13 @@ fun registerVanillaStaffHandlers() {
     StaffHandler.register(
         CAMPFIRE,
         CampfireHandler(
-            CampfireHandler.Parameters(5 / 20.0, 1 / 20.0, 4f, 1, 0.1, flamethrowerParticleType)
+            CampfireHandler.Parameters(5 / 20.0, 1 / 20.0, 4f, 1, 0.1, ParticleTypes.FLAME)
         )
     )
     StaffHandler.register(
         SOUL_CAMPFIRE,
         CampfireHandler(
-            CampfireHandler.Parameters(10 / 20.0, 2 / 20.0, 6f, 2, 0.12, soulFlamethrowerParticleType)
+            CampfireHandler.Parameters(10 / 20.0, 2 / 20.0, 6f, 2, 0.12, ParticleTypes.SOUL_FIRE_FLAME)
         )
     )
 

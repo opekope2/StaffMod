@@ -31,9 +31,9 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
-import opekope2.avm_staff.api.breakBlockWithStaffCriterion
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.Criteria
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
 import opekope2.avm_staff.util.cameraUp
@@ -71,7 +71,7 @@ class DiamondBlockHandler : StaffHandler() {
             if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
             else ChunkedBlockDropCollector(shapePredicate.volume, MAX_CHUNK_SIZE)
 
-        if (attacker is ServerPlayerEntity) breakBlockWithStaffCriterion.get().trigger(attacker, world, target)
+        if (attacker is ServerPlayerEntity) Criteria.breakBlockWithStaff.trigger(attacker, world, target)
 
         destroyBox(
             world,

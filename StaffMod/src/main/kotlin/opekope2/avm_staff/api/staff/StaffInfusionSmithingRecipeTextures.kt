@@ -19,11 +19,11 @@
 package opekope2.avm_staff.api.staff
 
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.staffInfusionSmithingTemplateItem
+import opekope2.avm_staff.content.Items
 
 /**
  * Object holding textures to be displayed in a smithing table, when using a
- * [staff infusion smithing template][staffInfusionSmithingTemplateItem].
+ * [staff infusion smithing template][Items.STAFF_INFUSION_SMITHING_TEMPLATE].
  */
 object StaffInfusionSmithingRecipeTextures {
     private val registeredBaseSlotTextures = mutableListOf<Identifier>()
@@ -43,7 +43,7 @@ object StaffInfusionSmithingRecipeTextures {
 
     /**
      * Registers a pair of staff texture and an ingredient texture to be displayed in a smithing table, when using a
-     * [staff infusion smithing template][staffInfusionSmithingTemplateItem]. This method should be called for every
+     * [staff infusion smithing template][Items.STAFF_INFUSION_SMITHING_TEMPLATE]. This method should be called for every
      * `minecraft:smithing_transform` recipe in the mod's data pack, which infuses an ingredient into a faint staff.
      *
      * @param baseSlotTexture       The background texture of the 2nd slot of the smithing table
