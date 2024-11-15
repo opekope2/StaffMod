@@ -24,7 +24,6 @@ import net.minecraft.component.ComponentChanges
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
@@ -79,19 +78,14 @@ var ItemStack.mutableItemStackInStaff: ItemStack?
  */
 val Item.hasStaffHandler: Boolean
     @JvmName("hasStaffHandler")
-    get() {
-        val itemId = Registries.ITEM.getId(this)
-        return itemId in StaffHandler
-    }
+    get() = this in StaffHandler.Registry
 
 /**
  * Returns the registered staff handler of the given item if available.
  */
 val Item.staffHandler: StaffHandler?
-    get() {
-        val itemId = Registries.ITEM.getId(this)
-        return StaffHandler[itemId]
-    }
+    get() = if (!hasStaffHandler) null
+    else StaffHandler.Registry[this]
 
 /**
  * Returns the registered staff handler of the given item if available, [StaffHandler.Default] otherwise.

@@ -20,12 +20,6 @@ package opekope2.avm_staff.internal.staff.handler
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.block.AbstractFurnaceBlock
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
@@ -46,8 +40,6 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
-import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.api.staffFurnaceDataComponentType
@@ -139,32 +131,6 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
         onStoppedUsing(staffStack, world, user, 0)
         return staffStack
-    }
-
-    @Environment(EnvType.CLIENT)
-    class FurnaceStaffItemRenderer(unlitState: BlockState, litState: BlockState) : IStaffItemRenderer {
-        constructor(furnaceBlock: Block) : this(
-            furnaceBlock.defaultState,
-            furnaceBlock.defaultState.with(AbstractFurnaceBlock.LIT, true)
-        )
-
-        private val unlitRenderer = BlockStateStaffItemRenderer(unlitState)
-        private val litRenderer = BlockStateStaffItemRenderer(litState)
-
-        override fun renderItemInStaff(
-            staffStack: ItemStack,
-            mode: ModelTransformationMode,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            val renderer =
-                if (staffFurnaceDataComponentType.get() in staffStack) litRenderer
-                else unlitRenderer
-
-            renderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
-        }
     }
 
     private companion object {

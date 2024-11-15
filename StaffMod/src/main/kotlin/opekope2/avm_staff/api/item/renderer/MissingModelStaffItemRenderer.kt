@@ -18,35 +18,18 @@
 
 package opekope2.avm_staff.api.item.renderer
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.block.BlockModels
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import opekope2.avm_staff.util.bakedModelManager
 import opekope2.avm_staff.util.itemRenderer
+import opekope2.avm_staff.util.itemStackInStaff
 
 /**
- * A [StaffItemRenderer], always which renders a single block state.
- *
- * @param blockState    The block state to render
+ * A staff item renderer, which renders the missing model.
  */
-@Environment(EnvType.CLIENT)
-class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() {
-    private val blockStateId = BlockModels.getModelId(blockState)
-    private val blockItem = blockState.block.asItem().defaultStack
-
-    /**
-     * Creates a new [BlockStateStaffItemRenderer] with the [default state][Block.defaultState] of the given block.
-     *
-     * @param block The block to render its default state
-     */
-    constructor(block: Block) : this(block.defaultState)
-
+object MissingModelStaffItemRenderer : StaffItemRenderer() {
     override fun renderItemInStaff(
         staffStack: ItemStack,
         mode: ModelTransformationMode,
@@ -55,15 +38,17 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() 
         light: Int,
         overlay: Int
     ) {
-        itemRenderer.renderItem(
-            blockItem,
-            ModelTransformationMode.NONE,
-            false,
-            matrices,
-            vertexConsumers,
-            light,
-            overlay,
-            bakedModelManager.getModel(blockStateId)
-        )
+        staffStack.itemStackInStaff?.let { itemInStaff ->
+            itemRenderer.renderItem(
+                itemInStaff,
+                ModelTransformationMode.NONE,
+                false,
+                matrices,
+                vertexConsumers,
+                light,
+                overlay,
+                bakedModelManager.missingModel
+            )
+        }
     }
 }

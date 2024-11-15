@@ -19,15 +19,6 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.block.AbstractSkullBlock
-import net.minecraft.block.Blocks
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.block.entity.SkullBlockEntityRenderer
-import net.minecraft.client.render.entity.model.SkullEntityModel
-import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -41,9 +32,11 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.util.*
+import opekope2.avm_staff.util.approximateStaffTipPosition
+import opekope2.avm_staff.util.canUseStaff
+import opekope2.avm_staff.util.getSpawnPosition
+import opekope2.avm_staff.util.isAttackCoolingDown
 
 internal class WitherSkeletonSkullHandler : StaffHandler() {
     override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 20
@@ -111,35 +104,5 @@ internal class WitherSkeletonSkullHandler : StaffHandler() {
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
         onStoppedUsing(staffStack, world, user, 0)
         return staffStack
-    }
-
-    @Environment(EnvType.CLIENT)
-    class WitherSkeletonSkullStaffItemRenderer : IStaffItemRenderer {
-        private val skullModel = SkullEntityModel.getSkullTexturedModelData().createModel()
-
-        override fun renderItemInStaff(
-            staffStack: ItemStack,
-            mode: ModelTransformationMode,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            matrices.push {
-                scale(-1f, -1f, 1f)
-                translate(0f, 8f / 16f, 0f)
-                scale(2f, 2f, 2f)
-                skullModel.render(
-                    matrices,
-                    vertexConsumers.getBuffer(
-                        SkullBlockEntityRenderer.getRenderLayer(
-                            (Blocks.WITHER_SKELETON_SKULL as AbstractSkullBlock).skullType, null
-                        )
-                    ),
-                    light,
-                    overlay
-                )
-            }
-        }
     }
 }

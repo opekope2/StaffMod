@@ -19,13 +19,6 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
-import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -37,12 +30,10 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
-import opekope2.avm_staff.util.push
 
 internal class BellBlockHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
@@ -80,36 +71,5 @@ internal class BellBlockHandler : StaffHandler() {
         )
 
         return EventResult.pass()
-    }
-
-    @Environment(EnvType.CLIENT)
-    class BellStaffItemRenderer : IStaffItemRenderer {
-        private val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().apply {
-            setPivot(-8f, -12f, -8f)
-        }
-
-        override fun renderItemInStaff(
-            staffStack: ItemStack,
-            mode: ModelTransformationMode,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            matrices.push {
-                scale(16f / 9f, 16f / 9f, 16f / 9f)
-                translate(0f, 2f / 9f, 0f)
-
-                bellModel.render(
-                    matrices,
-                    BellBlockEntityRenderer.BELL_BODY_TEXTURE.getVertexConsumer(
-                        vertexConsumers,
-                        RenderLayer::getEntitySolid
-                    ),
-                    light,
-                    overlay
-                )
-            }
-        }
     }
 }

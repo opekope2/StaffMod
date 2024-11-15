@@ -19,12 +19,6 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.block.Blocks
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -39,13 +33,10 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.interactionRange
 import opekope2.avm_staff.util.isItemCoolingDown
-import opekope2.avm_staff.util.push
 
 internal class LightningRodHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
@@ -113,26 +104,5 @@ internal class LightningRodHandler : StaffHandler() {
         world.spawnEntity(lightning)
 
         return true
-    }
-
-    @Environment(EnvType.CLIENT)
-    class LightningRodStaffItemRenderer : IStaffItemRenderer {
-        private val lightningRodRenderer = BlockStateStaffItemRenderer(Blocks.LIGHTNING_ROD.defaultState)
-
-        override fun renderItemInStaff(
-            staffStack: ItemStack,
-            mode: ModelTransformationMode,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            matrices.push {
-                if (mode != ModelTransformationMode.GUI && mode != ModelTransformationMode.FIXED) {
-                    translate(0f, 22f / 16f, 0f)
-                }
-                lightningRodRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
-            }
-        }
     }
 }

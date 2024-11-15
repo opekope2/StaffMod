@@ -16,36 +16,24 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.api.item.renderer
+package opekope2.avm_staff.internal.staff.item_renderer
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.block.BlockModels
+import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
-import opekope2.avm_staff.util.bakedModelManager
-import opekope2.avm_staff.util.itemRenderer
+import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
+import opekope2.avm_staff.util.push
 
-/**
- * A [StaffItemRenderer], always which renders a single block state.
- *
- * @param blockState    The block state to render
- */
 @Environment(EnvType.CLIENT)
-class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() {
-    private val blockStateId = BlockModels.getModelId(blockState)
-    private val blockItem = blockState.block.asItem().defaultStack
-
-    /**
-     * Creates a new [BlockStateStaffItemRenderer] with the [default state][Block.defaultState] of the given block.
-     *
-     * @param block The block to render its default state
-     */
-    constructor(block: Block) : this(block.defaultState)
+class BellStaffItemRenderer : StaffItemRenderer() {
+    private val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().apply {
+        setPivot(-8f, -12f, -8f)
+    }
 
     override fun renderItemInStaff(
         staffStack: ItemStack,
@@ -55,15 +43,19 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() 
         light: Int,
         overlay: Int
     ) {
-        itemRenderer.renderItem(
-            blockItem,
-            ModelTransformationMode.NONE,
-            false,
-            matrices,
-            vertexConsumers,
-            light,
-            overlay,
-            bakedModelManager.getModel(blockStateId)
-        )
+        matrices.push {
+            scale(16f / 9f, 16f / 9f, 16f / 9f)
+            translate(0f, 2f / 9f, 0f)
+
+            bellModel.render(
+                matrices,
+                BellBlockEntityRenderer.BELL_BODY_TEXTURE.getVertexConsumer(
+                    vertexConsumers,
+                    RenderLayer::getEntitySolid
+                ),
+                light,
+                overlay
+            )
+        }
     }
 }

@@ -16,20 +16,23 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.api.item.renderer
+package opekope2.avm_staff.internal.staff.item_renderer
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.block.Blocks
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
-import opekope2.avm_staff.util.bakedModelManager
-import opekope2.avm_staff.util.itemRenderer
-import opekope2.avm_staff.util.itemStackInStaff
+import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
+import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
+import opekope2.avm_staff.util.push
 
-/**
- * A staff item renderer, which renders the missing model.
- */
-object MissingModelRenderer : IStaffItemRenderer {
+@Environment(EnvType.CLIENT)
+class LightningRodStaffItemRenderer : StaffItemRenderer() {
+    private val lightningRodRenderer = BlockStateStaffItemRenderer(Blocks.LIGHTNING_ROD.defaultState)
+
     override fun renderItemInStaff(
         staffStack: ItemStack,
         mode: ModelTransformationMode,
@@ -38,17 +41,11 @@ object MissingModelRenderer : IStaffItemRenderer {
         light: Int,
         overlay: Int
     ) {
-        staffStack.itemStackInStaff?.let { itemInStaff ->
-            itemRenderer.renderItem(
-                itemInStaff,
-                ModelTransformationMode.NONE,
-                false,
-                matrices,
-                vertexConsumers,
-                light,
-                overlay,
-                bakedModelManager.missingModel
-            )
+        matrices.push {
+            if (mode != ModelTransformationMode.GUI && mode != ModelTransformationMode.FIXED) {
+                translate(0f, 22f / 16f, 0f)
+            }
+            lightningRodRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
         }
     }
 }

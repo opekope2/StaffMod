@@ -26,6 +26,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.stat.Stats
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -36,6 +37,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.breakBlockWithStaffCriterion
+import opekope2.avm_staff.api.registry.RegistryBase
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -318,41 +320,30 @@ abstract class StaffHandler {
         val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder.default()
     }
 
-    companion object {
-        private val staffItemsHandlers = mutableMapOf<Identifier, StaffHandler>()
+    companion object Registry : RegistryBase<Identifier, StaffHandler>() {
+        private inline val Item.registryId: Identifier
+            get() = Registries.ITEM.getId(this)
 
         /**
-         * Registers a [StaffHandler] for the given [item ID][staffItem]. Call this from your common mod initializer.
+         * Registers an entry to this registry.
          *
-         * @param staffItem                     The item ID to register a handler for. This is the item, which can be
-         *   inserted into the staff
-         * @param handler                       The staff item handler, which processes staff interactions, while the
-         *   [registered item][staffItem] is inserted into it
-         * @return `true`, if the registration was successful, `false`, if the item was already registered
+         * @param key The key to associate a value with
+         * @param value The value to register
          */
-        @JvmStatic
-        fun register(staffItem: Identifier, handler: StaffHandler): Boolean {
-            if (staffItem in staffItemsHandlers) return false
-
-            staffItemsHandlers[staffItem] = handler
-            return true
-        }
+        fun register(key: Item, value: StaffHandler) = register(key.registryId, value)
 
         /**
-         * Checks, if a staff item handler for the [given item][staffItem] is registered.
+         * Checks if the given key is present in the registry
          *
-         * @param staffItem The item ID, which can be inserted into the staff
+         * @param key The key to check
          */
-        @JvmStatic
-        operator fun contains(staffItem: Identifier): Boolean = staffItem in staffItemsHandlers
+        operator fun contains(key: Item) = key.registryId in this
 
         /**
-         * Gets the registered staff item handler for the [given item][staffItem] or `null`, if no staff item handler was
-         * registered.
+         * Gets the value associated with the given key or throws an exception, if the key is not present in this registry.
          *
-         * @param staffItem The item ID, which can be inserted into the staff
+         * @param key The key to check
          */
-        @JvmStatic
-        operator fun get(staffItem: Identifier): StaffHandler? = staffItemsHandlers[staffItem]
+        operator fun get(key: Item) = this[key.registryId]
     }
 }

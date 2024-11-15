@@ -16,36 +16,24 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.api.item.renderer
+package opekope2.avm_staff.internal.staff.item_renderer
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
+import net.minecraft.block.AbstractSkullBlock
+import net.minecraft.block.Blocks
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.block.BlockModels
+import net.minecraft.client.render.block.entity.SkullBlockEntityRenderer
+import net.minecraft.client.render.entity.model.SkullEntityModel
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
-import opekope2.avm_staff.util.bakedModelManager
-import opekope2.avm_staff.util.itemRenderer
+import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
+import opekope2.avm_staff.util.push
 
-/**
- * A [StaffItemRenderer], always which renders a single block state.
- *
- * @param blockState    The block state to render
- */
 @Environment(EnvType.CLIENT)
-class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() {
-    private val blockStateId = BlockModels.getModelId(blockState)
-    private val blockItem = blockState.block.asItem().defaultStack
-
-    /**
-     * Creates a new [BlockStateStaffItemRenderer] with the [default state][Block.defaultState] of the given block.
-     *
-     * @param block The block to render its default state
-     */
-    constructor(block: Block) : this(block.defaultState)
+class WitherSkeletonSkullStaffItemRenderer : StaffItemRenderer() {
+    private val skullModel = SkullEntityModel.getSkullTexturedModelData().createModel()
 
     override fun renderItemInStaff(
         staffStack: ItemStack,
@@ -55,15 +43,20 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() 
         light: Int,
         overlay: Int
     ) {
-        itemRenderer.renderItem(
-            blockItem,
-            ModelTransformationMode.NONE,
-            false,
-            matrices,
-            vertexConsumers,
-            light,
-            overlay,
-            bakedModelManager.getModel(blockStateId)
-        )
+        matrices.push {
+            scale(-1f, -1f, 1f)
+            translate(0f, 8f / 16f, 0f)
+            scale(2f, 2f, 2f)
+            skullModel.render(
+                matrices,
+                vertexConsumers.getBuffer(
+                    SkullBlockEntityRenderer.getRenderLayer(
+                        (Blocks.WITHER_SKELETON_SKULL as AbstractSkullBlock).skullType, null
+                    )
+                ),
+                light,
+                overlay
+            )
+        }
     }
 }
