@@ -38,23 +38,35 @@ import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
+import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
+import opekope2.avm_staff.internal.event_handler.EventHandlers
 import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
-import opekope2.avm_staff.internal.subscribeToClientEvents
+import opekope2.avm_staff.internal.initializer.Initializer
+import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffHandlers
 
 @Suppress("unused")
-object StaffMod : ModInitializer, IStaffModPlatform {
+object StaffMod : ModInitializer, IStaffModPlatform, AttackEntityCallback {
     override fun onInitialize() {
-        AttackEntityCallback.EVENT.register(::dispatchStaffEntityAttack)
-
+        Initializer
+        EventHandlers
+        subscribeToFabricEvents()
+        registerVanillaStaffHandlers()
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
             // Needs to be called before client entry point because of Fabric Loader and Architectury API
-            subscribeToClientEvents()
+            ClientEventHandlers
         }
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    private fun dispatchStaffEntityAttack(
-        player: PlayerEntity, world: World, hand: Hand, target: Entity, hit: EntityHitResult?
+    private fun subscribeToFabricEvents() {
+        AttackEntityCallback.EVENT.register(this)
+    }
+
+    override fun interact(
+        player: PlayerEntity,
+        world: World,
+        hand: Hand,
+        target: Entity,
+        hit: EntityHitResult?
     ): ActionResult {
         val staffStack = player.getStackInHand(hand)
         val staffItem = staffStack.item as? StaffItem ?: return ActionResult.PASS

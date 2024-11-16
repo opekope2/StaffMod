@@ -28,23 +28,38 @@ import net.minecraft.client.render.RenderLayer
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.content.Blocks
 import opekope2.avm_staff.content.ParticleTypes
-import opekope2.avm_staff.internal.model.registerModelPredicateProviders
+import opekope2.avm_staff.internal.initializer.ClientInitializer
+import opekope2.avm_staff.internal.model.ModelPredicates
+import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffItemRenderers
 
 @Suppress("unused")
 @Environment(EnvType.CLIENT)
 object StaffModClient : ClientModInitializer {
     override fun onInitializeClient() {
-        ParticleFactoryRegistry.getInstance().apply {
-            register(ParticleTypes.flame, FlamethrowerParticle::Factory)
-            register(ParticleTypes.soulFireFlame, FlamethrowerParticle::Factory)
-        }
+        ClientInitializer
+        registerVanillaStaffItemRenderers()
 
+        registerParticleFactories(ParticleFactoryRegistry.getInstance())
+        registerBlockRenderLayers()
+        registerModelPredicateProviders()
+    }
+
+    private fun registerParticleFactories(particleFactoryRegistry: ParticleFactoryRegistry) {
+        particleFactoryRegistry.register(ParticleTypes.flame, FlamethrowerParticle::Factory)
+        particleFactoryRegistry.register(ParticleTypes.soulFireFlame, FlamethrowerParticle::Factory)
+    }
+
+    private fun registerBlockRenderLayers() {
         BlockRenderLayerMap.INSTANCE.putBlocks(
             RenderLayer.getCutout(),
             Blocks.crownOfKingOrange,
             Blocks.wallCrownOfKingOrange
         )
+    }
 
-        registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
+    private fun registerModelPredicateProviders() {
+        for ((key, value) in ModelPredicates) {
+            ModelPredicateProviderRegistry.register(key, value)
+        }
     }
 }

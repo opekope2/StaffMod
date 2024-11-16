@@ -26,19 +26,17 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.content.ParticleTypes
-import opekope2.avm_staff.internal.model.registerModelPredicateProviders
-import opekope2.avm_staff.internal.registerClientContent
-import opekope2.avm_staff.internal.registerSmithingTableTextures
+import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
+import opekope2.avm_staff.internal.initializer.ClientInitializer
+import opekope2.avm_staff.internal.model.ModelPredicates
 import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffItemRenderers
-import opekope2.avm_staff.internal.subscribeToClientEvents
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
 @OnlyIn(Dist.CLIENT)
 object StaffModClient {
     fun initializeClient() {
-        registerClientContent()
-        registerSmithingTableTextures()
-        subscribeToClientEvents()
+        ClientInitializer
+        ClientEventHandlers
         registerVanillaStaffItemRenderers()
         MOD_BUS.register(this)
     }
@@ -46,7 +44,9 @@ object StaffModClient {
     @SubscribeEvent
     fun initializeClient(event: FMLClientSetupEvent) {
         event.enqueueWork {
-            registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric)
+            for ((key, value) in ModelPredicates) {
+                ModelPredicateProviderRegistry.registerGeneric(key, value)
+            }
         }
     }
 

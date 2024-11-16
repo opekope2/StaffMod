@@ -20,20 +20,19 @@ package opekope2.avm_staff.internal.neoforge
 
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent
 import opekope2.avm_staff.api.IStaffModPlatform
-import opekope2.avm_staff.internal.initializeNetworking
+import opekope2.avm_staff.internal.event_handler.EventHandlers
+import opekope2.avm_staff.internal.initializer.Initializer
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeCrownItem
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffItem
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffRendererItem
-import opekope2.avm_staff.internal.registerContent
 import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffHandlers
-import opekope2.avm_staff.internal.stopUsingStaffWhenDropped
-import opekope2.avm_staff.internal.subscribeToEvents
 import opekope2.avm_staff.util.MOD_ID
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
@@ -41,9 +40,8 @@ import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
 @Mod(MOD_ID)
 object StaffMod : IStaffModPlatform {
     init {
-        registerContent()
-        initializeNetworking()
-        subscribeToEvents()
+        Initializer
+        EventHandlers
         subscribeToNeoForgeEvents()
         registerVanillaStaffHandlers()
         runWhenOn(Dist.CLIENT) { StaffModClient.initializeClient() }
@@ -54,8 +52,9 @@ object StaffMod : IStaffModPlatform {
     }
 
     private fun dropInventory(event: LivingDropsEvent) {
+        val player = event.entity as? PlayerEntity ?: return
         for (item in event.drops) {
-            stopUsingStaffWhenDropped(event.entity, item)
+            EventHandlers.drop(player, item)
         }
     }
 
