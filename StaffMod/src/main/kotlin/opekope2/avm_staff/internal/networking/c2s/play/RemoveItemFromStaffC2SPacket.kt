@@ -24,6 +24,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
+import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.*
@@ -47,6 +48,7 @@ internal class RemoveItemFromStaffC2SPacket() : IC2SPacket {
                 player.inventory.insertStack(targetSlot, staffStack.mutableItemStackInStaff)
                 staffStack.mutableItemStackInStaff = null
                 player.resetLastAttackedTicks()
+                player.entityWorld.emitGameEvent(player, GameEvent.RESONATE_5, player.pos)
             }
         }
 
