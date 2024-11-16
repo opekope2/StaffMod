@@ -39,7 +39,7 @@ fun registerVanillaStaffHandlers() {
     StaffHandler.register(CHIPPED_ANVIL, AnvilHandler(DAMAGED_ANVIL))
     StaffHandler.register(DAMAGED_ANVIL, AnvilHandler(null))
 
-    StaffHandler.register(BELL, BellBlockHandler())
+    StaffHandler.register(BELL, BellHandler())
 
     StaffHandler.register(BONE_BLOCK, BoneBlockHandler())
 

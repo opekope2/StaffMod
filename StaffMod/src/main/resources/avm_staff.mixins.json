@@ -17,6 +17,7 @@
     "IAbstractFurnaceBlockEntityAccessor",
     "IAnvilBlockAccessor",
     "IBeehiveBlockEntityAccessor",
+    "IBellBlockEntityAccessor",
     "ICakeBlockAccessor",
     "IPiglinBrainAccessor",
     "ISmithingTemplateItemAccessor",
