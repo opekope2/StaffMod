@@ -21,11 +21,12 @@ package opekope2.avm_staff.content
 import net.minecraft.component.ComponentType
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.registry.RegistryKeys
-import opekope2.avm_staff.api.component.BlockPickupData
+import opekope2.avm_staff.api.component.BlockPickupDataComponent
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
 import opekope2.avm_staff.internal.MinecraftUnit
+import opekope2.avm_staff.internal.minecraftUnit
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
 
@@ -58,7 +59,7 @@ object ComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA
     val ROCKET_MODE = register("rocket_mode") {
         ComponentType.builder<MinecraftUnit>()
             .codec(MinecraftUnit.CODEC)
-            .packetCodec(PacketCodec.unit(MinecraftUnit.INSTANCE))
+            .packetCodec(PacketCodec.unit(minecraftUnit))
             .build()
     }
 
@@ -75,7 +76,7 @@ object ComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA
     @JvmField
     val FURNACE_DATA = register("furnace_data") {
         ComponentType.builder<StaffFurnaceDataComponent>()
-            .packetCodec(StaffFurnaceDataComponent.PACKET_CODEC)
+            .packetCodec(StaffFurnaceDataComponent.NON_SYNCING_PACKET_CODEC)
             .build()
     }
 
@@ -108,14 +109,15 @@ object ComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA
      */
     @JvmField
     val BLOCK_PICKUP_DATA = register("block_pickup_data") {
-        ComponentType.builder<BlockPickupData>()
-            .packetCodec(BlockPickupData.PACKET_CODEC)
+        ComponentType.builder<BlockPickupDataComponent>()
+            .packetCodec(BlockPickupDataComponent.NON_SYNCING_PACKET_CODEC)
             .build()
     }
 
     /**
      * @see BLOCK_PICKUP_DATA
      */
-    val blockPickupData: ComponentType<BlockPickupData>
+    val blockPickupData: ComponentType<BlockPickupDataComponent>
+        @JvmName("blockPickupData")
         get() = BLOCK_PICKUP_DATA.get()
 }

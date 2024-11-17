@@ -69,7 +69,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         staffStack[ComponentTypes.furnaceData] = StaffFurnaceDataComponent(0)
 
         user.setCurrentHand(hand)
-        return TypedActionResult.consume(staffStack)
+        return TypedActionResult.pass(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
@@ -84,10 +84,10 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         }
 
         val furnaceData = staffStack[ComponentTypes.furnaceData]!!
-        furnaceData.serverBurnTicks++
+        furnaceData.burnTicks++
 
         val stackToSmelt = itemToSmelt?.stack ?: return
-        if (furnaceData.serverBurnTicks < stackToSmelt.count) return
+        if (furnaceData.burnTicks < stackToSmelt.count) return
 
         val recipeInput = SingleStackRecipeInput(itemToSmelt.stack)
         val recipe = world.recipeManager.getFirstMatch(recipeType, recipeInput, world).getOrNull()?.value ?: return
@@ -100,7 +100,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         )
         itemToSmelt.discard()
 
-        furnaceData.serverBurnTicks -= stackToSmelt.count
+        furnaceData.burnTicks -= stackToSmelt.count
     }
 
     private fun findItemToSmelt(world: World, smeltingPosition: Vec3d): ItemEntity? {
@@ -132,6 +132,19 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         onStoppedUsing(staffStack, world, user, 0)
         return staffStack
     }
+
+    override fun allowComponentsUpdateAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        player: PlayerEntity,
+        hand: Hand
+    ) = false
+
+    override fun allowReequipAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        selectedSlotChanged: Boolean
+    ) = selectedSlotChanged
 
     private companion object {
         private val ITEM_DIMENSIONS = EntityType.ITEM.dimensions

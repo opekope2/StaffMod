@@ -36,7 +36,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.block.IClearableBeforeInsertedIntoStaff
-import opekope2.avm_staff.api.component.BlockPickupData
+import opekope2.avm_staff.api.component.BlockPickupDataComponent
 import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.content.ComponentTypes
 import opekope2.avm_staff.util.approximateStaffItemPosition
@@ -348,7 +348,7 @@ abstract class StaffHandler {
             val state = world.getBlockState(targetPos)
             if (!canPickUp(world, targetPos, state)) return TypedActionResult.fail(staffStack)
 
-            staffStack[ComponentTypes.blockPickupData] = BlockPickupData(targetPos, state)
+            staffStack[ComponentTypes.blockPickupData] = BlockPickupDataComponent(targetPos, state)
 
             user.setCurrentHand(hand)
             return TypedActionResult.consume(staffStack)
@@ -358,7 +358,11 @@ abstract class StaffHandler {
                 state.getHardness(world, pos) != -1f &&
                 state.block.asItem() in Registry
 
-        private fun userChangedTarget(world: World, user: LivingEntity, blockPickupData: BlockPickupData?): Boolean {
+        private fun userChangedTarget(
+            world: World,
+            user: LivingEntity,
+            blockPickupData: BlockPickupDataComponent?
+        ): Boolean {
             val targetPos = user.targetPos
             val state = world.getBlockState(targetPos)
             return blockPickupData == null || blockPickupData.pos != targetPos || blockPickupData.state != state

@@ -32,7 +32,7 @@ import net.minecraft.world.World
 import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.ComponentTypes
-import opekope2.avm_staff.internal.MinecraftUnit
+import opekope2.avm_staff.internal.minecraftUnit
 import opekope2.avm_staff.util.approximateStaffTipPosition
 import opekope2.avm_staff.util.canUseStaff
 import opekope2.avm_staff.util.times
@@ -47,7 +47,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         hand: Hand
     ): TypedActionResult<ItemStack> {
         if (user.isSneaking && !user.isOnGround) {
-            staffStack[ComponentTypes.rocketMode] = MinecraftUnit.INSTANCE
+            staffStack[ComponentTypes.rocketMode] = minecraftUnit
         }
 
         user.setCurrentHand(hand)

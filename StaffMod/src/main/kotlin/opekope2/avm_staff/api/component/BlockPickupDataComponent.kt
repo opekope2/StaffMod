@@ -30,10 +30,13 @@ import net.minecraft.util.math.BlockPos
  * @param pos   The position of the block to be picked up from. Only available server-side
  * @param state The block state to be picked up. Only available server-side
  */
-data class BlockPickupData(val pos: BlockPos, val state: BlockState) {
+data class BlockPickupDataComponent(val pos: BlockPos, val state: BlockState) {
     companion object {
+        /**
+         * [PacketCodec] for [BlockPickupDataComponent], which doesn't sync its data.
+         */
         @JvmField
-        val PACKET_CODEC: PacketCodec<RegistryByteBuf, BlockPickupData> =
-            PacketCodec.of({ _, _ -> }, { BlockPickupData(BlockPos.ORIGIN, Blocks.AIR.defaultState) })
+        val NON_SYNCING_PACKET_CODEC: PacketCodec<RegistryByteBuf, BlockPickupDataComponent> =
+            PacketCodec.of({ _, _ -> }, { BlockPickupDataComponent(BlockPos.ORIGIN, Blocks.AIR.defaultState) })
     }
 }
