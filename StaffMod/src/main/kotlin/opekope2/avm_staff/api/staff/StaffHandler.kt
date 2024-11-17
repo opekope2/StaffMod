@@ -20,23 +20,28 @@ package opekope2.avm_staff.api.staff
 
 import dev.architectury.event.EventResult
 import net.minecraft.advancement.criterion.Criteria
+import net.minecraft.block.BlockState
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.stat.Stats
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.TypedActionResult
+import net.minecraft.util.*
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import opekope2.avm_staff.api.block.IClearableBeforeInsertedIntoStaff
+import opekope2.avm_staff.api.component.BlockPickupData
 import opekope2.avm_staff.api.registry.RegistryBase
+import opekope2.avm_staff.content.ComponentTypes
+import opekope2.avm_staff.util.approximateStaffItemPosition
+import opekope2.avm_staff.util.mutableItemStackInStaff
+import kotlin.math.roundToInt
 
 /**
  * Provides functionality for a staff, when an item is inserted into it.
@@ -46,7 +51,7 @@ abstract class StaffHandler {
      * Gets the attribute modifiers (damage, attack speed, etc.) of the staff when held.
      */
     open val attributeModifiers: AttributeModifiersComponent
-        get() = Default.ATTRIBUTE_MODIFIERS
+        get() = Fallback.ATTRIBUTE_MODIFIERS
 
     /**
      * Called on both the client and the server my Minecraft to get the number of ticks the staff can be used for using
@@ -312,11 +317,106 @@ abstract class StaffHandler {
     ) = oldStaffStack != newStaffStack
 
     /**
-     * Handler of a staff with no item inserted into it.
+     * Default implementation of [StaffHandler]. Used for staffs with no [registered][Registry.register] handler.
      */
-    object Default : StaffHandler() {
+    object Fallback : StaffHandler() {
         @JvmField
         val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder.default()
+    }
+
+    /**
+     * Handler of a staff with no item inserted into it.
+     */
+    object Empty : StaffHandler() {
+        private inline val LivingEntity.targetPos: BlockPos
+            get() = BlockPos.ofFloored(approximateStaffItemPosition)
+
+        override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity): Int {
+            val targetPos = user.targetPos
+            val state = world.getBlockState(targetPos)
+            return if (!canPickUp(world, targetPos, state)) 0
+            else 20 + (state.getHardness(world, targetPos) / 2).roundToInt()
+        }
+
+        override fun use(
+            staffStack: ItemStack,
+            world: World,
+            user: PlayerEntity,
+            hand: Hand
+        ): TypedActionResult<ItemStack> {
+            val targetPos = user.targetPos
+            val state = world.getBlockState(targetPos)
+            if (!canPickUp(world, targetPos, state)) return TypedActionResult.fail(staffStack)
+
+            staffStack[ComponentTypes.blockPickupData] = BlockPickupData(targetPos, state)
+
+            user.setCurrentHand(hand)
+            return TypedActionResult.consume(staffStack)
+        }
+
+        private fun canPickUp(world: World, pos: BlockPos, state: BlockState) = !state.isAir &&
+                state.getHardness(world, pos) != -1f &&
+                state.block.asItem() in Registry
+
+        private fun userChangedTarget(world: World, user: LivingEntity, blockPickupData: BlockPickupData?): Boolean {
+            val targetPos = user.targetPos
+            val state = world.getBlockState(targetPos)
+            return blockPickupData == null || blockPickupData.pos != targetPos || blockPickupData.state != state
+        }
+
+        override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
+            if (!world.isClient && userChangedTarget(world, user, staffStack[ComponentTypes.blockPickupData])) {
+                user.stopUsingItem()
+            }
+        }
+
+        override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
+            staffStack.remove(ComponentTypes.blockPickupData)
+        }
+
+        override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
+            val blockPickupData = staffStack[ComponentTypes.blockPickupData]
+            if (!userChangedTarget(world, user, blockPickupData)) {
+                require(blockPickupData != null)
+                tryPickUp(world, blockPickupData.pos, blockPickupData.state, staffStack)
+                (user as? PlayerEntity)?.resetLastAttackedTicks()
+            }
+
+            onStoppedUsing(staffStack, world, user, 0)
+            return staffStack
+        }
+
+        private fun tryPickUp(world: World, pos: BlockPos, state: BlockState, staffStack: ItemStack): Boolean {
+            if (!canPickUp(world, pos, state)) return false
+
+            val pickStack = state.block.getPickStack(world, pos, state)
+            world.getBlockEntity(pos)?.apply {
+                val nbt = createComponentlessNbtWithIdentifyingData(world.registryManager)
+                removeFromCopiedStackNbt(nbt)
+                BlockItem.setBlockEntityData(pickStack, type, nbt)
+                pickStack.applyComponentsFrom(createComponentMap())
+                (this as? Clearable)?.clear()
+                (this as? IClearableBeforeInsertedIntoStaff)?.staffMod_clearBeforeRemovedFromWorld()
+            }
+
+            staffStack.mutableItemStackInStaff = pickStack
+            world.removeBlock(pos, false)
+
+            return true
+        }
+
+        override fun allowComponentsUpdateAnimation(
+            oldStaffStack: ItemStack,
+            newStaffStack: ItemStack,
+            player: PlayerEntity,
+            hand: Hand
+        ) = false
+
+        override fun allowReequipAnimation(
+            oldStaffStack: ItemStack,
+            newStaffStack: ItemStack,
+            selectedSlotChanged: Boolean
+        ) = selectedSlotChanged
     }
 
     companion object Registry : RegistryBase<Identifier, StaffHandler>() {

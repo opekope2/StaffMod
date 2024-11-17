@@ -92,7 +92,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     @JvmField
     val ROYAL_STAFF = register("royal_staff") {
         IStaffModPlatform.staffItem(
-            settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Default.ATTRIBUTE_MODIFIERS)
+            settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Fallback.ATTRIBUTE_MODIFIERS)
                 .maxDamage(5179).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
             ROYAL_STAFF_INGREDIENT
         )

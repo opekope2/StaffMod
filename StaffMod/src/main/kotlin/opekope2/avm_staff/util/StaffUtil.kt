@@ -83,15 +83,18 @@ val Item.hasStaffHandler: Boolean
 /**
  * Returns the registered staff handler of the given item if available.
  */
-val Item.staffHandler: StaffHandler?
-    get() = if (!hasStaffHandler) null
-    else StaffHandler.Registry[this]
+val Item?.staffHandler: StaffHandler?
+    get() = when {
+        this == null -> StaffHandler.Empty
+        !hasStaffHandler -> null
+        else -> StaffHandler.Registry[this]
+    }
 
 /**
- * Returns the registered staff handler of the given item if available, [StaffHandler.Default] otherwise.
+ * Returns the registered staff handler of the given item if available, [StaffHandler.Fallback] otherwise.
  */
-val Item?.staffHandlerOrDefault: StaffHandler
-    get() = this?.staffHandler ?: StaffHandler.Default
+val Item?.staffHandlerOrFallback: StaffHandler
+    get() = staffHandler ?: StaffHandler.Fallback
 
 private const val STAFF_MODEL_LENGTH = 40.0 / 16.0
 private const val STAFF_MODEL_ITEM_POSITION_CENTER = 33.5 / 16.0

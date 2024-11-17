@@ -21,6 +21,7 @@ package opekope2.avm_staff.content
 import net.minecraft.component.ComponentType
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.registry.RegistryKeys
+import opekope2.avm_staff.api.component.BlockPickupData
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
@@ -101,4 +102,20 @@ object ComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA
     val staffRendererPart: ComponentType<StaffRendererPartComponent>
         @JvmName("staffRendererPart")
         get() = STAFF_RENDERER_PART.get()
+
+    /**
+     * Data component registered as `avm_staff:block_pickup_data`.
+     */
+    @JvmField
+    val BLOCK_PICKUP_DATA = register("block_pickup_data") {
+        ComponentType.builder<BlockPickupData>()
+            .packetCodec(BlockPickupData.PACKET_CODEC)
+            .build()
+    }
+
+    /**
+     * @see BLOCK_PICKUP_DATA
+     */
+    val blockPickupData: ComponentType<BlockPickupData>
+        get() = BLOCK_PICKUP_DATA.get()
 }
