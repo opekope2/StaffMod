@@ -40,7 +40,7 @@ object ComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA
     @JvmField
     val STAFF_ITEM = register("staff_item") {
         ComponentType.builder<StaffItemComponent>()
-            .codec(StaffItemComponent.CODEC)
+            .codec(StaffItemComponent.VALIDATED_CODEC)
             .packetCodec(StaffItemComponent.PACKET_CODEC)
             .build()
     }

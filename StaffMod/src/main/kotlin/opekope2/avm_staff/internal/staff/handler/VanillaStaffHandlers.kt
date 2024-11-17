@@ -58,7 +58,7 @@ fun registerVanillaStaffHandlers() {
         )
     )
 
-    // TODO command block
+    StaffHandler.register(COMMAND_BLOCK, StaffHandler.Fallback) // TODO
 
     StaffHandler.register(DIAMOND_BLOCK, DiamondBlockHandler())
 
