@@ -24,6 +24,7 @@ nav:
   - API docs:
     - Latest: kdoc/latest
     #CI_KDOC_PLACEHOLDER
+    - 0.19.3: kdoc/0.19.3
     - 0.19.2: kdoc/0.19.2
     - 0.19.1-forge: kdoc/0.19.1-forge
     - 0.19.1: kdoc/0.19.1
@@ -59,6 +60,7 @@ nav:
   - API docs (Java syntax):
     - Latest: javadoc/latest
     #CI_JAVADOC_PLACEHOLDER
+    - 0.19.3: javadoc/0.19.3
     - 0.19.2: javadoc/0.19.2
     - 0.19.1-forge: javadoc/0.19.1-forge
     - 0.19.1: javadoc/0.19.1
