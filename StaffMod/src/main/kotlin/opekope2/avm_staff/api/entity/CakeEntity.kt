@@ -104,6 +104,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         val particlePerSide = particlePerSide - 1
         val width = type.dimensions.width
         val height = type.dimensions.height
+        val particleManager = MinecraftClient.getInstance().particleManager
 
         for (i in 0..particlePerSide) {
             for (j in 0..particlePerSide) {
@@ -208,11 +209,9 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         private val BLOCK_POS = DataTracker.registerData(
             CakeEntity::class.java, TrackedDataHandlerRegistry.BLOCK_POS
         )
-        private val particleManager by lazy { MinecraftClient.getInstance().particleManager }
-        private val graphicsModeOption by lazy { MinecraftClient.getInstance().options.graphicsMode }
         private val particlePerSide: Int
             @OnlyIn(Dist.CLIENT)
-            get() = when (graphicsModeOption.value!!) {
+            get() = when (MinecraftClient.getInstance().options.graphicsMode.value!!) {
                 GraphicsMode.FAST -> 4
                 GraphicsMode.FANCY -> 5
                 GraphicsMode.FABULOUS -> 6
