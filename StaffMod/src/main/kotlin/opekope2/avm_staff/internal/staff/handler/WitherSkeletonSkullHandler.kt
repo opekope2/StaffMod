@@ -28,54 +28,41 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.WitherSkullEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.approximateStaffTipPosition
-import opekope2.avm_staff.util.canUseStaff
 import opekope2.avm_staff.util.getSpawnPosition
-import opekope2.avm_staff.util.isAttackCoolingDown
+import opekope2.avm_staff.util.incrementStaffItemUseStat
+import opekope2.avm_staff.util.itemInStaff
 
-internal class WitherSkeletonSkullHandler : StaffHandler() {
+internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandler() {
     override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 20
 
-    override fun use(
-        staffStack: ItemStack,
-        world: World,
-        user: PlayerEntity,
-        hand: Hand
-    ): TypedActionResult<ItemStack> {
-        user.setCurrentHand(hand)
-        return TypedActionResult.consume(staffStack)
-    }
-
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if ((remainingUseTicks and 1) == 0) {
-            tryShootSkull(world, user, Math.random() < 0.1f) // TODO ratio
-        }
+        if ((remainingUseTicks and 1) == 0) super.usageTick(staffStack, world, user, remainingUseTicks)
     }
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (attacker is PlayerEntity && attacker.itemCooldownManager.isCoolingDown(staffStack.item)) return
-
-        tryShootSkull(world, attacker, false)
-        (attacker as? PlayerEntity)?.resetLastAttackedTicks()
+        super.attack(staffStack, world, attacker, hand)
+        if (attacker is PlayerEntity) addCooldown(staffStack, world, attacker, 0)
     }
 
-    private fun tryShootSkull(world: World, user: LivingEntity, charged: Boolean) {
-        if (world.isClient) return
-        if (!user.canUseStaff) return
-        if (user is PlayerEntity && user.isAttackCoolingDown) return
+    override fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
+        if (!super.tryShootProjectile(world, shooter, reason)) return false
 
-        val spawnPos = EntityType.WITHER_SKULL.getSpawnPosition(world, user.approximateStaffTipPosition) ?: return
+        val spawnPos = EntityType.WITHER_SKULL.getSpawnPosition(world, shooter.approximateStaffTipPosition)
+            ?: return false
 
-        world.spawnEntity(WitherSkullEntity(world, user, user.rotationVector).apply {
-            isCharged = charged
+        world.spawnEntity(WitherSkullEntity(world, shooter, shooter.rotationVector).apply {
+            owner = shooter
+            isCharged = reason == ProjectileShootReason.ATTACK
             setPosition(spawnPos)
         })
-        world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, user.blockPos, 0)
+        world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, shooter.blockPos, 0)
+
+        return true
     }
 
     override fun attackEntity(
@@ -89,20 +76,26 @@ internal class WitherSkeletonSkullHandler : StaffHandler() {
         if (target is LivingEntity && !target.isInvulnerableTo(world.damageSources.wither())) {
             val amplifier = if (world.difficulty == Difficulty.HARD) 1 else 0
             target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 10 * 20, amplifier))
+            (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
 
         return EventResult.pass()
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        (user as? PlayerEntity)?.itemCooldownManager?.set(
-            staffStack.item,
-            4 * (getMaxUseTime(staffStack, world, user) - remainingUseTicks)
-        )
+        if (user is PlayerEntity) addCooldown(staffStack, world, user, remainingUseTicks)
     }
 
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
         onStoppedUsing(staffStack, world, user, 0)
         return staffStack
+    }
+
+    private fun addCooldown(staffStack: ItemStack, world: World, player: PlayerEntity, remainingUseTicks: Int) {
+        if (player.abilities.creativeMode) return
+        player.itemCooldownManager.set(
+            staffStack.item,
+            4 * (getMaxUseTime(staffStack, world, player) - remainingUseTicks)
+        )
     }
 }

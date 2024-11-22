@@ -20,58 +20,37 @@ package opekope2.avm_staff.internal.staff.handler
 
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.thrown.SnowballEntity
-import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundEvents
-import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
-internal class SnowBlockHandler : StaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+internal class SnowBlockHandler : AbstractProjectileShootingStaffHandler() {
+    private val ProjectileShootReason.velocity: Float
+        get() = when (this) {
+            ProjectileShootReason.ATTACK -> 1.5f
+            ProjectileShootReason.USE -> 3f
+        }
 
-    override fun use(
-        staffStack: ItemStack,
-        world: World,
-        user: PlayerEntity,
-        hand: Hand
-    ): TypedActionResult<ItemStack> {
-        user.setCurrentHand(hand)
-        return TypedActionResult.consume(staffStack)
-    }
+    override fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
+        if (!super.tryShootProjectile(world, shooter, reason)) return false
 
-    override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        tryThrowSnowball(world, user)
-    }
-
-    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
-        tryThrowSnowball(world, attacker)
-        (attacker as? PlayerEntity)?.resetLastAttackedTicks()
-    }
-
-    private fun tryThrowSnowball(world: World, thrower: LivingEntity) {
-        if (world.isClient) return
-        if (!thrower.canUseStaff) return
-        if (thrower is PlayerEntity && thrower.isAttackCoolingDown) return
-
-        val spawnPos = EntityType.SNOWBALL.getSpawnPosition(world, thrower.approximateStaffTipPosition) ?: return
+        val spawnPos = EntityType.SNOWBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return false
         val (x, y, z) = spawnPos
 
         world.spawnEntity(SnowballEntity(world, x, y, z).apply {
-            owner = thrower
-            // TODO speed
-            setVelocity(thrower, thrower.pitch, thrower.yaw, 0f, 4f, 1f)
+            owner = shooter
+            setVelocity(shooter, shooter.pitch, shooter.yaw, 0f, reason.velocity, 1f)
         })
         world.playSound(
             null,
-            thrower.blockPos,
+            shooter.blockPos,
             SoundEvents.ENTITY_SNOWBALL_THROW,
-            thrower.soundCategory,
-            0.5f,
-            0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
+            shooter.soundCategory,
+            .5f,
+            .4f / (world.random.nextFloat() * .4f + .8f)
         )
+
+        return true
     }
 }

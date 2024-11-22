@@ -28,16 +28,12 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
-import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
-internal class MagmaBlockHandler : StaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
-
+internal class MagmaBlockHandler : AbstractProjectileShootingStaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
         .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
@@ -45,25 +41,23 @@ internal class MagmaBlockHandler : StaffHandler() {
         .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
         .build()
 
-    override fun use(
-        staffStack: ItemStack,
-        world: World,
-        user: PlayerEntity,
-        hand: Hand
-    ): TypedActionResult<ItemStack> {
-        user.setCurrentHand(hand)
-        return TypedActionResult.consume(staffStack)
-    }
-
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if ((remainingUseTicks and 1) == 0) {
-            tryShootFireball(world, user)
-        }
+        if ((remainingUseTicks and 1) == 0) super.usageTick(staffStack, world, user, remainingUseTicks)
     }
 
-    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
-        tryShootFireball(world, attacker)
-        (attacker as? PlayerEntity)?.resetLastAttackedTicks()
+    override fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
+        if (!super.tryShootProjectile(world, shooter, reason)) return false
+
+        val spawnPos = EntityType.SMALL_FIREBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition)
+            ?: return false
+
+        world.spawnEntity(SmallFireballEntity(world, shooter, shooter.rotationVector).apply {
+            owner = shooter
+            setPosition(spawnPos)
+        })
+        world.syncWorldEvent(WorldEvents.BLAZE_SHOOTS, shooter.blockPos, 0)
+
+        return true
     }
 
     override fun attackEntity(
@@ -74,19 +68,9 @@ internal class MagmaBlockHandler : StaffHandler() {
         hand: Hand
     ): EventResult {
         target.setOnFireFor(8f)
+
+        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+
         return EventResult.pass()
-    }
-
-    private fun tryShootFireball(world: World, shooter: LivingEntity) {
-        if (world.isClient) return
-        if (!shooter.canUseStaff) return
-        if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return
-
-        val spawnPos = EntityType.SMALL_FIREBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return
-
-        world.spawnEntity(SmallFireballEntity(world, shooter, shooter.rotationVector).apply {
-            setPosition(spawnPos)
-        })
-        world.syncWorldEvent(WorldEvents.BLAZE_SHOOTS, shooter.blockPos, 0)
     }
 }
