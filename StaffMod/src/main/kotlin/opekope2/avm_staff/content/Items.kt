@@ -19,6 +19,8 @@
 package opekope2.avm_staff.content
 
 import dev.architectury.registry.CreativeTabRegistry
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.ToolComponent
 import net.minecraft.item.Item
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.registry.RegistryKeys
@@ -93,7 +95,8 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     val ROYAL_STAFF = register("royal_staff") {
         IStaffModPlatform.staffItem(
             settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Fallback.ATTRIBUTE_MODIFIERS)
-                .maxDamage(5179).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
+                .maxDamage(5179).component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 1))
+                .`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
             ROYAL_STAFF_INGREDIENT
         )
     }

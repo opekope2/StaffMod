@@ -21,6 +21,7 @@ package opekope2.avm_staff.api.item
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -77,6 +78,12 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
 
     override fun finishUsing(stack: ItemStack, world: World, user: LivingEntity): ItemStack {
         return stack.itemInStaff.staffHandlerOrFallback.finishUsing(stack, world, user)
+    }
+
+    override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) = true
+
+    override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
+        stack.damage(1, attacker, EquipmentSlot.MAINHAND)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
