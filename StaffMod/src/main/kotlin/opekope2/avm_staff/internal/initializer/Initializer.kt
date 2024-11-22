@@ -39,6 +39,7 @@ object Initializer {
         Items.register()
         ParticleTypes.register()
         SoundEvents.register()
+        StatTypes.register()
     }
 
     private fun initializeNetworking() {

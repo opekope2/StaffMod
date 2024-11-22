@@ -1,4 +1,5 @@
 {
+  "stat_type.avm_staff.used_item_in_staff": "Used in Staff",
   "advancements.avm_staff.bazeboze.description": "Hit a %s using a %s",
   "advancements.avm_staff.bazeboze.title": "Bazeboze",
   "advancements.avm_staff.bulldozer.description": "Cause mass destruction using a staff",
