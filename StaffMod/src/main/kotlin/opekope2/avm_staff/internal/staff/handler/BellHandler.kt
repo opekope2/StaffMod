@@ -38,6 +38,8 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.mixin.IBellBlockEntityAccessor
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
+import opekope2.avm_staff.util.incrementStaffItemUseStat
+import opekope2.avm_staff.util.itemInStaff
 
 internal class BellHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
@@ -96,6 +98,8 @@ internal class BellHandler : StaffHandler() {
         if (!world.isClient && target is LivingEntity) {
             IBellBlockEntityAccessor.callApplyGlowToEntity(target)
         }
+
+        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
         return EventResult.pass()
     }

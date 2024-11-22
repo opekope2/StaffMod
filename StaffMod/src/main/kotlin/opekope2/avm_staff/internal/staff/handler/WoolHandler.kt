@@ -37,9 +37,7 @@ import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.mixin.IMinecraftClientAccessor
-import opekope2.avm_staff.util.attackDamage
-import opekope2.avm_staff.util.attackSpeed
-import opekope2.avm_staff.util.mutableItemStackInStaff
+import opekope2.avm_staff.util.*
 
 internal class WoolHandler(private val woolItem: BlockItem, private val carpetItem: BlockItem) : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
@@ -73,7 +71,15 @@ internal class WoolHandler(private val woolItem: BlockItem, private val carpetIt
             staffStack.mutableItemStackInStaff!!,
             BlockHitResult(target.toCenterPos(), side, target, false)
         )
-        return itemToPlace.place(woolPlaceContext)
+
+        val result = itemToPlace.place(woolPlaceContext)
+
+        if (result.isAccepted) staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
+        if (result.shouldIncrementStat()) {
+            (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        }
+
+        return result
     }
 
     private class WoolPlacementContext(

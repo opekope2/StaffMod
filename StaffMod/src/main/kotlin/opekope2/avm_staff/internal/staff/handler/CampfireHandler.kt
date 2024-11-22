@@ -33,9 +33,7 @@ import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.ComponentTypes
 import opekope2.avm_staff.internal.minecraftUnit
-import opekope2.avm_staff.util.approximateStaffTipPosition
-import opekope2.avm_staff.util.canUseStaff
-import opekope2.avm_staff.util.times
+import opekope2.avm_staff.util.*
 
 internal class CampfireHandler(private val parameters: Parameters) : StaffHandler() {
     override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
@@ -89,10 +87,14 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
                 user
             )
         )
+
+        staffStack.damage(1, user, LivingEntity.getSlotForHand(user.activeHand))
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         staffStack.remove(ComponentTypes.rocketMode)
+        (user as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
+        (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }
 
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
@@ -108,8 +110,24 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         hand: Hand
     ): EventResult {
         target.setOnFireFor(parameters.attackFireSeconds)
+
+        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+
         return EventResult.pass()
     }
+
+    override fun allowComponentsUpdateAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        player: PlayerEntity,
+        hand: Hand
+    ) = false
+
+    override fun allowReequipAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        selectedSlotChanged: Boolean
+    ) = selectedSlotChanged
 
     data class Parameters(
         val flammableBlockFireChance: Double,

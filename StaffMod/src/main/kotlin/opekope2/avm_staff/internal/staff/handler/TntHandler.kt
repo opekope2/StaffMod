@@ -33,16 +33,21 @@ import opekope2.avm_staff.util.*
 
 internal class TntHandler : StaffHandler() {
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
-        tryShootTnt(world, attacker)
+        if (tryShootTnt(world, attacker)) {
+            staffStack.damage(1, attacker, LivingEntity.getSlotForHand(hand))
+            (attacker as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
+            (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        }
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }
 
-    private fun tryShootTnt(world: World, shooter: LivingEntity) {
-        if (world.isClient) return
-        if (!shooter.canUseStaff) return
-        if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return
+    private fun tryShootTnt(world: World, shooter: LivingEntity): Boolean {
+        if (world.isClient) return false
+        if (!shooter.canUseStaff) return false
+        if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return false
 
-        val spawnPos = EntityTypes.impactTnt.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return
+        val spawnPos =
+            EntityTypes.impactTnt.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return false
         val (x, y, z) = spawnPos
 
         world.spawnEntity(ImpactTntEntity(world, x, y, z, shooter.rotationVector + shooter.velocity, shooter))
@@ -54,5 +59,7 @@ internal class TntHandler : StaffHandler() {
         )
         world.playSound(null, x, y, z, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1f, 1f)
         world.emitGameEvent(shooter, GameEvent.PRIME_FUSE, spawnPos)
+
+        return true
     }
 }

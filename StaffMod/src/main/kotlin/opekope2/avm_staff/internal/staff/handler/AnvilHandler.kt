@@ -75,7 +75,7 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
         val fallDistance = ceil(attacker.fallDistance - 1f)
         if (fallDistance <= 0) return EventResult.interruptDefault()
 
-        aoeAttack(world, attacker, target, fallDistance)
+        val damagedEntities = aoeAttack(world, attacker, target, fallDistance)
         world.syncWorldEvent(WorldEvents.SMASH_ATTACK, target.steppingPos, 750)
         attacker.fallDistance = 0f
 
@@ -87,10 +87,14 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
             0
         )
 
+        (attacker as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
+        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        staffStack.damage(damagedEntities, attacker, LivingEntity.getSlotForHand(hand))
+
         return EventResult.interruptDefault()
     }
 
-    private fun aoeAttack(world: World, attacker: LivingEntity, target: Entity, fallDistance: Float) {
+    private fun aoeAttack(world: World, attacker: LivingEntity, target: Entity, fallDistance: Float): Int {
         val cappedFallDistance = floor(fallDistance * IAnvilBlockAccessor.fallingBlockEntityDamageMultiplier())
             .coerceAtMost(IAnvilBlockAccessor.fallingBlockEntityMaxDamage().toFloat())
         val cooldownProgress =
@@ -103,9 +107,12 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
             .and(EntityPredicates.VALID_LIVING_ENTITY)
             .and(EntityPredicates.maxDistance(target.x, target.y, target.z, radius))
 
-        world.getOtherEntities(attacker, box, predicate).forEach { entity ->
+        val entities = world.getOtherEntities(attacker, box, predicate)
+        for (entity in entities) {
             entity.damage(world.damageSources.fallingAnvil(attacker), amount / (entity.distanceTo(target) + 1))
         }
+
+        return entities.size
     }
 
     private fun damageAnvil(staffStack: ItemStack, attacker: LivingEntity, fallDistance: Float): Boolean {

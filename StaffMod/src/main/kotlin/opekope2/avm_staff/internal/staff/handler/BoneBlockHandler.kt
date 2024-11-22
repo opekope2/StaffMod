@@ -21,6 +21,7 @@ package opekope2.avm_staff.internal.staff.handler
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BoneMealItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -35,6 +36,8 @@ import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
+import opekope2.avm_staff.util.incrementStaffItemUseStat
+import opekope2.avm_staff.util.itemInStaff
 
 internal class BoneBlockHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
@@ -59,6 +62,9 @@ internal class BoneBlockHandler : StaffHandler() {
                 world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, target, 15)
             }
 
+            (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+            staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
+
             return ActionResult.SUCCESS
         }
 
@@ -72,6 +78,9 @@ internal class BoneBlockHandler : StaffHandler() {
             user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
             world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, neighborOnUsedSide, 15)
         }
+
+        (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
 
         return ActionResult.SUCCESS
     }

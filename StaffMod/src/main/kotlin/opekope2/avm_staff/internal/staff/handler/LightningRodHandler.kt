@@ -35,8 +35,10 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.util.incrementStaffItemUseStat
 import opekope2.avm_staff.util.interactionRange
 import opekope2.avm_staff.util.isItemCoolingDown
+import opekope2.avm_staff.util.itemInStaff
 
 internal class LightningRodHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
@@ -55,7 +57,14 @@ internal class LightningRodHandler : StaffHandler() {
         hand: Hand
     ): ActionResult {
         val lightningPos = Vec3d.add(target.offset(side), 0.5, 0.0, 0.5)
-        return tryStrike(staffStack, world, user, lightningPos)
+        val result = tryStrike(staffStack, world, user, lightningPos)
+
+        if (result.isAccepted) staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
+        if (result.shouldIncrementStat()) {
+            (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        }
+
+        return result
     }
 
     override fun useOnEntity(
@@ -65,7 +74,14 @@ internal class LightningRodHandler : StaffHandler() {
         target: LivingEntity,
         hand: Hand
     ): ActionResult {
-        return tryStrike(staffStack, world, user, target.pos)
+        val result = tryStrike(staffStack, world, user, target.pos)
+
+        if (result.isAccepted) staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
+        if (result.shouldIncrementStat()) {
+            (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        }
+
+        return result
     }
 
     override fun attackEntity(

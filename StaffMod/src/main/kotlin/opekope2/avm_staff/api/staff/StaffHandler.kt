@@ -28,6 +28,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.stat.Stats
 import net.minecraft.util.*
@@ -40,6 +41,7 @@ import opekope2.avm_staff.api.component.BlockPickupDataComponent
 import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.content.ComponentTypes
 import opekope2.avm_staff.util.approximateStaffItemPosition
+import opekope2.avm_staff.util.incrementStaffItemUseStat
 import opekope2.avm_staff.util.mutableItemStackInStaff
 import kotlin.math.roundToInt
 
@@ -387,6 +389,7 @@ abstract class StaffHandler {
             }
 
             onStoppedUsing(staffStack, world, user, 0)
+            (user as? PlayerEntity)?.incrementStaffItemUseStat(Items.AIR)
             return staffStack
         }
 
