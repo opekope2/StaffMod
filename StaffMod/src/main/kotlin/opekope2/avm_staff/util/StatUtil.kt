@@ -16,24 +16,25 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("ItemStackUtil")
+@file: JvmName("StatUtil")
 
 package opekope2.avm_staff.util
 
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.util.Hand
-import opekope2.avm_staff.api.item.StaffItem
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
+import net.minecraft.stat.Stats
+import opekope2.avm_staff.content.StatTypes
 
 /**
- * Checks if the given item stack is a staff.
+ * Increments [Stats.USED] of [item] by 1.
  */
-inline val ItemStack.isStaff
-    get() = item is StaffItem
+fun PlayerEntity.incrementItemUseStat(item: Item) {
+    incrementStat(Stats.USED.getOrCreateStat(item))
+}
 
 /**
- * @see ItemStack.damage
+ * Increments [StatTypes.usedItemInStaff] of [item] by 1.
  */
-fun ItemStack.damage(amount: Int = 1, entity: LivingEntity, hand: Hand = entity.activeHand) {
-    damage(amount, entity, LivingEntity.getSlotForHand(hand))
+fun PlayerEntity.incrementStaffItemUseStat(item: Item) {
+    incrementStat(StatTypes.usedItemInStaff.getOrCreateStat(item))
 }
