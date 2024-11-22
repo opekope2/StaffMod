@@ -241,7 +241,7 @@ abstract class StaffHandler {
      * @param target        The block the [attacker] attacked
      * @param side          The side of the [block][target], which was attacked
      * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
-     * @see opekope2.avm_staff.content.Criteria.breakBlockWithStaff
+     * @see opekope2.avm_staff.content.Criteria.destroyBlockWithStaff
      */
     open fun attackBlock(
         staffStack: ItemStack, world: World, attacker: LivingEntity, target: BlockPos, side: Direction, hand: Hand

@@ -20,7 +20,7 @@
   },
   "criteria": {
     "use_diamond_block_staff": {
-      "trigger": "avm_staff:break_block_with_staff",
+      "trigger": "avm_staff:destroy_block_with_staff",
       "conditions": {
         "player": {
           "equipment": {
@@ -39,7 +39,7 @@
       }
     },
     "use_netherite_block_staff": {
-      "trigger": "avm_staff:break_block_with_staff",
+      "trigger": "avm_staff:destroy_block_with_staff",
       "conditions": {
         "player": {
           "equipment": {

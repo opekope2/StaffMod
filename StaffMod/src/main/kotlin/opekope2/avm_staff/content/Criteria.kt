@@ -45,17 +45,17 @@ object Criteria : RegistryUtil<Criterion<*>>(MOD_ID, RegistryKeys.CRITERION) {
         get() = TAKE_DAMAGE_WHILE_USING_ITEM.get()
 
     /**
-     * Criterion registered as `avm_staff:break_block_with_staff`. Triggers before a block is broken by a staff.
+     * Criterion registered as `avm_staff:destroy_block_with_staff`. Triggers before a block is destroyed by a staff.
      */
     @JvmField
-    val BREAK_BLOCK_WITH_STAFF = register("break_block_with_staff") {
+    val DESTROY_BLOCK_WITH_STAFF = register("destroy_block_with_staff") {
         BreakBlockWithStaffCriterion()
     }
 
     /**
-     * @see BREAK_BLOCK_WITH_STAFF
+     * @see DESTROY_BLOCK_WITH_STAFF
      */
-    val breakBlockWithStaff: BreakBlockWithStaffCriterion
-        @JvmName("breakBlockWithStaff")
-        get() = BREAK_BLOCK_WITH_STAFF.get()
+    val destroyBlockWithStaff: BreakBlockWithStaffCriterion
+        @JvmName("destroyBlockWithStaff")
+        get() = DESTROY_BLOCK_WITH_STAFF.get()
 }
