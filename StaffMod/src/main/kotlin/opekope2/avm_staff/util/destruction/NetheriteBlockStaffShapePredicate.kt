@@ -33,17 +33,14 @@ import opekope2.avm_staff.util.times
  * @param upVector      Vector pointing "upward" relative to the block destroyer's POV
  */
 class NetheriteBlockStaffShapePredicate(origin: BlockPos, forwardVector: Vec3i, upVector: Vec3i) :
-    BlockDestructionPredicate {
+    IShapedBlockDestructionPredicate {
     private val rightVector = forwardVector.crossProduct(upVector)
 
     private val farBottomLeft = origin + forwardVector * 10 + upVector * -3 + rightVector * -6
     private val furtherBottomLeft = origin + forwardVector * 11 + upVector * -3 + rightVector * -6
     private val nearTopRight = origin + upVector * 9 + rightVector * 6
 
-    /**
-     * The bounding volume of the destroyable blocks.
-     */
-    val volume = encompassPositions(furtherBottomLeft, nearTopRight)!!
+    override val volume = encompassPositions(furtherBottomLeft, nearTopRight)!!
 
     override fun test(world: ServerWorld, pos: BlockPos): Boolean {
         if (pos !in volume) return false

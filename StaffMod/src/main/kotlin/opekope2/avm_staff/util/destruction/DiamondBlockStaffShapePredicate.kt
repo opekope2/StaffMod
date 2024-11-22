@@ -39,7 +39,7 @@ import kotlin.math.abs
  * @param rng           Random number generator deciding the pattern of destruction
  */
 class DiamondBlockStaffShapePredicate(origin: BlockPos, forwardVector: Vec3i, upVector: Vec3i, rng: Random) :
-    BlockDestructionPredicate {
+    IShapedBlockDestructionPredicate {
     private val rightVector: Vec3i = forwardVector.crossProduct(upVector)
 
     private val farBottomLeft = origin + forwardVector * 8 + upVector * -1 + rightVector * -4
@@ -48,10 +48,7 @@ class DiamondBlockStaffShapePredicate(origin: BlockPos, forwardVector: Vec3i, up
 
     private val nonDestroyablePositions: Set<BlockPos>
 
-    /**
-     * The bounding volume of the destroyable blocks.
-     */
-    val volume = encompassPositions(farBottomLeft, nearTopRight)!!
+    override val volume = encompassPositions(farBottomLeft, nearTopRight)!!
 
     init {
         nonDestroyablePositions = mutableSetOf()
