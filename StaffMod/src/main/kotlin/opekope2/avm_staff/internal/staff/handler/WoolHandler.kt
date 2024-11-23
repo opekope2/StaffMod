@@ -28,6 +28,7 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.tag.BlockTags
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
@@ -76,7 +77,7 @@ internal class WoolHandler(private val woolItem: BlockItem, private val carpetIt
 
         if (result.isAccepted) staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
         if (result.shouldIncrementStat()) {
-            (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
 
         return result

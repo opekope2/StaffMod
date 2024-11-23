@@ -26,6 +26,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
@@ -99,7 +100,7 @@ internal class BellHandler : StaffHandler() {
             IBellBlockEntityAccessor.callApplyGlowToEntity(target)
         }
 
-        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
         return EventResult.pass()
     }

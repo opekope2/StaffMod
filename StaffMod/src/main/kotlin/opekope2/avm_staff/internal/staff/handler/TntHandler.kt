@@ -21,6 +21,7 @@ package opekope2.avm_staff.internal.staff.handler
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
@@ -35,8 +36,8 @@ internal class TntHandler : StaffHandler() {
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (tryShootTnt(world, attacker)) {
             staffStack.damage(1, attacker, LivingEntity.getSlotForHand(hand))
-            (attacker as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
-            (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+            (attacker as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
+            (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }

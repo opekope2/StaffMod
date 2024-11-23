@@ -27,6 +27,7 @@ import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.WitherSkullEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
@@ -76,7 +77,7 @@ internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandl
         if (target is LivingEntity && !target.isInvulnerableTo(world.damageSources.wither())) {
             val amplifier = if (world.difficulty == Difficulty.HARD) 1 else 0
             target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 10 * 20, amplifier))
-            (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+            (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
 
         return EventResult.pass()

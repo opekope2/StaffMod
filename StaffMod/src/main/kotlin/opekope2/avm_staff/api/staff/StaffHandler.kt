@@ -30,6 +30,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.registry.Registries
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.stat.Stats
 import net.minecraft.util.*
 import net.minecraft.util.math.BlockPos
@@ -389,7 +390,7 @@ abstract class StaffHandler {
             }
 
             onStoppedUsing(staffStack, world, user, 0)
-            (user as? PlayerEntity)?.incrementStaffItemUseStat(Items.AIR)
+            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(Items.AIR)
             return staffStack
         }
 

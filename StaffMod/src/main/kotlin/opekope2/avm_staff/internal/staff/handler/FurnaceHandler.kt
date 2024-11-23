@@ -31,6 +31,7 @@ import net.minecraft.particle.ParticleTypes
 import net.minecraft.recipe.AbstractCookingRecipe
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.input.SingleStackRecipeInput
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -103,7 +104,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         furnaceData.burnTicks -= stackToSmelt.count
 
         staffStack.damage(stackToSmelt.count, user, LivingEntity.getSlotForHand(user.activeHand))
-        (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }
 
     private fun findItemToSmelt(world: World, smeltingPosition: Vec3d): ItemEntity? {
@@ -129,7 +130,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         staffStack.remove(ComponentTypes.furnaceData)
-        (user as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
+        (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
     }
 
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {

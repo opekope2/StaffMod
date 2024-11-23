@@ -21,10 +21,10 @@ package opekope2.avm_staff.internal.staff.handler
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BoneMealItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -62,7 +62,7 @@ internal class BoneBlockHandler : StaffHandler() {
                 world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, target, 15)
             }
 
-            (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
             staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
 
             return ActionResult.SUCCESS
@@ -79,7 +79,7 @@ internal class BoneBlockHandler : StaffHandler() {
             world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, neighborOnUsedSide, 15)
         }
 
-        (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
 
         return ActionResult.SUCCESS

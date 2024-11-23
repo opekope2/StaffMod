@@ -24,9 +24,9 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
@@ -69,7 +69,7 @@ internal class MagmaBlockHandler : AbstractProjectileShootingStaffHandler() {
     ): EventResult {
         target.setOnFireFor(8f)
 
-        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
         return EventResult.pass()
     }

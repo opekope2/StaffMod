@@ -22,6 +22,7 @@ import dev.architectury.event.EventResult
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -67,8 +68,8 @@ internal abstract class AbstractMassDestructiveStaffHandler : StaffHandler() {
         )
         dropCollector.dropAll(world)
 
-        (attacker as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
-        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        (attacker as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
+        (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
         // "Mismatch in destroy block pos" in server logs if I interrupt on server but not on client side. Nothing bad should happen, right?
         return EventResult.pass()

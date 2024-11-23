@@ -20,21 +20,21 @@
 
 package opekope2.avm_staff.util
 
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.stat.Stats
 import opekope2.avm_staff.content.StatTypes
 
 /**
  * Increments [Stats.USED] of [item] by 1.
  */
-fun PlayerEntity.incrementItemUseStat(item: Item) {
+fun ServerPlayerEntity.incrementItemUseStat(item: Item) {
     incrementStat(Stats.USED.getOrCreateStat(item))
 }
 
 /**
  * Increments [StatTypes.usedItemInStaff] of [item] by 1.
  */
-fun PlayerEntity.incrementStaffItemUseStat(item: Item) {
+fun ServerPlayerEntity.incrementStaffItemUseStat(item: Item) {
     incrementStat(StatTypes.usedItemInStaff.getOrCreateStat(item))
 }

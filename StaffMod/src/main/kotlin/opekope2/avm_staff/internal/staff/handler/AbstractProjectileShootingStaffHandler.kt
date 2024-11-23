@@ -22,6 +22,7 @@ import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
@@ -51,16 +52,16 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         if (tryShootProjectile(world, user, ProjectileShootReason.USE)) {
             staffStack.damage(entity = user)
-            (user as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
-            (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+            (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
+            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
     }
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (tryShootProjectile(world, attacker, ProjectileShootReason.ATTACK)) {
             staffStack.damage(entity = attacker)
-            (attacker as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
-            (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+            (attacker as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
+            (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }

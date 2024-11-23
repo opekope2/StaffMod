@@ -27,6 +27,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -61,7 +62,7 @@ internal class LightningRodHandler : StaffHandler() {
 
         if (result.isAccepted) staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
         if (result.shouldIncrementStat()) {
-            (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
 
         return result
@@ -78,7 +79,7 @@ internal class LightningRodHandler : StaffHandler() {
 
         if (result.isAccepted) staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
         if (result.shouldIncrementStat()) {
-            (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
 
         return result

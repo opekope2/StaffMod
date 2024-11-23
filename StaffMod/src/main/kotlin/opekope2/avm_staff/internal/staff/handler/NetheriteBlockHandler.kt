@@ -26,6 +26,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -94,7 +95,7 @@ internal class NetheriteBlockHandler : AbstractMassDestructiveStaffHandler() {
 
         world.syncWorldEvent(WorldEvents.SMASH_ATTACK, target.steppingPos, 750)
 
-        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
         return EventResult.pass()
     }

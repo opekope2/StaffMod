@@ -28,6 +28,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -87,8 +88,8 @@ internal class AnvilHandler(private val damagedItem: Item?) : StaffHandler() {
             0
         )
 
-        (attacker as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
-        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        (attacker as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
+        (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         staffStack.damage(damagedEntities, attacker, LivingEntity.getSlotForHand(hand))
 
         return EventResult.interruptDefault()

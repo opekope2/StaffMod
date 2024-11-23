@@ -25,6 +25,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.SimpleParticleType
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.MathHelper
@@ -93,8 +94,8 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         staffStack.remove(ComponentTypes.rocketMode)
-        (user as? PlayerEntity)?.incrementItemUseStat(staffStack.item)
-        (user as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
+        (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }
 
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
@@ -111,7 +112,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
     ): EventResult {
         target.setOnFireFor(parameters.attackFireSeconds)
 
-        (attacker as? PlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
         return EventResult.pass()
     }
