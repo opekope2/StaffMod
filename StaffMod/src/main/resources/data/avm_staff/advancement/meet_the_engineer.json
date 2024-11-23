@@ -2,7 +2,14 @@
   "parent": "avm_staff:get_pranked_lol",
   "display": {
     "icon": {
-      "id": "minecraft:cake"
+      "id": "avm_staff:royal_staff",
+      "components": {
+        "avm_staff:staff_item": {
+          "item": {
+            "id": "minecraft:cake"
+          }
+        }
+      }
     },
     "title": {
       "translate": "advancements.avm_staff.meet_the_engineer.title"
@@ -10,12 +17,18 @@
     "description": {
       "translate": "advancements.avm_staff.meet_the_engineer.description",
       "with": [
-        {
-          "translate": "block.minecraft.cake"
-        },
-        {
-          "translate": "entity.avm_staff.impact_tnt"
-        }
+        [
+          "a ",
+          {
+            "translate": "block.minecraft.cake"
+          }
+        ],
+        [
+          "an ",
+          {
+            "translate": "entity.avm_staff.impact_tnt"
+          }
+        ]
       ]
     },
     "hidden": true

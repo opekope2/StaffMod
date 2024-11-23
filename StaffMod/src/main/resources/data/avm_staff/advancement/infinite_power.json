@@ -14,7 +14,15 @@
       "translate": "advancements.avm_staff.infinite_power.title"
     },
     "description": {
-      "translate": "advancements.avm_staff.infinite_power.description"
+      "translate": "advancements.avm_staff.infinite_power.description",
+      "with": [
+        [
+          "a ",
+          {
+            "translate": "item.avm_staff.staff"
+          }
+        ]
+      ]
     },
     "frame": "goal",
     "background": "minecraft:textures/block/smithing_table_top.png"

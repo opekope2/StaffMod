@@ -6,7 +6,7 @@
       "components": {
         "avm_staff:staff_item": {
           "item": {
-            "id": "minecraft:netherite_block"
+            "id": "minecraft:diamond_block"
           }
         }
       }
@@ -14,9 +14,17 @@
     "title": {
       "translate": "advancements.avm_staff.bulldozer.title"
     },
-    "description": {
-      "translate": "advancements.avm_staff.bulldozer.description"
-    }
+    "description": [
+      [
+        "a ",
+        {
+          "translate": "item.avm_staff.staff"
+        }
+      ],
+      {
+        "translate": "advancements.avm_staff.bulldozer.description"
+      }
+    ]
   },
   "criteria": {
     "use_diamond_block_staff": {

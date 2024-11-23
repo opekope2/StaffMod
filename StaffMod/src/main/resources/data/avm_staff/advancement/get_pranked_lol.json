@@ -10,9 +10,12 @@
     "description": {
       "translate": "advancements.avm_staff.get_pranked_lol.description",
       "with": [
-        {
-          "translate": "block.minecraft.cake"
-        }
+        [
+          "a ",
+          {
+            "translate": "block.minecraft.cake"
+          }
+        ]
       ]
     }
   },

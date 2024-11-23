@@ -1,5 +1,5 @@
 {
-  "parent": "avm_staff:infinite_power",
+  "parent": "avm_staff:bulldozer",
   "display": {
     "icon": {
       "id": "avm_staff:royal_staff",
@@ -17,17 +17,23 @@
     "description": {
       "translate": "advancements.avm_staff.bazeboze.description",
       "with": [
-        {
-          "translate": "entity.minecraft.bat"
-        },
-        {
-          "translate": "item.avm_staff.staff_template.with_item",
-          "with": [
-            {
-              "translate": "block.minecraft.netherite_block"
-            }
-          ]
-        }
+        [
+          "a ",
+          {
+            "translate": "entity.minecraft.bat"
+          }
+        ],
+        [
+          "a ",
+          {
+            "translate": "item.avm_staff.staff.with_item",
+            "with": [
+              {
+                "translate": "block.minecraft.netherite_block"
+              }
+            ]
+          }
+        ]
       ]
     }
   },

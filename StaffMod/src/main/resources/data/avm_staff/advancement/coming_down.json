@@ -2,7 +2,7 @@
   "parent": "avm_staff:learning_to_fly",
   "display": {
     "icon": {
-      "id": "minecraft:anvil"
+      "id": "minecraft:damaged_anvil"
     },
     "title": {
       "translate": "advancements.avm_staff.coming_down.title"

@@ -17,9 +17,12 @@
     "description": {
       "translate": "advancements.avm_staff.juggler.description",
       "with": [
-        {
-          "translate": "entity.avm_staff.impact_tnt"
-        }
+        [
+          "an ",
+          {
+            "translate": "entity.avm_staff.impact_tnt"
+          }
+        ]
       ]
     },
     "frame": "challenge"
