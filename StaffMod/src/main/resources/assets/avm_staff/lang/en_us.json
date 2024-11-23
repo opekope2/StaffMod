@@ -16,6 +16,8 @@
   "advancements.avm_staff.get_pranked_lol.title": "Get pranked LOL",
   "advancements.avm_staff.infinite_power.description": "Obtain a staff",
   "advancements.avm_staff.infinite_power.title": "Infinite Power!",
+  "advancements.avm_staff.juggler.description": "Hit an %s 3 times",
+  "advancements.avm_staff.juggler.title": "Juggler",
   "advancements.avm_staff.learning_to_fly.description": "Use a %s to fly",
   "advancements.avm_staff.learning_to_fly.title": "Learning to fly",
   "advancements.avm_staff.meet_the_engineer.description": "Get thrown with a %s launched by an %s",

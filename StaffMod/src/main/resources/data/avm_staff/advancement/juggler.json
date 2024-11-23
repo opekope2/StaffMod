@@ -1,0 +1,38 @@
+{
+  "parent": "avm_staff:infinite_power",
+  "display": {
+    "icon": {
+      "id": "avm_staff:royal_staff",
+      "components": {
+        "avm_staff:staff_item": {
+          "item": {
+            "id": "minecraft:tnt"
+          }
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.avm_staff.juggler.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.juggler.description",
+      "with": [
+        {
+          "translate": "entity.avm_staff.impact_tnt"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "juggler": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "avm_staff:impact_tnt",
+          "nbt": "{Juggles:3}"
+        }
+      }
+    }
+  }
+}

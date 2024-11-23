@@ -18,11 +18,14 @@
 
 package opekope2.avm_staff.api.entity
 
+import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.*
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.registry.tag.DamageTypeTags
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import opekope2.avm_staff.content.Enchantments
@@ -33,6 +36,7 @@ import opekope2.avm_staff.util.plus
  * A TNT entity, which explodes on collision.
  */
 class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : TntEntity(entityType, world), Ownable {
+    private var juggles = 0
     private var owner: LivingEntity? = null
 
     /**
@@ -75,7 +79,13 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
         if (!isRemoved && !isInvulnerableTo(source) && !source.isIn(DamageTypeTags.IS_EXPLOSION) && timeUntilRegen == 0) {
             val attacker = source.attacker
             if (attacker is LivingEntity) {
-                owner = attacker
+                if (owner === attacker) {
+                    juggles++
+                } else {
+                    owner = attacker
+                    juggles = 0
+                }
+
                 val redirect = EnchantmentHelper.hasAnyEnchantmentsIn(
                     attacker.mainHandStack,
                     Enchantments.Tags.REDIRECTS_IMPACT_TNT
@@ -83,6 +93,10 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
                 if (redirect) {
                     timeUntilRegen = 10
                     velocity += attacker.rotationVector
+
+                    if (attacker is ServerPlayerEntity) {
+                        Criteria.PLAYER_HURT_ENTITY.trigger(attacker, this, source, amount, 0f, false)
+                    }
                 } else {
                     explodeLater()
                 }
@@ -90,6 +104,16 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
         }
 
         return super.damage(source, amount)
+    }
+
+    override fun readCustomDataFromNbt(nbt: NbtCompound) {
+        super.readCustomDataFromNbt(nbt)
+        juggles = nbt.getInt(JUGGLES_KEY)
+    }
+
+    override fun writeCustomDataToNbt(nbt: NbtCompound) {
+        super.writeCustomDataToNbt(nbt)
+        nbt.putInt(JUGGLES_KEY, juggles)
     }
 
     private fun explodeOnImpact() {
@@ -127,4 +151,8 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
     }
 
     override fun getOwner() = owner
+
+    private companion object {
+        private const val JUGGLES_KEY = "Juggles"
+    }
 }
