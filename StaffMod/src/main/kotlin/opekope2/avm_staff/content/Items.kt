@@ -24,9 +24,7 @@ import net.minecraft.component.type.ToolComponent
 import net.minecraft.item.Item
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.tag.TagKey
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.item.CrownItem
@@ -36,6 +34,7 @@ import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.TagKeyUtil
 
 /**
  * Items added by AVM Staffs mod.
@@ -178,11 +177,11 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     /**
      * Item tags added by AVM Staffs mod.
      */
-    object Tags {
+    object Tags : TagKeyUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
         /**
          * Item tag registered as `avm_staff:staffs`.
          */
         @JvmField
-        val STAFFS: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "staffs"))
+        val STAFFS = tagKey("staffs")
     }
 }
