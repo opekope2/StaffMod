@@ -21,10 +21,7 @@ package opekope2.avm_staff.content
 import net.minecraft.component.ComponentType
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.registry.RegistryKeys
-import opekope2.avm_staff.api.component.BlockPickupDataComponent
-import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
-import opekope2.avm_staff.api.component.StaffItemComponent
-import opekope2.avm_staff.api.component.StaffRendererPartComponent
+import opekope2.avm_staff.api.component.*
 import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.internal.minecraftUnit
 import opekope2.avm_staff.util.MOD_ID
@@ -120,4 +117,21 @@ object ComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA
     val blockPickupData: ComponentType<BlockPickupDataComponent>
         @JvmName("blockPickupData")
         get() = BLOCK_PICKUP_DATA.get()
+
+    /**
+     * Data component registered as `avm_staff:tnt_data`.
+     */
+    @JvmField
+    val TNT_DATA = register("tnt_data") {
+        ComponentType.builder<StaffTntDataComponent>()
+            .packetCodec(StaffTntDataComponent.NON_SYNCING_PACKET_CODEC)
+            .build()
+    }
+
+    /**
+     * @see TNT_DATA
+     */
+    val tntData: ComponentType<StaffTntDataComponent>
+        @JvmName("tntData")
+        get() = TNT_DATA.get()
 }
