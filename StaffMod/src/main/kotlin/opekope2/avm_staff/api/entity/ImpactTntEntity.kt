@@ -18,11 +18,16 @@
 
 package opekope2.avm_staff.api.entity
 
+import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.*
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.content.EntityTypes
+import opekope2.avm_staff.util.plus
 
 /**
  * A TNT entity, which explodes on collision.
@@ -52,11 +57,39 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
         this.owner = owner
     }
 
+    override fun tick() {
+        super.tick()
+        if (timeUntilRegen > 0) timeUntilRegen--
+    }
+
     override fun move(movementType: MovementType?, movement: Vec3d?) {
         super.move(movementType, movement)
         if (!world.isClient) {
             explodeOnImpact()
         }
+    }
+
+    override fun damage(source: DamageSource, amount: Float): Boolean {
+        if (world.isClient) return super.damage(source, amount)
+
+        if (!isRemoved && !isInvulnerableTo(source) && !source.isIn(DamageTypeTags.IS_EXPLOSION) && timeUntilRegen == 0) {
+            val attacker = source.attacker
+            if (attacker is LivingEntity) {
+                owner = attacker
+                val redirect = EnchantmentHelper.hasAnyEnchantmentsIn(
+                    attacker.mainHandStack,
+                    Enchantments.Tags.REDIRECTS_IMPACT_TNT
+                )
+                if (redirect) {
+                    timeUntilRegen = 10
+                    velocity += attacker.rotationVector
+                } else {
+                    explodeLater()
+                }
+            }
+        }
+
+        return super.damage(source, amount)
     }
 
     private fun explodeOnImpact() {

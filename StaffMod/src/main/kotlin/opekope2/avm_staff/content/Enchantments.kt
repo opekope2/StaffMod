@@ -32,6 +32,12 @@ object Enchantments {
      */
     object Tags : TagKeyUtil<Enchantment>(MOD_ID, RegistryKeys.ENCHANTMENT) {
         /**
+         * Enchantment registered as `avm_staff:redirects_impact_tnt`.
+         */
+        @JvmField
+        val REDIRECTS_IMPACT_TNT = tagKey("redirects_impact_tnt")
+
+        /**
          * Enchantment registered as `avm_staff:allows_projectile_rapid_fire`.
          */
         @JvmField
