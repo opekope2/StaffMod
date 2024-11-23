@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
+import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -25,6 +26,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.util.*
 
 internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() {
@@ -36,6 +38,12 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
         user: PlayerEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
+        val allowsProjectileRapidFire = EnchantmentHelper.hasAnyEnchantmentsIn(
+            user.mainHandStack,
+            Enchantments.Tags.ALLOWS_PROJECTILE_RAPID_FIRE
+        )
+        if (!allowsProjectileRapidFire) return TypedActionResult.pass(staffStack)
+
         user.setCurrentHand(hand)
         return TypedActionResult.consume(staffStack)
     }
