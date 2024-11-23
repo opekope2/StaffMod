@@ -19,11 +19,14 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.BoneMealItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -34,10 +37,7 @@ import net.minecraft.world.WorldEvents
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.util.attackDamage
-import opekope2.avm_staff.util.attackSpeed
-import opekope2.avm_staff.util.incrementStaffItemUseStat
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.*
 
 internal class BoneBlockHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
@@ -55,33 +55,55 @@ internal class BoneBlockHandler : StaffHandler() {
         side: Direction,
         hand: Hand
     ): ActionResult {
-        if (BoneMealItem.useOnFertilizable(Items.BONE_MEAL.defaultStack, world, target)) {
-            // TODO fertilize area when enchanted
-            if (!world.isClient) {
-                user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
-                world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, target, 15)
-            }
-
-            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
-            staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
-
-            return ActionResult.SUCCESS
+        if (!useOnFertilizable(world, user, target)) {
+            return if (useOnGround(world, user, target, side)) {
+                (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+                staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
+                ActionResult.SUCCESS
+            } else ActionResult.PASS
         }
 
+        val efficiencyRef = world.registryManager[RegistryKeys.ENCHANTMENT].getEntry(Enchantments.EFFICIENCY).get()
+        val range = 0.5 + EnchantmentHelper.getLevel(efficiencyRef, staffStack).coerceAtMost(5) / 2.0
+        val rangeSquare = range * range
+        var uses = 0
+
+        for (pos in BlockPos.iterateOutwards(target, range.toInt(), range.toInt(), range.toInt())) {
+            if (pos == target) continue
+            val offset = pos - target
+            if (offset.x * offset.x + offset.y * offset.y + offset.z * offset.z > rangeSquare) continue
+
+            if (useOnFertilizable(world, user, pos)) uses++
+        }
+
+        (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+        staffStack.damage(uses, user, hand)
+
+        return ActionResult.SUCCESS
+    }
+
+    private fun useOnFertilizable(world: World, user: LivingEntity, target: BlockPos): Boolean {
+        if (!BoneMealItem.useOnFertilizable(Items.BONE_MEAL.defaultStack, world, target)) return false
+
+        if (!world.isClient) {
+            user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
+            world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, target, 15)
+        }
+        return true
+    }
+
+    private fun useOnGround(world: World, user: LivingEntity, target: BlockPos, side: Direction): Boolean {
         val targetState = world.getBlockState(target)
-        if (!targetState.isSideSolidFullSquare(world, target, side)) return ActionResult.PASS
+        if (!targetState.isSideSolidFullSquare(world, target, side)) return false
 
         val neighborOnUsedSide = target.offset(side)
-        if (!BoneMealItem.useOnGround(staffStack.copy(), world, neighborOnUsedSide, side)) return ActionResult.PASS
+        if (!BoneMealItem.useOnGround(Items.BONE_MEAL.defaultStack, world, neighborOnUsedSide, side)) return false
 
         if (!world.isClient) {
             user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
             world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, neighborOnUsedSide, 15)
         }
 
-        (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
-        staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
-
-        return ActionResult.SUCCESS
+        return true
     }
 }
