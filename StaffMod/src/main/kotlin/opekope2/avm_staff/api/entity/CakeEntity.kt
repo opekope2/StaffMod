@@ -20,6 +20,7 @@ package opekope2.avm_staff.api.entity
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
 import net.minecraft.client.option.GraphicsMode
 import net.minecraft.client.particle.BlockDustParticle
@@ -32,6 +33,7 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.server.network.EntityTrackerEntry
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
@@ -203,6 +205,11 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
 
         if (!isRemoved && !isInvulnerableTo(source) && !source.isIn(DamageTypeTags.IS_EXPLOSION)) {
             discard()
+
+            val attacker = source.attacker
+            if (attacker is ServerPlayerEntity) {
+                Criteria.PLAYER_KILLED_ENTITY.trigger(attacker, this, source)
+            }
         }
 
         return super.damage(source, amount)

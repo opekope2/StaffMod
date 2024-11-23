@@ -99,6 +99,10 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
                     }
                 } else {
                     explodeLater()
+
+                    if (attacker is ServerPlayerEntity) {
+                        Criteria.PLAYER_KILLED_ENTITY.trigger(attacker, this, source)
+                    }
                 }
             }
         }
