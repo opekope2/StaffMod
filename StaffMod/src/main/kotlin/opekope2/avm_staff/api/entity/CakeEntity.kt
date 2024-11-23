@@ -30,6 +30,7 @@ import net.minecraft.entity.data.DataTracker
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
@@ -75,13 +76,6 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         setPrevData()
         startPos = blockPos
         this.thrower = thrower
-    }
-
-    override fun handleAttack(attacker: Entity?): Boolean {
-        if (!world.isClient) {
-            discard()
-        }
-        return true
     }
 
     /**
@@ -199,11 +193,18 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
 
     override fun damage(source: DamageSource, amount: Float): Boolean {
+        if (world.isClient) return super.damage(source, amount)
+
         val causer = source.source
         if (causer is ImpactTntEntity && causer.owner != null) {
             thrower = causer.owner
             redirectedByImpactTnt = true
         }
+
+        if (!isRemoved && !isInvulnerableTo(source) && !source.isIn(DamageTypeTags.IS_EXPLOSION)) {
+            discard()
+        }
+
         return super.damage(source, amount)
     }
 
