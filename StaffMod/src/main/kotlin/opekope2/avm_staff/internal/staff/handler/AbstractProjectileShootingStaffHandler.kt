@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -31,6 +30,8 @@ import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.util.*
 
 internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() {
+    protected abstract fun getFireRateDenominator(rapidFireLevel: Int): Int
+
     override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
 
     override fun use(
@@ -39,10 +40,7 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
         user: PlayerEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        val allowsProjectileRapidFire = EnchantmentHelper.hasAnyEnchantmentsIn(
-            user.mainHandStack,
-            Enchantments.Tags.ALLOWS_PROJECTILE_RAPID_FIRE
-        )
+        val allowsProjectileRapidFire = staffStack.isEnchantedWith(Enchantments.RAPID_FIRE, world.registryManager)
         if (!allowsProjectileRapidFire) return TypedActionResult.pass(staffStack)
 
         user.setCurrentHand(hand)
@@ -50,11 +48,13 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (tryShootProjectile(world, user, ProjectileShootReason.USE)) {
-            staffStack.damage(entity = user)
-            (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
-            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
-        }
+        val rapidFire = staffStack.getEnchantmentLevel(Enchantments.RAPID_FIRE, world.registryManager)
+        if (remainingUseTicks % getFireRateDenominator(rapidFire) != 0) return
+        if (!tryShootProjectile(world, user, ProjectileShootReason.USE)) return
+
+        staffStack.damage(entity = user)
+        (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
+        (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {

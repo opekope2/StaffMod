@@ -29,18 +29,15 @@ import opekope2.avm_staff.util.TagKeyUtil
  */
 object Enchantments : RegistryKeyUtil<Enchantment>(MOD_ID, RegistryKeys.ENCHANTMENT) {
     @JvmField
+    val RAPID_FIRE = registryKey("rapid_fire")
+
+    @JvmField
     val SPECTRE = registryKey("spectre")
 
     /**
      * Enchantment tags added by AVM Staffs mod.
      */
     object Tags : TagKeyUtil<Enchantment>(MOD_ID, RegistryKeys.ENCHANTMENT) {
-        /**
-         * Enchantment registered as `avm_staff:allows_projectile_rapid_fire`.
-         */
-        @JvmField
-        val ALLOWS_PROJECTILE_RAPID_FIRE = tagKey("allows_projectile_rapid_fire")
-
         /**
          * Enchantment registered as `avm_staff:redirects_impact_tnt`.
          */

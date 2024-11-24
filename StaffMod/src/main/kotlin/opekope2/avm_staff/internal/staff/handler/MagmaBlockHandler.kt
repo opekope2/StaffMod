@@ -41,9 +41,7 @@ internal class MagmaBlockHandler : AbstractProjectileShootingStaffHandler() {
         .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
         .build()
 
-    override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if ((remainingUseTicks and 1) == 0) super.usageTick(staffStack, world, user, remainingUseTicks)
-    }
+    override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 2 else 4
 
     override fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
         if (!super.tryShootProjectile(world, shooter, reason)) return false

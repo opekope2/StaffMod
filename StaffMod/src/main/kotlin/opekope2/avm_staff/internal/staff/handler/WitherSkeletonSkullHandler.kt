@@ -38,11 +38,9 @@ import opekope2.avm_staff.util.incrementStaffItemUseStat
 import opekope2.avm_staff.util.itemInStaff
 
 internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 20
+    override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 2 else 4
 
-    override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if ((remainingUseTicks and 1) == 0) super.usageTick(staffStack, world, user, remainingUseTicks)
-    }
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 20
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (attacker is PlayerEntity && attacker.itemCooldownManager.isCoolingDown(staffStack.item)) return

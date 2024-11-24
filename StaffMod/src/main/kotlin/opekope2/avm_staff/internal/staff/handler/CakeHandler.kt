@@ -28,6 +28,8 @@ import opekope2.avm_staff.util.plus
 import opekope2.avm_staff.util.times
 
 internal class CakeHandler : AbstractProjectileShootingStaffHandler() {
+    override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 1 else 2
+
     private val ProjectileShootReason.velocity: Double
         get() = when (this) {
             ProjectileShootReason.ATTACK -> 0.5

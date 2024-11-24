@@ -32,6 +32,8 @@ internal class SnowBlockHandler : AbstractProjectileShootingStaffHandler() {
             ProjectileShootReason.USE -> 3f
         }
 
+    override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 1 else 2
+
     override fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
         if (!super.tryShootProjectile(world, shooter, reason)) return false
 

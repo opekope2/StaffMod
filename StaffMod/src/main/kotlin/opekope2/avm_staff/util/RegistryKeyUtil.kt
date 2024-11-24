@@ -18,9 +18,11 @@
 
 package opekope2.avm_staff.util
 
+import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.Identifier
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Utility class to create [Identifier]s and [RegistryKey]s using a specified [namespace][Identifier.namespace] and
@@ -51,4 +53,12 @@ open class RegistryKeyUtil<TContent>(
      * @param path  The path of the [Identifier] to create a registry key from
      */
     fun registryKey(path: String): RegistryKey<TContent> = RegistryKey.of(registry, id(path))
+
+    /**
+     * Gets the registry entry of the given registry key from the given registry manager or `null`, if it's not found.
+     *
+     * @param registryManager   The registry manager of a world
+     */
+    fun RegistryKey<TContent>.getEntry(registryManager: DynamicRegistryManager) =
+        registryManager.get(this@RegistryKeyUtil.registry).getEntry(this).getOrNull()
 }
