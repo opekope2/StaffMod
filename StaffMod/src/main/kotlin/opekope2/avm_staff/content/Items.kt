@@ -43,34 +43,23 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     private fun settings() = Item.Settings()
 
     /**
-     * Item registered as `avm_staff:faint_staff_rod`.
+     * Item registered as `avm_staff:crown_of_king_orange`.
      */
     @JvmField
-    val FAINT_STAFF_ROD = register("faint_staff_rod") {
-        Item(settings().`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+    val CROWN_OF_KING_ORANGE = register("crown_of_king_orange") {
+        IStaffModPlatform.crownItem(
+            Blocks.CROWN_OF_KING_ORANGE.get(),
+            Blocks.WALL_CROWN_OF_KING_ORANGE.get(),
+            settings().maxCount(1).rarity(Rarity.UNCOMMON).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS)
+        )
     }
 
     /**
-     * @see FAINT_STAFF_ROD
+     * @see CROWN_OF_KING_ORANGE
      */
-    val faintStaffRod: Item
-        @JvmName("faintStaffRod")
-        get() = FAINT_STAFF_ROD.get()
-
-    /**
-     * Item registered as `avm_staff:faint_royal_staff_head`.
-     */
-    @JvmField
-    val FAINT_ROYAL_STAFF_HEAD = register("faint_royal_staff_head") {
-        Item(settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
-    }
-
-    /**
-     * @see FAINT_ROYAL_STAFF_HEAD
-     */
-    val faintRoyalStaffHead: Item
-        @JvmName("faintRoyalStaffHead")
-        get() = FAINT_ROYAL_STAFF_HEAD.get()
+    val crownOfKingOrange: CrownItem
+        @JvmName("crownOfKingOrange")
+        get() = CROWN_OF_KING_ORANGE.get()
 
     /**
      * Item registered as `avm_staff:faint_royal_staff`.
@@ -88,6 +77,36 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     val faintRoyalStaff: Item
         @JvmName("faintRoyalStaff")
         get() = FAINT_ROYAL_STAFF.get()
+
+    /**
+     * Item registered as `avm_staff:faint_royal_staff_head`.
+     */
+    @JvmField
+    val FAINT_ROYAL_STAFF_HEAD = register("faint_royal_staff_head") {
+        Item(settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+    }
+
+    /**
+     * @see FAINT_ROYAL_STAFF_HEAD
+     */
+    val faintRoyalStaffHead: Item
+        @JvmName("faintRoyalStaffHead")
+        get() = FAINT_ROYAL_STAFF_HEAD.get()
+
+    /**
+     * Item registered as `avm_staff:faint_staff_rod`.
+     */
+    @JvmField
+    val FAINT_STAFF_ROD = register("faint_staff_rod") {
+        Item(settings().`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+    }
+
+    /**
+     * @see FAINT_STAFF_ROD
+     */
+    val faintStaffRod: Item
+        @JvmName("faintStaffRod")
+        get() = FAINT_STAFF_ROD.get()
 
     /**
      * Item registered as `avm_staff:royal_staff`.
@@ -123,25 +142,6 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     val royalStaffIngredient: Item
         @JvmName("royalStaffIngredient")
         get() = ROYAL_STAFF_INGREDIENT.get()
-
-    /**
-     * Item registered as `avm_staff:crown_of_king_orange`.
-     */
-    @JvmField
-    val CROWN_OF_KING_ORANGE = register("crown_of_king_orange") {
-        IStaffModPlatform.crownItem(
-            Blocks.CROWN_OF_KING_ORANGE.get(),
-            Blocks.WALL_CROWN_OF_KING_ORANGE.get(),
-            settings().maxCount(1).rarity(Rarity.UNCOMMON).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS)
-        )
-    }
-
-    /**
-     * @see CROWN_OF_KING_ORANGE
-     */
-    val crownOfKingOrange: CrownItem
-        @JvmName("crownOfKingOrange")
-        get() = CROWN_OF_KING_ORANGE.get()
 
     /**
      * Item registered as `avm_staff:staff_infusion_smithing_template`.

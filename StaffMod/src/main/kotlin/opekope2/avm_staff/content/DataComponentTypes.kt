@@ -32,22 +32,38 @@ import opekope2.avm_staff.util.RegistryUtil
  */
 object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE) {
     /**
-     * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.
+     * Data component registered as `avm_staff:block_pickup_data`.
      */
     @JvmField
-    val STAFF_ITEM = register("staff_item") {
-        ComponentType.builder<StaffItemComponent>()
-            .codec(StaffItemComponent.VALIDATED_CODEC)
-            .packetCodec(StaffItemComponent.PACKET_CODEC)
+    val BLOCK_PICKUP_DATA = register("block_pickup_data") {
+        ComponentType.builder<BlockPickupDataComponent>()
+            .packetCodec(BlockPickupDataComponent.NON_SYNCING_PACKET_CODEC)
             .build()
     }
 
     /**
-     * @see STAFF_ITEM
+     * @see BLOCK_PICKUP_DATA
      */
-    val staffItem: ComponentType<StaffItemComponent>
-        @JvmName("staffItem")
-        get() = STAFF_ITEM.get()
+    val blockPickupData: ComponentType<BlockPickupDataComponent>
+        @JvmName("blockPickupData")
+        get() = BLOCK_PICKUP_DATA.get()
+
+    /**
+     * Data component registered as `avm_staff:furnace_data`. If this is present, the furnace is lit.
+     */
+    @JvmField
+    val FURNACE_DATA = register("furnace_data") {
+        ComponentType.builder<StaffFurnaceDataComponent>()
+            .packetCodec(StaffFurnaceDataComponent.NON_SYNCING_PACKET_CODEC)
+            .build()
+    }
+
+    /**
+     * @see FURNACE_DATA
+     */
+    val furnaceData: ComponentType<StaffFurnaceDataComponent>
+        @JvmName("furnaceData")
+        get() = FURNACE_DATA.get()
 
     /**
      * Data component registered as `avm_staff:rocket_mode`. Stores if a campfire staff should propel its user.
@@ -68,21 +84,22 @@ object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.
         get() = ROCKET_MODE.get()
 
     /**
-     * Data component registered as `avm_staff:furnace_data`. If this is present, the furnace is lit.
+     * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.
      */
     @JvmField
-    val FURNACE_DATA = register("furnace_data") {
-        ComponentType.builder<StaffFurnaceDataComponent>()
-            .packetCodec(StaffFurnaceDataComponent.NON_SYNCING_PACKET_CODEC)
+    val STAFF_ITEM = register("staff_item") {
+        ComponentType.builder<StaffItemComponent>()
+            .codec(StaffItemComponent.VALIDATED_CODEC)
+            .packetCodec(StaffItemComponent.PACKET_CODEC)
             .build()
     }
 
     /**
-     * @see FURNACE_DATA
+     * @see STAFF_ITEM
      */
-    val furnaceData: ComponentType<StaffFurnaceDataComponent>
-        @JvmName("furnaceData")
-        get() = FURNACE_DATA.get()
+    val staffItem: ComponentType<StaffItemComponent>
+        @JvmName("staffItem")
+        get() = STAFF_ITEM.get()
 
     /**
      * Data component registered as `avm_staff:staff_renderer_part`. Only used for rendering.
@@ -100,23 +117,6 @@ object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.
     val staffRendererPart: ComponentType<StaffRendererPartComponent>
         @JvmName("staffRendererPart")
         get() = STAFF_RENDERER_PART.get()
-
-    /**
-     * Data component registered as `avm_staff:block_pickup_data`.
-     */
-    @JvmField
-    val BLOCK_PICKUP_DATA = register("block_pickup_data") {
-        ComponentType.builder<BlockPickupDataComponent>()
-            .packetCodec(BlockPickupDataComponent.NON_SYNCING_PACKET_CODEC)
-            .build()
-    }
-
-    /**
-     * @see BLOCK_PICKUP_DATA
-     */
-    val blockPickupData: ComponentType<BlockPickupDataComponent>
-        @JvmName("blockPickupData")
-        get() = BLOCK_PICKUP_DATA.get()
 
     /**
      * Data component registered as `avm_staff:tnt_data`.

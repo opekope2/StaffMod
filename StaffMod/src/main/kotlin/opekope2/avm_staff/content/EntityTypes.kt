@@ -35,27 +35,6 @@ import kotlin.math.max
  */
 object EntityTypes : RegistryUtil<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYPE) {
     /**
-     * Entity registered as `avm_staff:impact_tnt`.
-     */
-    @JvmField
-    val IMPACT_TNT = register("impact_tnt") {
-        EntityType.Builder.create(::ImpactTntEntity, SpawnGroup.MISC)
-            .makeFireImmune()
-            .dimensions(EntityType.TNT.dimensions.width, EntityType.TNT.dimensions.height)
-            .eyeHeight(EntityType.TNT.dimensions.eyeHeight)
-            .maxTrackingRange(EntityType.TNT.maxTrackDistance)
-            .trackingTickInterval(EntityType.TNT.trackTickInterval)
-            .build(Identifier.of(MOD_ID, "impact_tnt").toString())
-    }
-
-    /**
-     * @see IMPACT_TNT
-     */
-    val impactTnt: EntityType<ImpactTntEntity>
-        @JvmName("impactTnt")
-        get() = IMPACT_TNT.get()
-
-    /**
      * Entity registered as `avm_staff:cake`
      */
     @JvmField
@@ -100,4 +79,25 @@ object EntityTypes : RegistryUtil<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYP
     val campfireFlame: EntityType<CampfireFlameEntity>
         @JvmName("campfireFlame")
         get() = CAMPFIRE_FLAME.get()
+
+    /**
+     * Entity registered as `avm_staff:impact_tnt`.
+     */
+    @JvmField
+    val IMPACT_TNT = register("impact_tnt") {
+        EntityType.Builder.create(::ImpactTntEntity, SpawnGroup.MISC)
+            .makeFireImmune()
+            .dimensions(EntityType.TNT.dimensions.width, EntityType.TNT.dimensions.height)
+            .eyeHeight(EntityType.TNT.dimensions.eyeHeight)
+            .maxTrackingRange(EntityType.TNT.maxTrackDistance)
+            .trackingTickInterval(EntityType.TNT.trackTickInterval)
+            .build(Identifier.of(MOD_ID, "impact_tnt").toString())
+    }
+
+    /**
+     * @see IMPACT_TNT
+     */
+    val impactTnt: EntityType<ImpactTntEntity>
+        @JvmName("impactTnt")
+        get() = IMPACT_TNT.get()
 }

@@ -30,21 +30,6 @@ import opekope2.avm_staff.util.RegistryUtil
  */
 object Criteria : RegistryUtil<Criterion<*>>(MOD_ID, RegistryKeys.CRITERION) {
     /**
-     * Criterion registered as `avm_staff:get_hurt_while_using_item`.
-     */
-    @JvmField
-    val TAKE_DAMAGE_WHILE_USING_ITEM = register("get_hurt_while_using_item") {
-        TakeDamageWhileUsingItemCriterion()
-    }
-
-    /**
-     * @see TAKE_DAMAGE_WHILE_USING_ITEM
-     */
-    val takeDamageWhileUsingItem: TakeDamageWhileUsingItemCriterion
-        @JvmName("takeDamageWhileUsingItem")
-        get() = TAKE_DAMAGE_WHILE_USING_ITEM.get()
-
-    /**
      * Criterion registered as `avm_staff:destroy_block_with_staff`. Triggers before a block is destroyed by a staff.
      */
     @JvmField
@@ -58,4 +43,19 @@ object Criteria : RegistryUtil<Criterion<*>>(MOD_ID, RegistryKeys.CRITERION) {
     val destroyBlockWithStaff: BreakBlockWithStaffCriterion
         @JvmName("destroyBlockWithStaff")
         get() = DESTROY_BLOCK_WITH_STAFF.get()
+
+    /**
+     * Criterion registered as `avm_staff:get_hurt_while_using_item`.
+     */
+    @JvmField
+    val TAKE_DAMAGE_WHILE_USING_ITEM = register("get_hurt_while_using_item") {
+        TakeDamageWhileUsingItemCriterion()
+    }
+
+    /**
+     * @see TAKE_DAMAGE_WHILE_USING_ITEM
+     */
+    val takeDamageWhileUsingItem: TakeDamageWhileUsingItemCriterion
+        @JvmName("takeDamageWhileUsingItem")
+        get() = TAKE_DAMAGE_WHILE_USING_ITEM.get()
 }
