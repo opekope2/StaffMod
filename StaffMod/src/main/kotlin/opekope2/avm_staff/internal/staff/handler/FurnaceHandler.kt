@@ -43,7 +43,7 @@ import net.minecraft.world.World
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.content.ComponentTypes
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityAccessor
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
@@ -67,7 +67,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         user: PlayerEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        staffStack[ComponentTypes.furnaceData] = StaffFurnaceDataComponent(0)
+        staffStack[DataComponentTypes.furnaceData] = StaffFurnaceDataComponent(0)
 
         user.setCurrentHand(hand)
         return TypedActionResult.pass(staffStack)
@@ -84,7 +84,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             return
         }
 
-        val furnaceData = staffStack[ComponentTypes.furnaceData]!!
+        val furnaceData = staffStack[DataComponentTypes.furnaceData]!!
         furnaceData.burnTicks++
 
         val stackToSmelt = itemToSmelt?.stack ?: return
@@ -129,7 +129,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        staffStack.remove(ComponentTypes.furnaceData)
+        staffStack.remove(DataComponentTypes.furnaceData)
         (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
     }
 

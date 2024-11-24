@@ -32,7 +32,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.content.ComponentTypes
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.internal.minecraftUnit
 import opekope2.avm_staff.util.*
 
@@ -46,7 +46,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         hand: Hand
     ): TypedActionResult<ItemStack> {
         if (user.isSneaking && !user.isOnGround) {
-            staffStack[ComponentTypes.rocketMode] = minecraftUnit
+            staffStack[DataComponentTypes.rocketMode] = minecraftUnit
         }
 
         user.setCurrentHand(hand)
@@ -60,7 +60,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         val origin = user.approximateStaffTipPosition
         val relativeRight = user.getRotationVector(0f, MathHelper.wrapDegrees(user.yaw + 90f)).normalize()
         val relativeUp = relativeRight.crossProduct(forward).normalize()
-        val rocketMode = ComponentTypes.rocketMode in staffStack
+        val rocketMode = DataComponentTypes.rocketMode in staffStack
 
         if (rocketMode) {
             user.addVelocity(forward * -parameters.rocketThrust)
@@ -93,7 +93,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        staffStack.remove(ComponentTypes.rocketMode)
+        staffStack.remove(DataComponentTypes.rocketMode)
         (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
         (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }

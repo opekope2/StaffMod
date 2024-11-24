@@ -30,7 +30,7 @@ import opekope2.avm_staff.util.RegistryUtil
 /**
  * Component types added by AVM Staffs mod.
  */
-object ComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE) {
+object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE) {
     /**
      * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.
      */

@@ -25,7 +25,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
 import opekope2.avm_staff.api.registry.RegistryBase
-import opekope2.avm_staff.content.ComponentTypes
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.util.MOD_ID
 
 @Environment(EnvType.CLIENT)
@@ -43,7 +43,7 @@ object ModelPredicates : RegistryBase<Identifier, ClampedModelPredicateProvider>
 
     private fun matchStaffRendererPart(part: StaffRendererPartComponent) =
         ClampedModelPredicateProvider { stack, _, _, _ ->
-            if (stack[ComponentTypes.staffRendererPart] == part) 1f
+            if (stack[DataComponentTypes.staffRendererPart] == part) 1f
             else 0f
         }
 }

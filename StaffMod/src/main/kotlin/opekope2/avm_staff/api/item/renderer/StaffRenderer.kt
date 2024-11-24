@@ -26,7 +26,7 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
-import opekope2.avm_staff.content.ComponentTypes
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.util.bakedModelManager
 import opekope2.avm_staff.util.itemRenderer
 import opekope2.avm_staff.util.itemStackInStaff
@@ -194,9 +194,9 @@ object StaffRenderer {
     }
 
     private fun safeGetModel(staffStack: ItemStack, part: StaffRendererPartComponent): BakedModel {
-        staffStack[ComponentTypes.staffRendererPart] = part
+        staffStack[DataComponentTypes.staffRendererPart] = part
         val model = itemRenderer.getModel(staffStack, null, null, 0)
-        staffStack.remove(ComponentTypes.staffRendererPart)
+        staffStack.remove(DataComponentTypes.staffRendererPart)
 
         // Prevent StackOverflowError if an override is missing
         return if (!model.isBuiltin) model

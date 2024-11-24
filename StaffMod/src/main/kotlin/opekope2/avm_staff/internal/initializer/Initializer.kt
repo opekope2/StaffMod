@@ -32,9 +32,9 @@ object Initializer {
 
     private fun registerContent() {
         Blocks.register()
-        ComponentTypes.register()
         Criteria.register()
         DamageTypes
+        DataComponentTypes.register()
         Enchantments.Tags
         EntityTypes.register()
         GameRules

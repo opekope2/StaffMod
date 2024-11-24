@@ -31,7 +31,7 @@ import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.component.StaffTntDataComponent
 import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.content.ComponentTypes
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.util.*
 
@@ -46,20 +46,20 @@ internal class TntHandler : StaffHandler() {
     ): TypedActionResult<ItemStack> {
         val tnt = tryShootTnt(world, user) ?: return TypedActionResult.pass(staffStack)
 
-        staffStack[ComponentTypes.tntData] = StaffTntDataComponent(tnt)
+        staffStack[DataComponentTypes.tntData] = StaffTntDataComponent(tnt)
 
         user.setCurrentHand(hand)
         return TypedActionResult.consume(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (!world.isClient && staffStack[ComponentTypes.tntData]?.tnt?.isRemoved == true) {
+        if (!world.isClient && staffStack[DataComponentTypes.tntData]?.tnt?.isRemoved == true) {
             user.stopUsingItem() // TODO reset last attacked ticks on client
         }
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        val tntData = staffStack.remove(ComponentTypes.tntData)
+        val tntData = staffStack.remove(DataComponentTypes.tntData)
         if (!world.isClient && tntData?.tnt?.isAlive == true) {
             tntData.tnt.explodeLater()
         }

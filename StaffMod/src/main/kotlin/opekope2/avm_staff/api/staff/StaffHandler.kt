@@ -40,7 +40,7 @@ import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.block.IClearableBeforeInsertedIntoStaff
 import opekope2.avm_staff.api.component.BlockPickupDataComponent
 import opekope2.avm_staff.api.registry.RegistryBase
-import opekope2.avm_staff.content.ComponentTypes
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.util.approximateStaffItemPosition
 import opekope2.avm_staff.util.incrementStaffItemUseStat
 import opekope2.avm_staff.util.mutableItemStackInStaff
@@ -351,7 +351,7 @@ abstract class StaffHandler {
             val state = world.getBlockState(targetPos)
             if (!canPickUp(world, targetPos, state)) return TypedActionResult.fail(staffStack)
 
-            staffStack[ComponentTypes.blockPickupData] = BlockPickupDataComponent(targetPos, state)
+            staffStack[DataComponentTypes.blockPickupData] = BlockPickupDataComponent(targetPos, state)
 
             user.setCurrentHand(hand)
             return TypedActionResult.consume(staffStack)
@@ -372,17 +372,17 @@ abstract class StaffHandler {
         }
 
         override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-            if (!world.isClient && userChangedTarget(world, user, staffStack[ComponentTypes.blockPickupData])) {
+            if (!world.isClient && userChangedTarget(world, user, staffStack[DataComponentTypes.blockPickupData])) {
                 user.stopUsingItem()
             }
         }
 
         override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-            staffStack.remove(ComponentTypes.blockPickupData)
+            staffStack.remove(DataComponentTypes.blockPickupData)
         }
 
         override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
-            val blockPickupData = staffStack[ComponentTypes.blockPickupData]
+            val blockPickupData = staffStack[DataComponentTypes.blockPickupData]
             if (!userChangedTarget(world, user, blockPickupData)) {
                 require(blockPickupData != null)
                 tryPickUp(world, blockPickupData.pos, blockPickupData.state, staffStack)
