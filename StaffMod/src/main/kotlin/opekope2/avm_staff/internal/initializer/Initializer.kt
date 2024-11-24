@@ -34,9 +34,13 @@ object Initializer {
         Blocks.register()
         ComponentTypes.register()
         Criteria.register()
+        DamageTypes
+        Enchantments.Tags
         EntityTypes.register()
+        GameRules
         ItemGroups.register()
         Items.register()
+        Items.Tags
         ParticleTypes.register()
         SoundEvents.register()
         StatTypes.register()
