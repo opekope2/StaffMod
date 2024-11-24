@@ -21,12 +21,16 @@ package opekope2.avm_staff.content
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.registry.RegistryKeys
 import opekope2.avm_staff.util.MOD_ID
+import opekope2.avm_staff.util.RegistryKeyUtil
 import opekope2.avm_staff.util.TagKeyUtil
 
 /**
  * Enchantments added by AVM Staffs mod.
  */
-object Enchantments {
+object Enchantments : RegistryKeyUtil<Enchantment>(MOD_ID, RegistryKeys.ENCHANTMENT) {
+    @JvmField
+    val SPECTRE = registryKey("spectre")
+
     /**
      * Enchantment tags added by AVM Staffs mod.
      */

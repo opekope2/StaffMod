@@ -35,6 +35,7 @@ object Initializer {
         Criteria.register()
         DamageTypes
         DataComponentTypes.register()
+        Enchantments
         Enchantments.Tags
         EntityTypes.register()
         GameRules

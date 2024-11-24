@@ -96,10 +96,6 @@ internal class BellHandler : StaffHandler() {
             1f
         )
 
-        if (!world.isClient && target is LivingEntity) {
-            IBellBlockEntityAccessor.callApplyGlowToEntity(target)
-        }
-
         (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
         return EventResult.pass()
