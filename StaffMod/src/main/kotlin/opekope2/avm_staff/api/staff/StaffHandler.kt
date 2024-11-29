@@ -41,7 +41,9 @@ import opekope2.avm_staff.api.block.IClearableBeforeInsertedIntoStaff
 import opekope2.avm_staff.api.component.BlockPickupDataComponent
 import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.content.DataComponentTypes
+import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.util.approximateStaffItemPosition
+import opekope2.avm_staff.util.getEnchantmentLevel
 import opekope2.avm_staff.util.incrementStaffItemUseStat
 import opekope2.avm_staff.util.mutableItemStackInStaff
 import kotlin.math.roundToInt
@@ -337,8 +339,10 @@ abstract class StaffHandler {
         override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity): Int {
             val targetPos = user.targetPos
             val state = world.getBlockState(targetPos)
+            val quickDraw = staffStack.getEnchantmentLevel(Enchantments.QUICK_DRAW, world.registryManager) + 1
+
             return if (!canPickUp(world, targetPos, state)) 0
-            else 20 + (state.getHardness(world, targetPos) / 2).roundToInt()
+            else 10 + (state.getHardness(world, targetPos) / quickDraw).roundToInt()
         }
 
         override fun use(
