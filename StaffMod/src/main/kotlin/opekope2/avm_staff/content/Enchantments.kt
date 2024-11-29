@@ -29,6 +29,9 @@ import opekope2.avm_staff.util.TagKeyUtil
  */
 object Enchantments : RegistryKeyUtil<Enchantment>(MOD_ID, RegistryKeys.ENCHANTMENT) {
     @JvmField
+    val QUICK_DRAW = registryKey("quick_draw")
+
+    @JvmField
     val RAPID_FIRE = registryKey("rapid_fire")
 
     @JvmField

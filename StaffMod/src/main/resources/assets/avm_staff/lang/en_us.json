@@ -29,6 +29,7 @@
   "death.attack.avm_staff.pranked": "%s was pranked",
   "death.attack.avm_staff.pranked.player": "%s was pranked by %s",
   "death.attack.avm_staff.pranked.player.item": "%s was pranked by %s using %s",
+  "enchantment.avm_staff.quick_draw": "Quick Draw",
   "enchantment.avm_staff.rapid_fire": "Rapid Fire",
   "enchantment.avm_staff.spectre": "Spectre",
   "entity.avm_staff.cake": "Cake",
