@@ -72,7 +72,7 @@ abstract class StaffHandler {
      * Called on both the client and the server by Minecraft when the player uses the staff.
      *
      * If the staff can be used for multiple ticks, override [getMaxUseTime] to return a positive number, and call
-     * [PlayerEntity.setCurrentHand] on [user] with [hand] as the argument.
+     * [LivingEntity.setCurrentHand] on [user] with [hand] as the argument.
      *
      * @return
      * On the logical client:
@@ -97,7 +97,7 @@ abstract class StaffHandler {
      * @param hand          The hand of the [user], in which the [staff][staffStack] is
      * @see Item.use
      */
-    open fun use(staffStack: ItemStack, world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> =
+    open fun use(staffStack: ItemStack, world: World, user: LivingEntity, hand: Hand): TypedActionResult<ItemStack> =
         TypedActionResult.pass(user.getStackInHand(hand))
 
     /**
@@ -348,7 +348,7 @@ abstract class StaffHandler {
         override fun use(
             staffStack: ItemStack,
             world: World,
-            user: PlayerEntity,
+            user: LivingEntity,
             hand: Hand
         ): TypedActionResult<ItemStack> {
             val targetPos = user.targetPos

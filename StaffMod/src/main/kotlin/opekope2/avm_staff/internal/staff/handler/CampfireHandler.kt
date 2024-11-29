@@ -42,7 +42,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
     override fun use(
         staffStack: ItemStack,
         world: World,
-        user: PlayerEntity,
+        user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
         if (user.isSneaking && !user.isOnGround) {

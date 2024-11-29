@@ -37,7 +37,7 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
     override fun use(
         staffStack: ItemStack,
         world: World,
-        user: PlayerEntity,
+        user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
         val allowsProjectileRapidFire = staffStack.isEnchantedWith(Enchantments.RAPID_FIRE, world.registryManager)

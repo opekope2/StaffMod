@@ -64,7 +64,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     override fun use(
         staffStack: ItemStack,
         world: World,
-        user: PlayerEntity,
+        user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
         staffStack[DataComponentTypes.furnaceData] = StaffFurnaceDataComponent(0)

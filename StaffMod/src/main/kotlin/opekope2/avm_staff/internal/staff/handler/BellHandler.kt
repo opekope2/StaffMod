@@ -53,7 +53,7 @@ internal class BellHandler : StaffHandler() {
     override fun use(
         staffStack: ItemStack,
         world: World,
-        user: PlayerEntity,
+        user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
         world.playSound(user, user.blockPos, SoundEvents.BLOCK_BELL_USE, SoundCategory.BLOCKS, 2f, 1f)

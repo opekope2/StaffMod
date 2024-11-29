@@ -41,7 +41,7 @@ internal class TntHandler : StaffHandler() {
     override fun use(
         staffStack: ItemStack,
         world: World,
-        user: PlayerEntity,
+        user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
         val tnt = tryShootTnt(world, user) ?: return TypedActionResult.pass(staffStack)
