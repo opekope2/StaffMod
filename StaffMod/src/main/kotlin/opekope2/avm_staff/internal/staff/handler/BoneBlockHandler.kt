@@ -19,14 +19,12 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.BoneMealItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -63,8 +61,8 @@ internal class BoneBlockHandler : StaffHandler() {
             } else ActionResult.PASS
         }
 
-        val efficiencyRef = world.registryManager[RegistryKeys.ENCHANTMENT].getEntry(Enchantments.EFFICIENCY).get()
-        val range = 0.5 + EnchantmentHelper.getLevel(efficiencyRef, staffStack).coerceAtMost(5) / 2.0
+        val range =
+            0.5 + staffStack.getEnchantmentLevel(Enchantments.EFFICIENCY, world.registryManager).coerceAtMost(5) / 2.0
         val rangeSquare = range * range
         var uses = 0
 
