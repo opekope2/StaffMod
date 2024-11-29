@@ -50,7 +50,7 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         val rapidFire = staffStack.getEnchantmentLevel(Enchantments.RAPID_FIRE, world.registryManager)
         if (remainingUseTicks % getFireRateDenominator(rapidFire) != 0) return
-        if (!tryShootProjectile(world, user, ProjectileShootReason.USE)) return
+        if (!tryShootProjectile(staffStack, world, user, ProjectileShootReason.USE)) return
 
         staffStack.damage(entity = user)
         (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
@@ -58,7 +58,7 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
     }
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
-        if (tryShootProjectile(world, attacker, ProjectileShootReason.ATTACK)) {
+        if (tryShootProjectile(staffStack, world, attacker, ProjectileShootReason.ATTACK)) {
             staffStack.damage(entity = attacker)
             (attacker as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
             (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
@@ -66,7 +66,12 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
         (attacker as? PlayerEntity)?.resetLastAttackedTicks()
     }
 
-    protected open fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
+    protected open fun tryShootProjectile(
+        staffStack: ItemStack,
+        world: World,
+        shooter: LivingEntity,
+        reason: ProjectileShootReason
+    ): Boolean {
         if (world.isClient) return false
         if (!shooter.canUseStaff) return false
         if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return false
@@ -89,6 +94,9 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
 
     protected enum class ProjectileShootReason {
         ATTACK,
-        USE
+        USE;
+
+        inline val isAttack: Boolean
+            get() = this == ATTACK
     }
 }

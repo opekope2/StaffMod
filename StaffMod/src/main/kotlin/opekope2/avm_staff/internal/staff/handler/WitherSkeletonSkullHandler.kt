@@ -46,15 +46,20 @@ internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandl
         if (attacker is PlayerEntity) addCooldown(staffStack, world, attacker, 0)
     }
 
-    override fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
-        if (!super.tryShootProjectile(world, shooter, reason)) return false
+    override fun tryShootProjectile(
+        staffStack: ItemStack,
+        world: World,
+        shooter: LivingEntity,
+        reason: ProjectileShootReason
+    ): Boolean {
+        if (!super.tryShootProjectile(staffStack, world, shooter, reason)) return false
 
         val spawnPos = EntityType.WITHER_SKULL.getSpawnPosition(world, shooter.approximateStaffTipPosition)
             ?: return false
 
         world.spawnEntity(WitherSkullEntity(world, shooter, shooter.rotationVector).apply {
             owner = shooter
-            isCharged = reason == ProjectileShootReason.ATTACK
+            isCharged = reason.isAttack && staffStack.isEnchantedWith(Enchantments.POWER_CHARGE, world.registryManager)
             setPosition(spawnPos)
         })
         world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, shooter.blockPos, 0)

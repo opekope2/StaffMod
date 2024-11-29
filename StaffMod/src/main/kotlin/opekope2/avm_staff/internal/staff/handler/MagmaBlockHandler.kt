@@ -24,6 +24,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.projectile.AbstractFireballEntity
+import net.minecraft.entity.projectile.FireballEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
@@ -31,6 +33,7 @@ import net.minecraft.util.Hand
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
+import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.util.*
 
 internal class MagmaBlockHandler : AbstractProjectileShootingStaffHandler() {
@@ -43,17 +46,39 @@ internal class MagmaBlockHandler : AbstractProjectileShootingStaffHandler() {
 
     override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 2 else 4
 
-    override fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
-        if (!super.tryShootProjectile(world, shooter, reason)) return false
+    override fun tryShootProjectile(
+        staffStack: ItemStack,
+        world: World,
+        shooter: LivingEntity,
+        reason: ProjectileShootReason
+    ): Boolean {
+        if (!super.tryShootProjectile(staffStack, world, shooter, reason)) return false
 
-        val spawnPos = EntityType.SMALL_FIREBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition)
-            ?: return false
+        return if (reason.isAttack && staffStack.isEnchantedWith(Enchantments.POWER_CHARGE, world.registryManager)) {
+            shootFireball(world, shooter, WorldEvents.GHAST_SHOOTS, EntityType.FIREBALL) {
+                FireballEntity(world, shooter, shooter.rotationVector, 1)
+            }
+        } else {
+            shootFireball(world, shooter, WorldEvents.BLAZE_SHOOTS, EntityType.SMALL_FIREBALL) {
+                SmallFireballEntity(world, shooter, shooter.rotationVector)
+            }
+        }
+    }
 
-        world.spawnEntity(SmallFireballEntity(world, shooter, shooter.rotationVector).apply {
-            owner = shooter
-            setPosition(spawnPos)
-        })
-        world.syncWorldEvent(WorldEvents.BLAZE_SHOOTS, shooter.blockPos, 0)
+    private inline fun <T : AbstractFireballEntity> shootFireball(
+        world: World,
+        shooter: LivingEntity,
+        soundWorldEvent: Int,
+        fireballType: EntityType<T>,
+        fireballFactory: () -> T
+    ): Boolean {
+        val spawnPos = fireballType.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return false
+        val fireball = fireballFactory()
+        fireball.setPosition(spawnPos)
+        fireball.owner = shooter
+
+        world.spawnEntity(fireball)
+        world.syncWorldEvent(soundWorldEvent, shooter.blockPos, 0)
 
         return true
     }

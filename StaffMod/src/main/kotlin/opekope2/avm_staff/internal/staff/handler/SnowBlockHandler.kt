@@ -21,6 +21,7 @@ package opekope2.avm_staff.internal.staff.handler
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.projectile.thrown.SnowballEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundEvents
 import net.minecraft.world.World
 import opekope2.avm_staff.util.*
@@ -34,8 +35,13 @@ internal class SnowBlockHandler : AbstractProjectileShootingStaffHandler() {
 
     override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 1 else 2
 
-    override fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
-        if (!super.tryShootProjectile(world, shooter, reason)) return false
+    override fun tryShootProjectile(
+        staffStack: ItemStack,
+        world: World,
+        shooter: LivingEntity,
+        reason: ProjectileShootReason
+    ): Boolean {
+        if (!super.tryShootProjectile(staffStack, world, shooter, reason)) return false
 
         val spawnPos = EntityType.SNOWBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return false
         val (x, y, z) = spawnPos

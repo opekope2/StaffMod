@@ -106,6 +106,7 @@ internal class TntHandler : StaffHandler() {
         val (x, y, z) = spawnPos
 
         val tnt = ImpactTntEntity(world, x, y, z, shooter.rotationVector + shooter.velocity, shooter)
+        // TODO Power Charge enchantment: increase explosion power
         world.spawnEntity(tnt)
         world.playSound(
             null,

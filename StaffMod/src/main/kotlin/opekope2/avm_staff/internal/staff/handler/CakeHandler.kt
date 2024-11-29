@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import net.minecraft.entity.LivingEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.content.EntityTypes
@@ -36,8 +37,13 @@ internal class CakeHandler : AbstractProjectileShootingStaffHandler() {
             ProjectileShootReason.USE -> 1.0
         }
 
-    override fun tryShootProjectile(world: World, shooter: LivingEntity, reason: ProjectileShootReason): Boolean {
-        if (!super.tryShootProjectile(world, shooter, reason)) return false
+    override fun tryShootProjectile(
+        staffStack: ItemStack,
+        world: World,
+        shooter: LivingEntity,
+        reason: ProjectileShootReason
+    ): Boolean {
+        if (!super.tryShootProjectile(staffStack, world, shooter, reason)) return false
 
         val spawnPos = EntityTypes.cake.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return false
         CakeEntity.throwCake(world, spawnPos, shooter.rotationVector * reason.velocity + shooter.velocity, shooter)
