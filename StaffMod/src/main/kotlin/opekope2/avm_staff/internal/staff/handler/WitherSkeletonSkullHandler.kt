@@ -32,10 +32,8 @@ import net.minecraft.util.Hand
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.util.approximateStaffTipPosition
-import opekope2.avm_staff.util.getSpawnPosition
-import opekope2.avm_staff.util.incrementStaffItemUseStat
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.content.Enchantments
+import opekope2.avm_staff.util.*
 
 internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandler() {
     override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 2 else 4
@@ -92,9 +90,11 @@ internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandl
 
     private fun addCooldown(staffStack: ItemStack, world: World, player: PlayerEntity, remainingUseTicks: Int) {
         if (player.abilities.creativeMode) return
+
+        val quickDraw = staffStack.getEnchantmentLevel(Enchantments.QUICK_DRAW, world.registryManager) + 1
         player.itemCooldownManager.set(
             staffStack.item,
-            4 * (getMaxUseTime(staffStack, world, player) - remainingUseTicks)
+            4 * (getMaxUseTime(staffStack, world, player) - remainingUseTicks) / quickDraw
         )
     }
 }
