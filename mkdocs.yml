@@ -9,6 +9,7 @@ theme:
     repo: fontawesome/brands/github
     admonition:
       render: material/cube-outline
+      hidden: material/eye-off
   palette:
     scheme: slate
   features:
@@ -18,6 +19,7 @@ nav:
   - Home: index.md
   - Items: items.md
   - Staff items: staff.md
+  - Advancements: advancements.md
   - Resource pack guide: resources.md
   - Data pack guide: data.md
   - Developer guide: developers.md
