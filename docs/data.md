@@ -35,7 +35,7 @@ When generating loot from `minecraft:loot_tables/chests/bastion_treasure.json` l
 
 ### `avm_staff:staffs`
 
-**Staff Mod 0.12.0-beta+**{.chip-darkgreen}
-**Removed in Staff Mod 0.16.0**{.chip-red}
+**Staff Mod 0.12.0-beta - 0.15.0**{.chip-darkgreen}
+**Staff Mod 0.20.0+**{.chip-darkgreen}
 
-Any item, which extends [`StaffItem`](kdoc/latest/-staff%20-mod/opekope2.avm_staff.api.item/-staff-item/index.html) is treated as a functional staff by Staff Mod. It is no longer needed to tag it with `avm_staff:staffs`.
+Tag containing all the staffs, used for advancements and enchantments. **Do not** add faint staffs to this tag, as those are meant to be transformed to a functional staff.
