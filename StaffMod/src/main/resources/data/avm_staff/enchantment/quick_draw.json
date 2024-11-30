@@ -3,7 +3,7 @@
     "translate": "enchantment.avm_staff.quick_draw"
   },
   "supported_items": "#avm_staff:staffs",
-  "weight": 1,
+  "weight": 2,
   "max_level": 4,
   "min_cost": {
     "base": 15,

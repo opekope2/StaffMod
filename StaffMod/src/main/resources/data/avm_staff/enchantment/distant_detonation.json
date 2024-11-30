@@ -3,7 +3,7 @@
     "translate": "enchantment.avm_staff.distant_detonation"
   },
   "supported_items": "#avm_staff:staffs",
-  "weight": 1,
+  "weight": 2,
   "max_level": 1,
   "min_cost": {
     "base": 20,

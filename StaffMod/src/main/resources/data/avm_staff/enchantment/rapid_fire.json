@@ -3,7 +3,7 @@
     "translate": "enchantment.avm_staff.rapid_fire"
   },
   "supported_items": "#avm_staff:staffs",
-  "weight": 1,
+  "weight": 2,
   "max_level": 2,
   "min_cost": {
     "base": 10,

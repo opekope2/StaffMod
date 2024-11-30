@@ -56,9 +56,10 @@ object EventHandlers : EntityEvent.LivingDeath, EntityEvent.LivingHurt, Interact
     InteractionEvent.RightClickItem, Runnable, LootEvent.ModifyLootTable, PlayerEvent.AttackEntity,
     PlayerEvent.DropItem {
     private val MODIFIABLE_LOOT_TABLES = setOf(
-        Identifier.ofVanilla("chests/bastion_treasure"),
+        Identifier.ofVanilla("chests/ancient_city"),
         Identifier.ofVanilla("chests/bastion_other"),
-        Identifier.ofVanilla("chests/trial_chambers/reward_unique")
+        Identifier.ofVanilla("chests/bastion_treasure"),
+        Identifier.ofVanilla("chests/trial_chambers/reward_unique"),
     )
     private const val MAX_ANGER_DISTANCE = 16.0
 
