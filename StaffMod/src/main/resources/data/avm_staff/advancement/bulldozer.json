@@ -14,17 +14,17 @@
     "title": {
       "translate": "advancements.avm_staff.bulldozer.title"
     },
-    "description": [
-      [
-        "a ",
-        {
-          "translate": "item.avm_staff.staff"
-        }
-      ],
-      {
-        "translate": "advancements.avm_staff.bulldozer.description"
-      }
-    ]
+    "description": {
+      "translate": "advancements.avm_staff.bulldozer.description",
+      "with": [
+        [
+          "a ",
+          {
+            "translate": "item.avm_staff.staff"
+          }
+        ]
+      ]
+    }
   },
   "criteria": {
     "use_diamond_block_staff": {
