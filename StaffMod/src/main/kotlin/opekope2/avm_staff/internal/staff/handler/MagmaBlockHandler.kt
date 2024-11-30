@@ -24,20 +24,19 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.projectile.AbstractFireballEntity
+import net.minecraft.entity.projectile.FireballEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
-import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.util.*
 
-internal class MagmaBlockHandler : StaffHandler() {
-    override val maxUseTime = 72000
-
+internal class MagmaBlockHandler : AbstractProjectileShootingStaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
         .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
@@ -45,25 +44,43 @@ internal class MagmaBlockHandler : StaffHandler() {
         .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
         .build()
 
-    override fun use(
+    override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 2 else 4
+
+    override fun tryShootProjectile(
         staffStack: ItemStack,
         world: World,
-        user: PlayerEntity,
-        hand: Hand
-    ): TypedActionResult<ItemStack> {
-        user.setCurrentHand(hand)
-        return TypedActionResult.consume(staffStack)
-    }
+        shooter: LivingEntity,
+        reason: ProjectileShootReason
+    ): Boolean {
+        if (!super.tryShootProjectile(staffStack, world, shooter, reason)) return false
 
-    override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if ((remainingUseTicks and 1) == 0) {
-            tryShootFireball(world, user)
+        return if (reason.isAttack && staffStack.isEnchantedWith(Enchantments.POWER_CHARGE, world.registryManager)) {
+            shootFireball(world, shooter, WorldEvents.GHAST_SHOOTS, EntityType.FIREBALL) {
+                FireballEntity(world, shooter, shooter.rotationVector, 1)
+            }
+        } else {
+            shootFireball(world, shooter, WorldEvents.BLAZE_SHOOTS, EntityType.SMALL_FIREBALL) {
+                SmallFireballEntity(world, shooter, shooter.rotationVector)
+            }
         }
     }
 
-    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
-        tryShootFireball(world, attacker)
-        (attacker as? PlayerEntity)?.resetLastAttackedTicks()
+    private inline fun <T : AbstractFireballEntity> shootFireball(
+        world: World,
+        shooter: LivingEntity,
+        soundWorldEvent: Int,
+        fireballType: EntityType<T>,
+        fireballFactory: () -> T
+    ): Boolean {
+        val spawnPos = fireballType.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return false
+        val fireball = fireballFactory()
+        fireball.setPosition(spawnPos)
+        fireball.owner = shooter
+
+        world.spawnEntity(fireball)
+        world.syncWorldEvent(soundWorldEvent, shooter.blockPos, 0)
+
+        return true
     }
 
     override fun attackEntity(
@@ -74,19 +91,9 @@ internal class MagmaBlockHandler : StaffHandler() {
         hand: Hand
     ): EventResult {
         target.setOnFireFor(8f)
+
+        (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+
         return EventResult.pass()
-    }
-
-    private fun tryShootFireball(world: World, shooter: LivingEntity) {
-        if (world.isClient) return
-        if (!shooter.canUseStaff) return
-        if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return
-
-        val spawnPos = EntityType.SMALL_FIREBALL.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return
-
-        world.spawnEntity(SmallFireballEntity(world, shooter, shooter.rotationVector).apply {
-            setPosition(spawnPos)
-        })
-        world.syncWorldEvent(WorldEvents.BLAZE_SHOOTS, shooter.blockPos, 0)
     }
 }

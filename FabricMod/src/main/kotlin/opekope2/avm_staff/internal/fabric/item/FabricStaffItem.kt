@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.fabric.item
 
+import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.item.v1.FabricItem
@@ -29,9 +30,10 @@ import net.minecraft.util.Hand
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.itemInStaff
-import opekope2.avm_staff.util.staffHandlerOrDefault
+import opekope2.avm_staff.util.staffHandlerOrFallback
 
-class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem {
+class FabricStaffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) :
+    StaffItem(settings, repairIngredient), FabricItem {
     init {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
             BuiltinItemRendererRegistry.INSTANCE.register(this, StaffRenderer::renderStaff)
@@ -44,8 +46,8 @@ class FabricStaffItem(settings: Item.Settings) : StaffItem(settings), FabricItem
         oldStack: ItemStack,
         newStack: ItemStack
     ): Boolean {
-        val oldHandler = oldStack.itemInStaff.staffHandlerOrDefault
-        val newHandler = newStack.itemInStaff.staffHandlerOrDefault
+        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
+        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowComponentsUpdateAnimation(oldStack, newStack, player, hand)

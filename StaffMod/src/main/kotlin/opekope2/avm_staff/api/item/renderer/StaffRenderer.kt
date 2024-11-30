@@ -20,19 +20,17 @@ package opekope2.avm_staff.api.item.renderer
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
-import opekope2.avm_staff.api.staffRendererOverrideComponentType
-import opekope2.avm_staff.api.staffRendererPartComponentType
+import opekope2.avm_staff.content.DataComponentTypes
+import opekope2.avm_staff.util.bakedModelManager
+import opekope2.avm_staff.util.itemRenderer
 import opekope2.avm_staff.util.itemStackInStaff
 import opekope2.avm_staff.util.push
-import kotlin.jvm.optionals.getOrNull
 
 /**
  * Builtin model item renderer for staffs.
@@ -57,19 +55,17 @@ object StaffRenderer {
         light: Int,
         overlay: Int
     ) {
-        val renderMode = staffStack[staffRendererOverrideComponentType.get()]?.renderMode?.getOrNull() ?: mode
-
-        when (renderMode) {
+        when (mode) {
             ModelTransformationMode.GUI -> renderInventoryStaff(
-                staffStack, renderMode, matrices, vertexConsumers, light, overlay
+                staffStack, mode, matrices, vertexConsumers, light, overlay
             )
 
             ModelTransformationMode.FIXED -> renderItemFrameStaff(
-                staffStack, renderMode, matrices, vertexConsumers, light, overlay
+                staffStack, mode, matrices, vertexConsumers, light, overlay
             )
 
             else -> renderFullStaff(
-                staffStack, renderMode, matrices, vertexConsumers, light, overlay
+                staffStack, mode, matrices, vertexConsumers, light, overlay
             )
         }
     }
@@ -168,38 +164,12 @@ object StaffRenderer {
         matrices.push {
             safeGetModel(staffStack, StaffRendererPartComponent.ITEM).transformation.fixed.apply(false, this)
 
-            val blockStateOverride = staffStack[staffRendererOverrideComponentType.get()]?.blockState?.getOrNull()
-            if (blockStateOverride != null) {
-                BlockStateStaffItemRenderer.renderBlockState(
-                    blockStateOverride, matrices, vertexConsumers, light, overlay
-                )
-            } else {
-                staffStack.itemStackInStaff?.let { itemInStaff ->
-                    renderItem(staffStack, itemInStaff, mode, matrices, light, overlay, vertexConsumers)
-                }
+            staffStack.itemStackInStaff?.let { itemInStaff ->
+                val staffItemRenderer =
+                    if (itemInStaff.item !in StaffItemRenderer.Registry) MissingModelStaffItemRenderer
+                    else StaffItemRenderer.Registry[itemInStaff.item]
+                staffItemRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
             }
-        }
-    }
-
-    private fun renderItem(
-        staffStack: ItemStack,
-        itemStackInStaff: ItemStack,
-        mode: ModelTransformationMode,
-        matrices: MatrixStack,
-        light: Int,
-        overlay: Int,
-        vertexConsumers: VertexConsumerProvider
-    ) {
-        val staffItemRenderer = IStaffItemRenderer[Registries.ITEM.getId(itemStackInStaff.item)]
-        if (staffItemRenderer != null) {
-            staffItemRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
-        } else {
-            val itemRenderer = MinecraftClient.getInstance().itemRenderer
-            val model = MinecraftClient.getInstance().bakedModelManager.missingModel
-
-            itemRenderer.renderItem(
-                itemStackInStaff, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
-            )
         }
     }
 
@@ -211,23 +181,25 @@ object StaffRenderer {
         overlay: Int,
         part: StaffRendererPartComponent
     ) {
-        val itemRenderer = MinecraftClient.getInstance().itemRenderer
-        val model = safeGetModel(staffStack, part)
-
         itemRenderer.renderItem(
-            staffStack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
+            staffStack,
+            ModelTransformationMode.NONE,
+            false,
+            matrices,
+            vertexConsumers,
+            light,
+            overlay,
+            safeGetModel(staffStack, part)
         )
     }
 
     private fun safeGetModel(staffStack: ItemStack, part: StaffRendererPartComponent): BakedModel {
-        val itemRenderer = MinecraftClient.getInstance().itemRenderer
-
-        staffStack[staffRendererPartComponentType.get()] = part
+        staffStack[DataComponentTypes.staffRendererPart] = part
         val model = itemRenderer.getModel(staffStack, null, null, 0)
-        staffStack.remove(staffRendererPartComponentType.get())
+        staffStack.remove(DataComponentTypes.staffRendererPart)
 
         // Prevent StackOverflowError if an override is missing
         return if (!model.isBuiltin) model
-        else MinecraftClient.getInstance().bakedModelManager.missingModel
+        else bakedModelManager.missingModel
     }
 }

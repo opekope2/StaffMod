@@ -23,6 +23,7 @@ import net.minecraft.block.Block
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.MinecraftServer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
@@ -38,7 +39,11 @@ import opekope2.avm_staff.util.countingSort
 import java.util.function.IntSupplier
 import kotlin.math.sqrt
 
-internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawIds: List<Int>) : IS2CPacket {
+internal class MassDestructionS2CPacket(
+    val positions: List<BlockPos>,
+    val rawIds: List<Int>,
+    val worldKey: RegistryKey<World>
+) : IS2CPacket {
     init {
         require(positions.isNotEmpty()) { "positions must not be empty" }
         require(positions.size < MAX_DATA_IN_PACKET) { "too much data (max. $MAX_DATA_IN_PACKET)" }
@@ -50,19 +55,21 @@ internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawId
     private val volumeHalfDiagonal =
         sqrt((MathHelper.square(volume.blockCountX) + MathHelper.square(volume.blockCountY) + MathHelper.square(volume.blockCountZ)).toDouble()) / 2.0
 
-    constructor(buf: PacketByteBuf) : this(buf.readList(BlockPos.PACKET_CODEC), buf.readList(PacketCodecs.INTEGER))
+    constructor(buf: PacketByteBuf) : this(
+        buf.readList(BlockPos.PACKET_CODEC),
+        buf.readList(PacketCodecs.INTEGER),
+        buf.readRegistryKey(RegistryKeys.WORLD)
+    )
 
     override fun getId() = payloadId
 
     override fun write(buf: PacketByteBuf) {
         buf.writeCollection(positions, BlockPos.PACKET_CODEC)
         buf.writeCollection(rawIds, PacketCodecs.INTEGER)
+        buf.writeRegistryKey(worldKey)
     }
 
-    fun sendToAround(server: MinecraftServer, worldKey: RegistryKey<World>) {
-        positions.sortedBy { it.x }
-        intArrayOf().sort()
-
+    fun sendToAround(server: MinecraftServer) {
         val maxDistanceSquare = MathHelper.square(64 + volumeHalfDiagonal)
         val players = server.playerManager.playerList.filter { player ->
             if (player.world.registryKey !== worldKey) false
@@ -88,6 +95,8 @@ internal class MassDestructionS2CPacket(val positions: List<BlockPos>, val rawId
         const val MAX_DATA_IN_PACKET = 1024 * 1024
 
         override fun receive(packet: MassDestructionS2CPacket, context: NetworkManager.PacketContext) {
+            if (context.player.entityWorld.registryKey != packet.worldKey) return
+
             val maxParticles = IParticleManagerAccessor.maxParticleCount() / (4 * 4 * 4)
             val maxSounds = 128
             val world = context.player.entityWorld

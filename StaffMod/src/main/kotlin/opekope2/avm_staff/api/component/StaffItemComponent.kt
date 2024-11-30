@@ -19,11 +19,13 @@
 package opekope2.avm_staff.api.component
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.component.ComponentType
 import net.minecraft.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
+import opekope2.avm_staff.api.staff.StaffHandler
 
 /**
  * [ItemStack] wrapper to make them compatible with [ComponentType]s.
@@ -43,6 +45,11 @@ class StaffItemComponent(val item: ItemStack) {
         return ItemStack.hashCode(item)
     }
 
+    private fun validate(): DataResult<StaffItemComponent> {
+        return if (item.item in StaffHandler.Registry) DataResult.success(this)
+        else DataResult.error { "There is no staff handler registered for item ${item.item}" }
+    }
+
     companion object {
         /**
          * [Codec] for [StaffItemComponent].
@@ -50,9 +57,15 @@ class StaffItemComponent(val item: ItemStack) {
         @JvmField
         val CODEC: Codec<StaffItemComponent> = RecordCodecBuilder.create { instance ->
             instance.group(
-                ItemStack.CODEC.fieldOf("item").forGetter(StaffItemComponent::item)
+                ItemStack.VALIDATED_CODEC.fieldOf("item").forGetter(StaffItemComponent::item)
             ).apply(instance, ::StaffItemComponent)
         }
+
+        /**
+         * Validated [Codec] for [StaffItemComponent]. This only allows [item]s registered in [StaffHandler.Registry].
+         */
+        @JvmField
+        val VALIDATED_CODEC: Codec<StaffItemComponent> = CODEC.validate(StaffItemComponent::validate)
 
         /**
          * [PacketCodec] for [StaffItemComponent].

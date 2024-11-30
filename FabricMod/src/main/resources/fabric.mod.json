@@ -46,40 +46,12 @@
       {
         "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.fabric.StaffMod"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.InitializerKt::registerContent"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.InitializerKt::initializeNetworking"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.InitializerKt::subscribeToEvents"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.staff.handler.VanillaStaffHandlersKt::registerVanillaStaffHandlers"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
         "value": "opekope2.avm_staff.internal.fabric.StaffModClient"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.InitializerKt::registerClientContent"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.InitializerKt::registerSmithingTableTextures"
-      },
-      {
-        "adapter": "kotlin",
-        "value": "opekope2.avm_staff.internal.staff.handler.VanillaStaffHandlersKt::registerVanillaStaffItemRenderers"
       }
     ]
   },

@@ -24,17 +24,18 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPointer
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.WorldEvents
-import opekope2.avm_staff.api.cakeEntityType
 import opekope2.avm_staff.api.entity.CakeEntity
-import opekope2.avm_staff.api.throwableCakesGameRule
+import opekope2.avm_staff.content.EntityTypes
+import opekope2.avm_staff.content.GameRules
 
 /**
- * Dispenser behavior, which throws [cakes][CakeEntity], if [throwableCakes][throwableCakesGameRule] game rule is
+ * Dispenser behavior, which throws [cakes][CakeEntity], if [throwableCakes][GameRules.THROWABLE_CAKES] game rule is
  * enabled.
  */
 class CakeDispenserBehavior : ItemDispenserBehavior() {
     override fun dispenseSilently(pointer: BlockPointer, stack: ItemStack): ItemStack {
-        if (!pointer.world.gameRules.getBoolean(throwableCakesGameRule)) return super.dispenseSilently(pointer, stack)
+        if (!pointer.world.gameRules.getBoolean(GameRules.THROWABLE_CAKES))
+            return super.dispenseSilently(pointer, stack)
 
         var spawnPos = DispenserBlock.getOutputLocation(pointer, 1.0, Vec3d.ZERO)
         spawnPos = Vec3d(spawnPos.x, spawnPos.y, spawnPos.z).add(0.0, NEGATIVE_HALF_CAKE_HEIGHT, 0.0)
@@ -54,12 +55,12 @@ class CakeDispenserBehavior : ItemDispenserBehavior() {
     }
 
     override fun playSound(pointer: BlockPointer) {
-        if (!pointer.world.gameRules.getBoolean(throwableCakesGameRule)) return super.playSound(pointer)
+        if (!pointer.world.gameRules.getBoolean(GameRules.THROWABLE_CAKES)) return super.playSound(pointer)
 
         pointer.world().syncWorldEvent(WorldEvents.DISPENSER_LAUNCHES_PROJECTILE, pointer.pos(), 0)
     }
 
     private companion object {
-        private val NEGATIVE_HALF_CAKE_HEIGHT = cakeEntityType.get().dimensions.height / -2.0
+        private val NEGATIVE_HALF_CAKE_HEIGHT = EntityTypes.cake.dimensions.height / -2.0
     }
 }

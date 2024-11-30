@@ -21,22 +21,45 @@ package opekope2.avm_staff.internal.fabric
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.minecraft.client.item.ModelPredicateProviderRegistry
-import opekope2.avm_staff.api.flamethrowerParticleType
+import net.minecraft.client.render.RenderLayer
 import opekope2.avm_staff.api.particle.FlamethrowerParticle
-import opekope2.avm_staff.api.soulFlamethrowerParticleType
-import opekope2.avm_staff.internal.model.registerModelPredicateProviders
+import opekope2.avm_staff.content.Blocks
+import opekope2.avm_staff.content.ParticleTypes
+import opekope2.avm_staff.internal.initializer.ClientInitializer
+import opekope2.avm_staff.internal.model.ModelPredicates
+import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffItemRenderers
 
 @Suppress("unused")
 @Environment(EnvType.CLIENT)
 object StaffModClient : ClientModInitializer {
     override fun onInitializeClient() {
-        ParticleFactoryRegistry.getInstance().apply {
-            register(flamethrowerParticleType.get(), FlamethrowerParticle::Factory)
-            register(soulFlamethrowerParticleType.get(), FlamethrowerParticle::Factory)
-        }
+        ClientInitializer
+        registerVanillaStaffItemRenderers()
 
-        registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
+        registerParticleFactories(ParticleFactoryRegistry.getInstance())
+        registerBlockRenderLayers()
+        registerModelPredicateProviders()
+    }
+
+    private fun registerParticleFactories(particleFactoryRegistry: ParticleFactoryRegistry) {
+        particleFactoryRegistry.register(ParticleTypes.flame, FlamethrowerParticle::Factory)
+        particleFactoryRegistry.register(ParticleTypes.soulFireFlame, FlamethrowerParticle::Factory)
+    }
+
+    private fun registerBlockRenderLayers() {
+        BlockRenderLayerMap.INSTANCE.putBlocks(
+            RenderLayer.getCutout(),
+            Blocks.crownOfKingOrange,
+            Blocks.wallCrownOfKingOrange
+        )
+    }
+
+    private fun registerModelPredicateProviders() {
+        for ((key, value) in ModelPredicates) {
+            ModelPredicateProviderRegistry.register(key, value)
+        }
     }
 }

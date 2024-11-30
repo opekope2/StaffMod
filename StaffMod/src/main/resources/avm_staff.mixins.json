@@ -13,13 +13,16 @@
     "IParticleMixin"
   ],
   "mixins": [
+    "AbstractFurnaceBlockEntityMixin",
     "BeehiveBlockMixin",
     "IAbstractFurnaceBlockEntityAccessor",
     "IAnvilBlockAccessor",
     "IBeehiveBlockEntityAccessor",
+    "IBellBlockEntityAccessor",
     "ICakeBlockAccessor",
     "IPiglinBrainAccessor",
     "ISmithingTemplateItemAccessor",
+    "SculkShriekerBlockEntityMixin",
     "TurtleEggBlockMixin"
   ]
 }

@@ -1,0 +1,45 @@
+{
+  "parent": "avm_staff:infinite_power",
+  "display": {
+    "icon": {
+      "id": "minecraft:cake"
+    },
+    "title": {
+      "translate": "advancements.avm_staff.prankster.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.prankster.description",
+      "with": [
+        [
+          "a ",
+          {
+            "translate": "block.minecraft.cake"
+          }
+        ]
+      ]
+    }
+  },
+  "criteria": {
+    "prankster": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "player"
+        },
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "avm_staff:is_prank",
+                "expected": true
+              }
+            ],
+            "direct_entity": {
+              "type": "avm_staff:cake"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -24,30 +24,26 @@ import net.minecraft.client.item.ClampedModelPredicateProvider
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
-import opekope2.avm_staff.api.staffRendererOverrideComponentType
-import opekope2.avm_staff.api.staffRendererPartComponentType
+import opekope2.avm_staff.api.registry.RegistryBase
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.util.MOD_ID
-import kotlin.jvm.optionals.getOrNull
 
-// ModelPredicateProviderRegistry.register is private in common project
 @Environment(EnvType.CLIENT)
-fun registerModelPredicateProviders(register: (Identifier, ClampedModelPredicateProvider) -> Unit) {
-    register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->
-        val isActiveOverride = stack[staffRendererOverrideComponentType.get()]?.isActive?.getOrNull()
-        when {
-            isActiveOverride == true -> 1f
-            isActiveOverride == false -> 0f
-            entity != null && entity.isUsingItem && ItemStack.areEqual(entity.activeItem, stack) -> 1f
-            else -> 0f
+object ModelPredicates : RegistryBase<Identifier, ClampedModelPredicateProvider>() {
+    init {
+        register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->
+            if (entity != null && entity.isUsingItem && ItemStack.areEqual(entity.activeItem, stack)) 1f
+            else 0f
         }
+        register(Identifier.of(MOD_ID, "head"), matchStaffRendererPart(StaffRendererPartComponent.HEAD))
+        register(Identifier.of(MOD_ID, "item"), matchStaffRendererPart(StaffRendererPartComponent.ITEM))
+        register(Identifier.of(MOD_ID, "rod_top"), matchStaffRendererPart(StaffRendererPartComponent.ROD_TOP))
+        register(Identifier.of(MOD_ID, "rod_bottom"), matchStaffRendererPart(StaffRendererPartComponent.ROD_BOTTOM))
     }
-    register(Identifier.of(MOD_ID, "head"), matchStaffRendererPart(StaffRendererPartComponent.HEAD))
-    register(Identifier.of(MOD_ID, "item"), matchStaffRendererPart(StaffRendererPartComponent.ITEM))
-    register(Identifier.of(MOD_ID, "rod_top"), matchStaffRendererPart(StaffRendererPartComponent.ROD_TOP))
-    register(Identifier.of(MOD_ID, "rod_bottom"), matchStaffRendererPart(StaffRendererPartComponent.ROD_BOTTOM))
-}
 
-private fun matchStaffRendererPart(part: StaffRendererPartComponent) = ClampedModelPredicateProvider { stack, _, _, _ ->
-    if (stack[staffRendererPartComponentType.get()] == part) 1f
-    else 0f
+    private fun matchStaffRendererPart(part: StaffRendererPartComponent) =
+        ClampedModelPredicateProvider { stack, _, _, _ ->
+            if (stack[DataComponentTypes.staffRendererPart] == part) 1f
+            else 0f
+        }
 }

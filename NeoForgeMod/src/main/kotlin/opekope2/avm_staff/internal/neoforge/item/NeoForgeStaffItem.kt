@@ -18,7 +18,7 @@
 
 package opekope2.avm_staff.internal.neoforge.item
 
-import net.minecraft.client.MinecraftClient
+import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.item.BuiltinModelItemRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
@@ -33,17 +33,20 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
+import opekope2.avm_staff.util.blockEntityRenderDispatcher
+import opekope2.avm_staff.util.entityModelLoader
 import opekope2.avm_staff.util.itemInStaff
-import opekope2.avm_staff.util.staffHandlerOrDefault
+import opekope2.avm_staff.util.staffHandlerOrFallback
 import java.util.function.Consumer
 
-class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExtension {
+class NeoForgeStaffItem(settings: Item.Settings, repairIngredientSupplier: RegistrySupplier<Item>?) :
+    StaffItem(settings, repairIngredientSupplier), IItemExtension {
     @Suppress("RemoveExplicitSuperQualifier") // Required because StaffItem apparently also has canDisableShield
     override fun canDisableShield(stack: ItemStack, shield: ItemStack, entity: LivingEntity, attacker: LivingEntity) =
         disablesShield(stack, attacker.entityWorld, attacker, Hand.MAIN_HAND) ||
                 super<IItemExtension>.canDisableShield(stack, shield, entity, attacker)
 
-    override fun isRepairable(arg: ItemStack) = false
+    override fun isRepairable(arg: ItemStack) = true
 
     override fun onEntitySwing(stack: ItemStack, entity: LivingEntity) = !canSwingHand(
         stack,
@@ -57,8 +60,8 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         attackEntity(stack, player.entityWorld, player, entity, Hand.MAIN_HAND).interruptsFurtherEvaluation()
 
     override fun shouldCauseReequipAnimation(oldStack: ItemStack, newStack: ItemStack, slotChanged: Boolean): Boolean {
-        val oldHandler = oldStack.itemInStaff.staffHandlerOrDefault
-        val newHandler = newStack.itemInStaff.staffHandlerOrDefault
+        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
+        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowReequipAnimation(oldStack, newStack, slotChanged)
@@ -71,10 +74,7 @@ class NeoForgeStaffItem(settings: Item.Settings) : StaffItem(settings), IItemExt
         })
     }
 
-    object Renderer : BuiltinModelItemRenderer(
-        MinecraftClient.getInstance().blockEntityRenderDispatcher,
-        MinecraftClient.getInstance().entityModelLoader
-    ) {
+    object Renderer : BuiltinModelItemRenderer(blockEntityRenderDispatcher, entityModelLoader) {
         override fun render(
             stack: ItemStack,
             mode: ModelTransformationMode,

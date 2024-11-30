@@ -1,13 +1,13 @@
 [versions]
 java = "21" # Don't forget to update *.mixins.json
 kotlin = "2.0.0"
-staff-mod = "0.19.3"
+staff-mod = "0.20.0"
 architectury-plugin = "3.4-SNAPSHOT"
 architectury-loom = "1.7-SNAPSHOT"
 yarn = "1.21+build.9"
 shadow = "8.1.1"
 minecraft = "1.21"
-architectury-api = "13.0.6"
+architectury-api = "13.0.8"
 fabric-loader = "0.15.11"
 neoforge = "21.0.164"
 fabric-api = "0.102.0+1.21"

@@ -23,8 +23,10 @@ package opekope2.avm_staff.util
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import kotlin.math.sqrt
 
 /**
  * Calculates the camera's upward direction based on [Entity.getFacing] and [Entity.getHorizontalFacing].
@@ -47,4 +49,14 @@ fun EntityType<out Entity>.getSpawnPosition(world: World, center: Vec3d): Vec3d?
     val spawnPos = center.add(0.0, dimensions.height / -2.0, 0.0)
     return if (world.isSpaceEmpty(getSpawnBox(spawnPos.x, spawnPos.y, spawnPos.z))) spawnPos
     else null
+}
+
+/**
+ * Sets the [yaw][Entity.yaw] and [pitch][Entity.pitch] of the entity to look [forward][Entity.velocity].
+ */
+fun Entity.lookForward() {
+    val (vx, vy, vz) = velocity.normalize()
+    val horizontalSpeed = sqrt(vx * vx + vz * vz)
+    yaw = MathHelper.atan2(vx, vz).toFloat()
+    pitch = MathHelper.atan2(horizontalSpeed, vy).toFloat()
 }
