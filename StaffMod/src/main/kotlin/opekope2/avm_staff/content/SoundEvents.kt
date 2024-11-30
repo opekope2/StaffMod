@@ -31,9 +31,7 @@ object SoundEvents : RegistryUtil<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) 
      * Sound event registered as `avm_staff:entity.cake.splash`.
      */
     @JvmField
-    val CAKE_SPLASH = register("entity.cake.splash") {
-        SoundEvent.of(id("entity.cake.splash"))
-    }
+    val CAKE_SPLASH = register("entity.cake.splash") { SoundEvent.of(it.value) }
 
     /**
      * @see CAKE_SPLASH
@@ -46,9 +44,7 @@ object SoundEvents : RegistryUtil<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) 
      * Sound event registered as `avm_staff:entity.cake.throw`.
      */
     @JvmField
-    val CAKE_THROW = register("entity.cake.throw") {
-        SoundEvent.of(id("entity.cake.throw"))
-    }
+    val CAKE_THROW = register("entity.cake.throw") { SoundEvent.of(it.value) }
 
     /**
      * @see CAKE_THROW
