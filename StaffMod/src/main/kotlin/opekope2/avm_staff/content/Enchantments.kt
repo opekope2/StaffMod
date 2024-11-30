@@ -29,6 +29,9 @@ import opekope2.avm_staff.util.TagKeyUtil
  */
 object Enchantments : RegistryKeyUtil<Enchantment>(MOD_ID, RegistryKeys.ENCHANTMENT) {
     @JvmField
+    val DISTANT_DETONATION = registryKey("distant_detonation")
+
+    @JvmField
     val POWER_CHARGE = registryKey("power_charge")
 
     @JvmField
