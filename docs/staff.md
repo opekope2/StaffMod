@@ -14,6 +14,8 @@ Throughout this page, [use](https://minecraft.wiki/w/Controls#Use_Item/Place_Blo
 
 Every staff has these stats, unless noted otherwise
 
+**Use on Block (hold)**: stand close to pick up the block from the world after a delay if it is not unbreakable and supported (documented on this page).
+
 ## Anvil, chipped anvil, damaged anvil
 
 [**Discuss**{.chip-darkblue}](https://github.com/opekope2/StaffMod/discussions/16)
