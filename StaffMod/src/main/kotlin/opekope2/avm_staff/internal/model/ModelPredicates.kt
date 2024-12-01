@@ -32,7 +32,11 @@ import opekope2.avm_staff.util.MOD_ID
 object ModelPredicates : RegistryBase<Identifier, ClampedModelPredicateProvider>() {
     init {
         register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->
-            if (entity != null && entity.isUsingItem && ItemStack.areEqual(entity.activeItem, stack)) 1f
+            if (entity == null || !entity.isUsingItem) return@register 0f
+            // When the item's components get changed server-side, Minecraft client is just janky with references
+            val sameItem = ItemStack.areEqual(entity.activeItem, stack) ||
+                    ItemStack.areEqual(entity.getStackInHand(entity.activeHand), stack)
+            if (sameItem) 1f
             else 0f
         }
         register(Identifier.of(MOD_ID, "head"), matchStaffRendererPart(StaffRendererPartComponent.HEAD))
