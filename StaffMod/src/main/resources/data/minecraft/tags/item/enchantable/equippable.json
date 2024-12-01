@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#avm_staff:staffs",
     "avm_staff:crown_of_king_orange"
   ]
 }
