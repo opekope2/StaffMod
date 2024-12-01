@@ -1,0 +1,75 @@
+{
+  "parent": "avm_staff:infinite_power",
+  "display": {
+    "icon": {
+      "id": "avm_staff:royal_staff",
+      "components": {
+        "avm_staff:staff_item": {
+          "item": {
+            "id": "minecraft:diamond_block"
+          }
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.avm_staff.bulldozer.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.bulldozer.description",
+      "with": [
+        [
+          "a ",
+          {
+            "translate": "item.avm_staff.staff"
+          }
+        ]
+      ]
+    }
+  },
+  "criteria": {
+    "use_diamond_block_staff": {
+      "trigger": "avm_staff:destroy_block_with_staff",
+      "conditions": {
+        "player": {
+          "equipment": {
+            "mainhand": {
+              "items": "#avm_staff:staffs",
+              "components": {
+                "avm_staff:staff_item": {
+                  "item": {
+                    "id": "minecraft:diamond_block"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "use_netherite_block_staff": {
+      "trigger": "avm_staff:destroy_block_with_staff",
+      "conditions": {
+        "player": {
+          "equipment": {
+            "mainhand": {
+              "items": "#avm_staff:staffs",
+              "components": {
+                "avm_staff:staff_item": {
+                  "item": {
+                    "id": "minecraft:netherite_block"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "use_diamond_block_staff",
+      "use_netherite_block_staff"
+    ]
+  ]
+}

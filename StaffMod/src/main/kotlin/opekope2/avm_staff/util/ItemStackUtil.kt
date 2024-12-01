@@ -20,7 +20,9 @@
 
 package opekope2.avm_staff.util
 
+import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.util.Hand
 import opekope2.avm_staff.api.item.StaffItem
 
 /**
@@ -28,3 +30,10 @@ import opekope2.avm_staff.api.item.StaffItem
  */
 inline val ItemStack.isStaff
     get() = item is StaffItem
+
+/**
+ * @see ItemStack.damage
+ */
+fun ItemStack.damage(amount: Int = 1, entity: LivingEntity, hand: Hand = entity.activeHand) {
+    damage(amount, entity, LivingEntity.getSlotForHand(hand))
+}

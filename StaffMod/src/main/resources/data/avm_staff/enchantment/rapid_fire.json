@@ -1,0 +1,18 @@
+{
+  "description": {
+    "translate": "enchantment.avm_staff.rapid_fire"
+  },
+  "supported_items": "#avm_staff:staffs",
+  "weight": 2,
+  "max_level": 2,
+  "min_cost": {
+    "base": 10,
+    "per_level_above_first": 20
+  },
+  "max_cost": {
+    "base": 60,
+    "per_level_above_first": 20
+  },
+  "anvil_cost": 8,
+  "slots": []
+}

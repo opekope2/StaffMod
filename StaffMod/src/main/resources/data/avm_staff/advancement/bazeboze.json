@@ -1,0 +1,64 @@
+{
+  "parent": "avm_staff:bulldozer",
+  "display": {
+    "icon": {
+      "id": "avm_staff:royal_staff",
+      "components": {
+        "avm_staff:staff_item": {
+          "item": {
+            "id": "minecraft:netherite_block"
+          }
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.avm_staff.bazeboze.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.bazeboze.description",
+      "with": [
+        [
+          "a ",
+          {
+            "translate": "entity.minecraft.bat"
+          }
+        ],
+        [
+          "a ",
+          {
+            "translate": "item.avm_staff.staff.with_item",
+            "with": [
+              {
+                "translate": "block.minecraft.netherite_block"
+              }
+            ]
+          }
+        ]
+      ]
+    }
+  },
+  "criteria": {
+    "hit_bat": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "player": {
+          "equipment": {
+            "mainhand": {
+              "items": "#avm_staff:staffs",
+              "components": {
+                "avm_staff:staff_item": {
+                  "item": {
+                    "id": "minecraft:netherite_block"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "entity": {
+          "type": "minecraft:bat"
+        }
+      }
+    }
+  }
+}

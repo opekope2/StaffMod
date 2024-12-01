@@ -35,7 +35,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(TurtleEggBlock.class)
-public class TurtleEggBlockMixin implements IBlockAfterDestroyHandler {
+public abstract class TurtleEggBlockMixin implements IBlockAfterDestroyHandler {
     @Shadow
     @Final
     public static IntProperty EGGS;

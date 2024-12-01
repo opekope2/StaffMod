@@ -24,26 +24,25 @@ import net.minecraft.component.ComponentChanges
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.api.staffItemComponentType
+import opekope2.avm_staff.content.DataComponentTypes
 
 /**
  * Checks if an item is added the given staff item stack.
  */
 val ItemStack.isItemInStaff: Boolean
     @JvmName("isItemInStaff")
-    get() = staffItemComponentType.get() in this
+    get() = DataComponentTypes.staffItem in this
 
 /**
  * Gets the item inserted into the given staff item stack.
  */
 val ItemStack.itemInStaff: Item?
-    get() = getOrDefault(staffItemComponentType.get(), null)?.item?.item
+    get() = getOrDefault(DataComponentTypes.staffItem, null)?.item?.item
 
 /**
  * Gets the item stack inserted into the given staff item stack.
@@ -52,7 +51,7 @@ val ItemStack.itemInStaff: Item?
  * @see mutableItemStackInStaff
  */
 val ItemStack.itemStackInStaff: ItemStack?
-    get() = getOrDefault(staffItemComponentType.get(), null)?.item
+    get() = getOrDefault(DataComponentTypes.staffItem, null)?.item
 
 /**
  * Gets or sets a copy of the item stack inserted into the given staff item stack. The value returned or passed in can
@@ -66,9 +65,9 @@ var ItemStack.mutableItemStackInStaff: ItemStack?
         val changes = ComponentChanges.builder()
 
         if (value == null || value.isEmpty) {
-            changes.remove(staffItemComponentType.get())
+            changes.remove(DataComponentTypes.staffItem)
         } else {
-            changes.add(staffItemComponentType.get(), StaffItemComponent(value.copy()))
+            changes.add(DataComponentTypes.staffItem, StaffItemComponent(value.copy()))
         }
 
         applyChanges(changes.build())
@@ -79,25 +78,23 @@ var ItemStack.mutableItemStackInStaff: ItemStack?
  */
 val Item.hasStaffHandler: Boolean
     @JvmName("hasStaffHandler")
-    get() {
-        val itemId = Registries.ITEM.getId(this)
-        return itemId in StaffHandler
-    }
+    get() = this in StaffHandler.Registry
 
 /**
  * Returns the registered staff handler of the given item if available.
  */
-val Item.staffHandler: StaffHandler?
-    get() {
-        val itemId = Registries.ITEM.getId(this)
-        return StaffHandler[itemId]
+val Item?.staffHandler: StaffHandler?
+    get() = when {
+        this == null -> StaffHandler.Empty
+        !hasStaffHandler -> null
+        else -> StaffHandler.Registry[this]
     }
 
 /**
- * Returns the registered staff handler of the given item if available, [StaffHandler.Default] otherwise.
+ * Returns the registered staff handler of the given item if available, [StaffHandler.Fallback] otherwise.
  */
-val Item?.staffHandlerOrDefault: StaffHandler
-    get() = this?.staffHandler ?: StaffHandler.Default
+val Item?.staffHandlerOrFallback: StaffHandler
+    get() = staffHandler ?: StaffHandler.Fallback
 
 private const val STAFF_MODEL_LENGTH = 40.0 / 16.0
 private const val STAFF_MODEL_ITEM_POSITION_CENTER = 33.5 / 16.0

@@ -54,12 +54,14 @@ allprojects {
     apply(plugin = "architectury-plugin")
 
     val javaVersion = rootProject.libs.versions.java.get()
+    val minecraftVersion = rootProject.libs.versions.minecraft.get()
 
     base {
         archivesName = "staff-mod"
     }
 
-    version = rootProject.libs.versions.staff.mod.get()
+    val loaderSuffix = if (extra.has("loom.platform")) "${extra["loom.platform"]}." else ""
+    version = rootProject.libs.versions.staff.mod.get() + "-" + loaderSuffix + minecraftVersion
     group = "opekope2.avm_staff"
 
     repositories {

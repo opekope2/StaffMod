@@ -1,0 +1,18 @@
+{
+  "description": {
+    "translate": "enchantment.avm_staff.power_charge"
+  },
+  "supported_items": "#avm_staff:staffs",
+  "weight": 2,
+  "max_level": 1,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 0
+  },
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 0
+  },
+  "anvil_cost": 4,
+  "slots": []
+}

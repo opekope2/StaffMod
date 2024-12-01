@@ -18,6 +18,9 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
+import dev.architectury.event.EventResult
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
@@ -26,25 +29,30 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
+import net.minecraft.util.math.Box
 import net.minecraft.world.World
+import net.minecraft.world.event.GameEvent
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.mixin.IBellBlockEntityAccessor
 import opekope2.avm_staff.util.attackDamage
 import opekope2.avm_staff.util.attackSpeed
-import opekope2.avm_staff.util.push
+import opekope2.avm_staff.util.incrementStaffItemUseStat
+import opekope2.avm_staff.util.itemInStaff
 
-internal class BellBlockHandler : StaffHandler() {
+internal class BellHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(8.0), AttributeModifierSlot.MAINHAND)
         .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.5), AttributeModifierSlot.MAINHAND)
@@ -55,10 +63,29 @@ internal class BellBlockHandler : StaffHandler() {
     override fun use(
         staffStack: ItemStack,
         world: World,
-        user: PlayerEntity,
+        user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
         world.playSound(user, user.blockPos, SoundEvents.BLOCK_BELL_USE, SoundCategory.BLOCKS, 2f, 1f)
+
+        if (!world.isClient) {
+            val box = Box(user.blockPos).expand(48.0)
+            val hearingEntities = world.getNonSpectatingEntities(LivingEntity::class.java, box)
+            var resonate = false
+            for (entity in hearingEntities) {
+                if (entity.isAlive && !entity.isRemoved && user.blockPos.isWithinDistance(entity.pos, 32.0)) {
+                    entity.brain.remember(MemoryModuleType.HEARD_BELL_TIME, world.time)
+                }
+                if (IBellBlockEntityAccessor.callIsRaiderEntity(user.blockPos, entity)) {
+                    IBellBlockEntityAccessor.callApplyGlowToEntity(entity)
+                    resonate = true
+                }
+            }
+            if (resonate) {
+                world.playSound(null, user.blockPos, SoundEvents.BLOCK_BELL_RESONATE, SoundCategory.BLOCKS, 1.0f, 1.0f)
+            }
+            world.emitGameEvent(user, GameEvent.RESONATE_10, user.pos)
+        }
 
         return TypedActionResult.success(staffStack)
     }
@@ -79,37 +106,8 @@ internal class BellBlockHandler : StaffHandler() {
             1f
         )
 
+        (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+
         return ActionResult.PASS
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    class BellStaffItemRenderer : IStaffItemRenderer {
-        private val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().apply {
-            setPivot(-8f, -12f, -8f)
-        }
-
-        override fun renderItemInStaff(
-            staffStack: ItemStack,
-            mode: ModelTransformationMode,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            matrices.push {
-                scale(16f / 9f, 16f / 9f, 16f / 9f)
-                translate(0f, 2f / 9f, 0f)
-
-                bellModel.render(
-                    matrices,
-                    BellBlockEntityRenderer.BELL_BODY_TEXTURE.getVertexConsumer(
-                        vertexConsumers,
-                        RenderLayer::getEntitySolid
-                    ),
-                    light,
-                    overlay
-                )
-            }
-        }
     }
 }

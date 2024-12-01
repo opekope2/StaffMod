@@ -16,9 +16,6 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: OnlyIn(Dist.CLIENT)
-@file: Suppress("UNUSED_PARAMETER")
-
 package opekope2.avm_staff.internal.event_handler
 
 import net.minecraft.client.MinecraftClient
@@ -36,36 +33,39 @@ import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPac
 import opekope2.avm_staff.util.MOD_ID
 import org.lwjgl.glfw.GLFW
 
-private val addRemoveStaffItemKeyBinding by lazy {
-    KeyBinding(
+@OnlyIn(Dist.CLIENT)
+internal object KeyBindingHandler : ClientTickEvent.Client {
+    private val ADD_REMOVE_STAFF_ITEM = KeyBinding(
         "key.$MOD_ID.add_remove_staff_item",
         InputUtil.Type.KEYSYM,
         GLFW.GLFW_KEY_R,
         "key.categories.$MOD_ID"
     )
-}
 
-internal fun registerKeyBindings(event: RegisterKeyMappingsEvent) {
-    event.register(addRemoveStaffItemKeyBinding)
-}
-
-internal fun handleKeyBindings(client: MinecraftClient) {
-    if (!addRemoveStaffItemKeyBinding.isPressed) return
-    addRemoveStaffItemKeyBinding.isPressed = false
-
-    val player = client.player ?: return
-
-    if (!player.tryInsertItemIntoStaff(::sendInsertPacket)) {
-        player.tryRemoveItemFromStaff(::sendRemovePacket)
+    init {
+        KeyMappingRegistry.register(ADD_REMOVE_STAFF_ITEM)
     }
-}
 
-private fun sendRemovePacket(player: PlayerEntity, staffStack: ItemStack, targetSlot: Int) {
-    RemoveItemFromStaffC2SPacket().sendToServer()
-    player.resetLastAttackedTicks()
-}
+    override fun tick(client: MinecraftClient) {
+        if (!ADD_REMOVE_STAFF_ITEM.isPressed) return
+        ADD_REMOVE_STAFF_ITEM.isPressed = false
 
-private fun sendInsertPacket(player: PlayerEntity, staffStack: ItemStack, itemStackToAdd: ItemStack) {
-    InsertItemIntoStaffC2SPacket().sendToServer()
-    player.resetLastAttackedTicks()
+        val player = client.player ?: return
+
+        if (!player.tryInsertItemIntoStaff(KeyBindingHandler::sendInsertPacket)) {
+            player.tryRemoveItemFromStaff(KeyBindingHandler::sendRemovePacket)
+        }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun sendRemovePacket(player: PlayerEntity, staffStack: ItemStack, targetSlot: Int) {
+        RemoveItemFromStaffC2SPacket().sendToServer()
+        player.resetLastAttackedTicks()
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun sendInsertPacket(player: PlayerEntity, staffStack: ItemStack, itemStackToAdd: ItemStack) {
+        InsertItemIntoStaffC2SPacket().sendToServer()
+        player.resetLastAttackedTicks()
+    }
 }

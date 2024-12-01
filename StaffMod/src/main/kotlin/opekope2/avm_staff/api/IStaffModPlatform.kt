@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.api
 
+import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
@@ -37,7 +38,7 @@ interface IStaffModPlatform {
      *
      * @param settings  The item settings to pass to the constructor
      */
-    fun staffItem(settings: Item.Settings): StaffItem
+    fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?): StaffItem
 
     /**
      * Creates an item, which is rendered like a staff.

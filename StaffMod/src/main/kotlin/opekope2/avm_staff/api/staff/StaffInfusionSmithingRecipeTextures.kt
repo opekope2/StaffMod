@@ -19,35 +19,38 @@
 package opekope2.avm_staff.api.staff
 
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.staffInfusionSmithingTemplateItem
+import opekope2.avm_staff.content.Items
 
 /**
  * Object holding textures to be displayed in a smithing table, when using a
- * [staff infusion smithing template][staffInfusionSmithingTemplateItem].
+ * [staff infusion smithing template][Items.STAFF_INFUSION_SMITHING_TEMPLATE].
  */
 object StaffInfusionSmithingRecipeTextures {
-    /**
-     * @suppress
-     */
-    @JvmSynthetic
-    internal val baseSlotTextures = mutableListOf<Identifier>()
+    private val registeredBaseSlotTextures = mutableListOf<Identifier>()
+    private val registeredAdditionsSlotTextures = mutableListOf<Identifier>()
 
     /**
-     * @suppress
+     * Gets a copy of the registered background textures of the 2nd slot of the smithing table.
      */
-    @JvmSynthetic
-    internal val additionsSlotTextures = mutableListOf<Identifier>()
+    val baseSlotTextures: List<Identifier>
+        get() = registeredBaseSlotTextures.toList()
+
+    /**
+     * Gets a copy of the registered background textures of the 3rd slot of the smithing table.
+     */
+    val additionsSlotTextures: List<Identifier>
+        get() = registeredAdditionsSlotTextures.toList()
 
     /**
      * Registers a pair of staff texture and an ingredient texture to be displayed in a smithing table, when using a
-     * [staff infusion smithing template][staffInfusionSmithingTemplateItem]. This method should be called for every
+     * [staff infusion smithing template][Items.STAFF_INFUSION_SMITHING_TEMPLATE]. This method should be called for every
      * `minecraft:smithing_transform` recipe in the mod's data pack, which infuses an ingredient into a faint staff.
      *
-     * @param baseSlotTexture       The background texture of the 2nd slot of the smithing table.
-     * @param additionsSlotTexture  The background texture of the 3rd slot of the smithing table.
+     * @param baseSlotTexture       The background texture of the 2nd slot of the smithing table
+     * @param additionsSlotTexture  The background texture of the 3rd slot of the smithing table
      */
     fun register(baseSlotTexture: Identifier, additionsSlotTexture: Identifier) {
-        baseSlotTextures += baseSlotTexture
-        additionsSlotTextures += additionsSlotTexture
+        registeredBaseSlotTextures += baseSlotTexture
+        registeredAdditionsSlotTextures += additionsSlotTexture
     }
 }

@@ -1,0 +1,68 @@
+{
+  "parent": "avm_staff:learning_to_fly",
+  "display": {
+    "icon": {
+      "id": "minecraft:damaged_anvil"
+    },
+    "title": {
+      "translate": "advancements.avm_staff.coming_down.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.coming_down.description"
+    }
+  },
+  "criteria": {
+    "using_campfire_staff": {
+      "trigger": "avm_staff:get_hurt_while_using_item",
+      "conditions": {
+        "item": {
+          "items": "#avm_staff:staffs",
+          "components": {
+            "avm_staff:staff_item": {
+              "item": {
+                "id": "minecraft:campfire"
+              }
+            }
+          }
+        },
+        "damage_type": {
+          "tags": [
+            {
+              "id": "minecraft:is_fall",
+              "expected": true
+            }
+          ]
+        }
+      }
+    },
+    "using_soul_campfire_staff": {
+      "trigger": "avm_staff:get_hurt_while_using_item",
+      "conditions": {
+        "item": {
+          "items": "#avm_staff:staffs",
+          "components": {
+            "avm_staff:staff_item": {
+              "item": {
+                "id": "minecraft:soul_campfire"
+              }
+            }
+          }
+        },
+        "damage_type": {
+          "tags": [
+            {
+              "id": "minecraft:is_fall",
+              "expected": true
+            }
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "using_campfire_staff",
+      "using_soul_campfire_staff"
+    ]
+  ]
+}

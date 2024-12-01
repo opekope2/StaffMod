@@ -18,13 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import net.minecraft.block.AbstractFurnaceBlock
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
@@ -36,6 +29,7 @@ import net.minecraft.particle.ParticleTypes
 import net.minecraft.recipe.AbstractCookingRecipe
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.input.SingleStackRecipeInput
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -47,11 +41,9 @@ import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
-import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.api.staffFurnaceDataComponentType
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityAccessor
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
@@ -60,7 +52,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     private val recipeType: RecipeType<TRecipe>,
     private val smeltSound: SoundEvent
 ) : StaffHandler() {
-    override val maxUseTime = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
 
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
@@ -72,13 +64,13 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     override fun use(
         staffStack: ItemStack,
         world: World,
-        user: PlayerEntity,
+        user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        staffStack[staffFurnaceDataComponentType.get()] = StaffFurnaceDataComponent(0)
+        staffStack[DataComponentTypes.furnaceData] = StaffFurnaceDataComponent(0)
 
         user.setCurrentHand(hand)
-        return TypedActionResult.consume(staffStack)
+        return TypedActionResult.pass(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
@@ -92,11 +84,11 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             return
         }
 
-        val furnaceData = staffStack[staffFurnaceDataComponentType.get()]!!
-        furnaceData.serverBurnTicks++
+        val furnaceData = staffStack[DataComponentTypes.furnaceData]!!
+        furnaceData.burnTicks++
 
         val stackToSmelt = itemToSmelt?.stack ?: return
-        if (furnaceData.serverBurnTicks < stackToSmelt.count) return
+        if (furnaceData.burnTicks < stackToSmelt.count) return
 
         val recipeInput = SingleStackRecipeInput(itemToSmelt.stack)
         val recipe = world.recipeManager.getFirstMatch(recipeType, recipeInput, world).getOrNull()?.value ?: return
@@ -109,7 +101,10 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         )
         itemToSmelt.discard()
 
-        furnaceData.serverBurnTicks -= stackToSmelt.count
+        furnaceData.burnTicks -= stackToSmelt.count
+
+        staffStack.damage(stackToSmelt.count, user, LivingEntity.getSlotForHand(user.activeHand))
+        (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }
 
     private fun findItemToSmelt(world: World, smeltingPosition: Vec3d): ItemEntity? {
@@ -129,13 +124,13 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val ry = Math.random() * 0.5
         val rz = Math.random() * 0.25 - 0.25 / 2
 
-        val particleManager = MinecraftClient.getInstance().particleManager
         particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
         particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        staffStack.remove(staffFurnaceDataComponentType.get())
+        staffStack.remove(DataComponentTypes.furnaceData)
+        (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
     }
 
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
@@ -143,31 +138,18 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         return staffStack
     }
 
-    @OnlyIn(Dist.CLIENT)
-    class FurnaceStaffItemRenderer(unlitState: BlockState, litState: BlockState) : IStaffItemRenderer {
-        constructor(furnaceBlock: Block) : this(
-            furnaceBlock.defaultState,
-            furnaceBlock.defaultState.with(AbstractFurnaceBlock.LIT, true)
-        )
+    override fun allowComponentsUpdateAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        player: PlayerEntity,
+        hand: Hand
+    ) = false
 
-        private val unlitRenderer = BlockStateStaffItemRenderer(unlitState)
-        private val litRenderer = BlockStateStaffItemRenderer(litState)
-
-        override fun renderItemInStaff(
-            staffStack: ItemStack,
-            mode: ModelTransformationMode,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            val renderer =
-                if (staffFurnaceDataComponentType.get() in staffStack) litRenderer
-                else unlitRenderer
-
-            renderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
-        }
-    }
+    override fun allowReequipAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        selectedSlotChanged: Boolean
+    ) = selectedSlotChanged
 
     private companion object {
         private val ITEM_DIMENSIONS = EntityType.ITEM.dimensions

@@ -18,7 +18,7 @@
 
 package opekope2.avm_staff.internal.forge.item
 
-import net.minecraft.client.MinecraftClient
+import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.item.BuiltinModelItemRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
@@ -26,6 +26,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -33,14 +34,19 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions
 import net.minecraftforge.common.extensions.IForgeItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
+import opekope2.avm_staff.util.blockEntityRenderDispatcher
+import opekope2.avm_staff.util.entityModelLoader
 import opekope2.avm_staff.util.itemInStaff
-import opekope2.avm_staff.util.staffHandlerOrDefault
+import opekope2.avm_staff.util.staffHandlerOrFallback
 import java.util.function.Consumer
 
-class ForgeStaffItem(settings: Settings) : StaffItem(settings), IForgeItem {
+class ForgeStaffItem(settings: Settings, repairIngredientSupplier: RegistrySupplier<Item>?) :
+    StaffItem(settings, repairIngredientSupplier), IForgeItem {
     override fun canDisableShield(stack: ItemStack, shield: ItemStack, entity: LivingEntity, attacker: LivingEntity) =
         disablesShield(stack, attacker.entityWorld, attacker, Hand.MAIN_HAND) ||
                 super<IForgeItem>.canDisableShield(stack, shield, entity, attacker)
+
+    override fun isRepairable(arg: ItemStack) = true
 
     override fun onEntitySwing(stack: ItemStack, entity: LivingEntity) = !canSwingHand(
         stack,
@@ -54,8 +60,8 @@ class ForgeStaffItem(settings: Settings) : StaffItem(settings), IForgeItem {
         attackEntity(stack, player.entityWorld, player, entity, Hand.MAIN_HAND) != ActionResult.PASS
 
     override fun shouldCauseReequipAnimation(oldStack: ItemStack, newStack: ItemStack, slotChanged: Boolean): Boolean {
-        val oldHandler = oldStack.itemInStaff.staffHandlerOrDefault
-        val newHandler = newStack.itemInStaff.staffHandlerOrDefault
+        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
+        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowReequipAnimation(oldStack, newStack, slotChanged)
@@ -67,10 +73,7 @@ class ForgeStaffItem(settings: Settings) : StaffItem(settings), IForgeItem {
         })
     }
 
-    object Renderer : BuiltinModelItemRenderer(
-        MinecraftClient.getInstance().blockEntityRenderDispatcher,
-        MinecraftClient.getInstance().entityModelLoader
-    ) {
+    object Renderer : BuiltinModelItemRenderer(blockEntityRenderDispatcher, entityModelLoader) {
         override fun render(
             stack: ItemStack,
             mode: ModelTransformationMode,
