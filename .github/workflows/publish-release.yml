@@ -101,10 +101,12 @@ jobs:
           java: ${{ steps.read-java-version.outputs.value }}
       - name: Publish mods to GitHub
         uses: Kir-Antipov/mc-publish@v3.3.0
+        env:
+          mod-version: ${{ steps.read-mod-version.outputs.value }}-${{ steps.read-minecraft-version.outputs.value }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-          name: AvM Staff Mod ${{ github.ref_name }}
+          name: AvM Staff Mod ${{ env.mod-version }}
           files: |
             dist/fabric/!(*-@(dev|sources|javadoc)).jar
             dist/fabric/*-@(dev|sources|javadoc).jar
