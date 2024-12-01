@@ -41,7 +41,7 @@ jobs:
           file: gradle/libs.versions.toml
           field: versions.minecraft
       - name: Ensure git tag and mod version match
-        if: steps.read-mod-version.outputs.value != github.ref_name
+        if: forge/${{ steps.read-mod-version.outputs.value }} != github.ref_name
         run: |
           echo "git tag '$GITHUB_REF_NAME' doesn't match mod version '${{ steps.read-mod-version.outputs.value }}'"
           exit 1
@@ -113,7 +113,7 @@ jobs:
           file: gradle/libs.versions.toml
           field: versions.staff-mod
       - name: Ensure git tag and mod version match
-        if: steps.read-mod-version.outputs.value != github.ref_name
+        if: forge/${{ steps.read-mod-version.outputs.value }} != github.ref_name
         run: |
           echo "git tag '$GITHUB_REF_NAME' doesn't match mod version '${{ steps.read-mod-version.outputs.value }}'"
           exit 1
