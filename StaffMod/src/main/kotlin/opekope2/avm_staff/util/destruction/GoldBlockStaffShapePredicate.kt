@@ -33,13 +33,10 @@ import opekope2.avm_staff.util.times
  * @param upVector      Vector pointing "upward" relative to the block destroyer's POV
  */
 class GoldBlockStaffShapePredicate(private val origin: BlockPos, forwardVector: Vec3i, upVector: Vec3i) :
-    BlockDestructionPredicate {
+    IShapedBlockDestructionPredicate {
     private val rightVector = forwardVector.crossProduct(upVector)
 
-    /**
-     * The bounding volume of the destroyable blocks.
-     */
-    val volume = encompassPositions(
+    override val volume = encompassPositions(
         origin + forwardVector + upVector + rightVector * -1,
         origin + upVector * -1 + rightVector
     )!!

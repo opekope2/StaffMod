@@ -18,26 +18,34 @@
 
 package opekope2.avm_staff.api.item.renderer
 
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.BlockModels
 import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
+import opekope2.avm_staff.util.bakedModelManager
+import opekope2.avm_staff.util.itemRenderer
 
 /**
- * A [IStaffItemRenderer], always which renders a single block state.
+ * A [StaffItemRenderer], always which renders a single block state.
  *
  * @param blockState    The block state to render
  */
 @OnlyIn(Dist.CLIENT)
-class BlockStateStaffItemRenderer(blockState: BlockState) : IStaffItemRenderer {
+class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() {
     private val blockStateId = BlockModels.getModelId(blockState)
     private val blockItem = blockState.block.asItem().defaultStack
+
+    /**
+     * Creates a new [BlockStateStaffItemRenderer] with the [default state][Block.defaultState] of the given block.
+     *
+     * @param block The block to render its default state
+     */
+    constructor(block: Block) : this(block.defaultState)
 
     override fun renderItemInStaff(
         staffStack: ItemStack,
@@ -46,56 +54,16 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : IStaffItemRenderer {
         vertexConsumers: VertexConsumerProvider,
         light: Int,
         overlay: Int
-    ) = renderBlockState(blockStateId, blockItem, matrices, vertexConsumers, light, overlay)
-
-    companion object {
-        /**
-         * Renders a [BlockState].
-         *
-         * @param blockState        The block state to render
-         * @param matrices          The render transformation matrix
-         * @param vertexConsumers   The render output
-         * @param light             Light parameter from the game
-         * @param overlay           Overlay parameter from the game
-         */
-        @JvmStatic
-        fun renderBlockState(
-            blockState: BlockState,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            val blockStateId = BlockModels.getModelId(blockState)
-            val blockStateItem = blockState.block.asItem().defaultStack
-            renderBlockState(blockStateId, blockStateItem, matrices, vertexConsumers, light, overlay)
-        }
-
-        /**
-         * Renders a [BlockState].
-         *
-         * @param blockStateId      The ID of the block state
-         * @param blockStateItem    The item form of the block state
-         * @param matrices          The render transformation matrix
-         * @param vertexConsumers   The render output
-         * @param light             Light parameter from the game
-         * @param overlay           Overlay parameter from the game
-         */
-        @JvmStatic
-        fun renderBlockState(
-            blockStateId: ModelIdentifier,
-            blockStateItem: ItemStack,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            val itemRenderer = MinecraftClient.getInstance().itemRenderer
-            val modelManager = MinecraftClient.getInstance().bakedModelManager
-            val model = modelManager.getModel(blockStateId)
-            itemRenderer.renderItem(
-                blockStateItem, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light, overlay, model
-            )
-        }
+    ) {
+        itemRenderer.renderItem(
+            blockItem,
+            ModelTransformationMode.NONE,
+            false,
+            matrices,
+            vertexConsumers,
+            light,
+            overlay,
+            bakedModelManager.getModel(blockStateId)
+        )
     }
 }

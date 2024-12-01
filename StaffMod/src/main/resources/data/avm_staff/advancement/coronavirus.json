@@ -1,0 +1,69 @@
+{
+  "parent": "avm_staff:infinite_power",
+  "display": {
+    "icon": {
+      "id": "avm_staff:crown_of_king_orange"
+    },
+    "title": {
+      "translate": "advancements.avm_staff.coronavirus.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.coronavirus.description",
+      "with": [
+        {
+          "translate": "block.avm_staff.crown_of_king_orange"
+        },
+        {
+          "translate": "enchantment.minecraft.binding_curse"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "die": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "player": {
+          "nbt": "{Health:0f}",
+          "equipment": {
+            "head": {
+              "items": "avm_staff:crown_of_king_orange",
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:binding_curse"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "survive_with_totem": {
+      "trigger": "minecraft:used_totem",
+      "conditions": {
+        "player": {
+          "equipment": {
+            "head": {
+              "items": "avm_staff:crown_of_king_orange",
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:binding_curse"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "die",
+      "survive_with_totem"
+    ]
+  ]
+}

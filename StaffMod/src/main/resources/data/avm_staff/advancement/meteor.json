@@ -1,0 +1,28 @@
+{
+  "parent": "avm_staff:flying_into_space_like_a_rocket",
+  "display": {
+    "icon": {
+      "id": "minecraft:fire_charge"
+    },
+    "title": {
+      "translate": "advancements.avm_staff.meteor.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.meteor.description"
+    }
+  },
+  "criteria": {
+    "half_mach": {
+      "trigger": "minecraft:tick",
+      "conditions": {
+        "player": {
+          "movement": {
+            "y": {
+              "max": -171.5
+            }
+          }
+        }
+      }
+    }
+  }
+}

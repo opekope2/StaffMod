@@ -18,13 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import net.minecraft.block.AbstractSkullBlock
-import net.minecraft.block.Blocks
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.block.entity.SkullBlockEntityRenderer
-import net.minecraft.client.render.entity.model.SkullEntityModel
-import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -33,56 +26,47 @@ import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.WitherSkullEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
-import opekope2.avm_staff.api.item.renderer.IStaffItemRenderer
-import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.util.*
 
-internal class WitherSkeletonSkullHandler : StaffHandler() {
-    override val maxUseTime = 20
+internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandler() {
+    override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 2 else 4
 
-    override fun use(
-        staffStack: ItemStack,
-        world: World,
-        user: PlayerEntity,
-        hand: Hand
-    ): TypedActionResult<ItemStack> {
-        user.setCurrentHand(hand)
-        return TypedActionResult.consume(staffStack)
-    }
-
-    override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if ((remainingUseTicks and 1) == 0) {
-            tryShootSkull(world, user, Math.random() < 0.1f) // TODO ratio
-        }
-    }
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 20
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (attacker is PlayerEntity && attacker.itemCooldownManager.isCoolingDown(staffStack.item)) return
-
-        tryShootSkull(world, attacker, false)
-        (attacker as? PlayerEntity)?.resetLastAttackedTicks()
+        super.attack(staffStack, world, attacker, hand)
+        if (attacker is PlayerEntity) addCooldown(staffStack, world, attacker, 0)
     }
 
-    private fun tryShootSkull(world: World, user: LivingEntity, charged: Boolean) {
-        if (world.isClient) return
-        if (!user.canUseStaff) return
-        if (user is PlayerEntity && user.isAttackCoolingDown) return
+    override fun tryShootProjectile(
+        staffStack: ItemStack,
+        world: World,
+        shooter: LivingEntity,
+        reason: ProjectileShootReason
+    ): Boolean {
+        if (!super.tryShootProjectile(staffStack, world, shooter, reason)) return false
 
-        val spawnPos = EntityType.WITHER_SKULL.getSpawnPosition(world, user.approximateStaffTipPosition) ?: return
+        val spawnPos = EntityType.WITHER_SKULL.getSpawnPosition(world, shooter.approximateStaffTipPosition)
+            ?: return false
 
-        world.spawnEntity(WitherSkullEntity(world, user, user.rotationVector).apply {
-            isCharged = charged
+        world.spawnEntity(WitherSkullEntity(world, shooter, shooter.rotationVector).apply {
+            owner = shooter
+            isCharged = reason.isAttack && staffStack.isEnchantedWith(Enchantments.POWER_CHARGE, world.registryManager)
             setPosition(spawnPos)
         })
-        world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, user.blockPos, 0)
+        world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, shooter.blockPos, 0)
+
+        return true
     }
 
     override fun attackEntity(
@@ -96,13 +80,14 @@ internal class WitherSkeletonSkullHandler : StaffHandler() {
         if (target is LivingEntity && !target.isInvulnerableTo(world.damageSources.wither())) {
             val amplifier = if (world.difficulty == Difficulty.HARD) 1 else 0
             target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 10 * 20, amplifier))
+            (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
 
         return ActionResult.PASS
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        (user as? PlayerEntity)?.itemCooldownManager?.set(staffStack.item, 4 * (maxUseTime - remainingUseTicks))
+        if (user is PlayerEntity) addCooldown(staffStack, world, user, remainingUseTicks)
     }
 
     override fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity): ItemStack {
@@ -110,33 +95,13 @@ internal class WitherSkeletonSkullHandler : StaffHandler() {
         return staffStack
     }
 
-    @OnlyIn(Dist.CLIENT)
-    class WitherSkeletonSkullStaffItemRenderer : IStaffItemRenderer {
-        private val skullModel = SkullEntityModel.getSkullTexturedModelData().createModel()
+    private fun addCooldown(staffStack: ItemStack, world: World, player: PlayerEntity, remainingUseTicks: Int) {
+        if (player.abilities.creativeMode) return
 
-        override fun renderItemInStaff(
-            staffStack: ItemStack,
-            mode: ModelTransformationMode,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            matrices.push {
-                scale(-1f, -1f, 1f)
-                translate(0f, 8f / 16f, 0f)
-                scale(2f, 2f, 2f)
-                skullModel.render(
-                    matrices,
-                    vertexConsumers.getBuffer(
-                        SkullBlockEntityRenderer.getRenderLayer(
-                            (Blocks.WITHER_SKELETON_SKULL as AbstractSkullBlock).skullType, null
-                        )
-                    ),
-                    light,
-                    overlay
-                )
-            }
-        }
+        val quickDraw = staffStack.getEnchantmentLevel(Enchantments.QUICK_DRAW, world.registryManager) + 1
+        player.itemCooldownManager.set(
+            staffStack.item,
+            4 * (getMaxUseTime(staffStack, world, player) - remainingUseTicks) / quickDraw
+        )
     }
 }

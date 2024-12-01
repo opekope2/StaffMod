@@ -141,7 +141,7 @@ private fun destroyBlock(
         world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(destroyer, state))
     }
 
-    tool.postMine(world, breakState, pos, destroyer)
+    tool.item.postMine(tool, world, breakState, pos, destroyer)
 
     if (!broke) return false
 

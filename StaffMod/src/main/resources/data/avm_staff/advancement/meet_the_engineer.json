@@ -1,0 +1,57 @@
+{
+  "parent": "avm_staff:get_pranked_lol",
+  "display": {
+    "icon": {
+      "id": "avm_staff:royal_staff",
+      "components": {
+        "avm_staff:staff_item": {
+          "item": {
+            "id": "minecraft:cake"
+          }
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.avm_staff.meet_the_engineer.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.meet_the_engineer.description",
+      "with": [
+        [
+          "a ",
+          {
+            "translate": "block.minecraft.cake"
+          }
+        ],
+        [
+          "an ",
+          {
+            "translate": "entity.avm_staff.impact_tnt"
+          }
+        ]
+      ]
+    },
+    "hidden": true
+  },
+  "criteria": {
+    "meet_the_engineer": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "avm_staff:is_prank",
+                "expected": true
+              }
+            ],
+            "direct_entity": {
+              "type": "avm_staff:cake",
+              "nbt": "{EngineeredAttack:1b}"
+            }
+          }
+        }
+      }
+    }
+  }
+}

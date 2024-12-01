@@ -18,22 +18,20 @@
 
 package opekope2.avm_staff.api.entity
 
+import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.GraphicsMode
 import net.minecraft.client.particle.BlockDustParticle
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.MovementType
+import net.minecraft.entity.*
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.server.network.EntityTrackerEntry
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
@@ -41,57 +39,64 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
-import opekope2.avm_staff.api.*
-import opekope2.avm_staff.util.damageSource
-import opekope2.avm_staff.util.times
+import opekope2.avm_staff.content.DamageTypes
+import opekope2.avm_staff.content.EntityTypes
+import opekope2.avm_staff.content.SoundEvents
+import opekope2.avm_staff.util.*
 
 /**
  * A flying cake entity, which splashes on collision damaging target(s).
  */
-class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(entityType, world) {
+class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(entityType, world), Ownable {
     private var thrower: LivingEntity? = null
     private var timeFalling = 0
+    private var redirectedByImpactTnt = false
 
+    /**
+     * Creates a new [CakeEntity].
+     *
+     * @param world     The world to create the cake in
+     * @param position  The position of the cake to spawn at
+     * @param velocity  The velocity of the spawned cake
+     * @param thrower   The entity that threw the cake
+     */
     constructor(world: World, position: Vec3d, velocity: Vec3d, thrower: LivingEntity?) :
-            this(cakeEntityType.get(), world) {
-        intersectionChecked = true
-        setPosition(position)
-        this.velocity = velocity
-        prevX = position.x
-        prevY = position.y
-        prevZ = position.z
-        startPos = blockPos
-        this.thrower = thrower
+            this(EntityTypes.cake, world) {
+        val (x, y, z) = position
+        val (vx, vy, vz) = velocity
+        init(x, y, z, vx, vy, vz, thrower)
     }
 
-    override fun handleAttack(attacker: Entity?): Boolean {
-        if (!world.isClient) {
-            discard()
-        }
-        return true
+    private fun init(x: Double, y: Double, z: Double, vx: Double, vy: Double, vz: Double, thrower: LivingEntity?) {
+        intersectionChecked = true
+        setPosition(x, y, z)
+        setVelocity(vx, vy, vz)
+        prevX = x
+        prevY = y
+        prevZ = z
+        lookForward()
+        setPrevData()
+        startPos = blockPos
+        this.thrower = thrower
     }
 
     /**
      * The position, where the cake was spawned.
      */
-    var startPos: BlockPos
-        get() = dataTracker[BLOCK_POS]
-        set(pos) {
-            dataTracker[BLOCK_POS] = pos
-        }
+    var startPos: BlockPos = BlockPos.ORIGIN
+        private set
 
     override fun getMoveEffect(): MoveEffect {
         return MoveEffect.NONE
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
-        builder.add(BLOCK_POS, BlockPos.ORIGIN)
     }
 
     override fun onRemoved() {
         world.playSound(
             x, y, z,
-            cakeSplashSoundEvent.get(), SoundCategory.BLOCKS,
+            SoundEvents.cakeSplash, SoundCategory.BLOCKS,
             (CAKE_STATE.soundGroup.volume + 1f) / 2f, CAKE_STATE.soundGroup.pitch * .8f,
             false
         )
@@ -104,7 +109,6 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         val particlePerSide = particlePerSide - 1
         val width = type.dimensions.width
         val height = type.dimensions.height
-        val particleManager = MinecraftClient.getInstance().particleManager
 
         for (i in 0..particlePerSide) {
             for (j in 0..particlePerSide) {
@@ -137,9 +141,11 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     override fun getGravity() = 0.04
 
     override fun tick() {
+        setPrevData()
         ++timeFalling
         applyGravity()
         move(MovementType.SELF, velocity)
+        lookForward()
         if (!world.isClient) {
             if (timeFalling > 100 && blockPos.y !in world.topY downTo (world.bottomY + 1) || timeFalling > 600) {
                 discard()
@@ -148,6 +154,12 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
             }
         }
         velocity *= 0.98
+    }
+
+    private fun setPrevData() {
+        prevYaw = yaw
+        prevPitch = pitch
+        prevHorizontalSpeed = horizontalSpeed
     }
 
     private fun splashOnImpact() {
@@ -172,8 +184,8 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         val damageables = EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.and(EntityPredicates.VALID_LIVING_ENTITY)
         val thrower = thrower
         val damageSource =
-            if (thrower == null) world.damageSource(cakeDamageType)
-            else world.damageSource(playerCakeDamageType, this, thrower)
+            if (thrower == null) world.damageSource(DamageTypes.PRANKED)
+            else world.damageSource(DamageTypes.PRANKED_BY_PLAYER, this, thrower)
 
         world.getOtherEntities(this, boundingBox, damageables).forEach {
             it.damage(damageSource, 1f)
@@ -182,12 +194,35 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
 
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
 
+    override fun damage(source: DamageSource, amount: Float): Boolean {
+        if (world.isClient) return super.damage(source, amount)
+
+        val causer = source.source
+        if (causer is ImpactTntEntity && causer.owner != null) {
+            thrower = causer.owner
+            redirectedByImpactTnt = true
+        }
+
+        if (!isRemoved && !isInvulnerableTo(source) && !source.isIn(DamageTypeTags.IS_EXPLOSION)) {
+            discard()
+
+            val attacker = source.attacker
+            if (attacker is ServerPlayerEntity) {
+                Criteria.PLAYER_KILLED_ENTITY.trigger(attacker, this, source)
+            }
+        }
+
+        return super.damage(source, amount)
+    }
+
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
-        nbt.putInt("Time", timeFalling)
+        nbt.putInt(TIME_KEY, timeFalling)
+        nbt.putBoolean(REDIRECTED_BY_IMPACT_TNT_KEY, redirectedByImpactTnt)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
-        timeFalling = nbt.getInt("Time")
+        timeFalling = nbt.getInt(TIME_KEY)
+        redirectedByImpactTnt = nbt.getBoolean(REDIRECTED_BY_IMPACT_TNT_KEY)
     }
 
     override fun doesRenderOnFire() = false
@@ -195,26 +230,29 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     override fun entityDataRequiresOperator() = true
 
     override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry) =
-        EntitySpawnS2CPacket(this, entityTrackerEntry)
+        EntitySpawnS2CPacket(this, entityTrackerEntry, thrower?.id ?: 0)
 
     override fun onSpawnPacket(packet: EntitySpawnS2CPacket) {
         super.onSpawnPacket(packet)
-        intersectionChecked = true
-        setPosition(packet.x, packet.y, packet.z)
-        startPos = blockPos
+        init(
+            packet.x, packet.y, packet.z,
+            packet.velocityX, packet.velocityY, packet.velocityZ,
+            world.getEntityById(packet.entityData) as? LivingEntity
+        )
     }
 
+    override fun getOwner() = thrower
+
     companion object {
+        private const val TIME_KEY = "Time"
+        private const val REDIRECTED_BY_IMPACT_TNT_KEY = "EngineeredAttack"
         private val CAKE_STATE = Blocks.CAKE.defaultState
-        private val BLOCK_POS = DataTracker.registerData(
-            CakeEntity::class.java, TrackedDataHandlerRegistry.BLOCK_POS
-        )
         private val particlePerSide: Int
             @OnlyIn(Dist.CLIENT)
-            get() = when (MinecraftClient.getInstance().options.graphicsMode.value!!) {
-                GraphicsMode.FAST -> 4
-                GraphicsMode.FANCY -> 5
+            get() = when (clientOptions.graphicsMode.value) {
                 GraphicsMode.FABULOUS -> 6
+                GraphicsMode.FANCY -> 5
+                else -> 4
             }
 
         /**
@@ -231,7 +269,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
             world.playSound(
                 null,
                 position.x, position.y, position.z,
-                cakeThrowSoundEvent.get(), thrower?.soundCategory ?: return,
+                SoundEvents.cakeThrow, thrower?.soundCategory ?: return,
                 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f)
             )
         }

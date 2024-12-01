@@ -20,14 +20,12 @@ package opekope2.avm_staff.api.entity.renderer
 
 import net.minecraft.block.Blocks
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.random.Random
 import net.minecraftforge.api.distmarker.Dist
@@ -36,7 +34,6 @@ import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.mixin.ICakeBlockAccessor
 import opekope2.avm_staff.util.push
 import org.joml.Quaternionf
-import kotlin.math.sqrt
 
 /**
  * Renderer of [CakeEntity].
@@ -57,30 +54,15 @@ class CakeEntityRenderer(context: EntityRendererFactory.Context) : EntityRendere
         vertexConsumers: VertexConsumerProvider,
         light: Int
     ) {
-        val normalSpeed = cake.velocity.normalize()
-        val horizontalSpeed = sqrt(normalSpeed.x * normalSpeed.x + normalSpeed.z * normalSpeed.z)
-        val cakeYaw = MathHelper.atan2(normalSpeed.x, normalSpeed.z).toFloat()
-        val cakePitch = MathHelper.atan2(horizontalSpeed, normalSpeed.y).toFloat()
+        val cakeYaw = MathHelper.lerpAngleDegrees(tickDelta, cake.prevYaw, cake.yaw)
+        val cakePitch = MathHelper.lerpAngleDegrees(tickDelta, cake.prevPitch, cake.pitch)
 
         matrices.push {
-            matrices.translate(0f, cake.getDimensions(cake.pose).height / 2, 0f)
-            matrices.multiply(Quaternionf().rotationYXZ(cakeYaw, cakePitch, 0f))
-            matrices.translate(-.5f, NEGATIVE_HALF_CAKE_HEIGHT, -.5f)
+            translate(0f, cake.getDimensions(cake.pose).height / 2, 0f)
+            multiply(Quaternionf().rotationYXZ(cakeYaw, cakePitch, 0f))
+            translate(-.5f, NEGATIVE_HALF_CAKE_HEIGHT, -.5f)
 
-            blockRenderManager.modelRenderer.render(
-                cake.world,
-                blockRenderManager.getModel(CAKE_STATE),
-                CAKE_STATE,
-                BlockPos.ofFloored(cake.x, cake.boundingBox.maxY, cake.z),
-                matrices,
-                vertexConsumers.getBuffer(
-                    RenderLayers.getMovingBlockLayer(CAKE_STATE)
-                ),
-                false,
-                Random.create(),
-                CAKE_STATE.getRenderingSeed(cake.startPos),
-                OverlayTexture.DEFAULT_UV
-            )
+            blockRenderManager.renderBlockAsEntity(CAKE_STATE, this, vertexConsumers, light, OverlayTexture.DEFAULT_UV)
         }
 
         super.render(cake, yaw, tickDelta, matrices, vertexConsumers, light)

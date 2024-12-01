@@ -19,46 +19,35 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import opekope2.avm_staff.api.cakeEntityType
 import opekope2.avm_staff.api.entity.CakeEntity
-import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.util.*
+import opekope2.avm_staff.content.EntityTypes
+import opekope2.avm_staff.util.approximateStaffTipPosition
+import opekope2.avm_staff.util.getSpawnPosition
+import opekope2.avm_staff.util.plus
+import opekope2.avm_staff.util.times
 
-internal class CakeHandler : StaffHandler() {
-    override val maxUseTime: Int
-        get() = 72000
+internal class CakeHandler : AbstractProjectileShootingStaffHandler() {
+    override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 1 else 2
 
-    override fun use(
+    private val ProjectileShootReason.velocity: Double
+        get() = when (this) {
+            ProjectileShootReason.ATTACK -> 0.5
+            ProjectileShootReason.USE -> 1.0
+        }
+
+    override fun tryShootProjectile(
         staffStack: ItemStack,
         world: World,
-        user: PlayerEntity,
-        hand: Hand
-    ): TypedActionResult<ItemStack> {
-        user.setCurrentHand(hand)
-        return TypedActionResult.consume(staffStack)
-    }
+        shooter: LivingEntity,
+        reason: ProjectileShootReason
+    ): Boolean {
+        if (!super.tryShootProjectile(staffStack, world, shooter, reason)) return false
 
-    override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        tryThrowCake(world, user, 1.0)
-    }
+        val spawnPos = EntityTypes.cake.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return false
+        CakeEntity.throwCake(world, spawnPos, shooter.rotationVector * reason.velocity + shooter.velocity, shooter)
 
-    override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
-        tryThrowCake(world, attacker, 0.5)
-        (attacker as? PlayerEntity)?.resetLastAttackedTicks()
-    }
-
-    private fun tryThrowCake(world: World, user: LivingEntity, velocityMultiplier: Double) {
-        if (world.isClient) return
-        if (!user.canUseStaff) return
-        if (user is PlayerEntity && user.isAttackCoolingDown) return
-
-        val spawnPos = cakeEntityType.get().getSpawnPosition(world, user.approximateStaffTipPosition) ?: return
-
-        CakeEntity.throwCake(world, spawnPos, user.rotationVector * velocityMultiplier + user.velocity, user)
+        return true
     }
 }

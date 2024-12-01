@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "id": "avm_staff:royal_staff",
+      "components": {
+        "avm_staff:staff_item": {
+          "item": {
+            "id": "minecraft:command_block"
+          }
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.avm_staff.infinite_power.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.infinite_power.description",
+      "with": [
+        [
+          "a ",
+          {
+            "translate": "item.avm_staff.staff"
+          }
+        ]
+      ]
+    },
+    "frame": "goal",
+    "background": "minecraft:textures/block/smithing_table_top.png"
+  },
+  "criteria": {
+    "obtain_staff": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#avm_staff:staffs"
+          }
+        ]
+      }
+    }
+  }
+}

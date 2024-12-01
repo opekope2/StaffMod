@@ -20,6 +20,7 @@ package opekope2.avm_staff.api.item
 
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -34,6 +35,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
@@ -42,7 +44,11 @@ import opekope2.avm_staff.util.*
  * Implementing loader-specific interfaces is highly recommended when extending the class to pass loader-specific
  * functionality to [StaffHandler].
  */
-abstract class StaffItem(settings: Settings) : Item(settings) {
+abstract class StaffItem(settings: Settings, private val repairIngredientSupplier: RegistryObject<Item>?) :
+    Item(settings) {
+    override fun canRepair(stack: ItemStack, ingredient: ItemStack) =
+        repairIngredientSupplier != null && ingredient.isOf(repairIngredientSupplier.get())
+
     override fun onItemEntityDestroyed(entity: ItemEntity) {
         val staffStack = entity.stack
         val staffItem = staffStack.mutableItemStackInStaff ?: return
@@ -50,32 +56,38 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
     }
 
     override fun postProcessComponents(stack: ItemStack) {
-        stack[DataComponentTypes.ATTRIBUTE_MODIFIERS] = stack.itemInStaff.staffHandlerOrDefault.attributeModifiers
+        stack[DataComponentTypes.ATTRIBUTE_MODIFIERS] = stack.itemInStaff.staffHandlerOrFallback.attributeModifiers
     }
 
     override fun getMaxUseTime(stack: ItemStack, user: LivingEntity): Int {
-        return stack.itemInStaff.staffHandlerOrDefault.maxUseTime // TODO extend API
+        return stack.itemInStaff.staffHandlerOrFallback.getMaxUseTime(stack, user.entityWorld, user)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val staffStack = user.getStackInHand(hand)
-        return staffStack.itemInStaff.staffHandlerOrDefault.use(staffStack, world, user, hand)
+        return staffStack.itemInStaff.staffHandlerOrFallback.use(staffStack, world, user, hand)
     }
 
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
-        stack.itemInStaff.staffHandlerOrDefault.usageTick(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.staffHandlerOrFallback.usageTick(stack, world, user, remainingUseTicks)
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        stack.itemInStaff.staffHandlerOrDefault.onStoppedUsing(stack, world, user, remainingUseTicks)
+        stack.itemInStaff.staffHandlerOrFallback.onStoppedUsing(stack, world, user, remainingUseTicks)
     }
 
     override fun finishUsing(stack: ItemStack, world: World, user: LivingEntity): ItemStack {
-        return stack.itemInStaff.staffHandlerOrDefault.finishUsing(stack, world, user)
+        return stack.itemInStaff.staffHandlerOrFallback.finishUsing(stack, world, user)
+    }
+
+    override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) = true
+
+    override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
+        stack.damage(1, attacker, EquipmentSlot.MAINHAND)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        return context.stack.itemInStaff.staffHandlerOrDefault.useOnBlock(
+        return context.stack.itemInStaff.staffHandlerOrFallback.useOnBlock(
             context.stack,
             context.world,
             context.player ?: return ActionResult.PASS,
@@ -86,40 +98,40 @@ abstract class StaffItem(settings: Settings) : Item(settings) {
     }
 
     override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
-        return stack.itemInStaff.staffHandlerOrDefault.useOnEntity(stack, user.world, user, entity, hand)
+        return stack.itemInStaff.staffHandlerOrFallback.useOnEntity(stack, user.world, user, entity, hand)
     }
 
     /**
      * @see StaffHandler.attack
      */
     open fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) =
-        staffStack.itemInStaff.staffHandlerOrDefault.attack(staffStack, world, attacker, hand)
+        staffStack.itemInStaff.staffHandlerOrFallback.attack(staffStack, world, attacker, hand)
 
     /**
      * @see StaffHandler.attackBlock
      */
     open fun attackBlock(
         staffStack: ItemStack, world: World, attacker: LivingEntity, target: BlockPos, side: Direction, hand: Hand
-    ) = staffStack.itemInStaff.staffHandlerOrDefault.attackBlock(staffStack, world, attacker, target, side, hand)
+    ) = staffStack.itemInStaff.staffHandlerOrFallback.attackBlock(staffStack, world, attacker, target, side, hand)
 
     /**
      * @see StaffHandler.attackEntity
      */
     open fun attackEntity(
         staffStack: ItemStack, world: World, attacker: LivingEntity, target: Entity, hand: Hand
-    ) = staffStack.itemInStaff.staffHandlerOrDefault.attackEntity(staffStack, world, attacker, target, hand)
+    ) = staffStack.itemInStaff.staffHandlerOrFallback.attackEntity(staffStack, world, attacker, target, hand)
 
     /**
      * @see StaffHandler.canSwingHand
      */
     open fun canSwingHand(staffStack: ItemStack, world: World, holder: LivingEntity, hand: Hand) =
-        staffStack.itemInStaff.staffHandlerOrDefault.canSwingHand(staffStack, world, holder, hand)
+        staffStack.itemInStaff.staffHandlerOrFallback.canSwingHand(staffStack, world, holder, hand)
 
     /**
      * @see StaffHandler.disablesShield
      */
     open fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) =
-        staffStack.itemInStaff.staffHandlerOrDefault.disablesShield(staffStack, world, attacker, hand)
+        staffStack.itemInStaff.staffHandlerOrFallback.disablesShield(staffStack, world, attacker, hand)
 
     override fun getName(stack: ItemStack): Text {
         val staffItem = stack.itemStackInStaff ?: return super.getName(stack)

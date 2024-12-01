@@ -19,20 +19,20 @@
 package opekope2.avm_staff.internal.forge
 
 import net.minecraft.block.Block
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.event.entity.living.LivingDropsEvent
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.IStaffModPlatform
+import opekope2.avm_staff.internal.event_handler.EventHandlers
 import opekope2.avm_staff.internal.forge.item.ForgeCrownItem
 import opekope2.avm_staff.internal.forge.item.ForgeStaffItem
 import opekope2.avm_staff.internal.forge.item.ForgeStaffRendererItem
-import opekope2.avm_staff.internal.initializeNetworking
-import opekope2.avm_staff.internal.registerContent
+import opekope2.avm_staff.internal.initializer.Initializer
 import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffHandlers
-import opekope2.avm_staff.internal.stopUsingStaffWhenDropped
-import opekope2.avm_staff.internal.subscribeToEvents
 import opekope2.avm_staff.util.MOD_ID
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.forge.runWhenOn
@@ -40,9 +40,8 @@ import thedarkcolour.kotlinforforge.forge.runWhenOn
 @Mod(MOD_ID)
 object StaffMod : IStaffModPlatform {
     init {
-        registerContent()
-        initializeNetworking()
-        subscribeToEvents()
+        Initializer
+        EventHandlers
         subscribeForgeEvents()
         registerVanillaStaffHandlers()
         runWhenOn(Dist.CLIENT) { StaffModClient.initializeClient() }
@@ -53,12 +52,14 @@ object StaffMod : IStaffModPlatform {
     }
 
     private fun dropInventory(event: LivingDropsEvent) {
+        val player = event.entity as? PlayerEntity ?: return
         for (item in event.drops) {
-            stopUsingStaffWhenDropped(event.entity, item)
+            EventHandlers.drop(player, item)
         }
     }
 
-    override fun staffItem(settings: Item.Settings) = ForgeStaffItem(settings)
+    override fun staffItem(settings: Item.Settings, repairIngredient: RegistryObject<Item>?) =
+        ForgeStaffItem(settings, repairIngredient)
 
     override fun itemWithStaffRenderer(settings: Item.Settings) = ForgeStaffRendererItem(settings)
 

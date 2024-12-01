@@ -22,6 +22,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
+import net.minecraft.world.event.GameEvent
 import net.minecraftforge.event.network.CustomPayloadEvent
 import net.minecraftforge.network.NetworkDirection
 import opekope2.avm_staff.internal.networking.IC2SPacket
@@ -47,6 +48,7 @@ internal class InsertItemIntoStaffC2SPacket() : IC2SPacket<InsertItemIntoStaffC2
             context.sender!!.tryInsertItemIntoStaff { player, staffStack, toInsert ->
                 staffStack.mutableItemStackInStaff = toInsert.split(1)
                 player.resetLastAttackedTicks()
+                player.entityWorld.emitGameEvent(player, GameEvent.RESONATE_5, player.pos)
             }
         }
 

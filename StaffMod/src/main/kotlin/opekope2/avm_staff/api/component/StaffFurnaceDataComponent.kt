@@ -24,24 +24,15 @@ import net.minecraft.network.codec.PacketCodec
 /**
  * Data components to store the state of a furnace staff.
  *
- * @param serverBurnTicks   The ticks the furnace has been on for minus the items smelted. This data is not synced to
- *   the client
+ * @param burnTicks The ticks the furnace has been on for minus the items smelted. Only available server-side
  */
-class StaffFurnaceDataComponent(var serverBurnTicks: Int) {
-    override fun equals(other: Any?) = when {
-        this === other -> true
-        javaClass != other?.javaClass -> false
-        else -> true
-    }
-
-    override fun hashCode() = javaClass.hashCode()
-
+data class StaffFurnaceDataComponent(var burnTicks: Int) {
     companion object {
         /**
-         * [PacketCodec] for [StaffFurnaceDataComponent], which doesn't sync [serverBurnTicks].
+         * [PacketCodec] for [StaffFurnaceDataComponent], which doesn't sync its data.
          */
         @JvmField
-        val PACKET_CODEC: PacketCodec<RegistryByteBuf, StaffFurnaceDataComponent> =
+        val NON_SYNCING_PACKET_CODEC: PacketCodec<RegistryByteBuf, StaffFurnaceDataComponent> =
             PacketCodec.of({ _, _ -> }, { StaffFurnaceDataComponent(0) })
     }
 }

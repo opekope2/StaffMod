@@ -19,3 +19,6 @@
 package opekope2.avm_staff.internal
 
 internal typealias MinecraftUnit = net.minecraft.util.Unit
+
+internal val minecraftUnit: MinecraftUnit
+    get() = MinecraftUnit.INSTANCE

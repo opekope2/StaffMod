@@ -21,18 +21,21 @@ package opekope2.avm_staff.api.item.renderer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
+import opekope2.avm_staff.api.registry.RegistryBase
 
 /**
  * A renderer for an item, which can be placed into a staff.
  *
- * @see IStaffItemRenderer.register
+ * @see StaffItemRenderer.register
  */
 @OnlyIn(Dist.CLIENT)
-fun interface IStaffItemRenderer {
+abstract class StaffItemRenderer {
     /**
      * Renders an item.
      *
@@ -44,7 +47,7 @@ fun interface IStaffItemRenderer {
      * @param light             Light component for rendering calls
      * @param overlay           Overlay component for rendering calls
      */
-    fun renderItemInStaff(
+    abstract fun renderItemInStaff(
         staffStack: ItemStack,
         mode: ModelTransformationMode,
         matrices: MatrixStack,
@@ -54,38 +57,30 @@ fun interface IStaffItemRenderer {
     )
 
     @OnlyIn(Dist.CLIENT)
-    companion object {
-        private val staffItemRenderers = mutableMapOf<Identifier, IStaffItemRenderer>()
+    companion object Registry : RegistryBase<Identifier, StaffItemRenderer>() {
+        private inline val Item.registryId: Identifier
+            get() = Registries.ITEM.getId(this)
 
         /**
-         * Registers a renderer for a given [item ID][staffItem].
+         * Registers an entry to this registry.
          *
-         * @param staffItem The item ID to register a renderer for
-         * @param renderer  The item's renderer
-         * @return `true`, if the registration was successful, `false`, if a renderer for the item was already registered
+         * @param key The key to associate a value with
+         * @param value The value to register
          */
-        @JvmStatic
-        fun register(staffItem: Identifier, renderer: IStaffItemRenderer): Boolean {
-            if (staffItem in staffItemRenderers) return false
-
-            staffItemRenderers[staffItem] = renderer
-            return true
-        }
+        fun register(key: Item, value: StaffItemRenderer) = register(key.registryId, value)
 
         /**
-         * Checks if a renderer for the [given item][staffItem] is registered.
+         * Checks if the given key is present in the registry
          *
-         * @param staffItem The item ID, which can be inserted into the staff
+         * @param key The key to check
          */
-        @JvmStatic
-        operator fun contains(staffItem: Identifier): Boolean = staffItem in staffItemRenderers
+        operator fun contains(key: Item) = key.registryId in this
 
         /**
-         * Gets the registered renderer for the [given item][staffItem] or `null`, if no renderer was registered.
+         * Gets the value associated with the given key or throws an exception, if the key is not present in this registry.
          *
-         * @param staffItem The item ID, which can be inserted into the staff
+         * @param key The key to check
          */
-        @JvmStatic
-        operator fun get(staffItem: Identifier): IStaffItemRenderer? = staffItemRenderers[staffItem]
+        operator fun get(key: Item) = this[key.registryId]
     }
 }

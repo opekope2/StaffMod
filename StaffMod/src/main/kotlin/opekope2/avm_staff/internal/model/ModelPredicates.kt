@@ -16,44 +16,38 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: OnlyIn(Dist.CLIENT)
-
 package opekope2.avm_staff.internal.model
 
 import net.minecraft.client.item.ClampedModelPredicateProvider
-import net.minecraft.client.item.ModelPredicateProvider
-import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.component.StaffRendererPartComponent
-import opekope2.avm_staff.api.staffRendererOverrideComponentType
-import opekope2.avm_staff.api.staffRendererPartComponentType
+import opekope2.avm_staff.api.registry.RegistryBase
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.util.MOD_ID
-import kotlin.jvm.optionals.getOrNull
 
-private fun register(id: Identifier, provider: ModelPredicateProvider) {
-    ModelPredicateProviderRegistry.registerGeneric(id, provider)
-}
-
-fun registerModelPredicateProviders() {
-    register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->
-        val isActiveOverride = stack[staffRendererOverrideComponentType.get()]?.isActive?.getOrNull()
-        when {
-            isActiveOverride == true -> 1f
-            isActiveOverride == false -> 0f
-            entity != null && entity.isUsingItem && ItemStack.areEqual(entity.activeItem, stack) -> 1f
-            else -> 0f
+@OnlyIn(Dist.CLIENT)
+object ModelPredicates : RegistryBase<Identifier, ClampedModelPredicateProvider>() {
+    init {
+        register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->
+            if (entity == null || !entity.isUsingItem) return@register 0f
+            // When the item's components get changed server-side, Minecraft client is just janky with references
+            val sameItem = ItemStack.areEqual(entity.activeItem, stack) ||
+                    ItemStack.areEqual(entity.getStackInHand(entity.activeHand), stack)
+            if (sameItem) 1f
+            else 0f
         }
+        register(Identifier.of(MOD_ID, "head"), matchStaffRendererPart(StaffRendererPartComponent.HEAD))
+        register(Identifier.of(MOD_ID, "item"), matchStaffRendererPart(StaffRendererPartComponent.ITEM))
+        register(Identifier.of(MOD_ID, "rod_top"), matchStaffRendererPart(StaffRendererPartComponent.ROD_TOP))
+        register(Identifier.of(MOD_ID, "rod_bottom"), matchStaffRendererPart(StaffRendererPartComponent.ROD_BOTTOM))
     }
-    register(Identifier.of(MOD_ID, "head"), matchStaffRendererPart(StaffRendererPartComponent.HEAD))
-    register(Identifier.of(MOD_ID, "item"), matchStaffRendererPart(StaffRendererPartComponent.ITEM))
-    register(Identifier.of(MOD_ID, "rod_top"), matchStaffRendererPart(StaffRendererPartComponent.ROD_TOP))
-    register(Identifier.of(MOD_ID, "rod_bottom"), matchStaffRendererPart(StaffRendererPartComponent.ROD_BOTTOM))
-}
 
-private fun matchStaffRendererPart(part: StaffRendererPartComponent) = ClampedModelPredicateProvider { stack, _, _, _ ->
-    if (stack[staffRendererPartComponentType.get()] == part) 1f
-    else 0f
+    private fun matchStaffRendererPart(part: StaffRendererPartComponent) =
+        ClampedModelPredicateProvider { stack, _, _, _ ->
+            if (stack[DataComponentTypes.staffRendererPart] == part) 1f
+            else 0f
+        }
 }

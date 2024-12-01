@@ -25,26 +25,22 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec2f
 import net.minecraft.world.World
 import net.minecraft.world.WorldEvents
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
-import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
-import opekope2.avm_staff.util.destruction.InTruncatedPyramidPredicate
-import opekope2.avm_staff.util.destruction.MaxHardnessPredicate
-import opekope2.avm_staff.util.destruction.NetheriteBlockStaffShapePredicate
-import opekope2.avm_staff.util.destruction.destroyBox
+import opekope2.avm_staff.util.destruction.*
 import opekope2.avm_staff.util.dropcollector.ChunkedBlockDropCollector
 import opekope2.avm_staff.util.dropcollector.NoOpBlockDropCollector
 
-class NetheriteBlockHandler : StaffHandler() {
+internal class NetheriteBlockHandler : AbstractMassDestructiveStaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(20.0), AttributeModifierSlot.MAINHAND)
         .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.0), AttributeModifierSlot.MAINHAND)
@@ -99,44 +95,25 @@ class NetheriteBlockHandler : StaffHandler() {
 
         world.syncWorldEvent(WorldEvents.SMASH_ATTACK, target.steppingPos, 750)
 
+        (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
+
         return ActionResult.PASS
     }
 
-    override fun attackBlock(
-        staffStack: ItemStack,
+    override fun createBlockDestructionShapePredicate(
         world: World,
         attacker: LivingEntity,
-        target: BlockPos,
-        side: Direction,
-        hand: Hand
-    ): ActionResult {
-        if (world.isClient) return ActionResult.PASS
-        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return ActionResult.PASS
-        require(world is ServerWorld)
-
+        target: BlockPos
+    ): IShapedBlockDestructionPredicate {
         val forwardVector = attacker.facing.vector
         val upVector = attacker.cameraUp.vector
-        val shapePredicate = NetheriteBlockStaffShapePredicate(target, forwardVector, upVector)
-        val dropCollector =
-            if (attacker is PlayerEntity && attacker.abilities.creativeMode) NoOpBlockDropCollector()
-            else ChunkedBlockDropCollector(shapePredicate.volume, MAX_CHUNK_SIZE)
-
-        destroyBox(
-            world,
-            shapePredicate.volume,
-            dropCollector,
-            attacker,
-            staffStack,
-            MAX_NETHERITE_HARDNESS.and(shapePredicate)
-        )
-        dropCollector.dropAll(world)
-
-        // "Mismatch in destroy block pos" in server logs if I interrupt on server but not on client side. Nothing bad should happen, right?
-        return ActionResult.PASS
+        return NetheriteBlockStaffShapePredicate(target, forwardVector, upVector)
     }
 
+    override fun createDestructionPredicate(shapePredicate: IShapedBlockDestructionPredicate): BlockDestructionPredicate =
+        MAX_NETHERITE_HARDNESS.and(shapePredicate)
+
     private companion object {
-        private const val MAX_CHUNK_SIZE = 3
         private val MAX_NETHERITE_HARDNESS = MaxHardnessPredicate(Blocks.NETHERITE_BLOCK)
     }
 }
