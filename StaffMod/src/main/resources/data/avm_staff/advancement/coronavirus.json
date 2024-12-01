@@ -28,10 +28,12 @@
           "equipment": {
             "head": {
               "items": "avm_staff:crown_of_king_orange",
-              "components": {
-                "minecraft:enchantments": {
-                  "minecraft:binding_curse": 1
-                }
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:binding_curse"
+                  }
+                ]
               }
             }
           }
@@ -45,10 +47,12 @@
           "equipment": {
             "head": {
               "items": "avm_staff:crown_of_king_orange",
-              "components": {
-                "minecraft:enchantments": {
-                  "minecraft:binding_curse": 1
-                }
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:binding_curse"
+                  }
+                ]
               }
             }
           }
