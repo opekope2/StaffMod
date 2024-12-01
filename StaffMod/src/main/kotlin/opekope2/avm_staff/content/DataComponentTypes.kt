@@ -71,6 +71,7 @@ object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.
     @JvmField
     val ROCKET_MODE = register("rocket_mode") {
         ComponentType.builder<MinecraftUnit>()
+            .codec(MinecraftUnit.CODEC)
             .packetCodec(PacketCodec.unit(minecraftUnit))
             .build()
     }
