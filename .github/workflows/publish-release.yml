@@ -3,7 +3,7 @@ name: Publish AvM Staff Mod
 on:
   push:
     tags:
-      - "*"
+      - forge/*
 
 jobs:
   build:
