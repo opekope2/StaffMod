@@ -16,13 +16,9 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: OnlyIn(Dist.CLIENT)
-
 package opekope2.avm_staff.internal.model
 
 import net.minecraft.client.item.ClampedModelPredicateProvider
-import net.minecraft.client.item.ModelPredicateProvider
-import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraftforge.api.distmarker.Dist
@@ -32,7 +28,7 @@ import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.util.MOD_ID
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 object ModelPredicates : RegistryBase<Identifier, ClampedModelPredicateProvider>() {
     init {
         register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->

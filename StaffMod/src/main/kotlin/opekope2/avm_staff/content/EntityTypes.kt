@@ -20,8 +20,8 @@ package opekope2.avm_staff.content
 
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
+import net.minecraftforge.registries.ForgeRegistries
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.entity.ImpactTntEntity
@@ -33,7 +33,7 @@ import kotlin.math.max
 /**
  * Entity types added by AVM Staffs mod.
  */
-object EntityTypes : RegistryUtil<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYPE) {
+object EntityTypes : RegistryUtil<EntityType<*>>(MOD_ID, ForgeRegistries.ENTITY_TYPES) {
     /**
      * Entity registered as `avm_staff:cake`
      */

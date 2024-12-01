@@ -18,23 +18,22 @@
 
 package opekope2.avm_staff.internal.event_handler
 
-import dev.architectury.event.events.client.ClientTickEvent
-import dev.architectury.event.events.common.InteractionEvent
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.Hand
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
+import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 
-@Environment(EnvType.CLIENT)
-object ClientEventHandlers : InteractionEvent.ClientLeftClickAir {
+@OnlyIn(Dist.CLIENT)
+object ClientEventHandlers {
     init {
-        ClientTickEvent.CLIENT_POST.register(KeyBindingHandler)
-        InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(this)
+        FORGE_BUS.addListener(::click)
     }
 
-    override fun click(player: PlayerEntity, hand: Hand) {
+    private fun click(event: LeftClickEmpty) {
+        val player = event.entity
+        val hand = event.hand
         val staffStack = player.getStackInHand(hand)
         val staffItem = staffStack.item as? StaffItem ?: return
 

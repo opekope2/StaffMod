@@ -29,8 +29,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.staff.StaffHandler
@@ -80,7 +78,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
                     relativeRight * FLAMETHROWER_CONE_END_WIDTH,
                     relativeUp * FLAMETHROWER_CONE_END_HEIGHT,
                     16,
-                    parameters.particleEffectSupplier.key,
+                    parameters.particleEffectSupplier.key!!,
                     FLAMETHROWER_CONE_RAY_RESOLUTION,
                     parameters.flammableBlockFireChance,
                     parameters.nonFlammableBlockFireChance,
@@ -138,7 +136,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         val attackFireSeconds: Float,
         val flameFireTicks: Int,
         val rocketThrust: Double,
-        val particleEffectSupplier: RegistrySupplier<SimpleParticleType>
+        val particleEffectSupplier: RegistryObject<SimpleParticleType>
     )
 
     private companion object {

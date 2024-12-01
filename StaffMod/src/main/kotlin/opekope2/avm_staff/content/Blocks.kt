@@ -18,13 +18,13 @@
 
 package opekope2.avm_staff.content
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.enums.NoteBlockInstrument
 import net.minecraft.block.piston.PistonBehavior
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
+import net.minecraftforge.registries.ForgeRegistries
+import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.block.CrownBlock
 import opekope2.avm_staff.api.block.WallCrownBlock
 import opekope2.avm_staff.util.MOD_ID
@@ -33,9 +33,9 @@ import opekope2.avm_staff.util.RegistryUtil
 /**
  * Blocks added by AVM Staffs mod.
  */
-object Blocks : RegistryUtil<Block>(MOD_ID, RegistryKeys.BLOCK) {
+object Blocks : RegistryUtil<Block>(MOD_ID, ForgeRegistries.BLOCKS) {
     private fun settings() = AbstractBlock.Settings.create()
-    private fun settings(block: RegistrySupplier<out Block>) = AbstractBlock.Settings.copy(block.get())
+    private fun settings(block: RegistryObject<out Block>) = AbstractBlock.Settings.copy(block.get())
 
     /**
      * Block registered as `avm_staff:crown_of_king_orange`.

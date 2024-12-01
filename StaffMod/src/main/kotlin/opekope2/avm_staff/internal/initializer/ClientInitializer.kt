@@ -18,31 +18,32 @@
 
 package opekope2.avm_staff.internal.initializer
 
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.render.entity.EmptyEntityRenderer
 import net.minecraft.client.render.entity.TntEntityRenderer
 import net.minecraft.util.Identifier
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers
 import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
 import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.internal.event_handler.KeyBindingHandler
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 object ClientInitializer {
     init {
         KeyBindingHandler
-        registerEntityRenderers()
+        MOD_BUS.addListener(::registerEntityRenderers)
         registerSmithingTableTextures()
     }
 
-    private fun registerEntityRenderers() {
-        EntityRendererRegistry.register(EntityTypes.IMPACT_TNT, ::TntEntityRenderer)
-        EntityRendererRegistry.register(EntityTypes.CAKE, ::CakeEntityRenderer)
-        EntityRendererRegistry.register(EntityTypes.CAMPFIRE_FLAME, ::EmptyEntityRenderer)
+    private fun registerEntityRenderers(event: RegisterRenderers) {
+        event.registerEntityRenderer(EntityTypes.impactTnt, ::TntEntityRenderer)
+        event.registerEntityRenderer(EntityTypes.cake, ::CakeEntityRenderer)
+        event.registerEntityRenderer(EntityTypes.campfireFlame, ::EmptyEntityRenderer)
     }
 
     private fun registerSmithingTableTextures() {

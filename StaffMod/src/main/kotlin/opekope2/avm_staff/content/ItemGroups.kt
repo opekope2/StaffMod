@@ -18,11 +18,10 @@
 
 package opekope2.avm_staff.content
 
-import dev.architectury.registry.CreativeTabRegistry
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.item.ItemGroup
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.text.Text
+import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
 import opekope2.avm_staff.util.mutableItemStackInStaff
@@ -35,12 +34,24 @@ object ItemGroups : RegistryUtil<ItemGroup>(MOD_ID, RegistryKeys.ITEM_GROUP) {
      * Item group containing items added by Staff Mod.
      */
     @JvmField
-    val AVM_STAFF_MOD_ITEMS: RegistrySupplier<ItemGroup> = ItemGroups.register("${MOD_ID}_items") {
-        CreativeTabRegistry.create(Text.translatable("itemGroup.${MOD_ID}_items")) {
-            Items.royalStaff.defaultStack.apply {
-                mutableItemStackInStaff = net.minecraft.item.Items.COMMAND_BLOCK.defaultStack
+    val AVM_STAFF_MOD_ITEMS: RegistryObject<ItemGroup> = ItemGroups.register("${MOD_ID}_items") {
+        ItemGroup.builder()
+            .displayName(Text.translatable("itemGroup.${MOD_ID}_items"))
+            .icon {
+                Items.royalStaff.defaultStack.apply {
+                    mutableItemStackInStaff = net.minecraft.item.Items.COMMAND_BLOCK.defaultStack
+                }
             }
-        }
+            .entries { _, entries ->
+                entries.add(Items.faintStaffRod)
+                entries.add(Items.faintRoyalStaffHead)
+                entries.add(Items.faintRoyalStaff)
+                entries.add(Items.royalStaff)
+                entries.add(Items.royalStaffIngredient)
+                entries.add(Items.crownOfKingOrange)
+                entries.add(Items.staffInfusionSmithingTemplate)
+            }
+            .build()
     }
 
     /**

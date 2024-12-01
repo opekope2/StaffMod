@@ -18,12 +18,12 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
-import dev.architectury.event.EventResult
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -48,9 +48,9 @@ internal abstract class AbstractMassDestructiveStaffHandler : StaffHandler() {
         target: BlockPos,
         side: Direction,
         hand: Hand
-    ): EventResult {
-        if (world.isClient) return EventResult.pass()
-        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return EventResult.pass()
+    ): ActionResult {
+        if (world.isClient) return ActionResult.PASS
+        if (attacker is PlayerEntity && attacker.isAttackCoolingDown) return ActionResult.PASS
         require(world is ServerWorld)
 
         val shapePredicate = createBlockDestructionShapePredicate(world, attacker, target)
@@ -72,7 +72,7 @@ internal abstract class AbstractMassDestructiveStaffHandler : StaffHandler() {
         (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
         // "Mismatch in destroy block pos" in server logs if I interrupt on server but not on client side. Nothing bad should happen, right?
-        return EventResult.pass()
+        return ActionResult.PASS
     }
 
     protected abstract fun createBlockDestructionShapePredicate(

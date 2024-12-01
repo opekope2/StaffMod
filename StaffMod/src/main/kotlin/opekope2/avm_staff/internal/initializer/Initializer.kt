@@ -48,10 +48,10 @@ object Initializer {
     }
 
     private fun initializeNetworking() {
-        AttackC2SPacket.registerReceiver()
-        InsertItemIntoStaffC2SPacket.registerReceiver()
-        RemoveItemFromStaffC2SPacket.registerReceiver()
+        AttackC2SPacket
+        InsertItemIntoStaffC2SPacket
+        RemoveItemFromStaffC2SPacket
 
-        MassDestructionS2CPacket.registerReceiver()
+        MassDestructionS2CPacket
     }
 }

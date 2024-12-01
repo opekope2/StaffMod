@@ -18,10 +18,6 @@
 
 package opekope2.avm_staff.api.entity
 
-import dev.architectury.extensions.network.EntitySpawnExtension
-import dev.architectury.networking.NetworkManager
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.*
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.client.option.GraphicsMode
@@ -32,14 +28,11 @@ import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.HitResult
@@ -49,6 +42,9 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.entity.IEntityAdditionalSpawnData
 import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.content.ParticleTypes
 import opekope2.avm_staff.util.*
@@ -57,7 +53,7 @@ import java.util.*
 /**
  * Technical entity representing a part of a flame of a campfire staff.
  */
-class CampfireFlameEntity : Entity, EntitySpawnExtension {
+class CampfireFlameEntity : Entity, IEntityAdditionalSpawnData {
     private var currentRelativeRight: Vec3d = Vec3d.ZERO
     private var currentRelativeUp: Vec3d = Vec3d.ZERO
 
@@ -151,7 +147,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         if (!world.isClient && age >= parameters.stepResolution) discard()
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private fun spawnParticle(particleEffect: ParticleEffect, start: Vec3d, end: Vec3d) {
         val particleOffset = (end - start) * random.nextDouble() +
                 currentRelativeRight * ((random.nextDouble() * 2 - 1) / rayResolution) +
@@ -184,7 +180,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         }
     }
 
-    @Environment(EnvType.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private fun tickRayClient(start: Vec3d, end: Vec3d): HitResult.Type {
         val blockHit = raycastBlock(start, end)
         val entityHit = raycastEntity(start, end, false)
@@ -306,15 +302,12 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
 
     override fun getPistonBehavior() = PistonBehavior.IGNORE
 
-    override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry): Packet<ClientPlayPacketListener> =
-        NetworkManager.createAddEntityPacket(this, entityTrackerEntry)
-
-    override fun saveAdditionalSpawnData(buf: PacketByteBuf) {
+    override fun writeSpawnData(buf: PacketByteBuf) {
         parameters.write(buf)
         buf.writeVarInt(shooter.id)
     }
 
-    override fun loadAdditionalSpawnData(buf: PacketByteBuf) {
+    override fun readSpawnData(buf: PacketByteBuf) {
         parameters = Parameters(buf)
         shooter = world.getEntityById(buf.readVarInt()) as LivingEntity
     }
@@ -392,7 +385,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
             get() = this == HitResult.Type.BLOCK
 
         private val flameParticleRayResolution: Int
-            @Environment(EnvType.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             get() = when (clientOptions.graphicsMode.value) {
                 GraphicsMode.FABULOUS -> 6
                 GraphicsMode.FANCY -> 5

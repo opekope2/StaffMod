@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.forge.item
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.item.BuiltinModelItemRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
@@ -32,6 +31,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraftforge.client.extensions.common.IClientItemExtensions
 import net.minecraftforge.common.extensions.IForgeItem
+import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.util.blockEntityRenderDispatcher
@@ -40,13 +40,11 @@ import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandlerOrFallback
 import java.util.function.Consumer
 
-class ForgeStaffItem(settings: Settings, repairIngredientSupplier: RegistrySupplier<Item>?) :
+class ForgeStaffItem(settings: Settings, repairIngredientSupplier: RegistryObject<Item>?) :
     StaffItem(settings, repairIngredientSupplier), IForgeItem {
     override fun canDisableShield(stack: ItemStack, shield: ItemStack, entity: LivingEntity, attacker: LivingEntity) =
         disablesShield(stack, attacker.entityWorld, attacker, Hand.MAIN_HAND) ||
                 super<IForgeItem>.canDisableShield(stack, shield, entity, attacker)
-
-    override fun isRepairable(arg: ItemStack) = true
 
     override fun onEntitySwing(stack: ItemStack, entity: LivingEntity) = !canSwingHand(
         stack,

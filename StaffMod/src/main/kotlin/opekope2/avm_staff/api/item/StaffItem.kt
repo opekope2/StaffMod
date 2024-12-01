@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.api.item
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
@@ -36,6 +35,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
 
@@ -44,7 +44,7 @@ import opekope2.avm_staff.util.*
  * Implementing loader-specific interfaces is highly recommended when extending the class to pass loader-specific
  * functionality to [StaffHandler].
  */
-abstract class StaffItem(settings: Settings, private val repairIngredientSupplier: RegistrySupplier<Item>?) :
+abstract class StaffItem(settings: Settings, private val repairIngredientSupplier: RegistryObject<Item>?) :
     Item(settings) {
     override fun canRepair(stack: ItemStack, ingredient: ItemStack) =
         repairIngredientSupplier != null && ingredient.isOf(repairIngredientSupplier.get())

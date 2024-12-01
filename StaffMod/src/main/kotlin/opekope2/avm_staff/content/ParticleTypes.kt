@@ -21,7 +21,7 @@ package opekope2.avm_staff.content
 import net.minecraft.client.particle.ParticleManager
 import net.minecraft.particle.ParticleType
 import net.minecraft.particle.SimpleParticleType
-import net.minecraft.registry.RegistryKeys
+import net.minecraftforge.registries.ForgeRegistries
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
@@ -29,7 +29,7 @@ import opekope2.avm_staff.util.RegistryUtil
 /**
  * Particle types added by AVM Staffs mod.
  */
-object ParticleTypes : RegistryUtil<ParticleType<*>>(MOD_ID, RegistryKeys.PARTICLE_TYPE) {
+object ParticleTypes : RegistryUtil<ParticleType<*>>(MOD_ID, ForgeRegistries.PARTICLE_TYPES) {
     /**
      * Particle registered as `avm_staff:flame`.
      *

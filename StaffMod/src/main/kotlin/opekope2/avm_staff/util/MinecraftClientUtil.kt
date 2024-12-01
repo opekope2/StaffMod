@@ -17,12 +17,10 @@
  */
 
 @file: JvmName("MinecraftClientUtil")
-@file: Environment(EnvType.CLIENT)
+@file: OnlyIn(Dist.CLIENT)
 
 package opekope2.avm_staff.util
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.GameOptions
 import net.minecraft.client.particle.ParticleManager
@@ -30,6 +28,8 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher
 import net.minecraft.client.render.entity.model.EntityModelLoader
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.render.model.BakedModelManager
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * @see MinecraftClient.bakedModelManager

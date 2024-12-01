@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.forge
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -26,12 +25,13 @@ import net.minecraft.particle.SimpleParticleType
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.event.entity.living.LivingDropsEvent
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.registries.RegistryObject
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.internal.event_handler.EventHandlers
-import opekope2.avm_staff.internal.initializer.Initializer
 import opekope2.avm_staff.internal.forge.item.ForgeCrownItem
 import opekope2.avm_staff.internal.forge.item.ForgeStaffItem
 import opekope2.avm_staff.internal.forge.item.ForgeStaffRendererItem
+import opekope2.avm_staff.internal.initializer.Initializer
 import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffHandlers
 import opekope2.avm_staff.util.MOD_ID
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
@@ -58,7 +58,7 @@ object StaffMod : IStaffModPlatform {
         }
     }
 
-    override fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) =
+    override fun staffItem(settings: Item.Settings, repairIngredient: RegistryObject<Item>?) =
         ForgeStaffItem(settings, repairIngredient)
 
     override fun itemWithStaffRenderer(settings: Item.Settings) = ForgeStaffRendererItem(settings)

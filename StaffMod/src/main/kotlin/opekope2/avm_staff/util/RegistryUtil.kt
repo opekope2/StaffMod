@@ -18,22 +18,43 @@
 
 package opekope2.avm_staff.util
 
-import dev.architectury.registry.registries.DeferredRegister
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.Identifier
+import net.minecraftforge.registries.DeferredRegister
+import net.minecraftforge.registries.IForgeRegistry
+import net.minecraftforge.registries.RegistryObject
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 /**
  * Utility class to register content to Minecraft registries.
  *
  * @param TContent  The type of the content to register
- * @param modId     The [namespace][Identifier.namespace] of the content to register.
- * @param registry  The registry to register the content in
  */
-abstract class RegistryUtil<TContent>(modId: String, registry: RegistryKey<Registry<TContent>>) :
-    RegistryKeyUtil<TContent>(modId, registry) {
-    private val deferredRegister = DeferredRegister.create(modId, registry)
+abstract class RegistryUtil<TContent> : RegistryKeyUtil<TContent> {
+    /**
+     * Creates a new [RegistryUtil] instance.
+     *
+     * @param TContent  The type of the content to register
+     * @param modId     The [namespace][Identifier.namespace] of the content to register.
+     * @param registry  The registry to register the content in
+     */
+    protected constructor(modId: String, registry: RegistryKey<Registry<TContent>>) : super(modId, registry) {
+        this.deferredRegister = DeferredRegister.create(registry, modId)
+    }
+
+    /**
+     * Creates a new [RegistryUtil] instance.
+     *
+     * @param TContent  The type of the content to register
+     * @param modId     The [namespace][Identifier.namespace] of the content to register.
+     * @param registry  The registry to register the content in
+     */
+    protected constructor(modId: String, registry: IForgeRegistry<TContent>) : super(modId, registry.registryKey) {
+        this.deferredRegister = DeferredRegister.create(registry, modId)
+    }
+
+    private val deferredRegister: DeferredRegister<TContent>
 
     /**
      * Adds a content to be registered in a Minecraft registry using Architectury API.
@@ -41,12 +62,12 @@ abstract class RegistryUtil<TContent>(modId: String, registry: RegistryKey<Regis
      * @param path      The [path][Identifier.path] of the identifier of the content to register
      * @param factory   The function creating
      */
-    protected fun <T : TContent> register(path: String, factory: (RegistryKey<TContent>) -> T): RegistrySupplier<T> =
+    protected fun <T : TContent> register(path: String, factory: (RegistryKey<TContent>) -> T): RegistryObject<T> =
         deferredRegister.register(path) { factory(registryKey(path)) }
 
     /**
      * @suppress
      */
     @JvmSynthetic
-    internal open fun register() = deferredRegister.register()
+    internal open fun register() = deferredRegister.register(MOD_BUS)
 }

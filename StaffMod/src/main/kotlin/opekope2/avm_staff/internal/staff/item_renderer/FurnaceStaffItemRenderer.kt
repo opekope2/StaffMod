@@ -18,8 +18,6 @@
 
 package opekope2.avm_staff.internal.staff.item_renderer
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -27,11 +25,13 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
 import opekope2.avm_staff.content.DataComponentTypes
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 class FurnaceStaffItemRenderer(unlitState: BlockState, litState: BlockState) : StaffItemRenderer() {
     constructor(furnaceBlock: Block) : this(
         furnaceBlock.defaultState,

@@ -18,18 +18,18 @@
 
 package opekope2.avm_staff.internal.staff.item_renderer
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BellBlockEntityRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
 import opekope2.avm_staff.util.push
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 class BellStaffItemRenderer : StaffItemRenderer() {
     private val bellModel = BellBlockEntityRenderer.getTexturedModelData().createModel().apply {
         setPivot(-8f, -12f, -8f)

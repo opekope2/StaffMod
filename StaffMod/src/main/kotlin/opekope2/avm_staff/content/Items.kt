@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.content
 
-import dev.architectury.registry.CreativeTabRegistry
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.ToolComponent
 import net.minecraft.item.Item
@@ -26,6 +25,7 @@ import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.text.Text
 import net.minecraft.util.Rarity
+import net.minecraftforge.registries.ForgeRegistries
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
@@ -39,7 +39,7 @@ import opekope2.avm_staff.util.TagKeyUtil
 /**
  * Items added by AVM Staffs mod.
  */
-object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
+object Items : RegistryUtil<Item>(MOD_ID, ForgeRegistries.ITEMS) {
     private fun settings() = Item.Settings()
 
     /**
@@ -50,7 +50,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
         IStaffModPlatform.crownItem(
             Blocks.CROWN_OF_KING_ORANGE.get(),
             Blocks.WALL_CROWN_OF_KING_ORANGE.get(),
-            settings().maxCount(1).rarity(Rarity.UNCOMMON).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS)
+            settings().maxCount(1).rarity(Rarity.UNCOMMON)
         )
     }
 
@@ -67,7 +67,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     @JvmField
     val FAINT_ROYAL_STAFF = register("faint_royal_staff") {
         IStaffModPlatform.itemWithStaffRenderer(
-            settings().maxCount(1).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS)
+            settings().maxCount(1).rarity(Rarity.RARE)
         )
     }
 
@@ -83,7 +83,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
      */
     @JvmField
     val FAINT_ROYAL_STAFF_HEAD = register("faint_royal_staff_head") {
-        Item(settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+        Item(settings().maxCount(16).rarity(Rarity.RARE))
     }
 
     /**
@@ -98,7 +98,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
      */
     @JvmField
     val FAINT_STAFF_ROD = register("faint_staff_rod") {
-        Item(settings().`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+        Item(settings())
     }
 
     /**
@@ -115,8 +115,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     val ROYAL_STAFF = register("royal_staff") {
         IStaffModPlatform.staffItem(
             settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Fallback.ATTRIBUTE_MODIFIERS)
-                .maxDamage(5179).component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 1))
-                .`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
+                .maxDamage(5179).component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 1)),
             ROYAL_STAFF_INGREDIENT
         )
     }
@@ -133,7 +132,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
      */
     @JvmField
     val ROYAL_STAFF_INGREDIENT = register("royal_staff_ingredient") {
-        Item(settings().`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+        Item(settings())
     }
 
     /**
@@ -167,12 +166,6 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     val staffInfusionSmithingTemplate: SmithingTemplateItem
         @JvmName("staffInfusionSmithingTemplate")
         get() = STAFF_INFUSION_SMITHING_TEMPLATE.get()
-
-    override fun register() {
-        super.register()
-        // Because SmithingTemplateItem doesn't take Item.Settings in its constructor
-        CreativeTabRegistry.append(ItemGroups.AVM_STAFF_MOD_ITEMS, STAFF_INFUSION_SMITHING_TEMPLATE)
-    }
 
     /**
      * Item tags added by AVM Staffs mod.

@@ -18,15 +18,15 @@
 
 package opekope2.avm_staff.content
 
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.SoundEvent
+import net.minecraftforge.registries.ForgeRegistries
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
 
 /**
  * Sound events added by AVM Staffs mod.
  */
-object SoundEvents : RegistryUtil<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) {
+object SoundEvents : RegistryUtil<SoundEvent>(MOD_ID, ForgeRegistries.SOUND_EVENTS) {
     /**
      * Sound event registered as `avm_staff:entity.cake.splash`.
      */

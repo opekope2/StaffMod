@@ -26,15 +26,17 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
+import net.minecraftforge.event.TickEvent.ClientTickEvent
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket.Companion.tryInsertItemIntoStaff
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket.Companion.tryRemoveItemFromStaff
 import opekope2.avm_staff.util.MOD_ID
 import org.lwjgl.glfw.GLFW
+import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 
 @OnlyIn(Dist.CLIENT)
-internal object KeyBindingHandler : ClientTickEvent.Client {
+internal object KeyBindingHandler {
     private val ADD_REMOVE_STAFF_ITEM = KeyBinding(
         "key.$MOD_ID.add_remove_staff_item",
         InputUtil.Type.KEYSYM,
@@ -43,10 +45,17 @@ internal object KeyBindingHandler : ClientTickEvent.Client {
     )
 
     init {
-        KeyMappingRegistry.register(ADD_REMOVE_STAFF_ITEM)
+        FORGE_BUS.addListener(::register)
+        FORGE_BUS.addListener(::tick)
     }
 
-    override fun tick(client: MinecraftClient) {
+    private fun register(event: RegisterKeyMappingsEvent) {
+        event.register(ADD_REMOVE_STAFF_ITEM)
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun tick(event: ClientTickEvent.Post) {
+        val client = MinecraftClient.getInstance()
         if (!ADD_REMOVE_STAFF_ITEM.isPressed) return
         ADD_REMOVE_STAFF_ITEM.isPressed = false
 
