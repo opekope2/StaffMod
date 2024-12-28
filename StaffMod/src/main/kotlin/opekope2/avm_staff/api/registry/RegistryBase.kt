@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -63,7 +63,7 @@ abstract class RegistryBase<TKey, TValue> : Iterable<Map.Entry<TKey, TValue>> {
      *
      * @param key The key to check
      */
-    operator fun get(key: TKey) = entries.getValue(key)
+    fun getValue(key: TKey) = entries.getValue(key)
 
     override fun iterator(): Iterator<Map.Entry<TKey, TValue>> = entries.iterator()
 }

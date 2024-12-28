@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -81,6 +81,6 @@ abstract class StaffItemRenderer {
          *
          * @param key The key to check
          */
-        operator fun get(key: Item) = this[key.registryId]
+        operator fun get(key: Item) = getValue(key.registryId)
     }
 }
