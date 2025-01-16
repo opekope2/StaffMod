@@ -1,6 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:builtin/entity",
+	"textures": {
+		"particle": "avm_staff:item/royal_staff/head"
+	},
 	"overrides": [
 		{"predicate": {"avm_staff:using_item": 1}, "model": "avm_staff:item/royal_staff/point_forward"},
 		{"predicate": {"avm_staff:head": 1}, "model": "avm_staff:item/royal_staff/head"},
