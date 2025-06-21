@@ -403,7 +403,7 @@ abstract class StaffHandler {
 
             val pickStack = state.block.getPickStack(world, pos, state)
             world.getBlockEntity(pos)?.apply {
-                val nbt = createComponentlessNbtWithIdentifyingData(world.registryManager)
+                val nbt = createComponentlessNbt(world.registryManager)
                 removeFromCopiedStackNbt(nbt)
                 BlockItem.setBlockEntityData(pickStack, type, nbt)
                 pickStack.applyComponentsFrom(createComponentMap())
