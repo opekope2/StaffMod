@@ -89,7 +89,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
             )
         )
 
-        staffStack.damage(1, user, LivingEntity.getSlotForHand(user.activeHand))
+        staffStack.damage(1, user)
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2023-2024 opekope2
+ * Copyright (c) 2023-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -29,9 +29,17 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.ItemUsageContext
+import net.minecraft.loot.context.LootContextParameterSet
+import net.minecraft.loot.context.LootContextTypes
+import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.ItemScatterer
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -83,7 +91,7 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) = true
 
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
-        stack.damage(1, attacker, EquipmentSlot.MAINHAND)
+        damage(stack, 1, attacker, EquipmentSlot.MAINHAND)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
@@ -142,4 +150,36 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
     override fun getTranslationKey(stack: ItemStack): String =
         if (stack.isItemInStaff) "$translationKey.with_item"
         else super.getTranslationKey(stack)
+
+    /**
+     * Damages the staff by a specified amount, and if it breaks, it falls into pieces.
+     *
+     * @param stack     The staff item to damage
+     * @param amount    The amount of damage to deal
+     * @param holder    The entity that holds the staff
+     * @param slot      The slot the staff is in
+     */
+    fun damage(stack: ItemStack, amount: Int, holder: LivingEntity, slot: EquipmentSlot) {
+        val world = holder.world as? ServerWorld ?: return
+        val itemInStaff = stack.mutableItemStackInStaff
+
+        stack.damage(amount, world, holder as? ServerPlayerEntity) {
+            holder.sendEquipmentBreakStatus(it, slot)
+
+            val lootTableId =
+                RegistryKey.of(RegistryKeys.LOOT_TABLE, Registries.ITEM.getId(it).withPrefixedPath("item_break/"))
+            val lootTable = world.server.reloadableRegistries.getLootTable(lootTableId)
+            val lootParameters = LootContextParameterSet.Builder(world).build(LootContextTypes.EMPTY)
+
+            if (itemInStaff != null) giveOrDropLoot(world, holder, itemInStaff)
+            lootTable.generateLoot(lootParameters, world.random.nextLong()) { loot ->
+                giveOrDropLoot(world, holder, loot)
+            }
+        }
+    }
+
+    private fun giveOrDropLoot(world: World, entity: Entity, stack: ItemStack) {
+        if (entity is PlayerEntity && !entity.inventory.insertStack(stack)) entity.dropItem(stack, false)
+        else ItemScatterer.spawn(world, entity.x, entity.y, entity.z, stack)
+    }
 }

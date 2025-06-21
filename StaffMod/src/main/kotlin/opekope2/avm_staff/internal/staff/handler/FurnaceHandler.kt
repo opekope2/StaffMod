@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -103,7 +103,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
 
         furnaceData.burnTicks -= stackToSmelt.count
 
-        staffStack.damage(stackToSmelt.count, user, LivingEntity.getSlotForHand(user.activeHand))
+        staffStack.damage(stackToSmelt.count, user)
         (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }
 

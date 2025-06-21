@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -79,7 +79,7 @@ internal class TntHandler : StaffHandler() {
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (tryShootTnt(world, attacker) != null) {
-            staffStack.damage(1, attacker, LivingEntity.getSlotForHand(hand))
+            staffStack.damage(1, attacker, hand)
             (attacker as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
             (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
