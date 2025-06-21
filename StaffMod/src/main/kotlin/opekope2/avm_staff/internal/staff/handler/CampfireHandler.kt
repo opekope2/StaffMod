@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -62,7 +62,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         val relativeUp = relativeRight.crossProduct(forward).normalize()
         val rocketMode = DataComponentTypes.rocketMode in staffStack
 
-        if (rocketMode) {
+        if (rocketMode && !user.isInFluid) {
             user.addVelocity(forward * -parameters.rocketThrust)
             user.limitFallDistance()
         }
