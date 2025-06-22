@@ -28,7 +28,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items.AIR
+import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.stat.Stats
@@ -42,7 +42,7 @@ import opekope2.avm_staff.api.component.BlockPickupDataComponent
 import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
-import opekope2.avm_staff.content.Items
+import opekope2.avm_staff.content.Items.Tags.ENABLED_STAFF_ITEMS
 import opekope2.avm_staff.util.*
 import kotlin.math.roundToInt
 
@@ -361,7 +361,7 @@ abstract class StaffHandler {
 
         private fun canPickUp(world: World, pos: BlockPos, state: BlockState) = !state.isAir &&
                 state.getHardness(world, pos) != -1f &&
-                state.block.asItem().let { it.hasStaffHandler && it in Items.Tags.ENABLED_STAFF_ITEMS }
+                state.block.asItem().let { it.hasStaffHandler && it in ENABLED_STAFF_ITEMS }
 
         private fun userChangedTarget(
             world: World,
@@ -392,7 +392,7 @@ abstract class StaffHandler {
             }
 
             onStoppedUsing(staffStack, world, user, 0)
-            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(AIR)
+            (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(Items.AIR)
             return staffStack
         }
 

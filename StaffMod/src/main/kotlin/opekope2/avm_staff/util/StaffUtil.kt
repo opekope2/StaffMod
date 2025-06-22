@@ -30,7 +30,7 @@ import net.minecraft.world.RaycastContext
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.DataComponentTypes
-import opekope2.avm_staff.content.Items
+import opekope2.avm_staff.content.Items.Tags.ENABLED_STAFF_ITEMS
 
 /**
  * Checks if an item is added the given staff item stack.
@@ -97,7 +97,7 @@ val Item?.staffHandler: StaffHandler?
 val Item?.staffHandlerOrFallback: StaffHandler
     get() = when {
         this == null -> StaffHandler.Fallback
-        this in Items.Tags.ENABLED_STAFF_ITEMS -> staffHandler ?: StaffHandler.Fallback
+        this in ENABLED_STAFF_ITEMS -> staffHandler ?: StaffHandler.Fallback
         else -> StaffHandler.Fallback
     }
 

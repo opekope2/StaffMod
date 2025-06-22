@@ -28,7 +28,7 @@ import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import opekope2.avm_staff.content.Enchantments
+import opekope2.avm_staff.content.Enchantments.Tags.REDIRECTS_IMPACT_TNT
 import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.util.contains
 import opekope2.avm_staff.util.plus
@@ -87,10 +87,7 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
                     juggles = 0
                 }
 
-                val redirect = EnchantmentHelper.hasAnyEnchantmentsIn(
-                    attacker.mainHandStack,
-                    Enchantments.Tags.REDIRECTS_IMPACT_TNT
-                )
+                val redirect = EnchantmentHelper.hasAnyEnchantmentsIn(attacker.mainHandStack, REDIRECTS_IMPACT_TNT)
                 if (redirect) {
                     timeUntilRegen = 10
                     velocity += attacker.rotationVector
