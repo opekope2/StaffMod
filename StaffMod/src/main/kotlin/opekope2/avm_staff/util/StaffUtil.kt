@@ -30,6 +30,7 @@ import net.minecraft.world.RaycastContext
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.DataComponentTypes
+import opekope2.avm_staff.content.Items
 
 /**
  * Checks if an item is added the given staff item stack.
@@ -94,7 +95,11 @@ val Item?.staffHandler: StaffHandler?
  * Returns the registered staff handler of the given item if available, [StaffHandler.Fallback] otherwise.
  */
 val Item?.staffHandlerOrFallback: StaffHandler
-    get() = staffHandler ?: StaffHandler.Fallback
+    get() = when {
+        this == null -> StaffHandler.Fallback
+        registryEntry.isIn(Items.Tags.ENABLED_STAFF_ITEMS) -> staffHandler ?: StaffHandler.Fallback
+        else -> StaffHandler.Fallback
+    }
 
 private const val STAFF_MODEL_LENGTH = 40.0 / 16.0
 private const val STAFF_MODEL_ITEM_POSITION_CENTER = 33.5 / 16.0

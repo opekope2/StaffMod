@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2023-2024 opekope2
+ * Copyright (c) 2023-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.world.event.GameEvent
+import opekope2.avm_staff.content.Items
 import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.*
@@ -72,6 +73,7 @@ internal class InsertItemIntoStaffC2SPacket() : IC2SPacket {
             if (staffStack.isItemInStaff) return false
             if (isItemCoolingDown(staffStack.item)) return false
             if (!itemStackToAdd.item.hasStaffHandler) return false
+            if (!itemStackToAdd.isIn(Items.Tags.ENABLED_STAFF_ITEMS)) return false
 
             insertAction(this, staffStack, itemStackToAdd)
             return true

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -183,5 +183,11 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
          */
         @JvmField
         val STAFFS = tagKey("staffs")
+
+        /**
+         * Item tag registered as `avm_staff:enabled_staff_items`.
+         */
+        @JvmField
+        val ENABLED_STAFF_ITEMS = tagKey("enabled_staff_items")
     }
 }
