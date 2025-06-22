@@ -73,7 +73,7 @@ internal class InsertItemIntoStaffC2SPacket() : IC2SPacket {
             if (staffStack.isItemInStaff) return false
             if (isItemCoolingDown(staffStack.item)) return false
             if (!itemStackToAdd.item.hasStaffHandler) return false
-            if (!itemStackToAdd.isIn(Items.Tags.ENABLED_STAFF_ITEMS)) return false
+            if (itemStackToAdd !in Items.Tags.ENABLED_STAFF_ITEMS) return false
 
             insertAction(this, staffStack, itemStackToAdd)
             return true

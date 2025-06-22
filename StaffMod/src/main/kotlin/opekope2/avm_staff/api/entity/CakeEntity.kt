@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -203,7 +203,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
             redirectedByImpactTnt = true
         }
 
-        if (!isRemoved && !isInvulnerableTo(source) && !source.isIn(DamageTypeTags.IS_EXPLOSION)) {
+        if (!isRemoved && !isInvulnerableTo(source) && source !in DamageTypeTags.IS_EXPLOSION) {
             discard()
 
             val attacker = source.attacker

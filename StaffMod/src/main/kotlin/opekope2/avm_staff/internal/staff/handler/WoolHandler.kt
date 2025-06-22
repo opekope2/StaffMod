@@ -62,7 +62,7 @@ internal class WoolHandler(private val woolItem: BlockItem, private val carpetIt
         }
 
         val originalState = world.getBlockState(target)
-        if (originalState.isIn(BlockTags.WOOL) || originalState.isIn(BlockTags.WOOL_CARPETS)) return ActionResult.FAIL
+        if (originalState in BlockTags.WOOL || originalState in BlockTags.WOOL_CARPETS) return ActionResult.FAIL
 
         val itemToPlace = if (side == Direction.UP) carpetItem else woolItem
         val woolPlaceContext = WoolPlacementContext(

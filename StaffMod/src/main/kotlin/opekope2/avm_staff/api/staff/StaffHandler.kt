@@ -361,7 +361,7 @@ abstract class StaffHandler {
 
         private fun canPickUp(world: World, pos: BlockPos, state: BlockState) = !state.isAir &&
                 state.getHardness(world, pos) != -1f &&
-                state.block.asItem().let { it.hasStaffHandler && it.registryEntry.isIn(Items.Tags.ENABLED_STAFF_ITEMS) }
+                state.block.asItem().let { it.hasStaffHandler && it in Items.Tags.ENABLED_STAFF_ITEMS }
 
         private fun userChangedTarget(
             world: World,

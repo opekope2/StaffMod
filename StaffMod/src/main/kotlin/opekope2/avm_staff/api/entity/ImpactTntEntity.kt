@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -30,6 +30,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.content.EntityTypes
+import opekope2.avm_staff.util.contains
 import opekope2.avm_staff.util.plus
 
 /**
@@ -76,7 +77,7 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
     override fun damage(source: DamageSource, amount: Float): Boolean {
         if (world.isClient) return super.damage(source, amount)
 
-        if (!isRemoved && !isInvulnerableTo(source) && !source.isIn(DamageTypeTags.IS_EXPLOSION) && timeUntilRegen == 0) {
+        if (!isRemoved && !isInvulnerableTo(source) && source !in DamageTypeTags.IS_EXPLOSION && timeUntilRegen == 0) {
             val attacker = source.attacker
             if (attacker is LivingEntity) {
                 if (owner === attacker) {

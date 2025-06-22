@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,12 @@
 
 package opekope2.avm_staff.util
 
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.damage.DamageType
+import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
@@ -52,3 +58,23 @@ open class TagKeyUtil<TContent>(
      */
     fun tagKey(path: String): TagKey<TContent> = TagKey.of(registry, id(path))
 }
+
+/**
+ * @see BlockState.isIn
+ */
+operator fun TagKey<Block>.contains(state: BlockState) = state.isIn(this)
+
+/**
+ * @see ItemStack.isIn
+ */
+operator fun TagKey<Item>.contains(stack: ItemStack) = stack.isIn(this)
+
+/**
+ * @see ItemStack.isIn
+ */
+operator fun TagKey<Item>.contains(item: Item) = item.registryEntry.isIn(this)
+
+/**
+ * @see DamageSource.isIn
+ */
+operator fun TagKey<DamageType>.contains(source: DamageSource) = source.isIn(this)

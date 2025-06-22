@@ -97,7 +97,7 @@ val Item?.staffHandler: StaffHandler?
 val Item?.staffHandlerOrFallback: StaffHandler
     get() = when {
         this == null -> StaffHandler.Fallback
-        registryEntry.isIn(Items.Tags.ENABLED_STAFF_ITEMS) -> staffHandler ?: StaffHandler.Fallback
+        this in Items.Tags.ENABLED_STAFF_ITEMS -> staffHandler ?: StaffHandler.Fallback
         else -> StaffHandler.Fallback
     }
 
