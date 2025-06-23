@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,10 +19,13 @@
 package opekope2.avm_staff.api
 
 import dev.architectury.registry.registries.RegistrySupplier
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.block.Block
+import net.minecraft.client.render.model.BakedModel
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
-import opekope2.avm_staff.api.IStaffModPlatform.Instance
+import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.staffModPlatform
@@ -41,11 +44,12 @@ interface IStaffModPlatform {
     fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?): StaffItem
 
     /**
-     * Creates an item, which is rendered like a staff.
+     * Returns a model registered through loader-specific API.
      *
-     * @param settings  The item settings to pass to the constructor
+     * @param modelId   The [Identifier] of the model to get
      */
-    fun itemWithStaffRenderer(settings: Item.Settings): Item
+    @Environment(EnvType.CLIENT)
+    fun getStandaloneModel(modelId: Identifier): BakedModel
 
     /**
      * Creates a loader-specific instance of [CrownItem].

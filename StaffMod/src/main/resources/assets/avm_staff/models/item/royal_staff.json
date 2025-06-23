@@ -1,15 +1,12 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:builtin/entity",
 	"textures": {
 		"particle": "avm_staff:item/royal_staff/head"
 	},
 	"overrides": [
-		{"predicate": {"avm_staff:using_item": 1}, "model": "avm_staff:item/royal_staff/point_forward"},
-		{"predicate": {"avm_staff:head": 1}, "model": "avm_staff:item/royal_staff/head"},
-		{"predicate": {"avm_staff:item": 1}, "model": "avm_staff:item/royal_staff/item"},
-		{"predicate": {"avm_staff:rod_top": 1}, "model": "avm_staff:item/royal_staff/rod_top"},
-		{"predicate": {"avm_staff:rod_bottom": 1}, "model": "avm_staff:item/royal_staff/rod_bottom"}
+		{"predicate": {"avm_staff:using_item": 1}, "model": "avm_staff:item/royal_staff/point_forward"}
 	],
 	"display": {
 		"thirdperson_righthand": {

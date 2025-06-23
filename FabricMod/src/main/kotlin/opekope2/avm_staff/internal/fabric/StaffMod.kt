@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2023-2024 opekope2
+ * Copyright (c) 2023-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,29 +20,31 @@ package opekope2.avm_staff.internal.fabric
 
 import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.block.Block
+import net.minecraft.client.render.model.BakedModel
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
 import opekope2.avm_staff.internal.event_handler.EventHandlers
 import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
 import opekope2.avm_staff.internal.initializer.Initializer
 import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffHandlers
+import opekope2.avm_staff.util.bakedModelManager
 
 @Suppress("unused")
 object StaffMod : ModInitializer, IStaffModPlatform, AttackEntityCallback {
@@ -79,11 +81,9 @@ object StaffMod : ModInitializer, IStaffModPlatform, AttackEntityCallback {
     override fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) =
         FabricStaffItem(settings, repairIngredient)
 
-    override fun itemWithStaffRenderer(settings: Item.Settings) = Item(settings).also { item ->
-        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
-            BuiltinItemRendererRegistry.INSTANCE.register(item, StaffRenderer::renderStaff)
-        }
-    }
+    @Environment(EnvType.CLIENT)
+    override fun getStandaloneModel(modelId: Identifier): BakedModel =
+        bakedModelManager.getModel(modelId) ?: bakedModelManager.missingModel
 
     override fun crownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) =
         CrownItem(groundBlock, wallBlock, settings)

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,7 +21,10 @@ package opekope2.avm_staff.content
 import net.minecraft.component.ComponentType
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.registry.RegistryKeys
-import opekope2.avm_staff.api.component.*
+import opekope2.avm_staff.api.component.BlockPickupDataComponent
+import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
+import opekope2.avm_staff.api.component.StaffItemComponent
+import opekope2.avm_staff.api.component.StaffTntDataComponent
 import opekope2.avm_staff.internal.MinecraftUnit
 import opekope2.avm_staff.internal.minecraftUnit
 import opekope2.avm_staff.util.MOD_ID
@@ -100,23 +103,6 @@ object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.
     val staffItem: ComponentType<StaffItemComponent>
         @JvmName("staffItem")
         get() = STAFF_ITEM.get()
-
-    /**
-     * Data component registered as `avm_staff:staff_renderer_part`. Only used for rendering.
-     */
-    @JvmField
-    val STAFF_RENDERER_PART = register("staff_renderer_part") {
-        ComponentType.builder<StaffRendererPartComponent>()
-            .packetCodec(StaffRendererPartComponent.PACKET_CODEC)
-            .build()
-    }
-
-    /**
-     * @see STAFF_RENDERER_PART
-     */
-    val staffRendererPart: ComponentType<StaffRendererPartComponent>
-        @JvmName("staffRendererPart")
-        get() = STAFF_RENDERER_PART.get()
 
     /**
      * Data component registered as `avm_staff:tnt_data`.

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -29,6 +29,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
+import opekope2.avm_staff.internal.fabric.StaffItemModelLoadingPlugin
 import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandlerOrFallback
 
@@ -37,6 +38,7 @@ class FabricStaffItem(settings: Item.Settings, repairIngredient: RegistrySupplie
     init {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
             BuiltinItemRendererRegistry.INSTANCE.register(this, StaffRenderer::renderStaff)
+            StaffItemModelLoadingPlugin.staffItems += this
         }
     }
 
