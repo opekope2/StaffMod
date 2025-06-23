@@ -26,12 +26,12 @@ import net.minecraft.item.ItemGroups.INGREDIENTS
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
@@ -155,8 +155,8 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
                 .formatted(ISmithingTemplateItemAccessor.titleFormatting()),
             Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.base_slot_description"),
             ISmithingTemplateItemAccessor.armorTrimAdditionsSlotDescriptionText(),
-            StaffInfusionSmithingRecipeTextures.baseSlotTextures,
-            StaffInfusionSmithingRecipeTextures.additionsSlotTextures
+            listOf(Identifier.of(MOD_ID, "item/smithing_table/empty_slot_faint_staff_rod")),
+            listOf(ISmithingTemplateItemAccessor.emptySlotRedstoneDustTexture())
         )
     }
 

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,32 +23,20 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.entity.EmptyEntityRenderer
 import net.minecraft.client.render.entity.TntEntityRenderer
-import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
-import opekope2.avm_staff.api.staff.StaffInfusionSmithingRecipeTextures
 import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.internal.event_handler.KeyBindingHandler
-import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
-import opekope2.avm_staff.util.MOD_ID
 
 @Environment(EnvType.CLIENT)
 object ClientInitializer {
     init {
         KeyBindingHandler
         registerEntityRenderers()
-        registerSmithingTableTextures()
     }
 
     private fun registerEntityRenderers() {
         EntityRendererRegistry.register(EntityTypes.IMPACT_TNT, ::TntEntityRenderer)
         EntityRendererRegistry.register(EntityTypes.CAKE, ::CakeEntityRenderer)
         EntityRendererRegistry.register(EntityTypes.CAMPFIRE_FLAME, ::EmptyEntityRenderer)
-    }
-
-    private fun registerSmithingTableTextures() {
-        StaffInfusionSmithingRecipeTextures.register(
-            Identifier.of(MOD_ID, "item/smithing_table/empty_slot_royal_staff"),
-            ISmithingTemplateItemAccessor.emptySlotRedstoneDustTexture()
-        )
     }
 }
