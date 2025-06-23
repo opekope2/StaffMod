@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "ISI",
-    "CKC",
+    "RCR",
     "INI"
   ],
   "key": {
@@ -12,10 +12,10 @@
     "S": {
       "item": "minecraft:echo_shard"
     },
-    "C": {
-      "item": "minecraft:copper_ingot"
+    "R": {
+      "item": "minecraft:redstone"
     },
-    "K": {
+    "C": {
       "item": "avm_staff:crown_of_king_orange"
     },
     "N": {

@@ -7,13 +7,13 @@
   ],
   "key": {
     "H": {
-      "item": "avm_staff:faint_royal_staff_head"
+      "item": "avm_staff:royal_staff_head"
     },
     "R": {
-      "item": "avm_staff:faint_staff_rod"
+      "item": "avm_staff:royal_staff_rod"
     }
   },
   "result": {
-    "id": "avm_staff:faint_royal_staff"
+    "id": "avm_staff:royal_staff"
   }
 }

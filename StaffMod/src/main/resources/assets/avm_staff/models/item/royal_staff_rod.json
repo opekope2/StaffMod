@@ -1,0 +1,7 @@
+{
+  "parent": "avm_staff:item/faint_staff_rod",
+  "textures": {
+    "particle": "avm_staff:item/royal_staff/rod",
+    "rod": "avm_staff:item/royal_staff/rod"
+  }
+}

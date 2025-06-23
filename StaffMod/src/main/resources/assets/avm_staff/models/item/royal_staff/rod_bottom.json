@@ -1,7 +1,6 @@
 {
-	"credit": "Made with Blockbench",
-	"parent": "avm_staff:item/faint_staff_rod",
-	"textures": {
-		"rod": "avm_staff:item/royal_staff/rod_bottom"
-	}
+  "parent": "avm_staff:item/faint_staff_rod",
+  "textures": {
+    "rod": "avm_staff:item/royal_staff/rod_bottom"
+  }
 }

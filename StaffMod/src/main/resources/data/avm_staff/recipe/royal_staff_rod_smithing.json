@@ -4,12 +4,12 @@
     "item": "avm_staff:staff_infusion_smithing_template"
   },
   "base": {
-    "item": "avm_staff:faint_royal_staff"
+    "item": "avm_staff:faint_staff_rod"
   },
   "addition": {
-    "item": "minecraft:redstone"
+    "item": "avm_staff:royal_staff_ingredient"
   },
   "result": {
-    "id": "avm_staff:royal_staff"
+    "id": "avm_staff:royal_staff_rod"
   }
 }

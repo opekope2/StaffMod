@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "avm_staff:faint_royal_staff_head"
+        "recipe": "avm_staff:royal_staff_head"
       }
     }
   },

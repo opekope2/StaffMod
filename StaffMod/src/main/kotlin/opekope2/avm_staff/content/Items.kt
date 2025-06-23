@@ -22,6 +22,7 @@ import dev.architectury.registry.CreativeTabRegistry
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.ToolComponent
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroups.INGREDIENTS
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.text.Text
@@ -62,38 +63,6 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
         get() = CROWN_OF_KING_ORANGE.get()
 
     /**
-     * Item registered as `avm_staff:faint_royal_staff`.
-     */
-    @JvmField
-    val FAINT_ROYAL_STAFF = register("faint_royal_staff") {
-        IStaffModPlatform.itemWithStaffRenderer(
-            settings().maxCount(1).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS)
-        )
-    }
-
-    /**
-     * @see FAINT_ROYAL_STAFF
-     */
-    val faintRoyalStaff: Item
-        @JvmName("faintRoyalStaff")
-        get() = FAINT_ROYAL_STAFF.get()
-
-    /**
-     * Item registered as `avm_staff:faint_royal_staff_head`.
-     */
-    @JvmField
-    val FAINT_ROYAL_STAFF_HEAD = register("faint_royal_staff_head") {
-        Item(settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
-    }
-
-    /**
-     * @see FAINT_ROYAL_STAFF_HEAD
-     */
-    val faintRoyalStaffHead: Item
-        @JvmName("faintRoyalStaffHead")
-        get() = FAINT_ROYAL_STAFF_HEAD.get()
-
-    /**
      * Item registered as `avm_staff:faint_staff_rod`.
      */
     @JvmField
@@ -107,6 +76,36 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     val faintStaffRod: Item
         @JvmName("faintStaffRod")
         get() = FAINT_STAFF_ROD.get()
+
+    /**
+     * Item registered as `avm_staff:royal_staff_rod`.
+     */
+    @JvmField
+    val ROYAL_STAFF_ROD = register("royal_staff_rod") {
+        Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+    }
+
+    /**
+     * @see ROYAL_STAFF_ROD
+     */
+    val royalStaffRod: Item
+        @JvmName("royalStaffRod")
+        get() = ROYAL_STAFF_ROD.get()
+
+    /**
+     * Item registered as `avm_staff:royal_staff_head`.
+     */
+    @JvmField
+    val ROYAL_STAFF_HEAD = register("royal_staff_head") {
+        Item(settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+    }
+
+    /**
+     * @see ROYAL_STAFF_HEAD
+     */
+    val royalStaffHead: Item
+        @JvmName("royalStaffHead")
+        get() = ROYAL_STAFF_HEAD.get()
 
     /**
      * Item registered as `avm_staff:royal_staff`.
@@ -133,7 +132,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
      */
     @JvmField
     val ROYAL_STAFF_INGREDIENT = register("royal_staff_ingredient") {
-        Item(settings().`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+        Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
     }
 
     /**
@@ -172,6 +171,9 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
         super.register()
         // Because SmithingTemplateItem doesn't take Item.Settings in its constructor
         CreativeTabRegistry.append(ItemGroups.AVM_STAFF_MOD_ITEMS, STAFF_INFUSION_SMITHING_TEMPLATE)
+        // Because arch$tab only allows one tab
+        CreativeTabRegistry.append(INGREDIENTS, ROYAL_STAFF_INGREDIENT)
+        CreativeTabRegistry.append(INGREDIENTS, STAFF_INFUSION_SMITHING_TEMPLATE)
     }
 
     /**

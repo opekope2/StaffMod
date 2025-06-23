@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "avm_staff:faint_royal_staff_head"
+          "name": "avm_staff:royal_staff_head"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "avm_staff:faint_staff_rod",
+          "name": "avm_staff:royal_staff_rod",
           "functions": [
             {
               "function": "minecraft:set_count",
