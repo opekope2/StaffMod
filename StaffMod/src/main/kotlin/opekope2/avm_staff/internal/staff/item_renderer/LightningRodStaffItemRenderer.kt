@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,21 +20,27 @@ package opekope2.avm_staff.internal.staff.item_renderer
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.block.Blocks
+import net.minecraft.block.Blocks.LIGHTNING_ROD
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.block.BlockModels
+import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
-import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
+import net.minecraft.item.Items
 import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
+import opekope2.avm_staff.util.bakedModelManager
+import opekope2.avm_staff.util.itemRenderer
 import opekope2.avm_staff.util.push
 
 @Environment(EnvType.CLIENT)
 class LightningRodStaffItemRenderer : StaffItemRenderer() {
-    private val lightningRodRenderer = BlockStateStaffItemRenderer(Blocks.LIGHTNING_ROD.defaultState)
+    private val blockStateId = BlockModels.getModelId(LIGHTNING_ROD.defaultState)
+    private val blockItem = Items.LIGHTNING_ROD.defaultStack
 
     override fun renderItemInStaff(
         staffStack: ItemStack,
+        itemTransform: ModelTransformation,
         mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
@@ -42,10 +48,21 @@ class LightningRodStaffItemRenderer : StaffItemRenderer() {
         overlay: Int
     ) {
         matrices.push {
-            if (mode != ModelTransformationMode.GUI && mode != ModelTransformationMode.FIXED) {
-                translate(0f, 22f / 16f, 0f)
+            if (mode == ModelTransformationMode.GUI || mode == ModelTransformationMode.FIXED) {
+                transform(itemTransform, ModelTransformationMode.FIXED)
+            } else {
+                transform(itemTransform, ModelTransformationMode.HEAD)
             }
-            lightningRodRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
+            itemRenderer.renderItem(
+                blockItem,
+                ModelTransformationMode.NONE,
+                false,
+                this,
+                vertexConsumers,
+                light,
+                overlay,
+                bakedModelManager.getModel(blockStateId)
+            )
         }
     }
 }

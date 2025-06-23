@@ -21,6 +21,7 @@ package opekope2.avm_staff.api.item.renderer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.Item
@@ -40,6 +41,8 @@ abstract class StaffItemRenderer {
      * Renders an item.
      *
      * @param staffStack        The staff item stack
+     * @param itemTransform     The transformation of the item in the staff. Use [ModelTransformationMode.FIXED] to
+     *   render the item inside the staff or [ModelTransformationMode.HEAD] to render the item on top of the staff
      * @param mode              The transformation the staff is rendered in. You likely want to pass
      *   [ModelTransformationMode.NONE] to rendering calls
      * @param matrices          Matrix stack for rendering calls
@@ -49,12 +52,27 @@ abstract class StaffItemRenderer {
      */
     abstract fun renderItemInStaff(
         staffStack: ItemStack,
+        itemTransform: ModelTransformation,
         mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
         overlay: Int
     )
+
+    /**
+     * Transforms a matrix stack
+     *
+     * @param itemTransform     The `itemTransform` from [renderItemInStaff]
+     * @param itemTransformMode [ModelTransformationMode.FIXED] to render the item inside the staff or
+     *   [ModelTransformationMode.HEAD] to render the item on top of the staff
+     */
+    protected fun MatrixStack.transform(
+        itemTransform: ModelTransformation,
+        itemTransformMode: ModelTransformationMode
+    ) {
+        itemTransform.getTransformation(itemTransformMode).apply(false, this)
+    }
 
     @Environment(EnvType.CLIENT)
     companion object Registry : RegistryBase<Identifier, StaffItemRenderer>() {

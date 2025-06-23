@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,12 +19,14 @@
 package opekope2.avm_staff.api.item.renderer
 
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import opekope2.avm_staff.util.bakedModelManager
 import opekope2.avm_staff.util.itemRenderer
 import opekope2.avm_staff.util.itemStackInStaff
+import opekope2.avm_staff.util.push
 
 /**
  * A staff item renderer, which renders the missing model.
@@ -32,23 +34,27 @@ import opekope2.avm_staff.util.itemStackInStaff
 object MissingModelStaffItemRenderer : StaffItemRenderer() {
     override fun renderItemInStaff(
         staffStack: ItemStack,
+        itemTransform: ModelTransformation,
         mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
         overlay: Int
     ) {
-        staffStack.itemStackInStaff?.let { itemInStaff ->
-            itemRenderer.renderItem(
-                itemInStaff,
-                ModelTransformationMode.NONE,
-                false,
-                matrices,
-                vertexConsumers,
-                light,
-                overlay,
-                bakedModelManager.missingModel
-            )
+        matrices.push {
+            transform(itemTransform, ModelTransformationMode.FIXED)
+            staffStack.itemStackInStaff?.let { itemInStaff ->
+                itemRenderer.renderItem(
+                    itemInStaff,
+                    ModelTransformationMode.NONE,
+                    false,
+                    matrices,
+                    vertexConsumers,
+                    light,
+                    overlay,
+                    bakedModelManager.missingModel
+                )
+            }
         }
     }
 }
