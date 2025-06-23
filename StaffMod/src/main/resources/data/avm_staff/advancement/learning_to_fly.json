@@ -17,17 +17,14 @@
     "description": {
       "translate": "advancements.avm_staff.learning_to_fly.description",
       "with": [
-        [
-          "a ",
-          {
-            "translate": "item.avm_staff.staff.with_item",
-            "with": [
-              {
-                "translate": "block.minecraft.campfire"
-              }
-            ]
-          }
-        ]
+        {
+          "translate": "item.avm_staff.staff.with_item",
+          "with": [
+            {
+              "translate": "block.minecraft.campfire"
+            }
+          ]
+        }
       ]
     }
   },

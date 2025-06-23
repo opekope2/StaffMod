@@ -10,12 +10,9 @@
     "description": {
       "translate": "advancements.avm_staff.prankster.description",
       "with": [
-        [
-          "a ",
-          {
-            "translate": "block.minecraft.cake"
-          }
-        ]
+        {
+          "translate": "block.minecraft.cake"
+        }
       ]
     }
   },

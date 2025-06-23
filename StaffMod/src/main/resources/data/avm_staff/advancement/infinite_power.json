@@ -16,12 +16,9 @@
     "description": {
       "translate": "advancements.avm_staff.infinite_power.description",
       "with": [
-        [
-          "a ",
-          {
-            "translate": "item.avm_staff.staff"
-          }
-        ]
+        {
+          "translate": "item.avm_staff.staff"
+        }
       ]
     },
     "frame": "goal",
