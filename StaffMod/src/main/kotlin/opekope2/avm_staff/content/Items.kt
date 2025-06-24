@@ -32,6 +32,13 @@ import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.Items.CROWN_OF_KING_ORANGE
+import opekope2.avm_staff.content.Items.FAINT_STAFF_ROD
+import opekope2.avm_staff.content.Items.ROYAL_STAFF
+import opekope2.avm_staff.content.Items.ROYAL_STAFF_HEAD
+import opekope2.avm_staff.content.Items.ROYAL_STAFF_INGREDIENT
+import opekope2.avm_staff.content.Items.ROYAL_STAFF_ROD
+import opekope2.avm_staff.content.Items.STAFF_INFUSION_SMITHING_TEMPLATE
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
@@ -187,9 +194,9 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
         val STAFFS = tagKey("staffs")
 
         /**
-         * Item tag registered as `avm_staff:enabled_staff_items`.
+         * Item tag registered as `avm_staff:enabled_in_staff/royal_staff`.
          */
         @JvmField
-        val ENABLED_STAFF_ITEMS = tagKey("enabled_staff_items")
+        val ENABLED_ROYAL_STAFF_ITEMS = tagKey("enabled_in_staff/royal_staff")
     }
 }

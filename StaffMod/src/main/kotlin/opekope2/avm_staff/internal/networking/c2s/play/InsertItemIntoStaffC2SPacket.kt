@@ -24,7 +24,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.world.event.GameEvent
-import opekope2.avm_staff.content.Items.Tags.ENABLED_STAFF_ITEMS
+import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.internal.networking.IC2SPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.*
@@ -72,8 +72,8 @@ internal class InsertItemIntoStaffC2SPacket() : IC2SPacket {
             if (itemStackToAdd.isEmpty) return false
             if (staffStack.isItemInStaff) return false
             if (isItemCoolingDown(staffStack.item)) return false
-            if (!itemStackToAdd.item.hasStaffHandler) return false
-            if (itemStackToAdd !in ENABLED_STAFF_ITEMS) return false
+            if (itemStackToAdd.item !in StaffHandler.Registry) return false
+            if (itemStackToAdd !in staffStack.enabledItemsInStaffTag) return false
 
             insertAction(this, staffStack, itemStackToAdd)
             return true

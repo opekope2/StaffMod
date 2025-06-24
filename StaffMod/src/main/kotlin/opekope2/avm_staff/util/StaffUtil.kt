@@ -24,13 +24,14 @@ import net.minecraft.component.ComponentChanges
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.DataComponentTypes
-import opekope2.avm_staff.content.Items.Tags.ENABLED_STAFF_ITEMS
 
 /**
  * Checks if an item is added the given staff item stack.
@@ -74,30 +75,25 @@ var ItemStack.mutableItemStackInStaff: ItemStack?
         applyChanges(changes.build())
     }
 
-/**
- * Returns if the given item has a registered handler when inserted into a staff.
- */
-val Item.hasStaffHandler: Boolean
-    @JvmName("hasStaffHandler")
-    get() = this in StaffHandler.Registry
+private val staff2enabledItemsTag = mutableMapOf<Item, TagKey<Item>>()
 
 /**
- * Returns the registered staff handler of the given item if available.
+ * Returns the [item tag][TagKey] representing the enabled items in the given staff [ItemStack].
  */
-val Item?.staffHandler: StaffHandler?
-    get() = when {
-        this == null -> StaffHandler.Empty
-        !hasStaffHandler -> null
-        else -> StaffHandler.getValue(this)
+val ItemStack.enabledItemsInStaffTag: TagKey<Item>
+    get() = staff2enabledItemsTag.getOrPut(item) {
+        TagKey.of(RegistryKeys.ITEM, item.registryId.withPrefixedPath("enabled_in_staff/"))
     }
 
 /**
- * Returns the registered staff handler of the given item if available, [StaffHandler.Fallback] otherwise.
+ * Returns the registered staff handler of the item in the given staff [ItemStack] if available, [StaffHandler.Fallback]
+ * otherwise.
  */
-val Item?.staffHandlerOrFallback: StaffHandler
-    get() = when {
-        this == null -> StaffHandler.Fallback
-        this in ENABLED_STAFF_ITEMS -> staffHandler ?: StaffHandler.Fallback
+val ItemStack.staffHandlerOrFallback: StaffHandler
+    get() = when (val itemInStaff = this.itemInStaff) {
+        null -> StaffHandler.Empty
+        !in StaffHandler.Registry -> StaffHandler.Fallback
+        in enabledItemsInStaffTag -> StaffHandler.Registry.getValue(itemInStaff)
         else -> StaffHandler.Fallback
     }
 

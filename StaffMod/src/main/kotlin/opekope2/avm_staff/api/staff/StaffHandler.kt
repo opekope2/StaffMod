@@ -41,7 +41,6 @@ import opekope2.avm_staff.api.component.BlockPickupDataComponent
 import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
-import opekope2.avm_staff.content.Items.Tags.ENABLED_STAFF_ITEMS
 import opekope2.avm_staff.util.*
 import kotlin.math.roundToInt
 
@@ -338,7 +337,7 @@ abstract class StaffHandler {
             val state = world.getBlockState(targetPos)
             val quickDraw = staffStack.getEnchantmentLevel(Enchantments.QUICK_DRAW, world.registryManager) + 1
 
-            return if (!canPickUp(world, targetPos, state)) 0
+            return if (!canPickUp(staffStack, world, targetPos, state)) 0
             else 10 + (state.getHardness(world, targetPos) / quickDraw).roundToInt()
         }
 
@@ -350,7 +349,7 @@ abstract class StaffHandler {
         ): TypedActionResult<ItemStack> {
             val targetPos = user.targetPos
             val state = world.getBlockState(targetPos)
-            if (!canPickUp(world, targetPos, state)) return TypedActionResult.fail(staffStack)
+            if (!canPickUp(staffStack, world, targetPos, state)) return TypedActionResult.fail(staffStack)
 
             staffStack[DataComponentTypes.blockPickupData] = BlockPickupDataComponent(targetPos, state)
 
@@ -358,9 +357,9 @@ abstract class StaffHandler {
             return TypedActionResult.consume(staffStack)
         }
 
-        private fun canPickUp(world: World, pos: BlockPos, state: BlockState) = !state.isAir &&
+        private fun canPickUp(staffStack: ItemStack, world: World, pos: BlockPos, state: BlockState) = !state.isAir &&
                 state.getHardness(world, pos) != -1f &&
-                state.block.asItem().let { it.hasStaffHandler && it in ENABLED_STAFF_ITEMS }
+                state.block.asItem().let { it in Registry && it in staffStack.enabledItemsInStaffTag }
 
         private fun userChangedTarget(
             world: World,
@@ -396,7 +395,7 @@ abstract class StaffHandler {
         }
 
         private fun tryPickUp(world: World, pos: BlockPos, state: BlockState, staffStack: ItemStack): Boolean {
-            if (!canPickUp(world, pos, state)) return false
+            if (!canPickUp(staffStack, world, pos, state)) return false
 
             val pickStack = state.block.getPickStack(world, pos, state)
             world.getBlockEntity(pos)?.apply {

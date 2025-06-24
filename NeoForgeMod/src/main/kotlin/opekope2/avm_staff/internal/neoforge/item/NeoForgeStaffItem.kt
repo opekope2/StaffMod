@@ -37,7 +37,6 @@ import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.internal.neoforge.StaffModClient
 import opekope2.avm_staff.util.blockEntityRenderDispatcher
 import opekope2.avm_staff.util.entityModelLoader
-import opekope2.avm_staff.util.itemInStaff
 import opekope2.avm_staff.util.staffHandlerOrFallback
 import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
 import java.util.function.Consumer
@@ -68,8 +67,8 @@ class NeoForgeStaffItem(settings: Item.Settings, repairIngredientSupplier: Regis
         attackEntity(stack, player.entityWorld, player, entity, Hand.MAIN_HAND).interruptsFurtherEvaluation()
 
     override fun shouldCauseReequipAnimation(oldStack: ItemStack, newStack: ItemStack, slotChanged: Boolean): Boolean {
-        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
-        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
+        val oldHandler = oldStack.staffHandlerOrFallback
+        val newHandler = newStack.staffHandlerOrFallback
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowReequipAnimation(oldStack, newStack, slotChanged)
