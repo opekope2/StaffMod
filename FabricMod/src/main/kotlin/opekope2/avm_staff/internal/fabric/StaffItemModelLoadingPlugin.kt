@@ -20,7 +20,7 @@ package opekope2.avm_staff.internal.fabric
 
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.minecraft.item.Item
-import net.minecraft.registry.Registries
+import opekope2.avm_staff.util.registryId
 
 object StaffItemModelLoadingPlugin : ModelLoadingPlugin {
     val staffItems = mutableSetOf<Item>()
@@ -31,7 +31,7 @@ object StaffItemModelLoadingPlugin : ModelLoadingPlugin {
 
     override fun onInitializeModelLoader(context: ModelLoadingPlugin.Context) {
         for (item in staffItems) {
-            val itemId = Registries.ITEM.getId(item).withPrefixedPath("item/")
+            val itemId = item.registryId.withPrefixedPath("item/")
             context.addModels(
                 itemId.withSuffixedPath("/head"),
                 itemId.withSuffixedPath("/item_transform"),

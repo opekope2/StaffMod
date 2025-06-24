@@ -25,11 +25,11 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.util.itemRenderer
 import opekope2.avm_staff.util.itemStackInStaff
 import opekope2.avm_staff.util.push
+import opekope2.avm_staff.util.registryId
 
 /**
  * Builtin model item renderer for staffs.
@@ -136,7 +136,7 @@ object StaffRenderer {
         ROD_BOTTOM("/rod_bottom");
 
         fun getModel(item: Item) = IStaffModPlatform.getStandaloneModel(
-            Registries.ITEM.getId(item).withPrefixedPath("item/").withSuffixedPath(suffix)
+            item.registryId.withPrefixedPath("item/").withSuffixedPath(suffix)
         )
     }
 }

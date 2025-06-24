@@ -26,9 +26,9 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.registry.RegistryBase
+import opekope2.avm_staff.util.registryId
 
 /**
  * A renderer for an item, which can be placed into a staff.
@@ -76,9 +76,6 @@ abstract class StaffItemRenderer {
 
     @Environment(EnvType.CLIENT)
     companion object Registry : RegistryBase<Identifier, StaffItemRenderer>() {
-        private inline val Item.registryId: Identifier
-            get() = Registries.ITEM.getId(this)
-
         /**
          * Registers an entry to this registry.
          *

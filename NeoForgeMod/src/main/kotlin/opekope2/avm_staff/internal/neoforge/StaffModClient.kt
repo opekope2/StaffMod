@@ -21,7 +21,6 @@ package opekope2.avm_staff.internal.neoforge
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.item.Item
-import net.minecraft.registry.Registries
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.api.distmarker.OnlyIn
 import net.neoforged.bus.api.SubscribeEvent
@@ -34,6 +33,7 @@ import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
 import opekope2.avm_staff.internal.initializer.ClientInitializer
 import opekope2.avm_staff.internal.model.ModelPredicates
 import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffItemRenderers
+import opekope2.avm_staff.util.registryId
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
 @OnlyIn(Dist.CLIENT)
@@ -65,7 +65,7 @@ object StaffModClient {
     @SubscribeEvent
     fun registerStaffItemModels(event: ModelEvent.RegisterAdditional) {
         for (item in staffItems) {
-            val itemId = Registries.ITEM.getId(item).withPrefixedPath("item/")
+            val itemId = item.registryId.withPrefixedPath("item/")
             event.register(ModelIdentifier.standalone(itemId.withSuffixedPath("/head")))
             event.register(ModelIdentifier.standalone(itemId.withSuffixedPath("/item_transform")))
             event.register(ModelIdentifier.standalone(itemId.withSuffixedPath("/rod_top")))

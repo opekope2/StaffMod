@@ -29,7 +29,6 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.stat.Stats
 import net.minecraft.util.*
@@ -430,9 +429,6 @@ abstract class StaffHandler {
     }
 
     companion object Registry : RegistryBase<Identifier, StaffHandler>() {
-        private inline val Item.registryId: Identifier
-            get() = Registries.ITEM.getId(this)
-
         /**
          * Registers an entry to this registry.
          *

@@ -31,7 +31,6 @@ import net.minecraft.item.ItemUsage
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextTypes
-import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.network.ServerPlayerEntity
@@ -166,8 +165,7 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
         stack.damage(amount, world, holder as? ServerPlayerEntity) {
             holder.sendEquipmentBreakStatus(it, slot)
 
-            val lootTableId =
-                RegistryKey.of(RegistryKeys.LOOT_TABLE, Registries.ITEM.getId(it).withPrefixedPath("item_break/"))
+            val lootTableId = RegistryKey.of(RegistryKeys.LOOT_TABLE, it.registryId.withPrefixedPath("item_break/"))
             val lootTable = world.server.reloadableRegistries.getLootTable(lootTableId)
             val lootParameters = LootContextParameterSet.Builder(world).build(LootContextTypes.EMPTY)
 
