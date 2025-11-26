@@ -20,56 +20,38 @@ package opekope2.avm_staff.internal.neoforge
 
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.util.ModelIdentifier
-import net.minecraft.item.Item
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.api.distmarker.OnlyIn
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.client.event.ModelEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
-import opekope2.avm_staff.api.particle.FlamethrowerParticle
-import opekope2.avm_staff.content.ParticleTypes
-import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
-import opekope2.avm_staff.internal.initializer.ClientInitializer
-import opekope2.avm_staff.internal.model.ModelPredicates
-import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffItemRenderers
-import opekope2.avm_staff.util.registryId
+import opekope2.avm_staff.internal.AbstractStaffModClient
+import opekope2.avm_staff.util.MOD_ID
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
+@Mod(MOD_ID, dist = [Dist.CLIENT])
 @OnlyIn(Dist.CLIENT)
-object StaffModClient {
-    val staffItems = mutableSetOf<Item>()
+object StaffModClient : AbstractStaffModClient() {
+    init {
+        super.initialize()
 
-    fun initializeClient() {
-        ClientInitializer
-        ClientEventHandlers
-        registerVanillaStaffItemRenderers()
         MOD_BUS.register(this)
     }
 
     @SubscribeEvent
     fun initializeClient(event: FMLClientSetupEvent) {
-        event.enqueueWork {
-            for ((key, value) in ModelPredicates) {
-                ModelPredicateProviderRegistry.registerGeneric(key, value)
-            }
-        }
+        event.enqueueWork { registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric) }
     }
 
     @SubscribeEvent
     fun registerParticleProviders(event: RegisterParticleProvidersEvent) {
-        event.registerSpriteSet(ParticleTypes.flame, FlamethrowerParticle::Factory)
-        event.registerSpriteSet(ParticleTypes.soulFireFlame, FlamethrowerParticle::Factory)
+        registerParticleFactories { type, constructor -> event.registerSpriteSet(type, constructor::apply) }
     }
 
     @SubscribeEvent
     fun registerStaffItemModels(event: ModelEvent.RegisterAdditional) {
-        for (item in staffItems) {
-            val itemId = item.registryId.withPrefixedPath("item/")
-            event.register(ModelIdentifier.standalone(itemId.withSuffixedPath("/head")))
-            event.register(ModelIdentifier.standalone(itemId.withSuffixedPath("/item_transform")))
-            event.register(ModelIdentifier.standalone(itemId.withSuffixedPath("/rod_top")))
-            event.register(ModelIdentifier.standalone(itemId.withSuffixedPath("/rod_bottom")))
-        }
+        registerStaffItemModels { event.register(ModelIdentifier.standalone(it)) }
     }
 }

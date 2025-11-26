@@ -19,13 +19,9 @@
 package opekope2.avm_staff.api
 
 import dev.architectury.registry.registries.RegistrySupplier
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.block.Block
-import net.minecraft.client.render.model.BakedModel
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
-import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.staffModPlatform
@@ -37,19 +33,16 @@ import opekope2.avm_staff.internal.staffModPlatform
  */
 interface IStaffModPlatform {
     /**
+     * Checks if Minecraft is running client-side.
+     */
+    val isClient: Boolean
+
+    /**
      * Creates a loader-specific instance of [StaffItem].
      *
      * @param settings  The item settings to pass to the constructor
      */
     fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?): StaffItem
-
-    /**
-     * Returns a model registered through loader-specific API.
-     *
-     * @param modelId   The [Identifier] of the model to get
-     */
-    @Environment(EnvType.CLIENT)
-    fun getStandaloneModel(modelId: Identifier): BakedModel
 
     /**
      * Creates a loader-specific instance of [CrownItem].

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -52,8 +52,14 @@ import opekope2.avm_staff.content.GameRules
 import opekope2.avm_staff.mixin.IPiglinBrainAccessor
 import opekope2.avm_staff.util.*
 
-object EventHandlers : EntityEvent.LivingDeath, EntityEvent.LivingHurt, InteractionEvent.LeftClickBlock,
-    InteractionEvent.RightClickItem, Runnable, LootEvent.ModifyLootTable, PlayerEvent.AttackEntity,
+object EventHandlers :
+    EntityEvent.LivingDeath,
+    EntityEvent.LivingHurt,
+    InteractionEvent.LeftClickBlock,
+    InteractionEvent.RightClickItem,
+    Runnable,
+    LootEvent.ModifyLootTable,
+    PlayerEvent.AttackEntity,
     PlayerEvent.DropItem {
     private val MODIFIABLE_LOOT_TABLES = setOf(
         Identifier.ofVanilla("chests/ancient_city"),

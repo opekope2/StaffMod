@@ -32,11 +32,8 @@ import net.minecraft.util.Hand
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import net.neoforged.neoforge.common.extensions.IItemExtension
+import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.api.item.renderer.StaffRenderer
-import opekope2.avm_staff.internal.neoforge.StaffModClient
-import opekope2.avm_staff.util.blockEntityRenderDispatcher
-import opekope2.avm_staff.util.entityModelLoader
 import opekope2.avm_staff.util.staffHandlerOrFallback
 import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
 import java.util.function.Consumer
@@ -44,9 +41,7 @@ import java.util.function.Consumer
 class NeoForgeStaffItem(settings: Item.Settings, repairIngredientSupplier: RegistrySupplier<Item>?) :
     StaffItem(settings, repairIngredientSupplier), IItemExtension {
     init {
-        runWhenOn(Dist.CLIENT) {
-            StaffModClient.staffItems += this
-        }
+        runWhenOn(Dist.CLIENT) { IStaffModClientPlatform.renderAsStaffModel(this) }
     }
 
     override fun canDisableShield(stack: ItemStack, shield: ItemStack, entity: LivingEntity, attacker: LivingEntity) =

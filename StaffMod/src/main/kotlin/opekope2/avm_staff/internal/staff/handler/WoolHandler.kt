@@ -25,6 +25,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
+import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.tag.BlockTags
@@ -41,6 +42,8 @@ import opekope2.avm_staff.mixin.IMinecraftClientAccessor
 import opekope2.avm_staff.util.*
 
 internal class WoolHandler(private val woolItem: BlockItem, private val carpetItem: BlockItem) : StaffHandler() {
+    constructor(woolItem: Item, carpetItem: Item) : this(woolItem as BlockItem, carpetItem as BlockItem)
+
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(2.0), AttributeModifierSlot.MAINHAND)
         .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)

@@ -18,48 +18,21 @@
 
 package opekope2.avm_staff.internal.fabric
 
-import dev.architectury.registry.registries.RegistrySupplier
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
-import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.block.Block
-import net.minecraft.client.render.model.BakedModel
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.particle.SimpleParticleType
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
-import opekope2.avm_staff.api.IStaffModPlatform
-import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
-import opekope2.avm_staff.internal.event_handler.EventHandlers
-import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
-import opekope2.avm_staff.internal.initializer.Initializer
-import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffHandlers
-import opekope2.avm_staff.util.bakedModelManager
+import opekope2.avm_staff.internal.AbstractStaffMod
 
-@Suppress("unused")
-object StaffMod : ModInitializer, IStaffModPlatform, AttackEntityCallback {
+object StaffMod : AbstractStaffMod(), ModInitializer, AttackEntityCallback {
     override fun onInitialize() {
-        Initializer
-        EventHandlers
-        subscribeToFabricEvents()
-        registerVanillaStaffHandlers()
-        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
-            // Needs to be called before client entry point because of Fabric Loader and Architectury API
-            ClientEventHandlers
-        }
-    }
+        super.initialize()
 
-    private fun subscribeToFabricEvents() {
         AttackEntityCallback.EVENT.register(this)
     }
 
@@ -77,16 +50,4 @@ object StaffMod : ModInitializer, IStaffModPlatform, AttackEntityCallback {
         return if (result.interruptsFurtherEvaluation()) ActionResult.SUCCESS
         else ActionResult.PASS
     }
-
-    override fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) =
-        FabricStaffItem(settings, repairIngredient)
-
-    @Environment(EnvType.CLIENT)
-    override fun getStandaloneModel(modelId: Identifier): BakedModel =
-        bakedModelManager.getModel(modelId) ?: bakedModelManager.missingModel
-
-    override fun crownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) =
-        CrownItem(groundBlock, wallBlock, settings)
-
-    override fun simpleParticleType(alwaysShow: Boolean): SimpleParticleType = FabricParticleTypes.simple(alwaysShow)
 }
