@@ -27,7 +27,10 @@ import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.client.event.ModelEvent
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
+import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.internal.AbstractStaffModClient
+import opekope2.avm_staff.internal.neoforge.renderer.StaffRenderer
 import opekope2.avm_staff.util.MOD_ID
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
@@ -53,5 +56,10 @@ object StaffModClient : AbstractStaffModClient() {
     @SubscribeEvent
     fun registerStaffItemModels(event: ModelEvent.RegisterAdditional) {
         registerStaffItemModels { event.register(ModelIdentifier.standalone(it)) }
+    }
+
+    @SubscribeEvent
+    fun registerStaffRenderers(event: RegisterClientExtensionsEvent) {
+        for (item in IStaffModClientPlatform.staffModelItems) event.registerItem(StaffRenderer, item)
     }
 }

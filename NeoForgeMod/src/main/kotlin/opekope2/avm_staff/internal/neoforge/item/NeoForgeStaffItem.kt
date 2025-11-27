@@ -19,10 +19,6 @@
 package opekope2.avm_staff.internal.neoforge.item
 
 import dev.architectury.registry.registries.RegistrySupplier
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.item.BuiltinModelItemRenderer
-import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -30,13 +26,11 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import net.neoforged.api.distmarker.Dist
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.util.staffHandlerOrFallback
 import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
-import java.util.function.Consumer
 
 class NeoForgeStaffItem(settings: Item.Settings, repairIngredientSupplier: RegistrySupplier<Item>?) :
     StaffItem(settings, repairIngredientSupplier), IItemExtension {
@@ -67,26 +61,5 @@ class NeoForgeStaffItem(settings: Item.Settings, repairIngredientSupplier: Regis
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowReequipAnimation(oldStack, newStack, slotChanged)
-    }
-
-    @Deprecated("Deprecated in Java")
-    @Suppress("removal")
-    override fun initializeClient(consumer: Consumer<IClientItemExtensions>) {
-        consumer.accept(object : IClientItemExtensions {
-            override fun getCustomRenderer() = Renderer
-        })
-    }
-
-    object Renderer : BuiltinModelItemRenderer(blockEntityRenderDispatcher, entityModelLoader) {
-        override fun render(
-            stack: ItemStack,
-            mode: ModelTransformationMode,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            StaffRenderer.renderStaff(stack, mode, matrices, vertexConsumers, light, overlay)
-        }
     }
 }
