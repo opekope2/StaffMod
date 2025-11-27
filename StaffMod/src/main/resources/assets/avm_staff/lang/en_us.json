@@ -50,6 +50,8 @@
   "item.avm_staff.royal_staff_head": "Royal staff head",
   "item.avm_staff.royal_staff_ingredient": "Royal staff ingredient",
   "item.avm_staff.royal_staff_rod": "Royal staff rod",
+  "item.avm_staff.scepter_of_friendship": "Scepter of friendship",
+  "item.avm_staff.scepter_of_friendship.with_item": "Scepter of friendship with %s",
   "item.avm_staff.staff": "Staff",
   "item.avm_staff.staff.with_item": "Staff with %s",
   "item.avm_staff.staff_infusion_smithing_template": "Smithing Template",
@@ -62,6 +64,7 @@
   "stat_type.avm_staff.used_item_in_staff": "Used in Staff",
   "subtitles.entity.avm_staff.cake.splash": "Cake splashes",
   "subtitles.entity.avm_staff.cake.throw": "Cake flies",
-  "tag.item.avm_staff.enabled_staff_items": "Enabled items in staffs",
+  "tag.item.avm_staff.enabled_in_staff.royal_staff": "Enabled items in Royal staff",
+  "tag.item.avm_staff.enabled_in_staff.scepter_of_friendship": "Enabled items in Scepter of friendship",
   "tag.item.avm_staff.staffs": "Staffs"
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "avm_staff:item/faint_staff_rod",
+  "textures": {
+    "rod": "avm_staff:item/scepter_of_friendship/rod_top"
+  }
+}

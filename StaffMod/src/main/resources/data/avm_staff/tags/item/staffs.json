@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "avm_staff:royal_staff"
+    "avm_staff:royal_staff",
+    "avm_staff:scepter_of_friendship"
   ]
 }

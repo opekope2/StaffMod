@@ -28,6 +28,7 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
+import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
@@ -38,6 +39,7 @@ import opekope2.avm_staff.content.Items.ROYAL_STAFF
 import opekope2.avm_staff.content.Items.ROYAL_STAFF_HEAD
 import opekope2.avm_staff.content.Items.ROYAL_STAFF_INGREDIENT
 import opekope2.avm_staff.content.Items.ROYAL_STAFF_ROD
+import opekope2.avm_staff.content.Items.SCEPTER_OF_FRIENDSHIP
 import opekope2.avm_staff.content.Items.STAFF_INFUSION_SMITHING_TEMPLATE
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
@@ -150,6 +152,30 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
         get() = ROYAL_STAFF_INGREDIENT.get()
 
     /**
+     * Item registered as `avm_staff:scepter_of_friendship`.
+     */
+    @JvmField
+    val SCEPTER_OF_FRIENDSHIP = register("scepter_of_friendship") {
+        IStaffModPlatform.staffItem(
+            settings()
+                .maxCount(1)
+                .rarity(Rarity.EPIC)
+                .attributeModifiers(StaffHandler.Fallback.ATTRIBUTE_MODIFIERS)
+                .maxDamage(5179)
+                .component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 1))
+                .`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
+            null // TODO
+        )
+    }
+
+    /**
+     * @see SCEPTER_OF_FRIENDSHIP
+     */
+    val scepterOfFriendship: StaffItem
+        @JvmName("scepterOfFriendship")
+        get() = SCEPTER_OF_FRIENDSHIP.get()
+
+    /**
      * Item registered as `avm_staff:staff_infusion_smithing_template`.
      */
     @JvmField
@@ -198,5 +224,11 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
          */
         @JvmField
         val ENABLED_ROYAL_STAFF_ITEMS = tagKey("enabled_in_staff/royal_staff")
+
+        /**
+         * Item tag registered as `avm_staff:enabled_in_staff/scepter_of_friendship`.
+         */
+        @JvmField
+        val ENABLED_SCEPTER_OF_FRIENDSHIP_ITEMS = tagKey("enabled_in_staff/scepter_of_friendship")
     }
 }
