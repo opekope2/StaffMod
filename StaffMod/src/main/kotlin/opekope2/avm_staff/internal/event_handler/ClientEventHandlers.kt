@@ -33,6 +33,7 @@ object ClientEventHandlers : InteractionEvent.ClientLeftClickAir {
     }
 
     override fun click(player: PlayerEntity, hand: Hand) {
+        if (player.isSpectator) return
         val staffStack = player.getStackInHand(hand)
         val staffItem = staffStack.item as? StaffItem ?: return
 
