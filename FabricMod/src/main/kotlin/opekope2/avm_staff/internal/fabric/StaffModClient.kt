@@ -23,7 +23,6 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.render.RenderLayer
 import opekope2.avm_staff.content.Blocks
@@ -34,14 +33,9 @@ object StaffModClient : AbstractStaffModClient(), ClientModInitializer {
     override fun onInitializeClient() {
         super.initialize()
 
-        registerParticleFactories(ParticleFactoryRegistry.getInstance())
         registerBlockRenderLayers()
         registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
         ModelLoadingPlugin.register { registerStaffItemModels(it::addModels) }
-    }
-
-    private fun registerParticleFactories(registry: ParticleFactoryRegistry) {
-        registerParticleFactories { type, constructor -> registry.register(type, constructor::apply) }
     }
 
     private fun registerBlockRenderLayers() {

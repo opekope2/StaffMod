@@ -56,7 +56,6 @@ abstract class AbstractStaffMod {
         ItemGroups.register()
         Items.register()
         Items.Tags.initialize()
-        ParticleTypes.register()
         SoundEvents.register()
         StatTypes.register()
     }
@@ -84,11 +83,11 @@ abstract class AbstractStaffMod {
 
         StaffHandler.register(
             CAMPFIRE,
-            CampfireHandler(CampfireHandler.Parameters(5 / 20.0, 1 / 20.0, 4f, 1, 0.1, ParticleTypes.FLAME))
+            CampfireHandler(CampfireHandler.Parameters(5 / 20.0, 1 / 20.0, 4f, 1, 0.1, FLAME))
         )
         StaffHandler.register(
             SOUL_CAMPFIRE,
-            CampfireHandler(CampfireHandler.Parameters(10 / 20.0, 2 / 20.0, 6f, 2, 0.12, ParticleTypes.SOUL_FIRE_FLAME))
+            CampfireHandler(CampfireHandler.Parameters(10 / 20.0, 2 / 20.0, 6f, 2, 0.12, SOUL_FIRE_FLAME))
         )
 
         StaffHandler.register(COMMAND_BLOCK, StaffHandler.Fallback) // TODO

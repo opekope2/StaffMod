@@ -23,20 +23,15 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.Blocks
 import net.minecraft.client.item.ClampedModelPredicateProvider
-import net.minecraft.client.particle.ParticleFactory
-import net.minecraft.client.particle.SpriteProvider
 import net.minecraft.client.render.entity.EmptyEntityRenderer
 import net.minecraft.client.render.entity.TntEntityRenderer
 import net.minecraft.item.Items.*
-import net.minecraft.particle.SimpleParticleType
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
-import opekope2.avm_staff.api.particle.FlamethrowerParticle
 import opekope2.avm_staff.content.EntityTypes
-import opekope2.avm_staff.content.ParticleTypes
 import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
 import opekope2.avm_staff.internal.event_handler.KeyBindingHandler
 import opekope2.avm_staff.internal.model.ModelPredicates
@@ -49,7 +44,6 @@ import org.jetbrains.annotations.ApiStatus
 import org.jetbrains.annotations.MustBeInvokedByOverriders
 import java.util.function.BiConsumer
 import java.util.function.Consumer
-import java.util.function.Function
 
 @ApiStatus.Internal
 @Environment(EnvType.CLIENT)
@@ -139,12 +133,6 @@ abstract class AbstractStaffModClient {
             modelsToLoad.accept(itemId.withSuffixedPath("/rod_top"))
             modelsToLoad.accept(itemId.withSuffixedPath("/rod_bottom"))
         }
-    }
-
-    @MustBeInvokedByOverriders
-    protected open fun registerParticleFactories(registrar: BiConsumer<SimpleParticleType, Function<SpriteProvider, ParticleFactory<SimpleParticleType>>>) {
-        registrar.accept(ParticleTypes.flame, FlamethrowerParticle::Factory)
-        registrar.accept(ParticleTypes.soulFireFlame, FlamethrowerParticle::Factory)
     }
 
     companion object {

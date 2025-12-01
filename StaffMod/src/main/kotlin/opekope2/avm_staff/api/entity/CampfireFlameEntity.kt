@@ -35,10 +35,9 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.particle.ParticleEffect
-import net.minecraft.particle.ParticleType
+import net.minecraft.particle.ParticleTypes
+import net.minecraft.particle.SimpleParticleType
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.util.hit.BlockHitResult
@@ -50,7 +49,6 @@ import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.content.EntityTypes
-import opekope2.avm_staff.content.ParticleTypes
 import opekope2.avm_staff.util.*
 import java.util.*
 
@@ -119,13 +117,9 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         val nextRelativeUp = parameters.flameConeHeight * (age.toDouble() / parameters.stepResolution)
 
         if (world.isClient) {
-            @Suppress("UNCHECKED_CAST")
-            val particleType = Registries.PARTICLE_TYPE[parameters.particleType as RegistryKey<ParticleType<*>>]
-            val particleEffect = particleType as? ParticleEffect ?: ParticleTypes.flame
-
             tickRays(nextPos, nextRelativeRight, nextRelativeUp) { start, end ->
                 val result = tickRayClient(start, end)
-                if (!result.stopsRay) spawnParticle(particleEffect, start, end)
+                if (!result.stopsRay) spawnParticle(parameters.particle, start, end)
                 result
             }
         } else {
@@ -330,7 +324,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
      * @param flameConeWidth                The width of the fire cone, points right relative to the shooter's POV
      * @param flameConeHeight               The height of the fire cone, points up relative to the shooter's POV
      * @param stepResolution                How many ticks to divide the distance between [origin] and [relativeTarget]
-     * @param particleType                  The registry key of the flame particle type in [Registries.PARTICLE_TYPE]
+     * @param particle                      The flame particle the campfire staff shoots
      */
     open class Parameters(
         val origin: Vec3d,
@@ -338,7 +332,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         val flameConeWidth: Vec3d,
         val flameConeHeight: Vec3d,
         val stepResolution: Int,
-        val particleType: RegistryKey<out ParticleType<*>>,
+        val particle: SimpleParticleType,
     ) {
         constructor(buf: PacketByteBuf) : this(
             buf.readVec3d(),
@@ -346,7 +340,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
             buf.readVec3d(),
             buf.readVec3d(),
             buf.readVarInt(),
-            buf.readRegistryKey(RegistryKeys.PARTICLE_TYPE)
+            Registries.PARTICLE_TYPE.get(buf.readIdentifier()) as? SimpleParticleType ?: ParticleTypes.FLAME
         )
 
         fun write(buf: PacketByteBuf) {
@@ -355,7 +349,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
             buf.writeVec3d(flameConeWidth)
             buf.writeVec3d(flameConeHeight)
             buf.writeVarInt(stepResolution)
-            buf.writeRegistryKey(particleType)
+            buf.writeIdentifier(checkNotNull(Registries.PARTICLE_TYPE.getId(particle)) { "Unregistered particle" })
         }
     }
 
@@ -368,7 +362,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
      * @param flameConeHeight               The height of the fire cone, points up relative to the shooter's POV
      * @param stepResolution                How many ticks to divide the distance between [origin] and [relativeTarget]
      * @param rayResolution                 The resolution to divide the fire cone both horizontally and vertically
-     * @param particleType                  The registry key of the flame particle type in [Registries.PARTICLE_TYPE]
+     * @param particle                      The flame particle the campfire staff shoots
      * @param flammableBlockFireChance      The chance a [flammable][BlockState.isBurnable] block is set on fire
      * @param nonFlammableBlockFireChance   The chance a [non-flammable][BlockState.isBurnable] block is set on fire
      * @param flameFireTicks                The number of ticks an entity is additionally set on fire for
@@ -379,12 +373,12 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         flameConeWidth: Vec3d,
         flameConeHeight: Vec3d,
         stepResolution: Int,
-        particleType: RegistryKey<out ParticleType<*>>,
+        particle: SimpleParticleType,
         val rayResolution: Int,
         val flammableBlockFireChance: Double,
         val nonFlammableBlockFireChance: Double,
         val flameFireTicks: Int,
-    ) : Parameters(origin, relativeTarget, flameConeWidth, flameConeHeight, stepResolution, particleType)
+    ) : Parameters(origin, relativeTarget, flameConeWidth, flameConeHeight, stepResolution, particle)
 
     private companion object {
         private const val FLAME_MAX_AGE = 16

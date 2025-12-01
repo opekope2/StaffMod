@@ -26,7 +26,6 @@ import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.client.event.ModelEvent
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.internal.AbstractStaffModClient
@@ -46,11 +45,6 @@ object StaffModClient : AbstractStaffModClient() {
     @SubscribeEvent
     fun initializeClient(event: FMLClientSetupEvent) {
         event.enqueueWork { registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric) }
-    }
-
-    @SubscribeEvent
-    fun registerParticleProviders(event: RegisterParticleProvidersEvent) {
-        registerParticleFactories { type, constructor -> event.registerSpriteSet(type, constructor::apply) }
     }
 
     @SubscribeEvent

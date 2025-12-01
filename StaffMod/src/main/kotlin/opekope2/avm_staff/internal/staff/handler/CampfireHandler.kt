@@ -19,7 +19,6 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -137,7 +136,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         val attackFireSeconds: Float,
         val flameFireTicks: Int,
         val rocketThrust: Double,
-        val particleEffectSupplier: RegistrySupplier<SimpleParticleType>
+        val particle: SimpleParticleType
     )
 
     private companion object {
