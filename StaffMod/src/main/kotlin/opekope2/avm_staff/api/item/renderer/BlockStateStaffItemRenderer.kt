@@ -41,6 +41,7 @@ import opekope2.avm_staff.util.push
 class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() {
     private val blockStateId = BlockModels.getModelId(blockState)
     private val blockItem = blockState.block.asItem().defaultStack
+    private val luminance = blockState.luminance
 
     /**
      * Creates a new [BlockStateStaffItemRenderer] with the [default state][Block.defaultState] of the given block.
@@ -66,7 +67,7 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() 
                 false,
                 this,
                 vertexConsumers,
-                light,
+                getLight(light, luminance),
                 overlay,
                 bakedModelManager.getModel(blockStateId)
             )

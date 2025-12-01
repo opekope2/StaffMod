@@ -20,6 +20,7 @@ package opekope2.avm_staff.api.item.renderer
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
@@ -29,6 +30,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.util.registryId
+import kotlin.math.max
 
 /**
  * A renderer for an item, which can be placed into a staff.
@@ -97,5 +99,21 @@ abstract class StaffItemRenderer {
          * @param key The key to check
          */
         operator fun get(key: Item) = getValue(key.registryId)
+
+        /**
+         * Calculates a new light parameter value.
+         *
+         * @param light     The [packed][LightmapTextureManager.pack] light value
+         * @param luminance The [luminance][net.minecraft.block.BlockState.getLuminance] of a block state
+         * @return A new light value where the block light is [luminance] if it's greater than the previous block light
+         *   value
+         */
+        @JvmStatic
+        protected fun getLight(light: Int, luminance: Int): Int {
+            val blockLight = LightmapTextureManager.getBlockLightCoordinates(light)
+            val skyLight = LightmapTextureManager.getSkyLightCoordinates(light)
+
+            return LightmapTextureManager.pack(max(blockLight, luminance and 0xFFFF), skyLight)
+        }
     }
 }

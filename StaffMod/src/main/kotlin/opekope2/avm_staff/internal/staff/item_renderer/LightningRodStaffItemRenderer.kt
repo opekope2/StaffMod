@@ -59,7 +59,7 @@ class LightningRodStaffItemRenderer : StaffItemRenderer() {
                 false,
                 this,
                 vertexConsumers,
-                light,
+                getLight(light, LIGHTNING_ROD.defaultState.luminance),
                 overlay,
                 bakedModelManager.getModel(blockStateId)
             )
