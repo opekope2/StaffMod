@@ -12,5 +12,13 @@
       "random/bow"
     ],
     "subtitle": "subtitles.entity.avm_staff.cake.throw"
+  },
+  "item.flamethrower.fire": {
+    "sounds": [
+      "mob/horse/breathe1",
+      "mob/horse/breathe2",
+      "mob/horse/breathe3"
+    ],
+    "subtitle": "subtitles.item.avm_staff.flamethrower.fire"
   }
 }

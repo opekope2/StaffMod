@@ -33,6 +33,7 @@ import net.minecraft.world.World
 import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.DataComponentTypes
+import opekope2.avm_staff.content.SoundEvents
 import opekope2.avm_staff.internal.minecraftUnit
 import opekope2.avm_staff.util.*
 
@@ -66,6 +67,13 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
             user.addVelocity(forward * -parameters.rocketThrust)
             user.limitFallDistance()
         }
+
+        world.playSound(
+            null,
+            user.x, user.y, user.z,
+            SoundEvents.flamethrowerFire, user.soundCategory,
+            1f, 0f
+        )
 
         if (world.isClient) return
 

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,6 +20,9 @@ package opekope2.avm_staff.content
 
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.SoundEvent
+import opekope2.avm_staff.content.SoundEvents.CAKE_SPLASH
+import opekope2.avm_staff.content.SoundEvents.CAKE_THROW
+import opekope2.avm_staff.content.SoundEvents.FLAMETHROWER_FIRE
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
 
@@ -52,4 +55,16 @@ object SoundEvents : RegistryUtil<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) 
     val cakeThrow: SoundEvent
         @JvmName("cakeThrow")
         get() = CAKE_THROW.get()
+
+    /**
+     * Sound event registered as `avm_staff:item.staff.throw_flame`
+     */
+    @JvmField
+    val FLAMETHROWER_FIRE = register("item.flamethrower.fire") { SoundEvent.of(it.value) }
+
+    /**
+     * @see FLAMETHROWER_FIRE
+     */
+    val flamethrowerFire: SoundEvent
+        get() = FLAMETHROWER_FIRE.get()
 }
