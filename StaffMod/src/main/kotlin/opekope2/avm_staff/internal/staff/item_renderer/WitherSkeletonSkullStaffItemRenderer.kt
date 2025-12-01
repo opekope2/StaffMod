@@ -20,8 +20,7 @@ package opekope2.avm_staff.internal.staff.item_renderer
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.block.AbstractSkullBlock
-import net.minecraft.block.Blocks
+import net.minecraft.block.SkullBlock
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.SkullBlockEntityRenderer
 import net.minecraft.client.render.entity.model.SkullEntityModel
@@ -53,9 +52,7 @@ class WitherSkeletonSkullStaffItemRenderer : StaffItemRenderer() {
             skullModel.render(
                 matrices,
                 vertexConsumers.getBuffer(
-                    SkullBlockEntityRenderer.getRenderLayer(
-                        (Blocks.WITHER_SKELETON_SKULL as AbstractSkullBlock).skullType, null
-                    )
+                    SkullBlockEntityRenderer.getRenderLayer(SkullBlock.Type.WITHER_SKELETON, null)
                 ),
                 light,
                 overlay
