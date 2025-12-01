@@ -190,7 +190,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
     @Environment(EnvType.CLIENT)
     private fun tickRayClient(start: Vec3d, end: Vec3d): HitResult.Type {
         val blockHit = raycastBlock(start, end)
-        val entityHit = raycastEntity(start, end, false)
+        val entityHit = raycastEntity(start, end)
 
         return when {
             entityHit != null && entityHit.pos.squaredDistanceTo(start) < blockHit.pos.squaredDistanceTo(start) -> HitResult.Type.ENTITY
@@ -208,7 +208,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         blocksToSetOnFire: MutableSet<BlockPos>
     ): HitResult.Type {
         val blockHit = raycastBlock(start, end)
-        val entityHit = raycastEntity(start, end, parameters.damageShooter)
+        val entityHit = raycastEntity(start, end)
 
         return when {
             entityHit != null && entityHit.pos.squaredDistanceTo(start) < blockHit.pos.squaredDistanceTo(start) -> {
@@ -241,12 +241,12 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         )
     )
 
-    private fun raycastEntity(start: Vec3d, end: Vec3d, includeShooter: Boolean) = ProjectileUtil.raycast(
+    private fun raycastEntity(start: Vec3d, end: Vec3d) = ProjectileUtil.raycast(
         this,
         start,
         end,
         Box(start, end),
-        { it != shooter || includeShooter },
+        { it != shooter },
         velocity.lengthSquared()
     )
 
@@ -372,7 +372,6 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
      * @param flammableBlockFireChance      The chance a [flammable][BlockState.isBurnable] block is set on fire
      * @param nonFlammableBlockFireChance   The chance a [non-flammable][BlockState.isBurnable] block is set on fire
      * @param flameFireTicks                The number of ticks an entity is additionally set on fire for
-     * @param damageShooter                 Whether the flame should damage the shooter
      */
     class ServerParameters(
         origin: Vec3d,
@@ -385,7 +384,6 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         val flammableBlockFireChance: Double,
         val nonFlammableBlockFireChance: Double,
         val flameFireTicks: Int,
-        val damageShooter: Boolean
     ) : Parameters(origin, relativeTarget, flameConeWidth, flameConeHeight, stepResolution, particleType)
 
     private companion object {

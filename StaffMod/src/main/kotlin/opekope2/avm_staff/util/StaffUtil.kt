@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("StaffUtil")
+@file:JvmName("StaffUtil")
 
 package opekope2.avm_staff.util
 
@@ -115,14 +115,15 @@ val Entity.approximateStaffItemPosition: Vec3d
 
 /**
  * Checks if the user has sufficient space in front to use the staff.
+ *
+ * @param fluidHandling Fluids that obstruct staff usage, [none][RaycastContext.FluidHandling.NONE] by default
  */
-val Entity.canUseStaff: Boolean
-    get() = world.raycast(
-        RaycastContext(
-            eyePos,
-            eyePos + rotationVector * STAFF_MODEL_LENGTH,
-            RaycastContext.ShapeType.COLLIDER,
-            RaycastContext.FluidHandling.NONE,
-            this
-        )
-    ).type == HitResult.Type.MISS
+fun Entity.canUseStaff(fluidHandling: RaycastContext.FluidHandling = RaycastContext.FluidHandling.NONE) = world.raycast(
+    RaycastContext(
+        eyePos,
+        eyePos + rotationVector * STAFF_MODEL_LENGTH,
+        RaycastContext.ShapeType.COLLIDER,
+        fluidHandling,
+        this
+    )
+).type == HitResult.Type.MISS

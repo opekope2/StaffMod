@@ -19,14 +19,15 @@
 package opekope2.avm_staff.content
 
 import net.minecraft.component.ComponentType
-import net.minecraft.network.codec.PacketCodec
 import net.minecraft.registry.RegistryKeys
 import opekope2.avm_staff.api.component.BlockPickupDataComponent
 import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.component.StaffItemComponent
 import opekope2.avm_staff.api.component.StaffTntDataComponent
-import opekope2.avm_staff.internal.MinecraftUnit
-import opekope2.avm_staff.internal.minecraftUnit
+import opekope2.avm_staff.content.DataComponentTypes.BLOCK_PICKUP_DATA
+import opekope2.avm_staff.content.DataComponentTypes.FURNACE_DATA
+import opekope2.avm_staff.content.DataComponentTypes.STAFF_ITEM
+import opekope2.avm_staff.content.DataComponentTypes.TNT_DATA
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
 
@@ -67,24 +68,6 @@ object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.
     val furnaceData: ComponentType<StaffFurnaceDataComponent>
         @JvmName("furnaceData")
         get() = FURNACE_DATA.get()
-
-    /**
-     * Data component registered as `avm_staff:rocket_mode`. Stores if a campfire staff should propel its user.
-     */
-    @JvmField
-    val ROCKET_MODE = register("rocket_mode") {
-        ComponentType.builder<MinecraftUnit>()
-            .codec(MinecraftUnit.CODEC)
-            .packetCodec(PacketCodec.unit(minecraftUnit))
-            .build()
-    }
-
-    /**
-     * @see ROCKET_MODE
-     */
-    val rocketMode: ComponentType<MinecraftUnit>
-        @JvmName("rocketMode")
-        get() = ROCKET_MODE.get()
 
     /**
      * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.

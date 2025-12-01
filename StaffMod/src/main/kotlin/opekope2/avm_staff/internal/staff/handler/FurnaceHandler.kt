@@ -74,7 +74,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (!user.canUseStaff) return
+        if (!user.canUseStaff()) return
 
         val itemToSmelt = findItemToSmelt(world, user.approximateStaffItemPosition)
             ?: findItemToSmelt(world, user.approximateStaffTipPosition)

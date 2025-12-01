@@ -36,7 +36,7 @@
           "location": {
             "position": {
               "y": {
-                "min": 320
+                "min": 325
               }
             }
           }
@@ -44,7 +44,6 @@
         "item": {
           "items": "#avm_staff:staffs",
           "components": {
-            "avm_staff:rocket_mode": {},
             "avm_staff:staff_item": {
               "item": {
                 "id": "minecraft:campfire"
@@ -61,7 +60,7 @@
           "location": {
             "position": {
               "y": {
-                "min": 320
+                "min": 325
               }
             }
           }
@@ -69,7 +68,6 @@
         "item": {
           "items": "#avm_staff:staffs",
           "components": {
-            "avm_staff:rocket_mode": {},
             "avm_staff:staff_item": {
               "item": {
                 "id": "minecraft:soul_campfire"

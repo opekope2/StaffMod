@@ -101,7 +101,7 @@ internal class TntHandler : StaffHandler() {
 
     private fun tryShootTnt(world: World, shooter: LivingEntity): ImpactTntEntity? {
         if (world.isClient) return null
-        if (!shooter.canUseStaff) return null
+        if (!shooter.canUseStaff()) return null
         if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return null
 
         val spawnPos =

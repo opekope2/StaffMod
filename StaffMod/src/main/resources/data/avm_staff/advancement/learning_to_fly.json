@@ -35,14 +35,13 @@
         "player": {
           "movement": {
             "y": {
-              "min": 5
+              "min": 10
             }
           }
         },
         "item": {
           "items": "#avm_staff:staffs",
           "components": {
-            "avm_staff:rocket_mode": {},
             "avm_staff:staff_item": {
               "item": {
                 "id": "minecraft:campfire"
@@ -58,14 +57,13 @@
         "player": {
           "movement": {
             "y": {
-              "min": 5
+              "min": 10
             }
           }
         },
         "item": {
           "items": "#avm_staff:staffs",
           "components": {
-            "avm_staff:rocket_mode": {},
             "avm_staff:staff_item": {
               "item": {
                 "id": "minecraft:soul_campfire"

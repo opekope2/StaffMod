@@ -29,12 +29,11 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.MathHelper
+import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.SoundEvents
-import opekope2.avm_staff.internal.minecraftUnit
 import opekope2.avm_staff.util.*
 
 internal class CampfireHandler(private val parameters: Parameters) : StaffHandler() {
@@ -46,24 +45,20 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        if (user.isSneaking && !user.isOnGround) {
-            staffStack[DataComponentTypes.rocketMode] = minecraftUnit
-        }
-
         user.setCurrentHand(hand)
         return TypedActionResult.consume(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (!user.canUseStaff) return
+        if (!user.canUseStaff(RaycastContext.FluidHandling.ANY)) return
 
         val forward = user.rotationVector
         val origin = user.approximateStaffTipPosition
         val relativeRight = user.getRotationVector(0f, MathHelper.wrapDegrees(user.yaw + 90f)).normalize()
         val relativeUp = relativeRight.crossProduct(forward).normalize()
-        val rocketMode = DataComponentTypes.rocketMode in staffStack
+        val applyThrust = !user.isOnGround && !user.isFallFlying && (user !is PlayerEntity || !user.abilities.flying)
 
-        if (rocketMode && !user.isInFluid) {
+        if (applyThrust) {
             user.addVelocity(forward * -parameters.rocketThrust)
             user.limitFallDistance()
         }
@@ -81,17 +76,16 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
             CampfireFlameEntity(
                 world,
                 CampfireFlameEntity.ServerParameters(
-                    origin,
+                    origin, // Added after the player -> ticked after the player -> starts to backfire over ~42.5b/s
                     forward * FLAMETHROWER_STEP_RESOLUTION.toDouble(),
                     relativeRight * FLAMETHROWER_CONE_END_WIDTH,
                     relativeUp * FLAMETHROWER_CONE_END_HEIGHT,
                     16,
-                    parameters.particleEffectSupplier.key,
+                    parameters.particle,
                     FLAMETHROWER_CONE_RAY_RESOLUTION,
                     parameters.flammableBlockFireChance,
                     parameters.nonFlammableBlockFireChance,
                     parameters.flameFireTicks,
-                    !rocketMode
                 ),
                 user
             )
@@ -101,7 +95,6 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        staffStack.remove(DataComponentTypes.rocketMode)
         (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
         (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }
