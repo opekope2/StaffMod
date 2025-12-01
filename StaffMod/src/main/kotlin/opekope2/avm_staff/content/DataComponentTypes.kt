@@ -58,7 +58,7 @@ object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.
     @JvmField
     val FURNACE_DATA = register("furnace_data") {
         ComponentType.builder<StaffFurnaceDataComponent>()
-            .packetCodec(StaffFurnaceDataComponent.NON_SYNCING_PACKET_CODEC)
+            .packetCodec(StaffFurnaceDataComponent.PACKET_CODEC)
             .build()
     }
 

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,21 +18,34 @@
 
 package opekope2.avm_staff.api.component
 
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet
+import it.unimi.dsi.fastutil.ints.IntSet
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
+import net.minecraft.network.codec.PacketCodecs
 
 /**
  * Data components to store the state of a furnace staff.
  *
- * @param burnTicks The ticks the furnace has been on for minus the items smelted. Only available server-side
+ * @param smeltedItemId         [net.minecraft.entity.ItemEntity.getId]
+ * @param unsmeltableItemIds    [net.minecraft.entity.ItemEntity.getId] of the items which cannot be smelted
+ * @param smeltTicks            The ticks elapsed since the furnace started to smelt [smeltedItemId]
  */
-data class StaffFurnaceDataComponent(var burnTicks: Int) {
+data class StaffFurnaceDataComponent(val smeltedItemId: Int, val unsmeltableItemIds: IntSet, val smeltTicks: Int) {
+    constructor(smeltedItemId: Int, smeltTicks: Int) : this(smeltedItemId, IntOpenHashSet(), smeltTicks)
+    constructor() : this(-1, 0)
+
     companion object {
         /**
-         * [PacketCodec] for [StaffFurnaceDataComponent], which doesn't sync its data.
+         * [PacketCodec] for [StaffFurnaceDataComponent].
          */
         @JvmField
-        val NON_SYNCING_PACKET_CODEC: PacketCodec<RegistryByteBuf, StaffFurnaceDataComponent> =
-            PacketCodec.of({ _, _ -> }, { StaffFurnaceDataComponent(0) })
+        val PACKET_CODEC: PacketCodec<RegistryByteBuf, StaffFurnaceDataComponent> = PacketCodec.tuple(
+            PacketCodecs.VAR_INT,
+            StaffFurnaceDataComponent::smeltedItemId,
+            PacketCodecs.VAR_INT,
+            StaffFurnaceDataComponent::smeltTicks,
+            ::StaffFurnaceDataComponent
+        )
     }
 }
