@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import opekope2.avm_staff.buildscript.GenerateI18nEnum
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
@@ -43,6 +44,15 @@ dependencies {
 }
 
 tasks {
+    val generateI18n by registering(GenerateI18nEnum::class) {
+        inputs.file(projectDir.resolve("src/main/resources/assets/avm_staff/lang/en_us.json"))
+        enumPackage = "opekope2.avm_staff.internal"
+    }
+
+    sourceSets.main {
+        kotlin.srcDirs(generateI18n)
+    }
+
     dokkaHtml {
         moduleName = "Staff Mod"
         moduleVersion = version as String
