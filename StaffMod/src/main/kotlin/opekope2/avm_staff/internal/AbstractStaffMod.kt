@@ -18,19 +18,33 @@
 
 package opekope2.avm_staff.internal
 
+import net.minecraft.enchantment.Enchantment
 import net.minecraft.item.Items.*
+import net.minecraft.loot.LootPool
+import net.minecraft.loot.LootTable
+import net.minecraft.loot.LootTables
+import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.loot.function.EnchantRandomlyLootFunction
+import net.minecraft.particle.ParticleTypes.FLAME
+import net.minecraft.particle.ParticleTypes.SOUL_FIRE_FLAME
 import net.minecraft.recipe.RecipeType
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.RegistryOps
 import net.minecraft.sound.SoundEvents.*
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.*
 import opekope2.avm_staff.internal.event_handler.EventHandlers
+import opekope2.avm_staff.internal.loot.ILootPoolBuilder
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
 import opekope2.avm_staff.internal.networking.s2c.play.MassDestructionS2CPacket
 import opekope2.avm_staff.internal.staff.handler.*
+import opekope2.avm_staff.util.MOD_ID
 import org.jetbrains.annotations.ApiStatus
 import org.jetbrains.annotations.MustBeInvokedByOverriders
+import java.util.function.Consumer
 
 @ApiStatus.Internal
 abstract class AbstractStaffMod {
@@ -58,6 +72,47 @@ abstract class AbstractStaffMod {
         Items.Tags.initialize()
         SoundEvents.register()
         StatTypes.register()
+    }
+
+    @MustBeInvokedByOverriders
+    protected open fun modifyLootTable(
+        key: RegistryKey<LootTable>,
+        addPool: (name: String) -> LootPool.Builder,
+        modifyPool: (ordinal: Int, name: String, modifier: Consumer<ILootPoolBuilder>) -> Unit,
+        ops: RegistryOps<*>
+    ) {
+        fun enchantRandomly(enchantment: RegistryKey<Enchantment>) = EnchantRandomlyLootFunction.create()
+            .option(ops.getEntryLookup(RegistryKeys.ENCHANTMENT).orElseThrow().getOrThrow(enchantment))
+
+        when (key) {
+            LootTables.ANCIENT_CITY_CHEST -> modifyPool(0, "pool0") { builder ->
+                builder.staffMod_addEntry(
+                    ItemEntry.builder(BOOK)
+                        .weight(3)
+                        .apply(enchantRandomly(Enchantments.SPECTRE))
+                )
+                builder.staffMod_addEntry(
+                    ItemEntry.builder(BOOK)
+                        .weight(3)
+                        .apply(enchantRandomly(Enchantments.RAPID_FIRE))
+                )
+            }
+
+            LootTables.BASTION_OTHER_CHEST -> modifyPool(0, "pool0") { builder ->
+                builder.staffMod_addEntry(
+                    ItemEntry.builder(BOOK)
+                        .weight(10)
+                        .apply(enchantRandomly(Enchantments.SPECTRE))
+                )
+            }
+
+            LootTables.BASTION_TREASURE_CHEST ->
+                addPool("$MOD_ID:crown_of_king_orange").with(ItemEntry.builder(Items.crownOfKingOrange))
+
+            LootTables.TRIAL_CHAMBERS_REWARD_UNIQUE_CHEST -> modifyPool(0, "main") { builder ->
+                builder.staffMod_addEntry(ItemEntry.builder(Items.staffInfusionSmithingTemplate))
+            }
+        }
     }
 
     @MustBeInvokedByOverriders
