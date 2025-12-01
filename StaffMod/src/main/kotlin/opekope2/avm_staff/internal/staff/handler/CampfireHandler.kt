@@ -58,7 +58,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         val applyThrust = !user.isOnGround && !user.isFallFlying && (user !is PlayerEntity || !user.abilities.flying)
 
         if (applyThrust) {
-            user.addVelocity(forward * -parameters.rocketThrust)
+            user.addVelocity(forward * -calculateThrust(user))
             user.limitFallDistance()
         }
 
@@ -91,6 +91,17 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         )
 
         staffStack.damage(1, user)
+    }
+
+    private fun calculateThrust(user: LivingEntity) = when {
+        !user.isSneaking -> parameters.rocketThrust
+        user.velocity.y > 0.0 -> 0.0
+        user.velocity.y < -parameters.rocketThrust -> parameters.rocketThrust
+        else -> {
+            var thrust = user.finalGravity / MathHelper.cos(parameters.rocketThrust.toFloat())
+            thrust = thrust.coerceAtMost(parameters.rocketThrust)
+            thrust
+        }
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
