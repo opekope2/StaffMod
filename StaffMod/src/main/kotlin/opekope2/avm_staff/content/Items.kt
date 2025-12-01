@@ -35,6 +35,7 @@ import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.Items.CROWN_OF_KING_ORANGE
 import opekope2.avm_staff.content.Items.FAINT_SCEPTER_OF_FRIENDSHIP
+import opekope2.avm_staff.content.Items.FAINT_SCEPTER_OF_FRIENDSHIP_HEAD
 import opekope2.avm_staff.content.Items.FAINT_STAFF_ROD
 import opekope2.avm_staff.content.Items.ROYAL_STAFF
 import opekope2.avm_staff.content.Items.ROYAL_STAFF_HEAD
@@ -167,6 +168,21 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     val faintScepterOfFriendship: Item
         @JvmName("faintScepterOfFriendship")
         get() = FAINT_SCEPTER_OF_FRIENDSHIP.get()
+
+    /**
+     * Item registered as `avm_staff:scepter_of_friendship`.
+     */
+    @JvmField
+    val FAINT_SCEPTER_OF_FRIENDSHIP_HEAD = register("faint_scepter_of_friendship_head") {
+        Item(settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+    }
+
+    /**
+     * @see FAINT_SCEPTER_OF_FRIENDSHIP_HEAD
+     */
+    val faintScepterOfFriendshipHead: Item
+        @JvmName("faintScepterOfFriendshipHead")
+        get() = FAINT_SCEPTER_OF_FRIENDSHIP_HEAD.get()
 
     /**
      * Item registered as `avm_staff:scepter_of_friendship`.
