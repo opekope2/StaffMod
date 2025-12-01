@@ -44,6 +44,7 @@
   "entity.avm_staff.impact_tnt": "Impact TNT",
   "gamerule.throwableCakes": "Throwable cakes",
   "gamerule.throwableCakes.description": "Enable throwing cakes by players and dispensers",
+  "item.avm_staff.faint_scepter_of_friendship": "Faint scepter of friendship",
   "item.avm_staff.faint_staff_rod": "Faint staff rod",
   "item.avm_staff.royal_staff": "Royal staff",
   "item.avm_staff.royal_staff.with_item": "Royal staff with %s",
