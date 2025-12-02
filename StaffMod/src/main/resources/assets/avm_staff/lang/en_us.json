@@ -74,5 +74,7 @@
   "subtitles.item.avm_staff.flamethrower.fire": "Flamethrower fires",
   "tag.item.avm_staff.enabled_in_staff.royal_staff": "Enabled items in Royal staff",
   "tag.item.avm_staff.enabled_in_staff.scepter_of_friendship": "Enabled items in Scepter of friendship",
-  "tag.item.avm_staff.staffs": "Staffs"
+  "tag.item.avm_staff.staffs": "Staffs",
+  "validation.error.avm_staff.item_count.mismatch": "Expected item count to be %s, not %s",
+  "validation.error.avm_staff.no_handler": "No staff handler registered for %s"
 }

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,6 +26,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.internal.I18n
+import opekope2.avm_staff.util.registryId
 
 /**
  * [ItemStack] wrapper to make them compatible with [ComponentType]s.
@@ -45,9 +47,16 @@ class StaffItemComponent(val item: ItemStack) {
         return ItemStack.hashCode(item)
     }
 
-    private fun validate(): DataResult<StaffItemComponent> {
-        return if (item.item in StaffHandler.Registry) DataResult.success(this)
-        else DataResult.error { "There is no staff handler registered for item ${item.item}" }
+    fun validate(): DataResult<StaffItemComponent> = when {
+        item.item !in StaffHandler.Registry -> DataResult.error {
+            I18n.VALIDATION_ERROR_AVM_STAFF_NO_HANDLER.getTranslation(item.item.registryId)
+        }
+
+        item.count != 1 -> DataResult.error(
+            I18n.VALIDATION_ERROR_AVM_STAFF_ITEM_COUNT_MISMATCH.supplyTranslation(1, item.count)
+        )
+
+        else -> DataResult.success(this)
     }
 
     companion object {

@@ -66,11 +66,11 @@ var ItemStack.mutableItemStackInStaff: ItemStack?
     set(value) {
         val changes = ComponentChanges.builder()
 
-        if (value == null || value.isEmpty) {
-            changes.remove(DataComponentTypes.staffItem)
-        } else {
-            changes.add(DataComponentTypes.staffItem, StaffItemComponent(value.copy()))
-        }
+        if (value == null || value.isEmpty) changes.remove(DataComponentTypes.staffItem)
+        else changes.add(
+            DataComponentTypes.staffItem,
+            StaffItemComponent(value.copy()).validate().getOrThrow(::IllegalArgumentException)
+        )
 
         applyChanges(changes.build())
     }
