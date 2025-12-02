@@ -22,6 +22,7 @@
     "ICakeBlockAccessor",
     "IPiglinBrainAccessor",
     "ISmithingTemplateItemAccessor",
+    "ItemStackMixin",
     "SculkShriekerBlockEntityMixin",
     "TurtleEggBlockMixin"
   ]

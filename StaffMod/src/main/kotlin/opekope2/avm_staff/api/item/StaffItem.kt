@@ -21,7 +21,6 @@ package opekope2.avm_staff.api.item
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -38,13 +37,14 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.ItemScatterer
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.util.*
+import org.jetbrains.annotations.ApiStatus
+import java.util.function.BiConsumer
 
 /**
  * Staff item dispatching functionality to [StaffHandler] without loader specific functionality.
@@ -90,7 +90,7 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) = true
 
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
-        damage(stack, 1, attacker, EquipmentSlot.MAINHAND)
+        stack.damage(1, attacker, Hand.MAIN_HAND)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
@@ -149,34 +149,23 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
         if (stack.isItemInStaff) "$translationKey.with_item"
         else super.getTranslationKey(stack)
 
-    /**
-     * Damages the staff by a specified amount, and if it breaks, it falls into pieces.
-     *
-     * @param stack     The staff item to damage
-     * @param amount    The amount of damage to deal
-     * @param holder    The entity that holds the staff
-     * @param slot      The slot the staff is in
-     */
-    fun damage(stack: ItemStack, amount: Int, holder: LivingEntity, slot: EquipmentSlot) {
-        val world = holder.world as? ServerWorld ?: return
+    @ApiStatus.Internal
+    fun breakIntoPieces(stack: ItemStack): BiConsumer<ServerWorld, ServerPlayerEntity> {
         val itemInStaff = stack.mutableItemStackInStaff
+        val lootTableId = RegistryKey.of(RegistryKeys.LOOT_TABLE, registryId.withPrefixedPath("item_break/"))
 
-        stack.damage(amount, world, holder as? ServerPlayerEntity) {
-            holder.sendEquipmentBreakStatus(it, slot)
-
-            val lootTableId = RegistryKey.of(RegistryKeys.LOOT_TABLE, it.registryId.withPrefixedPath("item_break/"))
+        return BiConsumer { world, holder ->
             val lootTable = world.server.reloadableRegistries.getLootTable(lootTableId)
             val lootParameters = LootContextParameterSet.Builder(world).build(LootContextTypes.EMPTY)
 
-            if (itemInStaff != null) giveOrDropLoot(world, holder, itemInStaff)
+            if (itemInStaff != null) giveOrDropLoot(holder, itemInStaff)
             lootTable.generateLoot(lootParameters, world.random.nextLong()) { loot ->
-                giveOrDropLoot(world, holder, loot)
+                giveOrDropLoot(holder, loot)
             }
         }
     }
 
-    private fun giveOrDropLoot(world: World, entity: Entity, stack: ItemStack) {
-        if (entity is PlayerEntity && !entity.inventory.insertStack(stack)) entity.dropItem(stack, false)
-        else ItemScatterer.spawn(world, entity.x, entity.y, entity.z, stack)
+    private fun giveOrDropLoot(player: ServerPlayerEntity, stack: ItemStack) {
+        if (!player.inventory.insertStack(stack)) player.dropItem(stack, false)
     }
 }
