@@ -23,6 +23,7 @@
     "IPiglinBrainAccessor",
     "ISmithingTemplateItemAccessor",
     "ItemStackMixin",
+    "PlayerEntityMixin",
     "SculkShriekerBlockEntityMixin",
     "TurtleEggBlockMixin"
   ]

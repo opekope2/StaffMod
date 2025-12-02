@@ -83,6 +83,8 @@ abstract class AbstractStaffModClient {
 
         StaffItemRenderer.register(DIAMOND_BLOCK, BlockStateStaffItemRenderer(Blocks.DIAMOND_BLOCK))
 
+        StaffItemRenderer.register(EMERALD_BLOCK, BlockStateStaffItemRenderer(Blocks.EMERALD_BLOCK))
+
         StaffItemRenderer.register(FURNACE, FurnaceStaffItemRenderer(Blocks.FURNACE))
         StaffItemRenderer.register(BLAST_FURNACE, FurnaceStaffItemRenderer(Blocks.BLAST_FURNACE))
         StaffItemRenderer.register(SMOKER, FurnaceStaffItemRenderer(Blocks.SMOKER))

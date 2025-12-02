@@ -149,6 +149,11 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
         if (stack.isItemInStaff) "$translationKey.with_item"
         else super.getTranslationKey(stack)
 
+    /**
+     * @see StaffHandler.getUseAction
+     */
+    override fun getUseAction(stack: ItemStack) = stack.staffHandlerOrFallback.getUseAction(stack)
+
     @ApiStatus.Internal
     fun breakIntoPieces(stack: ItemStack): BiConsumer<ServerWorld, ServerPlayerEntity> {
         val itemInStaff = stack.mutableItemStackInStaff

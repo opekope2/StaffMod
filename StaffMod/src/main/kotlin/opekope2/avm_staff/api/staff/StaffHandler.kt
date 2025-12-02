@@ -61,8 +61,17 @@ abstract class StaffHandler {
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [user] is in
      * @param user          The player, which uses the staff
+     * @see Item.getMaxUseTime
      */
     open fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity): Int = 0
+
+    /**
+     * Gets the action that happens when a player uses the staff.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @see Item.getUseAction
+     */
+    open fun getUseAction(staffStack: ItemStack): UseAction = UseAction.NONE
 
     /**
      * Called on both the client and the server by Minecraft when the player uses the staff.

@@ -24,6 +24,7 @@
           "type": "player"
         },
         "damage": {
+          "blocked": false,
           "type": {
             "tags": [
               {

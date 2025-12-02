@@ -149,6 +149,8 @@ abstract class AbstractStaffMod {
 
         StaffHandler.register(DIAMOND_BLOCK, DiamondBlockHandler())
 
+        StaffHandler.register(EMERALD_BLOCK, EmeraldBlockHandler())
+
         StaffHandler.register(FURNACE, FurnaceHandler(RecipeType.SMELTING, BLOCK_FURNACE_FIRE_CRACKLE, 1))
         StaffHandler.register(BLAST_FURNACE, FurnaceHandler(RecipeType.BLASTING, BLOCK_BLASTFURNACE_FIRE_CRACKLE, 2))
         StaffHandler.register(SMOKER, FurnaceHandler(RecipeType.SMOKING, BLOCK_SMOKER_SMOKE, 2))
