@@ -61,14 +61,23 @@ class StaffItemComponent(val item: ItemStack) {
 
     companion object {
         /**
-         * [Codec] for [StaffItemComponent].
+         * Legacy record-based [Codec] for [StaffItemComponent].
          */
-        @JvmField
-        val CODEC: Codec<StaffItemComponent> = RecordCodecBuilder.create { instance ->
+        @Deprecated("Legacy codec. For backwards compatibility only.")
+        val RECORD_CODEC: Codec<StaffItemComponent> = RecordCodecBuilder.create { instance ->
             instance.group(
                 ItemStack.VALIDATED_CODEC.fieldOf("item").forGetter(StaffItemComponent::item)
             ).apply(instance, ::StaffItemComponent)
         }
+
+        /**
+         * [Codec] for [StaffItemComponent].
+         */
+        @JvmField
+        val CODEC: Codec<StaffItemComponent> = Codec.withAlternative(
+            ItemStack.VALIDATED_CODEC.xmap(::StaffItemComponent, StaffItemComponent::item),
+            RECORD_CODEC
+        )
 
         /**
          * Validated [Codec] for [StaffItemComponent]. This only allows [item]s registered in [StaffHandler.Registry].
