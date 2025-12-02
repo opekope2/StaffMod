@@ -37,9 +37,9 @@ import opekope2.avm_staff.content.*
 import opekope2.avm_staff.internal.event_handler.EventHandlers
 import opekope2.avm_staff.internal.loot.ILootPoolBuilder
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
-import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
-import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.StaffItemInsertRemoveSwapC2SPacket
 import opekope2.avm_staff.internal.networking.s2c.play.MassDestructionS2CPacket
+import opekope2.avm_staff.internal.networking.s2c.play.StaffItemInsertRemoveSwapFeedbackS2CPacket
 import opekope2.avm_staff.internal.staff.handler.*
 import opekope2.avm_staff.util.MOD_ID
 import org.jetbrains.annotations.ApiStatus
@@ -118,10 +118,10 @@ abstract class AbstractStaffMod {
     @MustBeInvokedByOverriders
     protected open fun initializeNetworking() {
         AttackC2SPacket.registerReceiver()
-        InsertItemIntoStaffC2SPacket.registerReceiver()
-        RemoveItemFromStaffC2SPacket.registerReceiver()
+        StaffItemInsertRemoveSwapC2SPacket.registerReceiver()
 
         MassDestructionS2CPacket.registerReceiver()
+        StaffItemInsertRemoveSwapFeedbackS2CPacket.registerReceiver()
     }
 
     @MustBeInvokedByOverriders
