@@ -28,6 +28,8 @@ import net.minecraft.client.option.GraphicsMode
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.damage.DamageTypes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.nbt.NbtCompound
@@ -38,6 +40,7 @@ import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.util.hit.BlockHitResult
@@ -59,9 +62,11 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
     private var currentRelativeRight: Vec3d = Vec3d.ZERO
     private var currentRelativeUp: Vec3d = Vec3d.ZERO
 
+    private val damageType = world.registryManager[RegistryKeys.DAMAGE_TYPE].entryOf(DamageTypes.IN_FIRE)
+
     private lateinit var parameters: Parameters
 
-    private lateinit var shooter: LivingEntity
+    private val shooter: LivingEntity?
 
     private var rays: BitSet
     private inline val rayResolution: Int
@@ -70,6 +75,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
     @Deprecated("This constructor is not supported on the server")
     internal constructor(type: EntityType<*>, world: World) : super(type, world) {
         require(world.isClient) { "This constructor is not supported on the server" }
+        shooter = null
         // Leave edges unset for accurate visuals
         rays = BitSet(flameParticleRayResolution * flameParticleRayResolution).apply {
             for (i in 1 until flameParticleRayResolution - 1) {
@@ -132,7 +138,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
                 tickRayServer(start, end, parameters, entitiesToBurn, blocksToLight, blocksToSetOnFire)
             }
 
-            burnEntities(entitiesToBurn, parameters.flameFireTicks)
+            burnEntities(entitiesToBurn, parameters)
             lightBlocks(blocksToLight)
             setBlocksOnFire(blocksToSetOnFire)
         }
@@ -274,14 +280,13 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         }
     }
 
-    private fun burnEntities(entities: Set<Entity>, flameFireTicks: Int) {
+    private fun burnEntities(entities: Set<Entity>, parameters: ServerParameters) {
+        assert(shooter != null) { "shooter was null" }
+        val source = DamageSource(damageType, parameters.origin)
         for (target in entities) {
-            if (target.isOnFire) {
-                // Technically inFire, but use onFire, because it has a more fitting death message
-                target.damage(target.damageSources.onFire(), flameFireTicks.toFloat())
-            }
-            target.fireTicks = target.fireTicks.coerceAtLeast(0) + flameFireTicks + 1
-            (target as? LivingEntity)?.attacker = shooter
+            if (!target.damage(source, parameters.fireDamage)) continue
+            target.setOnFireFor(parameters.fireSeconds)
+            if (target is LivingEntity) target.attacker = shooter
         }
     }
 
@@ -308,12 +313,10 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
 
     override fun saveAdditionalSpawnData(buf: PacketByteBuf) {
         parameters.write(buf)
-        buf.writeVarInt(shooter.id)
     }
 
     override fun loadAdditionalSpawnData(buf: PacketByteBuf) {
         parameters = Parameters(buf)
-        shooter = world.getEntityById(buf.readVarInt()) as LivingEntity
     }
 
     /**
@@ -365,7 +368,8 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
      * @param particle                      The flame particle the campfire staff shoots
      * @param flammableBlockFireChance      The chance a [flammable][BlockState.isBurnable] block is set on fire
      * @param nonFlammableBlockFireChance   The chance a [non-flammable][BlockState.isBurnable] block is set on fire
-     * @param flameFireTicks                The number of ticks an entity is additionally set on fire for
+     * @param fireSeconds                   The number of seconds an entity is set on fire by the flame
+     * @param fireDamage                    The damage amount dealt to an entity by the flame
      */
     class ServerParameters(
         origin: Vec3d,
@@ -377,7 +381,8 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         val rayResolution: Int,
         val flammableBlockFireChance: Double,
         val nonFlammableBlockFireChance: Double,
-        val flameFireTicks: Int,
+        val fireSeconds: Float,
+        val fireDamage: Float,
     ) : Parameters(origin, relativeTarget, flameConeWidth, flameConeHeight, stepResolution, particle)
 
     private companion object {

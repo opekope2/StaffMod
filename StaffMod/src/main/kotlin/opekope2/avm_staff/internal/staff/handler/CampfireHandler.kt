@@ -84,7 +84,8 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
                     FLAMETHROWER_CONE_RAY_RESOLUTION,
                     parameters.flammableBlockFireChance,
                     parameters.nonFlammableBlockFireChance,
-                    parameters.flameFireTicks,
+                    parameters.fireSeconds,
+                    parameters.fireDamage,
                 ),
                 user
             )
@@ -121,7 +122,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         target: Entity,
         hand: Hand
     ): EventResult {
-        target.setOnFireFor(parameters.attackFireSeconds)
+        target.setOnFireFor(parameters.fireSeconds)
 
         (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
@@ -144,8 +145,8 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
     data class Parameters(
         val flammableBlockFireChance: Double,
         val nonFlammableBlockFireChance: Double,
-        val attackFireSeconds: Float,
-        val flameFireTicks: Int,
+        val fireSeconds: Float,
+        val fireDamage: Float,
         val rocketThrust: Double,
         val particle: SimpleParticleType
     )
