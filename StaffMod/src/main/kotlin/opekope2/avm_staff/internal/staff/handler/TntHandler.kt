@@ -34,6 +34,7 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.content.EntityTypes
+import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.util.*
 
 internal class TntHandler : StaffHandler() {
@@ -45,8 +46,13 @@ internal class TntHandler : StaffHandler() {
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        if (!staffStack.isEnchantedWith(Enchantments.DISTANT_DETONATION, world.registryManager))
+        if (!staffStack.isEnchantedWith(Enchantments.DISTANT_DETONATION, world.registryManager)) {
+            if (user is ServerPlayerEntity) overlayMessage(
+                user,
+                I18n.FEEDBACK_AVM_STAFF_REQUIRES_ENCHANTMENT.getText(I18n.ENCHANTMENT_AVM_STAFF_DISTANT_DETONATION.getText())
+            )
             return TypedActionResult.pass(staffStack)
+        }
         val tnt = tryShootTnt(world, user) ?: return TypedActionResult.pass(staffStack)
 
         staffStack[DataComponentTypes.tntData] = StaffTntDataComponent(tnt)

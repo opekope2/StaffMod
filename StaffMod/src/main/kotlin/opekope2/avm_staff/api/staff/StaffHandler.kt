@@ -29,8 +29,10 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.stat.Stats
+import net.minecraft.text.Text
 import net.minecraft.util.*
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -458,5 +460,16 @@ abstract class StaffHandler {
          * @param key The key to check
          */
         fun getValue(key: Item) = getValue(key.registryId)
+
+        /**
+         * Sends an [OverlayMessageS2CPacket] to [player].
+         *
+         * @param player    The player to send an overlay message to
+         * @param message   The message to display
+         */
+        @JvmStatic
+        fun overlayMessage(player: ServerPlayerEntity, message: Text) {
+            player.networkHandler.sendPacket(OverlayMessageS2CPacket(message))
+        }
     }
 }

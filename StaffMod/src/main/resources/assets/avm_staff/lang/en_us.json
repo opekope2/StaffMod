@@ -48,6 +48,7 @@
   "error.avm_staff.loot_table_modifier.neoforge.registry_ops_error": "Error getting RegistryOps while modifying loot table %s",
   "error.avm_staff.loot_table_modifier.survival_obtainability": "Some AvM Staff Mod items may be unobtainable in survival mode",
   "feedback.avm_staff.cooldown": "%s is on cooldown",
+  "feedback.avm_staff.requires_enchantment": "Requires %s enchantment",
   "feedback.avm_staff.handler.not_enabled": "%s cannot be used in %s",
   "feedback.avm_staff.inventory.full": "Inventory full",
   "feedback.avm_staff.inventory.stashed": "Stashed %s into inventory",

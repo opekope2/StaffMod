@@ -27,6 +27,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.Enchantments
+import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.util.*
 
 internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() {
@@ -41,7 +42,13 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
         hand: Hand
     ): TypedActionResult<ItemStack> {
         val allowsProjectileRapidFire = staffStack.isEnchantedWith(Enchantments.RAPID_FIRE, world.registryManager)
-        if (!allowsProjectileRapidFire) return TypedActionResult.pass(staffStack)
+        if (!allowsProjectileRapidFire) {
+            if (user is ServerPlayerEntity) overlayMessage(
+                user,
+                I18n.FEEDBACK_AVM_STAFF_REQUIRES_ENCHANTMENT.getText(I18n.ENCHANTMENT_AVM_STAFF_RAPID_FIRE.getText())
+            )
+            return TypedActionResult.pass(staffStack)
+        }
 
         user.setCurrentHand(hand)
         return TypedActionResult.consume(staffStack)
