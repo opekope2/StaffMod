@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -52,7 +52,7 @@ public abstract class BipedEntityModelMixin {
 
     @Inject(method = "positionLeftArm", at = @At("TAIL"))
     private void positionLeftArm(LivingEntity entity, CallbackInfo ci) {
-        if (staffMod$pointForward(leftArmPose, entity)) {
+        if (staffMod_pointForward(leftArmPose, entity)) {
             leftArm.yaw = head.yaw;
             leftArm.pitch = head.pitch - 0.5f * (float) Math.PI;
         }
@@ -60,15 +60,17 @@ public abstract class BipedEntityModelMixin {
 
     @Inject(method = "positionRightArm", at = @At("TAIL"))
     private void positionRightArm(LivingEntity entity, CallbackInfo ci) {
-        if (staffMod$pointForward(rightArmPose, entity)) {
+        if (staffMod_pointForward(rightArmPose, entity)) {
             rightArm.yaw = head.yaw;
             rightArm.pitch = head.pitch - 0.5f * (float) Math.PI;
         }
     }
 
     @Unique
-    private boolean staffMod$pointForward(BipedEntityModel.ArmPose armPose, LivingEntity entity) {
-        if (armPose != BipedEntityModel.ArmPose.ITEM) return false;
-        return ItemStackUtil.isStaff(entity.getActiveItem());
+    private boolean staffMod_pointForward(BipedEntityModel.ArmPose armPose, LivingEntity entity) {
+        return switch (armPose) {
+            case ITEM, BLOCK -> ItemStackUtil.isStaff(entity.getActiveItem());
+            default -> false;
+        };
     }
 }
