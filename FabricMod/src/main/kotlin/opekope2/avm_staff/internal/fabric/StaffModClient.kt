@@ -23,8 +23,10 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.resource.ResourceType
 import opekope2.avm_staff.content.Blocks
 import opekope2.avm_staff.internal.AbstractStaffModClient
 
@@ -36,6 +38,7 @@ object StaffModClient : AbstractStaffModClient(), ClientModInitializer {
         registerBlockRenderLayers()
         registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
         ModelLoadingPlugin.register { registerStaffItemModels(it::addModels) }
+        registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
     }
 
     private fun registerBlockRenderLayers() {
@@ -44,5 +47,11 @@ object StaffModClient : AbstractStaffModClient(), ClientModInitializer {
             Blocks.crownOfKingOrange,
             Blocks.wallCrownOfKingOrange
         )
+    }
+
+    private fun registerResourceLoaders(manager: ResourceManagerHelper) {
+        registerResourceLoaders { id, loader ->
+            manager.registerReloadListener(FabricResourceReloadListener(id, loader))
+        }
     }
 }

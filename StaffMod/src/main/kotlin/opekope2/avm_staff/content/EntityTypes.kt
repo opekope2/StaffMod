@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,9 +25,13 @@ import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.entity.ImpactTntEntity
+import opekope2.avm_staff.content.EntityTypes.CAKE
+import opekope2.avm_staff.content.EntityTypes.CAMPFIRE_FLAME
+import opekope2.avm_staff.content.EntityTypes.IMPACT_TNT
 import opekope2.avm_staff.mixin.ICakeBlockAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.TagKeyUtil
 import kotlin.math.max
 
 /**
@@ -100,4 +104,15 @@ object EntityTypes : RegistryUtil<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYP
     val impactTnt: EntityType<ImpactTntEntity>
         @JvmName("impactTnt")
         get() = IMPACT_TNT.get()
+
+    /**
+     * Entity type tags added by AVM Staffs mod.
+     */
+    object Tags : TagKeyUtil<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYPE) {
+        /**
+         * Entity tag registered as `avm_staff:defusable`.
+         */
+        @JvmField
+        val DEFUSABLE = tagKey("defusable")
+    }
 }

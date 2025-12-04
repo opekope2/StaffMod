@@ -10,7 +10,8 @@
     "BipedEntityModelMixin",
     "IMinecraftClientAccessor",
     "IParticleManagerAccessor",
-    "IParticleMixin"
+    "IParticleMixin",
+    "WorldRendererMixin"
   ],
   "mixins": [
     "AbstractFurnaceBlockEntityMixin",

@@ -26,6 +26,7 @@ import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.client.event.ModelEvent
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
 import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.internal.AbstractStaffModClient
@@ -55,5 +56,10 @@ object StaffModClient : AbstractStaffModClient() {
     @SubscribeEvent
     fun registerStaffRenderers(event: RegisterClientExtensionsEvent) {
         for (item in IStaffModClientPlatform.staffModelItems) event.registerItem(StaffRenderer, item)
+    }
+
+    @SubscribeEvent
+    fun registerResourceLoaders(event: RegisterClientReloadListenersEvent) {
+        registerResourceLoaders { _, loader -> event.registerReloadListener(loader) }
     }
 }

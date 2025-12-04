@@ -1,0 +1,14 @@
+{
+  "avm_staff:cake": {
+    "Name": "minecraft:cake"
+  },
+  "avm_staff:impact_tnt": {
+    "Name": "minecraft:tnt"
+  },
+  "minecraft:tnt": {
+    "Name": "minecraft:tnt"
+  },
+  "minecraft:wither_skull": {
+    "Name": "minecraft:wither_skeleton_skull"
+  }
+}

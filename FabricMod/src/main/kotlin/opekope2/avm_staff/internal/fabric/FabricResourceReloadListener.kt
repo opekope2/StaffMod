@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024-2025 opekope2
+ * Copyright (c) 2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,18 +16,15 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Constants")
+package opekope2.avm_staff.internal.fabric
 
-package opekope2.avm_staff.util
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
+import net.minecraft.resource.ResourceReloader
+import net.minecraft.util.Identifier
 
-/**
- * The identifier of Staff Mod.
- */
-const val MOD_ID = "avm_staff"
+internal class FabricResourceReloadListener(private val id: Identifier, private val delegate: ResourceReloader) :
+    IdentifiableResourceReloadListener, ResourceReloader by delegate {
+    override fun getFabricId() = id
 
-/**
- * Entity defused world event.
- * Also used when a cake collides and splashes.
- * Data: [net.minecraft.entity.Entity.getId]
- */
-const val ENTITY_DEFUSED_WORLD_EVENT: Int = 286782330 // AVMSTAFF0
+    override fun getName() = "${javaClass.simpleName}[${delegate.name}]"
+}

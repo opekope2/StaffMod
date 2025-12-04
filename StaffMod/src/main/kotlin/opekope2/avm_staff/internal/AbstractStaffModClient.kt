@@ -26,11 +26,13 @@ import net.minecraft.client.item.ClampedModelPredicateProvider
 import net.minecraft.client.render.entity.EmptyEntityRenderer
 import net.minecraft.client.render.entity.TntEntityRenderer
 import net.minecraft.item.Items.*
+import net.minecraft.resource.ResourceReloader
 import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.entity.renderer.CakeEntityRenderer
 import opekope2.avm_staff.api.item.renderer.BlockStateStaffItemRenderer
 import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
+import opekope2.avm_staff.api.staff.Defuse
 import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
 import opekope2.avm_staff.internal.event_handler.KeyBindingHandler
@@ -39,6 +41,7 @@ import opekope2.avm_staff.internal.staff.item_renderer.BellStaffItemRenderer
 import opekope2.avm_staff.internal.staff.item_renderer.FurnaceStaffItemRenderer
 import opekope2.avm_staff.internal.staff.item_renderer.LightningRodStaffItemRenderer
 import opekope2.avm_staff.internal.staff.item_renderer.WitherSkeletonSkullStaffItemRenderer
+import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.registryId
 import org.jetbrains.annotations.ApiStatus
 import org.jetbrains.annotations.MustBeInvokedByOverriders
@@ -135,6 +138,11 @@ abstract class AbstractStaffModClient {
             modelsToLoad.accept(itemId.withSuffixedPath("/rod_top"))
             modelsToLoad.accept(itemId.withSuffixedPath("/rod_bottom"))
         }
+    }
+
+    @MustBeInvokedByOverriders
+    protected open fun registerResourceLoaders(register: BiConsumer<Identifier, ResourceReloader>) {
+        register.accept(Identifier.of(MOD_ID, "defuse"), Defuse)
     }
 
     companion object {

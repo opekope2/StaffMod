@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "avm_staff:cake",
+    "avm_staff:campfire_flame",
+    "avm_staff:impact_tnt",
+    "minecraft:creeper",
+    "minecraft:tnt",
+    "minecraft:wither_skull"
+  ]
+}
