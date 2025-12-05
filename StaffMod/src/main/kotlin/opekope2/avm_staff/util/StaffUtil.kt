@@ -94,7 +94,7 @@ val ItemStack.staffHandlerOrFallback: StaffHandler
         null -> StaffHandler.Empty
         !in StaffHandler.Registry -> StaffHandler.Fallback
         in enabledItemsInStaffTag -> StaffHandler.Registry.getValue(itemInStaff)
-        else -> StaffHandler.Fallback
+        else -> StaffHandler.Disabled
     }
 
 private const val STAFF_MODEL_LENGTH = 40.0 / 16.0

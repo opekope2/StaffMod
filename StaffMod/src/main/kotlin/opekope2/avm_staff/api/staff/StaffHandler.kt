@@ -43,6 +43,7 @@ import opekope2.avm_staff.api.component.BlockPickupDataComponent
 import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
+import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.util.*
 import kotlin.math.roundToInt
 
@@ -345,6 +346,25 @@ abstract class StaffHandler {
     object Fallback : StaffHandler() {
         @JvmField
         val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder.default()
+    }
+
+    /**
+     * A [StaffHandler] that shows an "item cannot be used in staff" overlay message to the player trying to use it.
+     */
+    object Disabled : StaffHandler() {
+        override fun use(
+            staffStack: ItemStack,
+            world: World,
+            user: LivingEntity,
+            hand: Hand
+        ): TypedActionResult<ItemStack> {
+            val stackInStaff = staffStack.itemStackInStaff
+            if (user is ServerPlayerEntity && stackInStaff != null) overlayMessage(
+                user,
+                I18n.FEEDBACK_AVM_STAFF_HANDLER_NOT_ENABLED.getText(stackInStaff.name, staffStack.name)
+            )
+            return TypedActionResult.pass(user.getStackInHand(hand))
+        }
     }
 
     /**
