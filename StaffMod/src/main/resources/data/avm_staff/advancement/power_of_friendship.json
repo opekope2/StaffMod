@@ -1,0 +1,33 @@
+{
+  "parent": "avm_staff:infinite_power",
+  "display": {
+    "icon": {
+      "id": "avm_staff:scepter_of_friendship"
+    },
+    "title": {
+      "translate": "advancements.avm_staff.power_of_friendship.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.power_of_friendship.description",
+      "with": [
+        {
+          "translate": "item.avm_staff.scepter_of_friendship"
+        },
+        {
+          "translate": "entity.minecraft.villager"
+        }
+      ]
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "obtain_scepter": {
+      "trigger": "minecraft:villager_trade",
+      "conditions": {
+        "item": {
+          "items": "avm_staff:scepter_of_friendship"
+        }
+      }
+    }
+  }
+}

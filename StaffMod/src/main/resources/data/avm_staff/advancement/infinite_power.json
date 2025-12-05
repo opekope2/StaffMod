@@ -22,7 +22,9 @@
       ]
     },
     "frame": "goal",
-    "background": "minecraft:textures/block/smithing_table_top.png"
+    "background": "minecraft:textures/block/smithing_table_top.png",
+    "show_toast": false,
+    "announce_to_chat": false
   },
   "criteria": {
     "obtain_staff": {

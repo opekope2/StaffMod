@@ -1,0 +1,27 @@
+{
+  "parent": "avm_staff:infinite_power",
+  "display": {
+    "icon": {
+      "id": "avm_staff:royal_staff"
+    },
+    "title": {
+      "translate": "advancements.avm_staff.great_power.title"
+    },
+    "description": {
+      "translate": "advancements.avm_staff.great_power.description"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "obtain_staff": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "avm_staff:royal_staff"
+          }
+        ]
+      }
+    }
+  }
+}
