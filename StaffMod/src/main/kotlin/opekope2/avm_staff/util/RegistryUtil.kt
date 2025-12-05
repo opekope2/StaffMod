@@ -47,6 +47,5 @@ abstract class RegistryUtil<TContent>(modId: String, registry: RegistryKey<Regis
     /**
      * @suppress
      */
-    @JvmSynthetic
     internal open fun register() = deferredRegister.register()
 }
