@@ -77,6 +77,7 @@
   "item.avm_staff.staff_infusion_smithing_template.title": "Staff Infusion Template",
   "itemGroup.avm_staff_items": "Staff Mod",
   "key.avm_staff.add_remove_staff_item": "Add/remove staff item",
+  "key.avm_staff.staff_menu": "Staff menu",
   "key.categories.avm_staff": "Staff Mod",
   "stat_type.avm_staff.used_item_in_staff": "Used in Staff",
   "subtitles.entity.avm_staff.cake.splash": "Cake splashes",

@@ -38,6 +38,7 @@ import opekope2.avm_staff.internal.event_handler.EventHandlers
 import opekope2.avm_staff.internal.loot.ILootPoolBuilder
 import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 import opekope2.avm_staff.internal.networking.c2s.play.StaffItemInsertRemoveSwapC2SPacket
+import opekope2.avm_staff.internal.networking.c2s.play.StaffMenuC2SPacket
 import opekope2.avm_staff.internal.networking.s2c.play.MassDestructionS2CPacket
 import opekope2.avm_staff.internal.networking.s2c.play.StaffItemInsertRemoveSwapFeedbackS2CPacket
 import opekope2.avm_staff.internal.staff.handler.*
@@ -119,6 +120,7 @@ abstract class AbstractStaffMod {
     protected open fun initializeNetworking() {
         AttackC2SPacket.registerReceiver()
         StaffItemInsertRemoveSwapC2SPacket.registerReceiver()
+        StaffMenuC2SPacket.registerReceiver()
 
         MassDestructionS2CPacket.registerReceiver()
         StaffItemInsertRemoveSwapFeedbackS2CPacket.registerReceiver()

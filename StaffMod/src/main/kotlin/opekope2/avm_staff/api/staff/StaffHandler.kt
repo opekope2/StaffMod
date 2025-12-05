@@ -38,6 +38,7 @@ import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.internal.I18n
+import opekope2.avm_staff.internal.networking.c2s.play.StaffMenuC2SPacket
 import opekope2.avm_staff.util.*
 import kotlin.math.roundToInt
 
@@ -118,6 +119,18 @@ abstract class StaffHandler : IItemHandler {
      * @param hand          The hand of the [user], in which the [staff][staffStack] is
      */
     open fun isInvulnerableToLightning(staffStack: ItemStack, world: World, user: LivingEntity, hand: Hand) = false
+
+    /**
+     * Called on the client side by Staff Mod, when the player presses the Staff menu key.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [user] is in
+     * @param user          The player, which holds the staff
+     * @param hand          The hand of the [user], in which the [staff][staffStack] is
+     */
+    open fun openMenu(staffStack: ItemStack, world: World, user: PlayerEntity, hand: Hand) {
+        if (world.isClient) StaffMenuC2SPacket(hand).sendToServer()
+    }
 
     /**
      * Default implementation of [StaffHandler]. Used for staffs with no [registered][Registry.register] handler.

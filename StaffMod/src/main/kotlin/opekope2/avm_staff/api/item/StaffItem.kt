@@ -160,6 +160,12 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
     open fun isInvulnerableToLightning(staffStack: ItemStack, world: World, user: LivingEntity, hand: Hand) =
         staffStack.staffHandlerOrFallback.isInvulnerableToLightning(staffStack, world, user, hand)
 
+    /**
+     * @see StaffHandler.openMenu
+     */
+    open fun openMenu(staffStack: ItemStack, world: World, user: PlayerEntity, hand: Hand) =
+        staffStack.staffHandlerOrFallback.openMenu(staffStack, world, user, hand)
+
     @ApiStatus.Internal
     fun breakIntoPieces(stack: ItemStack): BiConsumer<ServerWorld, ServerPlayerEntity> {
         val itemInStaff = stack.mutableItemStackInStaff
