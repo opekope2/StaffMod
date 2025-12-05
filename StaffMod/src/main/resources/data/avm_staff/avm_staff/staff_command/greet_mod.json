@@ -1,0 +1,4 @@
+{
+  "command": "avm_staff:greet",
+  "format": "Hello %s from a mod!"
+}

@@ -72,6 +72,7 @@ abstract class AbstractStaffMod {
         Items.register()
         Items.Tags.initialize()
         SoundEvents.register()
+        StaffCommands.initialize()
         StatTypes.register()
     }
 
