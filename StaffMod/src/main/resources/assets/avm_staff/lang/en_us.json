@@ -46,6 +46,7 @@
   "entity.avm_staff.cake": "Cake",
   "entity.avm_staff.campfire_flame": "Campfire flame",
   "entity.avm_staff.impact_tnt": "Impact TNT",
+  "error.avm_staff.missing_component": "Missing %s component in item %s",
   "error.avm_staff.resource_pack.file": "Invalid %s in resource pack %s: %s",
   "error.avm_staff.loot_table_modifier.fabric.less_pools_than_expected": "Expected at least %s pools in loot table %s but got %s",
   "error.avm_staff.loot_table_modifier.fabric.non_vanilla": "Not modifying non-vanilla loot table %s",

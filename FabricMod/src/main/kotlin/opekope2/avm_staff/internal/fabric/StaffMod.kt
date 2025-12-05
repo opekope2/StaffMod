@@ -20,6 +20,7 @@ package opekope2.avm_staff.internal.fabric
 
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents
 import net.fabricmc.fabric.api.loot.v3.LootTableSource
 import net.minecraft.entity.Entity
@@ -35,6 +36,7 @@ import net.minecraft.util.dynamic.NullOps
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.api.staff.StaffCommand
 import opekope2.avm_staff.internal.AbstractStaffMod
 import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.internal.loot.ILootPoolBuilder
@@ -47,8 +49,13 @@ object StaffMod : AbstractStaffMod(), ModInitializer, AttackEntityCallback, Loot
     override fun onInitialize() {
         super.initialize()
 
+        registerDynamicRegistries()
         AttackEntityCallback.EVENT.register(this)
         LootTableEvents.MODIFY.register(this)
+    }
+
+    private fun registerDynamicRegistries() {
+        DynamicRegistries.registerSynced(StaffCommand.REGISTRY_KEY, StaffCommand.CODEC)
     }
 
     override fun interact(

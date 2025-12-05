@@ -22,14 +22,18 @@ import net.minecraft.loot.LootPool
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryOps
+import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.event.LootTableLoadEvent
+import net.neoforged.neoforge.registries.DataPackRegistryEvent
+import opekope2.avm_staff.api.staff.StaffCommand
 import opekope2.avm_staff.internal.AbstractStaffMod
 import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.internal.loot.ILootPoolBuilder
 import opekope2.avm_staff.util.MOD_ID
 import org.slf4j.LoggerFactory
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
+import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import java.util.function.Consumer
 
 @Mod(MOD_ID)
@@ -44,7 +48,13 @@ object StaffMod : AbstractStaffMod() {
     init {
         super.initialize()
 
+        MOD_BUS.register(this)
         FORGE_BUS.addListener(::modifyLootTables)
+    }
+
+    @SubscribeEvent
+    fun registerDynamicRegistries(event: DataPackRegistryEvent.NewRegistry) {
+        event.dataPackRegistry(StaffCommand.REGISTRY_KEY, StaffCommand.CODEC, StaffCommand.CODEC)
     }
 
     fun modifyLootTables(event: LootTableLoadEvent) {

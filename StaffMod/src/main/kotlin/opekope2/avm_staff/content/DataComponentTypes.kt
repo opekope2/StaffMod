@@ -20,12 +20,11 @@ package opekope2.avm_staff.content
 
 import net.minecraft.component.ComponentType
 import net.minecraft.registry.RegistryKeys
-import opekope2.avm_staff.api.component.BlockPickupDataComponent
-import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
-import opekope2.avm_staff.api.component.StaffItemComponent
-import opekope2.avm_staff.api.component.StaffTntDataComponent
+import opekope2.avm_staff.api.component.*
+import opekope2.avm_staff.api.staff.StaffCommand
 import opekope2.avm_staff.content.DataComponentTypes.BLOCK_PICKUP_DATA
 import opekope2.avm_staff.content.DataComponentTypes.FURNACE_DATA
+import opekope2.avm_staff.content.DataComponentTypes.STAFF_COMMAND
 import opekope2.avm_staff.content.DataComponentTypes.STAFF_ITEM
 import opekope2.avm_staff.content.DataComponentTypes.TNT_DATA
 import opekope2.avm_staff.util.MOD_ID
@@ -68,6 +67,23 @@ object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.
     val furnaceData: ComponentType<StaffFurnaceDataComponent>
         @JvmName("furnaceData")
         get() = FURNACE_DATA.get()
+
+    /**
+     * Data component registered as `avm_staff:staff_command`. Stores the configured command and its arguments.
+     */
+    @JvmField
+    val STAFF_COMMAND = register("staff_command") {
+        ComponentType.builder<StaffCommandComponent<*>>()
+            .codec(StaffCommandComponent.CODEC)
+            .packetCodec(StaffCommandComponent.PACKET_CODEC)
+            .build()
+    }
+
+    /**
+     * @see STAFF_COMMAND
+     */
+    fun <T : StaffCommand.IArgs> staffCommand(): ComponentType<StaffCommandComponent<T>> =
+        STAFF_COMMAND.get() as ComponentType<StaffCommandComponent<T>>
 
     /**
      * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.
