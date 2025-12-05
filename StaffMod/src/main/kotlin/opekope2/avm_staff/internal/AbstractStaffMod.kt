@@ -148,7 +148,7 @@ abstract class AbstractStaffMod {
             CampfireHandler(CampfireHandler.Parameters(10 / 20.0, 2 / 20.0, 8f, 2f, 0.12, SOUL_FIRE_FLAME))
         )
 
-        StaffHandler.register(COMMAND_BLOCK, StaffHandler.Fallback) // TODO
+        StaffHandler.register(COMMAND_BLOCK, CommandBlockHandler())
 
         StaffHandler.register(DIAMOND_BLOCK, DiamondBlockHandler())
 
