@@ -34,7 +34,7 @@ import opekope2.avm_staff.util.registryId
  *
  * @param item  The item stored in this component. Must be [copied][ItemStack.copy] before modifying it
  */
-class StaffItemComponent(val item: ItemStack) {
+data class StaffItemComponent(val item: ItemStack) {
     override fun equals(other: Any?): Boolean {
         return when {
             this === other -> true
