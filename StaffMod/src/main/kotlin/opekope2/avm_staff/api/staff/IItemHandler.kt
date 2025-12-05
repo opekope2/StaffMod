@@ -1,0 +1,254 @@
+/*
+ * AvM Staff Mod
+ * Copyright (c) 2025 opekope2
+ *
+ * This mod is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This mod is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this mod. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package opekope2.avm_staff.api.staff
+
+import dev.architectury.event.EventResult
+import net.minecraft.advancement.criterion.Criteria
+import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
+import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
+import net.minecraft.stat.Stats
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
+import net.minecraft.world.World
+import net.minecraft.world.event.GameEvent
+
+/**
+ * Base interface for [Item]-related use and attack methods for [staff handlers][StaffHandler] and
+ * [staff commands][StaffCommand].
+ */
+interface IItemHandler {
+    /**
+     * Called on both the client and the server my Minecraft to get the number of ticks the staff can be used for using
+     * the current item.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [user] is in
+     * @param user          The player, which uses the staff
+     * @see Item.getMaxUseTime
+     */
+    fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity): Int = 0
+
+    /**
+     * Called on both the client and the server by Minecraft when the player uses the staff.
+     *
+     * If the staff can be used for multiple ticks, override [getMaxUseTime] to return a positive number, and call
+     * [LivingEntity.setCurrentHand] on [user] with [hand] as the argument.
+     *
+     * @return
+     * On the logical client:
+     *
+     * - [ActionResult.SUCCESS]:
+     *   swings hand, and resets equip progress
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL]:
+     *   doesn't swing hand, and resets equip progress
+     * - [ActionResult.PASS], [ActionResult.FAIL]:
+     *   doesn't swing hand, and doesn't reset equip progress
+     *
+     * On the logical server (if used by player):
+     *
+     * - [ActionResult.SUCCESS]:
+     *   swings hand
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL], [ActionResult.PASS], [ActionResult.FAIL]:
+     *   doesn't swing hand
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [user] is in
+     * @param user          The player, which uses the staff
+     * @param hand          The hand of the [user], in which the [staff][staffStack] is
+     * @see Item.use
+     */
+    fun use(staffStack: ItemStack, world: World, user: LivingEntity, hand: Hand): TypedActionResult<ItemStack> =
+        TypedActionResult.pass(user.getStackInHand(hand))
+
+    /**
+     * Called on both the client and the server by Minecraft every tick an entity uses the staff.
+     *
+     * @param staffStack        The item stack used to perform the action
+     * @param world             The world [user] is in
+     * @param user              The entity, which uses the staff
+     * @param remainingUseTicks The number of ticks remaining before an entity finishes using the staff counting down
+     *   from [getMaxUseTime] to 0
+     * @see Item.usageTick
+     */
+    fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
+    }
+
+    /**
+     * Called on both the client and the server by Minecraft, when an entity stops using the staff before being used for
+     * [getMaxUseTime]. If that time is reached, [finishUsing] will be called.
+     *
+     * @param staffStack        The item stack used to perform the action
+     * @param world             The world the [user] is in
+     * @param user              The entity, which used the staff
+     * @param remainingUseTicks The number of ticks left until reaching [getMaxUseTime]
+     * @see Item.onStoppedUsing
+     */
+    fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
+    }
+
+    /**
+     * Called on both the client and the server by Minecraft, when an entity finishes using the staff
+     * (usage ticks reach [getMaxUseTime]).
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [user] is in
+     * @param user          The entity, which used the staff
+     * @return The item stack after using the staff
+     * @see Item.finishUsing
+     */
+    fun finishUsing(staffStack: ItemStack, world: World, user: LivingEntity) = staffStack
+
+    /**
+     * Called on both the client and the server by Minecraft, when an entity uses the staff on a block.
+     * This method may not be called, if the block handles the use event (for example, a chest).
+     *
+     * @return
+     * On the logical client:
+     *
+     * - [ActionResult.SUCCESS]:
+     *   sends a packet to the server, and swings hand
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL], [ActionResult.FAIL]:
+     *   sends a packet to the server, and doesn't swing hand
+     * - [ActionResult.PASS]:
+     *   sends a packet to the server, doesn't swing hand, then interacts with the item using [use]
+     *
+     * On the logical server (if used by player):
+     *
+     * - [ActionResult.SUCCESS]:
+     *   increments [*player used item* stat][Stats.USED], triggers
+     *   [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK], and swings hand
+     * - [ActionResult.CONSUME]:
+     *   increments [*player used item* stat][Stats.USED], triggers
+     *   [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK], and doesn't swing hand
+     * - [ActionResult.CONSUME_PARTIAL]:
+     *   doesn't increment [*player used item* stat][Stats.USED], triggers
+     *   [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK], and doesn't swing hand
+     * - [ActionResult.PASS], [ActionResult.FAIL]:
+     *   doesn't increment [*player used item* stat][Stats.USED], doesn't trigger
+     *   [*item used on block* criterion][Criteria.ITEM_USED_ON_BLOCK], and doesn't swing hand
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [user] is in
+     * @param user          The entity, which used the staff
+     * @param target        The block, on which [user] used the staff
+     * @param side          The side of the [block][target], on which the staff was used
+     * @param hand          The hand of the [user], in which the [staff][staffStack] is
+     * @see Item.useOnBlock
+     */
+    fun useOnBlock(
+        staffStack: ItemStack, world: World, user: LivingEntity, target: BlockPos, side: Direction, hand: Hand
+    ) = ActionResult.PASS
+
+    /**
+     * Called on both the client and the server by Minecraft, when an entity uses the staff on an entity.
+     * This method may not be called, if the entity handles the use event (for example, a horse).
+     * This method will not be called, if the player is in spectator mode.
+     *
+     * @return
+     * On the logical client:
+     *
+     * - [ActionResult.SUCCESS]:
+     *   sends a packet to the server, emits [*entity interact* game event][GameEvent.ENTITY_INTERACT], and swings hand
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL]:
+     *   sends a packet to the server, emits [*entity interact* game event][GameEvent.ENTITY_INTERACT], and doesn't
+     *   swing hand
+     * - [ActionResult.PASS], [ActionResult.FAIL]:
+     *   sends a packet to the server, doesn't emit [*entity interact* game event][GameEvent.ENTITY_INTERACT], doesn't
+     *   swing hand, then interacts with the item using [use]
+     *
+     * On the logical server (if used by player):
+     *
+     * - [ActionResult.SUCCESS]:
+     *   Emits [*entity interact* game event][GameEvent.ENTITY_INTERACT], triggers
+     *   [*player interacted with entity* criteria][Criteria.PLAYER_INTERACTED_WITH_ENTITY], and swings hand
+     * - [ActionResult.CONSUME], [ActionResult.CONSUME_PARTIAL]:
+     *   Emits [*entity interact* game event][GameEvent.ENTITY_INTERACT], triggers
+     *   [*player interacted with entity* criteria][Criteria.PLAYER_INTERACTED_WITH_ENTITY], and doesn't swing hand
+     * - [ActionResult.PASS], [ActionResult.FAIL]:
+     *   Doesn't emit [*entity interact* game event][GameEvent.ENTITY_INTERACT], doesn't trigger
+     *   [*player interacted with entity* criteria][Criteria.PLAYER_INTERACTED_WITH_ENTITY], and doesn't swing hand
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [user] is in
+     * @param user          The entity, which used the staff
+     * @param target        The entity, on which [user] used the staff
+     * @param hand          The hand of the [user], in which the [staff][staffStack] is
+     * @see Item.useOnEntity
+     */
+    fun useOnEntity(staffStack: ItemStack, world: World, user: LivingEntity, target: LivingEntity, hand: Hand) =
+        ActionResult.PASS
+
+    /**
+     * Called on both the client by Architectury API and the server by Staff Mod, when an entity attacks thin air with a
+     * staff.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [attacker] is in
+     * @param attacker      The entity, which attacked with the staff
+     * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
+     */
+    fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
+    }
+
+    /**
+     * Called on both the client and the server by Architectury API, when an entity attacks a block with a staff.
+     *
+     * @return
+     * - [EventResult.interruptTrue], [EventResult.interruptFalse]:
+     *   Cancels vanilla block breaking, and on a Neo/Forge logical client, sends a packet to the server.
+     * - [EventResult.interruptDefault], [EventResult.pass]:
+     *   Lets Minecraft handle vanilla block breaking.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [attacker] is in
+     * @param attacker      The entity, which attacked with the staff
+     * @param target        The block the [attacker] attacked
+     * @param side          The side of the [block][target], which was attacked
+     * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
+     * @see opekope2.avm_staff.content.Criteria.destroyBlockWithStaff
+     */
+    fun attackBlock(
+        staffStack: ItemStack, world: World, attacker: LivingEntity, target: BlockPos, side: Direction, hand: Hand
+    ): EventResult = EventResult.pass()
+
+    /**
+     * Called on both the client by Fabric/Neo/Forge API and the server by Fabric/Neo/Forge API, when an entity attacks
+     * an entity with a staff.
+     *
+     * @return
+     * - [EventResult.interrupt], [EventResult.interruptTrue], [EventResult.interruptFalse], [EventResult.interruptDefault]:
+     *   Cancels vanilla entity attack, and on the logical client, sends a packet to the server.
+     * - [EventResult.pass]:
+     *   Lets Minecraft handle vanilla entity attack.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [attacker] is in
+     * @param attacker      The entity, which attacked with the staff
+     * @param target        The entity the [attacker] attacked
+     * @param hand          The hand of the [attacker], in which the [staff][staffStack] is
+     */
+    fun attackEntity(
+        staffStack: ItemStack, world: World, attacker: LivingEntity, target: Entity, hand: Hand
+    ): EventResult = EventResult.pass()
+}
