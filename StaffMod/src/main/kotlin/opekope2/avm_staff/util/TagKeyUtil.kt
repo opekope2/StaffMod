@@ -20,6 +20,7 @@ package opekope2.avm_staff.util
 
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageType
 import net.minecraft.item.Item
@@ -78,3 +79,8 @@ operator fun TagKey<Item>.contains(item: Item) = item.registryEntry.isIn(this)
  * @see DamageSource.isIn
  */
 operator fun TagKey<DamageType>.contains(source: DamageSource) = source.isIn(this)
+
+/**
+ * @see EntityType.isIn
+ */
+operator fun TagKey<EntityType<*>>.contains(type: EntityType<*>) = type.isIn(this)

@@ -99,7 +99,7 @@ val ItemStack.staffHandlerOrFallback: StaffHandler
 
 private const val STAFF_MODEL_LENGTH = 40.0 / 16.0
 private const val STAFF_MODEL_ITEM_POSITION_CENTER = 33.5 / 16.0
-private const val STAFF_MODEL_SCALE = 0.85
+const val STAFF_MODEL_SCALE = 0.85
 
 /**
  * Gets the approximate position of the staff's tip, when held by an entity.

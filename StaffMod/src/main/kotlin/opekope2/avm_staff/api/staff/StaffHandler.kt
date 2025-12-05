@@ -329,6 +329,17 @@ abstract class StaffHandler {
     ) = oldStaffStack != newStaffStack
 
     /**
+     * Returns if the staff's user is immune to lightning strikes while using the staff.
+     * Called on both the client and the server by Staff Mod.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @param world         The world the [user] is in
+     * @param user          The player, which holds the staff
+     * @param hand          The hand of the [user], in which the [staff][staffStack] is
+     */
+    open fun isInvulnerableToLightning(staffStack: ItemStack, world: World, user: LivingEntity, hand: Hand) = false
+
+    /**
      * Default implementation of [StaffHandler]. Used for staffs with no [registered][Registry.register] handler.
      */
     object Fallback : StaffHandler() {
