@@ -124,7 +124,7 @@ class ImpactTntEntity(entityType: EntityType<ImpactTntEntity>, world: World) : T
             return
         }
 
-        val colliders = EntityPredicates.EXCEPT_SPECTATOR.and(EntityPredicates.VALID_ENTITY)
+        val colliders = EntityPredicates.EXCEPT_SPECTATOR.and(EntityPredicates.VALID_ENTITY).and { !it.noClip }
         val collisions = world.getOtherEntities(this, boundingBox, colliders)
         for (collider in collisions) {
             if (collider is ImpactTntEntity) {
