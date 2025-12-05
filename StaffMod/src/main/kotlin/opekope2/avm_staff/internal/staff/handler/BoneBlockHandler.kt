@@ -40,7 +40,7 @@ import opekope2.avm_staff.util.*
 internal class BoneBlockHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(5.0), AttributeModifierSlot.MAINHAND)
-        .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
         .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
         .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
         .build()

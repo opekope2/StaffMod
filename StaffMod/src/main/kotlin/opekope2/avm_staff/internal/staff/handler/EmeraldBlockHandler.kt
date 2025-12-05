@@ -37,8 +37,12 @@ import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.util.*
 
 internal class EmeraldBlockHandler : StaffHandler() {
-    override val attributeModifiers: AttributeModifiersComponent
-        get() = super.attributeModifiers
+    override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(18.0), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
+        .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
+        .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
+        .build()
 
     override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
 
