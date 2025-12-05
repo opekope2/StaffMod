@@ -16,16 +16,12 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.mixin;
+package opekope2.avm_staff.mixin.fabric;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import opekope2.avm_staff.util.ItemStackUtil;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,27 +34,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     }
 
     @ModifyExpressionValue(
-            method = "takeShieldHit",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;disablesShield()Z")
-    )
-    boolean doNotDisableShieldWhenBlockingWithStaff(boolean original) {
-        return original && !ItemStackUtil.isStaff(activeItemStack);
-    }
-
-    // When a staff breaks, it falls into pieces. Make sure not to erase any newly added item.
-    @WrapOperation(
             method = "damageShield",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/entity/player/PlayerEntity;equipStack(Lnet/minecraft/entity/EquipmentSlot;Lnet/minecraft/item/ItemStack;)V"
-            )
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z")
     )
-    void equipCorrectStack(PlayerEntity instance, EquipmentSlot slot, ItemStack stack, Operation<Void> original) {
-        stack = switch (slot) {
-            case MAINHAND -> getMainHandStack();
-            case OFFHAND -> getOffHandStack();
-            default -> stack;
-        };
-        original.call(instance, slot, stack);
+    boolean damageStaff(boolean original) {
+        return original || ItemStackUtil.isStaff(activeItemStack);
     }
 }

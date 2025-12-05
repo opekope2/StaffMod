@@ -7,7 +7,9 @@
     "defaultRequire": 1
   },
   "mixins": [
+    "ItemStackMixin",
     "LivingEntityMixin",
-    "PiglinBrainMixin"
+    "PiglinBrainMixin",
+    "PlayerEntityMixin"
   ]
 }

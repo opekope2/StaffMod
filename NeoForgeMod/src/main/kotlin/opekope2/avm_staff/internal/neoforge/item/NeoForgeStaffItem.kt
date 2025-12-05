@@ -25,10 +25,14 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
+import net.minecraft.util.UseAction
 import net.neoforged.api.distmarker.Dist
+import net.neoforged.neoforge.common.ItemAbilities
+import net.neoforged.neoforge.common.ItemAbility
 import net.neoforged.neoforge.common.extensions.IItemExtension
 import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.util.isStaff
 import opekope2.avm_staff.util.staffHandlerOrFallback
 import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
 
@@ -51,6 +55,9 @@ class NeoForgeStaffItem(settings: Item.Settings, repairIngredientSupplier: Regis
         if (stack === entity.getStackInHand(Hand.MAIN_HAND)) Hand.MAIN_HAND
         else Hand.OFF_HAND
     )
+
+    override fun canPerformAction(stack: ItemStack, itemAbility: ItemAbility) =
+        itemAbility == ItemAbilities.SHIELD_BLOCK && stack.isStaff && (stack.item as StaffItem).getUseAction(stack) == UseAction.BLOCK
 
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity) =
         attackEntity(stack, player.entityWorld, player, entity, Hand.MAIN_HAND).interruptsFurtherEvaluation()
