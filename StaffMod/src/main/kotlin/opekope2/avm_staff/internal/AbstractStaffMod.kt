@@ -28,6 +28,7 @@ import net.minecraft.loot.function.EnchantRandomlyLootFunction
 import net.minecraft.particle.ParticleTypes.FLAME
 import net.minecraft.particle.ParticleTypes.SOUL_FIRE_FLAME
 import net.minecraft.recipe.RecipeType
+import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryOps
@@ -41,6 +42,8 @@ import opekope2.avm_staff.internal.networking.c2s.play.StaffItemInsertRemoveSwap
 import opekope2.avm_staff.internal.networking.c2s.play.StaffMenuC2SPacket
 import opekope2.avm_staff.internal.networking.s2c.play.MassDestructionS2CPacket
 import opekope2.avm_staff.internal.networking.s2c.play.StaffItemInsertRemoveSwapFeedbackS2CPacket
+import opekope2.avm_staff.internal.staff.command.GreetCommand
+import opekope2.avm_staff.internal.staff.command.NoOpCommand
 import opekope2.avm_staff.internal.staff.handler.*
 import opekope2.avm_staff.util.MOD_ID
 import org.jetbrains.annotations.ApiStatus
@@ -55,6 +58,7 @@ abstract class AbstractStaffMod {
         registerContent()
         initializeNetworking()
         registerStaffHandlers()
+        registerStaffCommands()
         EventHandlers.initialize()
     }
 
@@ -72,7 +76,6 @@ abstract class AbstractStaffMod {
         Items.register()
         Items.Tags.initialize()
         SoundEvents.register()
-        StaffCommands.initialize()
         StatTypes.register()
     }
 
@@ -188,6 +191,12 @@ abstract class AbstractStaffMod {
         StaffHandler.register(GREEN_WOOL, WoolHandler(GREEN_WOOL, GREEN_CARPET))
         StaffHandler.register(RED_WOOL, WoolHandler(RED_WOOL, RED_CARPET))
         StaffHandler.register(BLACK_WOOL, WoolHandler(BLACK_WOOL, BLACK_CARPET))
+    }
+
+    @MustBeInvokedByOverriders
+    protected open fun registerStaffCommands() {
+        Registry.register(StaffCommand.Type.REGISTRY, Identifier.of(MOD_ID, "no_op"), NoOpCommand.type)
+        Registry.register(StaffCommand.Type.REGISTRY, Identifier.of(MOD_ID, "greet"), GreetCommand.TYPE)
     }
 
     companion object {
