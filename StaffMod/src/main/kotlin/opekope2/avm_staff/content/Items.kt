@@ -39,8 +39,8 @@ import opekope2.avm_staff.content.Items.FAINT_SCEPTER_OF_FRIENDSHIP_HEAD
 import opekope2.avm_staff.content.Items.FAINT_STAFF_ROD
 import opekope2.avm_staff.content.Items.ROYAL_STAFF
 import opekope2.avm_staff.content.Items.ROYAL_STAFF_HEAD
-import opekope2.avm_staff.content.Items.ROYAL_STAFF_INGREDIENT
 import opekope2.avm_staff.content.Items.ROYAL_STAFF_ROD
+import opekope2.avm_staff.content.Items.ROYAL_STAFF_SCRAP
 import opekope2.avm_staff.content.Items.SCEPTER_OF_FRIENDSHIP
 import opekope2.avm_staff.content.Items.STAFF_INFUSION_SMITHING_TEMPLATE
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
@@ -127,7 +127,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
             settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Fallback.ATTRIBUTE_MODIFIERS)
                 .maxDamage(5179).component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 1))
                 .`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
-            ROYAL_STAFF_INGREDIENT
+            ROYAL_STAFF_SCRAP
         )
     }
 
@@ -142,16 +142,16 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
      * Item registered as `avm_staff:royal_staff_ingredient`.
      */
     @JvmField
-    val ROYAL_STAFF_INGREDIENT = register("royal_staff_ingredient") {
+    val ROYAL_STAFF_SCRAP = register("royal_staff_ingredient") {
         Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
     }
 
     /**
-     * @see ROYAL_STAFF_INGREDIENT
+     * @see ROYAL_STAFF_SCRAP
      */
-    val royalStaffIngredient: Item
-        @JvmName("royalStaffIngredient")
-        get() = ROYAL_STAFF_INGREDIENT.get()
+    val royalStaffScrap: Item
+        @JvmName("royalStaffScrap")
+        get() = ROYAL_STAFF_SCRAP.get()
 
     /**
      * Item registered as `avm_staff:scepter_of_friendship`.
@@ -238,7 +238,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
         // Because SmithingTemplateItem doesn't take Item.Settings in its constructor
         CreativeTabRegistry.append(ItemGroups.AVM_STAFF_MOD_ITEMS, STAFF_INFUSION_SMITHING_TEMPLATE)
         // Because arch$tab only allows one tab
-        CreativeTabRegistry.append(INGREDIENTS, ROYAL_STAFF_INGREDIENT)
+        CreativeTabRegistry.append(INGREDIENTS, ROYAL_STAFF_SCRAP)
         CreativeTabRegistry.append(INGREDIENTS, STAFF_INFUSION_SMITHING_TEMPLATE)
     }
 
