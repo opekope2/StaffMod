@@ -112,6 +112,10 @@ abstract class AbstractStaffMod {
             LootTables.TRIAL_CHAMBERS_REWARD_UNIQUE_CHEST -> modifyPool(0, "main") { builder ->
                 builder.staffMod_addEntry(ItemEntry.builder(Items.staffInfusionSmithingTemplate))
             }
+
+            LootTables.TRAIL_RUINS_RARE_ARCHAEOLOGY -> modifyPool(0, "main") { builder ->
+                builder.staffMod_addEntry(ItemEntry.builder(Items.scepterOfFriendshipIngredient))
+            }
         }
     }
 

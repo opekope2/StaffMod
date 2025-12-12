@@ -42,6 +42,7 @@ import opekope2.avm_staff.content.Items.ROYAL_STAFF_HEAD
 import opekope2.avm_staff.content.Items.ROYAL_STAFF_ROD
 import opekope2.avm_staff.content.Items.ROYAL_STAFF_SCRAP
 import opekope2.avm_staff.content.Items.SCEPTER_OF_FRIENDSHIP
+import opekope2.avm_staff.content.Items.SCEPTER_OF_FRIENDSHIP_SCRAP
 import opekope2.avm_staff.content.Items.STAFF_INFUSION_SMITHING_TEMPLATE
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
@@ -197,7 +198,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
                 .maxDamage(5179)
                 .component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 1))
                 .`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
-            null // TODO
+            SCEPTER_OF_FRIENDSHIP_SCRAP
         )
     }
 
@@ -207,6 +208,21 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
     val scepterOfFriendship: StaffItem
         @JvmName("scepterOfFriendship")
         get() = SCEPTER_OF_FRIENDSHIP.get()
+
+    /**
+     * Item registered as `avm_staff:scepter_of_friendship_ingredient`.
+     */
+    @JvmField
+    val SCEPTER_OF_FRIENDSHIP_SCRAP = register("scepter_of_friendship_ingredient") {
+        Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+    }
+
+    /**
+     * @see SCEPTER_OF_FRIENDSHIP_SCRAP
+     */
+    val scepterOfFriendshipIngredient: Item
+        @JvmName("scepterOfFriendshipScrap")
+        get() = SCEPTER_OF_FRIENDSHIP_SCRAP.get()
 
     /**
      * Item registered as `avm_staff:staff_infusion_smithing_template`.
@@ -239,6 +255,7 @@ object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
         CreativeTabRegistry.append(ItemGroups.AVM_STAFF_MOD_ITEMS, STAFF_INFUSION_SMITHING_TEMPLATE)
         // Because arch$tab only allows one tab
         CreativeTabRegistry.append(INGREDIENTS, ROYAL_STAFF_SCRAP)
+        CreativeTabRegistry.append(INGREDIENTS, SCEPTER_OF_FRIENDSHIP_SCRAP)
         CreativeTabRegistry.append(INGREDIENTS, STAFF_INFUSION_SMITHING_TEMPLATE)
     }
 
