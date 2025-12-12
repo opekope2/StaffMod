@@ -22,8 +22,11 @@ import net.minecraft.loot.LootPool
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryOps
+import net.minecraft.village.VillagerProfession
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.event.LootTableLoadEvent
+import net.neoforged.neoforge.event.village.VillagerTradesEvent
+import opekope2.avm_staff.content.VillagerTrades
 import opekope2.avm_staff.internal.AbstractStaffMod
 import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.internal.loot.ILootPoolBuilder
@@ -44,7 +47,21 @@ object StaffMod : AbstractStaffMod() {
     init {
         super.initialize()
 
+        FORGE_BUS.addListener(::registerVillagerTrades)
         FORGE_BUS.addListener(::modifyLootTables)
+    }
+
+    fun registerVillagerTrades(event: VillagerTradesEvent) {
+        when (event.type) {
+            VillagerProfession.ARMORER -> {
+                event.trades.get(4) += VillagerTrades.armorer4_faintScepterOfFriendshipHead
+                event.trades.get(5) += VillagerTrades.armorer5_faintScepterOfFriendship
+            }
+
+            VillagerProfession.CLERIC -> {
+                event.trades.get(5) += VillagerTrades.cleric5_scepterOfFriendship
+            }
+        }
     }
 
     fun modifyLootTables(event: LootTableLoadEvent) {
