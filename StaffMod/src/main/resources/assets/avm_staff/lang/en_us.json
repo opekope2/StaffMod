@@ -43,6 +43,8 @@
   "enchantment.avm_staff.rapid_fire.desc": "Fire projectiles quicker from a Staff",
   "enchantment.avm_staff.spectre": "Spectre",
   "enchantment.avm_staff.spectre.desc": "Inflict Glowing to the attacked entity when attacking using a Staff with Bell",
+  "enchantment.avm_staff.cohesion": "Cohesion",
+  "enchantment.avm_staff.cohesion.desc": "Increase the minimum number of staff scraps when breaking",
   "entity.avm_staff.cake": "Cake",
   "entity.avm_staff.campfire_flame": "Campfire flame",
   "entity.avm_staff.impact_tnt": "Impact TNT",

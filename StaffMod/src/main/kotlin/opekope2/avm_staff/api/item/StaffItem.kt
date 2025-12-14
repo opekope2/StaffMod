@@ -29,6 +29,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.loot.context.LootContextParameterSet
+import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
@@ -42,6 +43,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.util.*
 import org.jetbrains.annotations.ApiStatus
 import java.util.function.BiConsumer
@@ -164,10 +166,15 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
     fun breakIntoPieces(stack: ItemStack): BiConsumer<ServerWorld, ServerPlayerEntity> {
         val itemInStaff = stack.mutableItemStackInStaff
         val lootTableId = RegistryKey.of(RegistryKeys.LOOT_TABLE, registryId.withPrefixedPath("item_break/"))
+        val preBreakStaff = stack.copy()
 
         return BiConsumer { world, holder ->
+            val cohesion = preBreakStaff.getEnchantmentLevel(Enchantments.COHESION, world.registryManager)
             val lootTable = world.server.reloadableRegistries.getLootTable(lootTableId)
-            val lootParameters = LootContextParameterSet.Builder(world).build(LootContextTypes.EMPTY)
+            val lootParameters = LootContextParameterSet.Builder(world)
+                .add(LootContextParameters.TOOL, preBreakStaff)
+                .add(LootContextParameters.ENCHANTMENT_LEVEL, cohesion)
+                .build(LootContextTypes.ENCHANTED_ITEM)
 
             if (itemInStaff != null) giveOrDropLoot(holder, itemInStaff)
             lootTable.generateLoot(lootParameters, world.random.nextLong()) { loot ->
