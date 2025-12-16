@@ -98,14 +98,6 @@ abstract class AbstractStaffMod {
                 )
             }
 
-            LootTables.BASTION_OTHER_CHEST -> modifyPool(0, "pool0") { builder ->
-                builder.staffMod_addEntry(
-                    ItemEntry.builder(BOOK)
-                        .weight(10)
-                        .apply(enchantRandomly(Enchantments.SPECTRE))
-                )
-            }
-
             LootTables.BASTION_TREASURE_CHEST ->
                 addPool("$MOD_ID:crown_of_king_orange").with(ItemEntry.builder(Items.crownOfKingOrange))
 

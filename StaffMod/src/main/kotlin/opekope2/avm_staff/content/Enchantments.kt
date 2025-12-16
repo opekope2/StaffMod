@@ -43,9 +43,6 @@ object Enchantments : RegistryKeyUtil<Enchantment>(MOD_ID, RegistryKeys.ENCHANTM
     @JvmField
     val RAPID_FIRE = registryKey("rapid_fire")
 
-    @JvmField
-    val SPECTRE = registryKey("spectre")
-
     /**
      * Enchantment tags added by AVM Staffs mod.
      */
