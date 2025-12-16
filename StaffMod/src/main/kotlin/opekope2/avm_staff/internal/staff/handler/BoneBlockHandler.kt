@@ -61,8 +61,7 @@ internal class BoneBlockHandler : StaffHandler() {
             } else ActionResult.PASS
         }
 
-        val range =
-            0.5 + staffStack.getEnchantmentLevel(Enchantments.EFFICIENCY, world.registryManager).coerceAtMost(5) / 2.0
+        val range = 0.5 + staffStack.getEnchantmentLevel(Enchantments.EFFICIENCY, world.registryManager) / 2.0
         val rangeSquare = range * range
         var uses = 0
 
