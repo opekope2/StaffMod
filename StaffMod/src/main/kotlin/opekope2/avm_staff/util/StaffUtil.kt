@@ -64,6 +64,8 @@ val ItemStack.itemStackInStaff: ItemStack?
 var ItemStack.mutableItemStackInStaff: ItemStack?
     get() = itemStackInStaff?.copy()
     set(value) {
+        staffHandlerOrFallback.beforeRemove(this)
+
         val changes = ComponentChanges.builder()
 
         if (value == null || value.isEmpty) changes.remove(DataComponentTypes.staffItem)
@@ -73,6 +75,8 @@ var ItemStack.mutableItemStackInStaff: ItemStack?
         )
 
         applyChanges(changes.build())
+
+        staffHandlerOrFallback.afterInsert(this)
     }
 
 private val staff2enabledItemsTag = mutableMapOf<Item, TagKey<Item>>()

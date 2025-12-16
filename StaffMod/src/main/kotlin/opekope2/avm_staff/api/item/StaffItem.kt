@@ -151,6 +151,10 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
         if (stack.isItemInStaff) "$translationKey.with_item"
         else super.getTranslationKey(stack)
 
+    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
+        stack.staffHandlerOrFallback.tick(stack, world, entity, slot, selected)
+    }
+
     /**
      * @see StaffHandler.getUseAction
      */

@@ -58,6 +58,24 @@ abstract class StaffHandler {
         get() = Fallback.ATTRIBUTE_MODIFIERS
 
     /**
+     * Called by Staff Mod before an item with this staff handler is removed from [staffStack] using
+     * [mutableItemStackInStaff].
+     *
+     * @param staffStack    The item stack of the staff
+     */
+    open fun beforeRemove(staffStack: ItemStack) {
+    }
+
+    /**
+     * Called by Staff Mod after an item with this staff handler is inserted into [staffStack] using
+     * [mutableItemStackInStaff].
+     *
+     * @param staffStack    The item stack of the staff
+     */
+    open fun afterInsert(staffStack: ItemStack) {
+    }
+
+    /**
      * Called on both the client and the server my Minecraft to get the number of ticks the staff can be used for using
      * the current item.
      *
@@ -303,6 +321,18 @@ abstract class StaffHandler {
     open fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) = false
 
     /**
+     * Called on both the client and the server by Minecraft every tick [staffStack] is in a player's inventory.
+     *
+     * @param staffStack    The item stack of the staff
+     * @param world         The world [holder] is in
+     * @param holder        The entity holding the staff
+     * @param slot          The slot [staffStack] is in
+     * @param selected      Whether [staffStack] is in the selected hotbar slot
+     */
+    open fun tick(staffStack: ItemStack, world: World, holder: Entity, slot: Int, selected: Boolean) {
+    }
+
+    /**
      * Called on the client side by Fabric API, when the NBT of the held item gets updated.
      *
      * @param oldStaffStack The previous item stack
@@ -333,7 +363,7 @@ abstract class StaffHandler {
      * Returns if the staff's user is immune to lightning strikes while using the staff.
      * Called on both the client and the server by Staff Mod.
      *
-     * @param staffStack    The item stack used to perform the action
+     * @param staffStack    The item stack of the staff
      * @param world         The world the [user] is in
      * @param user          The player, which holds the staff
      * @param hand          The hand of the [user], in which the [staff][staffStack] is
