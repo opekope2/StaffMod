@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -31,4 +31,12 @@ object GameRules {
     @JvmField
     val THROWABLE_CAKES: GameRules.Key<GameRules.BooleanRule> =
         GameRules.register("throwableCakes", GameRules.Category.MISC, GameRules.BooleanRule.create(false))
+
+    /**
+     * Bell Staff ESP rule. When set to true, bell staff will apply the glowing effect to all living entities in a smaller
+     * range.
+     */
+    @JvmField
+    val BELL_STAFF_ESP: GameRules.Key<GameRules.BooleanRule> =
+        GameRules.register("bellStaffEsp", GameRules.Category.MISC, GameRules.BooleanRule.create(false))
 }
