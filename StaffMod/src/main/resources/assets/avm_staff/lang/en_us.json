@@ -57,6 +57,7 @@
   "feedback.avm_staff.handler.not_enabled": "%s cannot be used in %s",
   "feedback.avm_staff.inventory.full": "Inventory full",
   "feedback.avm_staff.inventory.stashed": "Stashed %s into inventory",
+  "feedback.avm_staff.smelting": "Smelting %s (%s)",
   "gamerule.throwableCakes": "Throwable cakes",
   "gamerule.throwableCakes.description": "Enable throwing cakes by players and dispensers",
   "item.avm_staff.faint_scepter_of_friendship": "Faint scepter of friendship",

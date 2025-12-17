@@ -21,6 +21,7 @@ package opekope2.avm_staff.internal.staff.handler
 import it.unimi.dsi.fastutil.ints.IntSet
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.SharedConstants
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
@@ -46,9 +47,11 @@ import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.DataComponentTypes
+import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityAccessor
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
+import kotlin.math.round
 
 internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     private val recipeType: RecipeType<TRecipe>,
@@ -83,7 +86,17 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         var itemToSmelt = world.getEntityById(furnaceData.smeltedItemId) as? ItemEntity
 
         if (world.isClient) {
-            playSmeltingEffects(world, itemToSmelt ?: return)
+            if (itemToSmelt == null) return
+
+            val stackToSmelt = itemToSmelt.stack
+            val remainingSeconds =
+                (stackToSmelt.count - furnaceData.smeltTicks).toFloat() / speed / SharedConstants.TICKS_PER_SECOND
+            inGameHud.setOverlayMessage(
+                I18n.FEEDBACK_AVM_STAFF_SMELTING.getText(stackToSmelt.name, round(remainingSeconds * 10f) / 10f),
+                false
+            )
+            playSmeltingEffects(world, itemToSmelt)
+
             return
         }
 
