@@ -20,10 +20,8 @@ package opekope2.avm_staff.content
 
 import net.minecraft.component.ComponentType
 import net.minecraft.registry.RegistryKeys
-import opekope2.avm_staff.api.component.BlockPickupDataComponent
-import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
-import opekope2.avm_staff.api.component.StaffItemComponent
-import opekope2.avm_staff.api.component.StaffTntDataComponent
+import opekope2.avm_staff.api.component.*
+import opekope2.avm_staff.content.DataComponentTypes.BELL_DATA
 import opekope2.avm_staff.content.DataComponentTypes.BLOCK_PICKUP_DATA
 import opekope2.avm_staff.content.DataComponentTypes.FURNACE_DATA
 import opekope2.avm_staff.content.DataComponentTypes.STAFF_ITEM
@@ -35,6 +33,23 @@ import opekope2.avm_staff.util.RegistryUtil
  * Component types added by AVM Staffs mod.
  */
 object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE) {
+    /**
+     * Data component registered as `avm_staff:bell_data`.
+     */
+    @JvmField
+    val BELL_DATA = register("bell_data") {
+        ComponentType.builder<StaffBellDataComponent>()
+            .packetCodec(StaffBellDataComponent.PACKET_CODEC)
+            .build()
+    }
+
+    /**
+     * @see BELL_DATA
+     */
+    val bellData: ComponentType<StaffBellDataComponent>
+        @JvmName("bellData")
+        get() = BELL_DATA.get()
+
     /**
      * Data component registered as `avm_staff:block_pickup_data`.
      */

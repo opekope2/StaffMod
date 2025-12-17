@@ -19,7 +19,6 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
-import net.minecraft.SharedConstants
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.Entity
@@ -31,16 +30,18 @@ import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.registry.tag.EntityTypeTags
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import opekope2.avm_staff.api.component.StaffBellDataComponent
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.GameRules
 import opekope2.avm_staff.mixin.IBellBlockEntityAccessor
 import opekope2.avm_staff.util.*
@@ -54,15 +55,19 @@ internal class BellHandler : StaffHandler() {
         .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
         .build()
 
+    override fun beforeRemove(staffStack: ItemStack) {
+        staffStack.remove(DataComponentTypes.bellData)
+    }
+
     override fun use(
         staffStack: ItemStack,
         world: World,
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        world.playSound(user, user.blockPos, SoundEvents.BLOCK_BELL_USE, SoundCategory.BLOCKS, 2f, 1f)
+        ring(world, user)
 
-        if (!world.isClient) BellBehavior.get(world).use(staffStack, world, user)
+        if (!world.isClient) BellBehavior.get(world).ring(staffStack, world, user)
 
         return TypedActionResult.success(staffStack)
     }
@@ -74,55 +79,94 @@ internal class BellHandler : StaffHandler() {
         target: Entity,
         hand: Hand
     ): EventResult {
-        world.playSound(
-            target as? PlayerEntity,
-            target.blockPos,
-            SoundEvents.BLOCK_BELL_USE,
-            attacker.soundCategory,
-            2f,
-            1f
-        )
-        if (!world.isClient && target is LivingEntity) BellBehavior.ESP.applyGlow(attacker, world, target)
+        ring(world, target)
+        if (!world.isClient && target is LivingEntity) applyGlow(target)
 
         (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
         return EventResult.pass()
     }
 
-    private enum class BellBehavior {
-        RAID {
-            override fun getVolumeRadius(efficiency: Int) = 8.0 * (1 + efficiency)
+    override fun tick(staffStack: ItemStack, world: World, holder: Entity, slot: Int, selected: Boolean) {
+        if (world.isClient) return
+        if (holder !is LivingEntity) return
 
-            override fun applyGlow(user: LivingEntity, world: World, entity: LivingEntity) =
-                if (!IBellBlockEntityAccessor.callIsRaiderEntity(user.blockPos, entity)) false
-                else super.applyGlow(user, world, entity)
+        val bellData = staffStack[DataComponentTypes.bellData] ?: return
+
+        if (world.time >= bellData.applyGlowTime) {
+            BellBehavior.get(world).applyGlow(staffStack, world, holder)
+            staffStack.remove(DataComponentTypes.bellData)
+        }
+    }
+
+    override fun allowComponentsUpdateAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        player: PlayerEntity,
+        hand: Hand
+    ) = false
+
+    override fun allowReequipAnimation(
+        oldStaffStack: ItemStack,
+        newStaffStack: ItemStack,
+        selectedSlotChanged: Boolean
+    ) = selectedSlotChanged
+
+    private enum class BellBehavior(private val baseRadius: Double) {
+        RAID(8.0) {
+            override fun canApplyGlow(user: LivingEntity, target: LivingEntity) = target.type in EntityTypeTags.RAIDERS
         },
-        ESP {
-            override fun getVolumeRadius(efficiency: Int) = 2.0 * (1 + efficiency)
-        };
+        ESP(2.0);
 
-        abstract fun getVolumeRadius(efficiency: Int): Double
+        private fun getRadius(efficiency: Int) = baseRadius * (1 + efficiency)
 
-        open fun applyGlow(user: LivingEntity, world: World, entity: LivingEntity): Boolean {
-            entity.addStatusEffect(StatusEffectInstance(StatusEffects.GLOWING, 3 * SharedConstants.TICKS_PER_SECOND))
+        private fun getHearingEntities(
+            staffStack: ItemStack,
+            world: World,
+            user: LivingEntity
+        ): MutableList<LivingEntity> {
+            val efficiency = staffStack.getEnchantmentLevel(Enchantments.EFFICIENCY, world.registryManager)
+            val radius = getRadius(efficiency)
+            val box = Box(user.blockPos).expand(radius)
+            val predicate = entityPredicate.and(EntityPredicates.maxDistance(user.x, user.y, user.z, radius))
+            val hearingEntities = world.getEntitiesByClass(LivingEntity::class.java, box, predicate)
+            return hearingEntities
+        }
+
+        fun ring(staffStack: ItemStack, world: World, user: LivingEntity) {
+            val hearingEntities = getHearingEntities(staffStack, world, user)
+
+            var resonate = false
+            val hearDistance = IBellBlockEntityAccessor.maxBellHearingDistance().toDouble()
+            for (entity in hearingEntities) {
+                if (user.blockPos.isWithinDistance(entity.pos, hearDistance))
+                    entity.brain.remember(MemoryModuleType.HEARD_BELL_TIME, world.time)
+                resonate = resonate || canApplyGlow(user, entity)
+            }
+            if (resonate) {
+                if (DataComponentTypes.bellData !in staffStack) world.playSound(
+                    null,
+                    user.blockPos,
+                    SoundEvents.BLOCK_BELL_RESONATE,
+                    user.soundCategory,
+                    1.0f,
+                    1.0f
+                )
+                staffStack[DataComponentTypes.bellData] = StaffBellDataComponent(world.time)
+            }
+
+            world.emitGameEvent(user, GameEvent.RESONATE_10, user.pos)
+        }
+
+        protected open fun canApplyGlow(user: LivingEntity, target: LivingEntity): Boolean {
             return true
         }
 
-        fun use(staffStack: ItemStack, world: World, user: LivingEntity) {
-            val efficiency = staffStack.getEnchantmentLevel(Enchantments.EFFICIENCY, world.registryManager)
-            val box = Box(user.blockPos).expand(getVolumeRadius(efficiency))
-            val hearingEntities = world.getEntitiesByClass(LivingEntity::class.java, box, entityPredicate)
+        fun applyGlow(staffStack: ItemStack, world: World, user: LivingEntity) {
+            val hearingEntities = getHearingEntities(staffStack, world, user)
+            hearingEntities.removeIf { !canApplyGlow(user, it) }
 
-            var resonate = false
-            for (entity in hearingEntities) {
-                if (user.blockPos.isWithinDistance(entity.pos, 32.0))
-                    entity.brain.remember(MemoryModuleType.HEARD_BELL_TIME, world.time)
-                resonate = resonate or applyGlow(user, world, entity)
-            }
-            if (resonate) // TODO delay
-                world.playSound(null, user.blockPos, SoundEvents.BLOCK_BELL_RESONATE, SoundCategory.BLOCKS, 1.0f, 1.0f)
-
-            world.emitGameEvent(user, GameEvent.RESONATE_10, user.pos)
+            for (entity in hearingEntities) applyGlow(entity)
         }
 
         companion object {
@@ -130,8 +174,17 @@ internal class BellHandler : StaffHandler() {
                 .and(EntityPredicates.EXCEPT_SPECTATOR)
                 .and { !it.isRemoved }
 
-            fun get(world: World) =
-                if (world.gameRules.getBoolean(GameRules.BELL_STAFF_ESP)) ESP else RAID
+            fun get(world: World) = if (world.gameRules.getBoolean(GameRules.BELL_STAFF_ESP)) ESP else RAID
+        }
+    }
+
+    private companion object {
+        private fun applyGlow(entity: LivingEntity) {
+            entity.addStatusEffect(StatusEffectInstance(StatusEffects.GLOWING, IBellBlockEntityAccessor.glowDuration()))
+        }
+
+        private fun ring(world: World, user: Entity) {
+            world.playSound(user, user.blockPos, SoundEvents.BLOCK_BELL_USE, user.soundCategory, 2f, 1f)
         }
     }
 }

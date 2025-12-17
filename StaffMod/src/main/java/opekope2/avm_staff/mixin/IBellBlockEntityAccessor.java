@@ -19,15 +19,23 @@
 package opekope2.avm_staff.mixin;
 
 import net.minecraft.block.entity.BellBlockEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(BellBlockEntity.class)
 public interface IBellBlockEntityAccessor {
-    @Invoker
-    static boolean callIsRaiderEntity(BlockPos pos, LivingEntity entity) {
+    @Accessor("field_31317")
+    static int glowDuration() {
+        throw new AssertionError();
+    }
+
+    @Accessor("MAX_BELL_HEARING_DISTANCE")
+    static int maxBellHearingDistance() {
+        throw new AssertionError();
+    }
+
+    @Accessor("MAX_RESONATING_TICKS")
+    static int maxResonatingTicks() {
         throw new AssertionError();
     }
 }
