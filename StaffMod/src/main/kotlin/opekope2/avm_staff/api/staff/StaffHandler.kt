@@ -467,7 +467,7 @@ abstract class StaffHandler {
         }
 
         private fun tryPickUp(world: World, pos: BlockPos, state: BlockState, staffStack: ItemStack): Boolean {
-            if (!canPickUp(staffStack, world, pos, state)) return false
+            if (world.isClient || !canPickUp(staffStack, world, pos, state)) return false
 
             val pickStack = state.block.getPickStack(world, pos, state)
             world.getBlockEntity(pos)?.apply {
