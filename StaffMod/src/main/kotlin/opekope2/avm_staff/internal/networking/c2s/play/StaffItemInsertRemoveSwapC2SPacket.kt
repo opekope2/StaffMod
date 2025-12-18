@@ -108,7 +108,7 @@ internal class StaffItemInsertRemoveSwapC2SPacket() : IC2SPacket {
 
                 // Swap
                 !stackInStaff.isEmpty && !otherStack.isEmpty -> {
-                    if (otherStack.item !in StaffHandler.Registry)
+                    if (otherStack.item.registryId !in StaffHandler.REGISTRY)
                         return failed(I18n.VALIDATION_ERROR_AVM_STAFF_NO_HANDLER.getText(otherStack.name))
                     if (otherStack !in staffStack.enabledItemsInStaffTag) return failed(
                         I18n.FEEDBACK_AVM_STAFF_HANDLER_NOT_ENABLED.getText(otherStack.name, staffStack.name)
@@ -134,7 +134,7 @@ internal class StaffItemInsertRemoveSwapC2SPacket() : IC2SPacket {
                 // Insert
                 !otherStack.isEmpty -> {
                     assert(stackInStaff.isEmpty)
-                    if (otherStack.item !in StaffHandler.Registry)
+                    if (otherStack.item.registryId !in StaffHandler.REGISTRY)
                         return failed(I18n.VALIDATION_ERROR_AVM_STAFF_NO_HANDLER.getText(otherStack.name))
                     if (otherStack !in staffStack.enabledItemsInStaffTag) return failed(
                         I18n.FEEDBACK_AVM_STAFF_HANDLER_NOT_ENABLED.getText(otherStack.name, staffStack.name)

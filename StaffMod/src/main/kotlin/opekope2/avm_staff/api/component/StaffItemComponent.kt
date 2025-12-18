@@ -27,6 +27,7 @@ import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.internal.I18n
+import opekope2.avm_staff.util.contains
 import opekope2.avm_staff.util.registryId
 
 /**
@@ -48,7 +49,7 @@ data class StaffItemComponent(val item: ItemStack) {
     }
 
     fun validate(): DataResult<StaffItemComponent> = when {
-        item.item !in StaffHandler.Registry -> DataResult.error {
+        item.item.registryId !in StaffHandler.REGISTRY -> DataResult.error {
             I18n.VALIDATION_ERROR_AVM_STAFF_NO_HANDLER.getTranslation(item.item.registryId)
         }
 
@@ -80,7 +81,7 @@ data class StaffItemComponent(val item: ItemStack) {
         )
 
         /**
-         * Validated [Codec] for [StaffItemComponent]. This only allows [item]s registered in [StaffHandler.Registry].
+         * Validated [Codec] for [StaffItemComponent]. This only allows [item]s registered in [StaffHandler.REGISTRY].
          */
         @JvmField
         val VALIDATED_CODEC: Codec<StaffItemComponent> = CODEC.validate(StaffItemComponent::validate)

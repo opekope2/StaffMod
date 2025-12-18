@@ -16,6 +16,8 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:Environment(EnvType.CLIENT)
+
 package opekope2.avm_staff.internal.model
 
 import net.fabricmc.api.EnvType
@@ -23,20 +25,17 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.item.ClampedModelPredicateProvider
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.registry.RegistryBase
 import opekope2.avm_staff.util.MOD_ID
 
-@Environment(EnvType.CLIENT)
-object ModelPredicates : RegistryBase<Identifier, ClampedModelPredicateProvider>() {
-    init {
-        register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->
-            if (entity == null || !entity.isUsingItem) return@register 0f
-            // When the item's components get changed server-side, Minecraft client is just janky with references
-            when {
-                ItemStack.areEqual(entity.activeItem, stack) -> 1f
-                ItemStack.areEqual(entity.getStackInHand(entity.activeHand), stack) -> 1f
-                else -> 0f
-            }
+@JvmField
+val MODEL_PREDICATES = mutableMapOf<Identifier, ClampedModelPredicateProvider>(
+    Identifier.of(MOD_ID, "using_item") to ClampedModelPredicateProvider { stack, _, entity, _ ->
+        when {
+            entity == null || !entity.isUsingItem -> 0f
+            // When the item's components get changed server-side, Minecraft client is janky with references
+            ItemStack.areEqual(entity.activeItem, stack) -> 1f
+            ItemStack.areEqual(entity.getStackInHand(entity.activeHand), stack) -> 1f
+            else -> 0f
         }
     }
-}
+)

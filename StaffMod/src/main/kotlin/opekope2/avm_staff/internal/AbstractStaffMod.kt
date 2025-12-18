@@ -120,6 +120,7 @@ abstract class AbstractStaffMod {
         StaffItemInsertRemoveSwapFeedbackS2CPacket.registerReceiver()
     }
 
+    // TODO move to RegistryUtil
     @MustBeInvokedByOverriders
     protected open fun registerStaffHandlers() {
         StaffHandler.register(ANVIL, AnvilHandler(CHIPPED_ANVIL))

@@ -112,8 +112,7 @@ object StaffRenderer {
         matrices.push {
             staffStack.itemStackInStaff?.let { itemInStaff ->
                 val staffItemRenderer =
-                    if (itemInStaff.item !in StaffItemRenderer.Registry) MissingModelStaffItemRenderer
-                    else StaffItemRenderer.Registry[itemInStaff.item]
+                    StaffItemRenderer.REGISTRY[itemInStaff.item.registryId] ?: MissingModelStaffItemRenderer
 
                 staffItemRenderer.renderItemInStaff(
                     staffStack,

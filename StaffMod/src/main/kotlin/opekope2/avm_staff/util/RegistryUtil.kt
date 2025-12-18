@@ -16,14 +16,13 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("IdentifierUtil")
-
 package opekope2.avm_staff.util
 
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.registry.DefaultedRegistry
 import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 
 /**
@@ -39,3 +38,8 @@ inline val Item.registryId: Identifier
  */
 inline val EntityType<*>.registryId: Identifier
     get() = Registries.ENTITY_TYPE.getId(this)
+
+/**
+ * @see Registry.containsId
+ */
+operator fun <T> Registry<T>.contains(id: Identifier) = containsId(id)

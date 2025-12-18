@@ -96,8 +96,7 @@ val ItemStack.enabledItemsInStaffTag: TagKey<Item>
 val ItemStack.staffHandlerOrFallback: StaffHandler
     get() = when (val itemInStaff = this.itemInStaff) {
         null -> StaffHandler.Empty
-        !in StaffHandler.Registry -> StaffHandler.Fallback
-        in enabledItemsInStaffTag -> StaffHandler.Registry.getValue(itemInStaff)
+        in enabledItemsInStaffTag -> StaffHandler.REGISTRY[itemInStaff.registryId] ?: StaffHandler.Fallback
         else -> StaffHandler.Disabled
     }
 

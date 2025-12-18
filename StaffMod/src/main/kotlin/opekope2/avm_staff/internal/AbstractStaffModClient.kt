@@ -36,7 +36,7 @@ import opekope2.avm_staff.api.staff.Defuse
 import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
 import opekope2.avm_staff.internal.event_handler.KeyBindingHandler
-import opekope2.avm_staff.internal.model.ModelPredicates
+import opekope2.avm_staff.internal.model.MODEL_PREDICATES
 import opekope2.avm_staff.internal.staff.item_renderer.BellStaffItemRenderer
 import opekope2.avm_staff.internal.staff.item_renderer.FurnaceStaffItemRenderer
 import opekope2.avm_staff.internal.staff.item_renderer.LightningRodStaffItemRenderer
@@ -67,6 +67,7 @@ abstract class AbstractStaffModClient {
         EntityRendererRegistry.register(EntityTypes.CAMPFIRE_FLAME, ::EmptyEntityRenderer)
     }
 
+    // TODO move to RegistryUtil
     @MustBeInvokedByOverriders
     protected open fun registerStaffItemRenderers() {
         StaffItemRenderer.register(ANVIL, BlockStateStaffItemRenderer(Blocks.ANVIL))
@@ -126,7 +127,7 @@ abstract class AbstractStaffModClient {
 
     @MustBeInvokedByOverriders
     protected open fun registerModelPredicateProviders(register: BiConsumer<Identifier, ClampedModelPredicateProvider>) {
-        for ((key, value) in ModelPredicates) register.accept(key, value)
+        for ((key, value) in MODEL_PREDICATES) register.accept(key, value)
     }
 
     @MustBeInvokedByOverriders

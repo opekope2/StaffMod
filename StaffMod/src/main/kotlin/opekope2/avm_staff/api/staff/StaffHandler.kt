@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.api.staff
 
+import com.mojang.serialization.Lifecycle
 import dev.architectury.event.EventResult
 import net.minecraft.SharedConstants
 import net.minecraft.advancement.criterion.Criteria
@@ -31,6 +32,9 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.SimpleRegistry
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.stat.Stats
 import net.minecraft.text.Text
@@ -41,7 +45,8 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.block.IClearableBeforeInsertedIntoStaff
 import opekope2.avm_staff.api.component.BlockPickupDataComponent
-import opekope2.avm_staff.api.registry.RegistryBase
+import opekope2.avm_staff.api.staff.StaffHandler.Companion.REGISTRY
+import opekope2.avm_staff.api.staff.StaffHandler.Companion.register
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.internal.I18n
@@ -373,7 +378,7 @@ abstract class StaffHandler {
     open fun isInvulnerableToLightning(staffStack: ItemStack, world: World, user: LivingEntity, hand: Hand) = false
 
     /**
-     * Default implementation of [StaffHandler]. Used for staffs with no [registered][Registry.register] handler.
+     * Default implementation of [StaffHandler]. Used for staffs with no [registered][register] handler.
      */
     object Fallback : StaffHandler() {
         @JvmField
@@ -433,7 +438,8 @@ abstract class StaffHandler {
 
         private fun canPickUp(staffStack: ItemStack, world: World, pos: BlockPos, state: BlockState) = !state.isAir &&
                 state.getHardness(world, pos) != -1f &&
-                state.block.asItem().let { it in Registry && it in staffStack.enabledItemsInStaffTag }
+                state.block.asItem().registryId in REGISTRY &&
+                state.block.asItem() in staffStack.enabledItemsInStaffTag
 
         private fun userChangedTarget(
             world: World,
@@ -512,28 +518,27 @@ abstract class StaffHandler {
         ) = selectedSlotChanged
     }
 
-    companion object Registry : RegistryBase<Identifier, StaffHandler>() {
+    companion object {
         /**
-         * Registers an entry to this registry.
+         * Registry key of [REGISTRY].
+         */
+        @JvmField
+        val REGISTRY_KEY: RegistryKey<Registry<StaffHandler>> =
+            RegistryKey.ofRegistry(Identifier.of(MOD_ID, "staff_handler"))
+
+        /**
+         * Registry of staff handlers.
+         */
+        @JvmField
+        val REGISTRY: Registry<StaffHandler> = SimpleRegistry(REGISTRY_KEY, Lifecycle.stable())
+
+        /**
+         * Registers an entry to [REGISTRY].
          *
          * @param key The key to associate a value with
          * @param value The value to register
          */
-        fun register(key: Item, value: StaffHandler) = register(key.registryId, value)
-
-        /**
-         * Checks if the given key is present in the registry
-         *
-         * @param key The key to check
-         */
-        operator fun contains(key: Item) = key.registryId in this
-
-        /**
-         * Gets the value associated with the given key or throws an exception, if the key is not present in this registry.
-         *
-         * @param key The key to check
-         */
-        fun getValue(key: Item) = getValue(key.registryId)
+        fun register(key: Item, value: StaffHandler): StaffHandler = Registry.register(REGISTRY, key.registryId, value)
 
         /**
          * Sends an [OverlayMessageS2CPacket] to [player].
