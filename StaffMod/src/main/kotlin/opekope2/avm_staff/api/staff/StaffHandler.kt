@@ -19,6 +19,7 @@
 package opekope2.avm_staff.api.staff
 
 import dev.architectury.event.EventResult
+import net.minecraft.SharedConstants
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.BlockState
 import net.minecraft.component.type.AttributeModifiersComponent
@@ -45,6 +46,7 @@ import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.util.*
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 /**
@@ -444,7 +446,18 @@ abstract class StaffHandler {
         }
 
         override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-            if (!world.isClient && userChangedTarget(world, user, staffStack[DataComponentTypes.blockPickupData])) {
+            if (world.isClient) {
+                val remainingSeconds = remainingUseTicks.toFloat() / SharedConstants.TICKS_PER_SECOND
+                val pickupData = staffStack[DataComponentTypes.blockPickupData]
+                // FIXME Minecraft is fucking stupid and will reset the counter
+                if (DataComponentTypes.blockPickupData in staffStack && pickupData != null) inGameHud.setOverlayMessage(
+                    I18n.FEEDBACK_AVM_STAFF_PICKING_UP.getText(
+                        pickupData.state.block.name,
+                        round(remainingSeconds * 10f) / 10f
+                    ),
+                    false
+                )
+            } else if (userChangedTarget(world, user, staffStack[DataComponentTypes.blockPickupData])) {
                 user.stopUsingItem()
             }
         }

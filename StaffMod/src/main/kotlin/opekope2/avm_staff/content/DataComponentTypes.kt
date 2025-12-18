@@ -56,7 +56,7 @@ object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.
     @JvmField
     val BLOCK_PICKUP_DATA = register("block_pickup_data") {
         ComponentType.builder<BlockPickupDataComponent>()
-            .packetCodec(BlockPickupDataComponent.NON_SYNCING_PACKET_CODEC)
+            .packetCodec(BlockPickupDataComponent.PACKET_CODEC)
             .build()
     }
 
