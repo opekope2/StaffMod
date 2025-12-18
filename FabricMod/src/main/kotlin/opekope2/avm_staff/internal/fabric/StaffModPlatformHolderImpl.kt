@@ -37,7 +37,7 @@ import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
-import opekope2.avm_staff.util.bakedModelManager
+import opekope2.avm_staff.util.mc
 
 val staffModPlatform = object : IStaffModPlatform {
     override val isClient: Boolean
@@ -67,5 +67,5 @@ private object StaffModClientPlatform : IStaffModClientPlatform {
     }
 
     override fun getStandaloneModel(modelId: Identifier): BakedModel =
-        bakedModelManager.getModel(modelId) ?: bakedModelManager.missingModel
+        mc.bakedModelManager.getModel(modelId) ?: mc.bakedModelManager.missingModel
 }

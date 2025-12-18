@@ -456,7 +456,7 @@ abstract class StaffHandler {
                 val remainingSeconds = remainingUseTicks.toFloat() / SharedConstants.TICKS_PER_SECOND
                 val pickupData = staffStack[DataComponentTypes.blockPickupData]
                 // FIXME Minecraft is fucking stupid and will reset the counter
-                if (DataComponentTypes.blockPickupData in staffStack && pickupData != null) inGameHud.setOverlayMessage(
+                if (DataComponentTypes.blockPickupData in staffStack && pickupData != null) mc.inGameHud.setOverlayMessage(
                     I18n.FEEDBACK_AVM_STAFF_PICKING_UP.getText(
                         pickupData.state.block.name,
                         round(remainingSeconds * 10f) / 10f

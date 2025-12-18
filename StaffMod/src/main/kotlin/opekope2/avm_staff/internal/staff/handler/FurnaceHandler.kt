@@ -91,7 +91,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             val stackToSmelt = itemToSmelt.stack
             val remainingSeconds =
                 (stackToSmelt.count - furnaceData.smeltTicks).toFloat() / speed / SharedConstants.TICKS_PER_SECOND
-            inGameHud.setOverlayMessage(
+            mc.inGameHud.setOverlayMessage(
                 I18n.FEEDBACK_AVM_STAFF_SMELTING.getText(stackToSmelt.name, round(remainingSeconds * 10f) / 10f),
                 false
             )
@@ -164,8 +164,8 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val ry = Math.random() * 0.5
         val rz = Math.random() * 0.25 - 0.25 / 2
 
-        particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
-        particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        mc.particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        mc.particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {

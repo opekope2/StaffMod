@@ -160,7 +160,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
                 currentRelativeRight * ((random.nextDouble() * 2 - 1) / rayResolution) +
                 currentRelativeUp * ((random.nextDouble() * 2 - 1) / rayResolution)
         val (x, y, z) = start + particleOffset
-        particleManager.addParticle(particleEffect, x, y, z, 0.0, 0.0, 0.0)!!.apply {
+        mc.particleManager.addParticle(particleEffect, x, y, z, 0.0, 0.0, 0.0)!!.apply {
             scale(random.nextFloat() - random.nextFloat() + 1f)
             maxAge = (0.25 * FLAME_MAX_AGE / (Math.random() * 0.8 + 0.2) - 0.05 * FLAME_MAX_AGE).toInt()
         }
@@ -393,7 +393,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
 
         private val flameParticleRayResolution: Int
             @Environment(EnvType.CLIENT)
-            get() = when (clientOptions.graphicsMode.value) {
+            get() = when (mc.options.graphicsMode.value) {
                 GraphicsMode.FABULOUS -> 6
                 GraphicsMode.FANCY -> 5
                 else -> 4

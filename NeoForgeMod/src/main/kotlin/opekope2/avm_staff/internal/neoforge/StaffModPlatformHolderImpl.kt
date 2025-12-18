@@ -34,7 +34,7 @@ import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeCrownItem
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffItem
-import opekope2.avm_staff.util.bakedModelManager
+import opekope2.avm_staff.util.mc
 import thedarkcolour.kotlinforforge.neoforge.forge.DIST
 
 val staffModPlatform = object : IStaffModPlatform {
@@ -64,5 +64,5 @@ private object StaffModClientPlatform : IStaffModClientPlatform {
     }
 
     override fun getStandaloneModel(modelId: Identifier): BakedModel =
-        bakedModelManager.getModel(ModelIdentifier.standalone(modelId))
+        mc.bakedModelManager.getModel(ModelIdentifier.standalone(modelId))
 }

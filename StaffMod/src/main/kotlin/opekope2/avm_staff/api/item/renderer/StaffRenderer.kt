@@ -26,8 +26,8 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import opekope2.avm_staff.api.IStaffModClientPlatform
-import opekope2.avm_staff.util.itemRenderer
 import opekope2.avm_staff.util.itemStackInStaff
+import opekope2.avm_staff.util.mc
 import opekope2.avm_staff.util.push
 import opekope2.avm_staff.util.registryId
 
@@ -55,7 +55,7 @@ object StaffRenderer {
         overlay: Int
     ) {
         fun StaffModelPart.render() {
-            itemRenderer.renderItem(
+            mc.itemRenderer.renderItem(
                 staffStack,
                 ModelTransformationMode.NONE,
                 false,

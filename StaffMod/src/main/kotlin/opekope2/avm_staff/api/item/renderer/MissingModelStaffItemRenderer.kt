@@ -23,9 +23,8 @@ import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
-import opekope2.avm_staff.util.bakedModelManager
-import opekope2.avm_staff.util.itemRenderer
 import opekope2.avm_staff.util.itemStackInStaff
+import opekope2.avm_staff.util.mc
 import opekope2.avm_staff.util.push
 
 /**
@@ -44,7 +43,7 @@ object MissingModelStaffItemRenderer : StaffItemRenderer() {
         matrices.push {
             transform(itemTransform, ModelTransformationMode.FIXED)
             staffStack.itemStackInStaff?.let { itemInStaff ->
-                itemRenderer.renderItem(
+                mc.itemRenderer.renderItem(
                     itemInStaff,
                     ModelTransformationMode.NONE,
                     false,
@@ -52,7 +51,7 @@ object MissingModelStaffItemRenderer : StaffItemRenderer() {
                     vertexConsumers,
                     light,
                     overlay,
-                    bakedModelManager.missingModel
+                    mc.bakedModelManager.missingModel
                 )
             }
         }
