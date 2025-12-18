@@ -30,14 +30,14 @@ import opekope2.avm_staff.content.EntityTypes.CAMPFIRE_FLAME
 import opekope2.avm_staff.content.EntityTypes.IMPACT_TNT
 import opekope2.avm_staff.mixin.ICakeBlockAccessor
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 import opekope2.avm_staff.util.TagKeyUtil
 import kotlin.math.max
 
 /**
  * Entity types added by AVM Staffs mod.
  */
-object EntityTypes : RegistryUtil<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYPE) {
+object EntityTypes : Registrar<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYPE) {
     /**
      * Entity registered as `avm_staff:cake`
      */

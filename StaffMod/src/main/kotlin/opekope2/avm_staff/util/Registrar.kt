@@ -31,7 +31,7 @@ import net.minecraft.util.Identifier
  * @param modId     The [namespace][Identifier.namespace] of the content to register.
  * @param registry  The registry to register the content in
  */
-abstract class RegistryUtil<TContent>(modId: String, registry: RegistryKey<Registry<TContent>>) :
+abstract class Registrar<TContent>(modId: String, registry: RegistryKey<Registry<TContent>>) :
     RegistryKeyUtil<TContent>(modId, registry) {
     private val deferredRegister = DeferredRegister.create(modId, registry)
 

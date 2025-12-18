@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,19 +23,20 @@ import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.item.ItemGroup
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.text.Text
+import opekope2.avm_staff.content.ItemGroups.AVM_STAFF_MOD_ITEMS
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 import opekope2.avm_staff.util.mutableItemStackInStaff
 
 /**
  * Item groups added by AVM Staffs mod.
  */
-object ItemGroups : RegistryUtil<ItemGroup>(MOD_ID, RegistryKeys.ITEM_GROUP) {
+object ItemGroups : Registrar<ItemGroup>(MOD_ID, RegistryKeys.ITEM_GROUP) {
     /**
      * Item group containing items added by Staff Mod.
      */
     @JvmField
-    val AVM_STAFF_MOD_ITEMS: RegistrySupplier<ItemGroup> = ItemGroups.register("${MOD_ID}_items") {
+    val AVM_STAFF_MOD_ITEMS: RegistrySupplier<ItemGroup> = register("${MOD_ID}_items") {
         CreativeTabRegistry.create(Text.translatable("itemGroup.${MOD_ID}_items")) {
             Items.royalStaff.defaultStack.apply {
                 mutableItemStackInStaff = net.minecraft.item.Items.COMMAND_BLOCK.defaultStack

@@ -46,13 +46,13 @@ import opekope2.avm_staff.content.Items.SCEPTER_OF_FRIENDSHIP_SCRAP
 import opekope2.avm_staff.content.Items.STAFF_INFUSION_SMITHING_TEMPLATE
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 import opekope2.avm_staff.util.TagKeyUtil
 
 /**
  * Items added by AVM Staffs mod.
  */
-object Items : RegistryUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
+object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
     private fun settings() = Item.Settings()
 
     /**

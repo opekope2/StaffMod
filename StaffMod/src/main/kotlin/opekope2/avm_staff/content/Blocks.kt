@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -27,13 +27,15 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
 import opekope2.avm_staff.api.block.CrownBlock
 import opekope2.avm_staff.api.block.WallCrownBlock
+import opekope2.avm_staff.content.Blocks.CROWN_OF_KING_ORANGE
+import opekope2.avm_staff.content.Blocks.WALL_CROWN_OF_KING_ORANGE
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 
 /**
  * Blocks added by AVM Staffs mod.
  */
-object Blocks : RegistryUtil<Block>(MOD_ID, RegistryKeys.BLOCK) {
+object Blocks : Registrar<Block>(MOD_ID, RegistryKeys.BLOCK) {
     private fun settings() = AbstractBlock.Settings.create()
     private fun settings(block: RegistrySupplier<out Block>) = AbstractBlock.Settings.copy(block.get())
 

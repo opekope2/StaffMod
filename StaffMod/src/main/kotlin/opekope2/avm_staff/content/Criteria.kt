@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,13 +22,15 @@ import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.registry.RegistryKeys
 import opekope2.avm_staff.api.advancement.criterion.BreakBlockWithStaffCriterion
 import opekope2.avm_staff.api.advancement.criterion.TakeDamageWhileUsingItemCriterion
+import opekope2.avm_staff.content.Criteria.DESTROY_BLOCK_WITH_STAFF
+import opekope2.avm_staff.content.Criteria.TAKE_DAMAGE_WHILE_USING_ITEM
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 
 /**
  * Criteria added by AVM Staffs mod.
  */
-object Criteria : RegistryUtil<Criterion<*>>(MOD_ID, RegistryKeys.CRITERION) {
+object Criteria : Registrar<Criterion<*>>(MOD_ID, RegistryKeys.CRITERION) {
     /**
      * Criterion registered as `avm_staff:destroy_block_with_staff`. Triggers before a block is destroyed by a staff.
      */

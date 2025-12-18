@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,13 +23,14 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.stat.StatType
 import net.minecraft.text.Text
+import opekope2.avm_staff.content.StatTypes.USED_ITEM_IN_STAFF
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 
 /**
  * Stats added by AVM Staffs mod.
  */
-object StatTypes : RegistryUtil<StatType<*>>(MOD_ID, RegistryKeys.STAT_TYPE) {
+object StatTypes : Registrar<StatType<*>>(MOD_ID, RegistryKeys.STAT_TYPE) {
     /**
      * Stat type registered as `avm_staff:used_item_in_staff`
      */

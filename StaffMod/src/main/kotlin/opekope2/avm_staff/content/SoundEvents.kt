@@ -24,12 +24,12 @@ import opekope2.avm_staff.content.SoundEvents.CAKE_SPLASH
 import opekope2.avm_staff.content.SoundEvents.CAKE_THROW
 import opekope2.avm_staff.content.SoundEvents.FLAMETHROWER_FIRE
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 
 /**
  * Sound events added by AVM Staffs mod.
  */
-object SoundEvents : RegistryUtil<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) {
+object SoundEvents : Registrar<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) {
     /**
      * Sound event registered as `avm_staff:entity.cake.splash`.
      */

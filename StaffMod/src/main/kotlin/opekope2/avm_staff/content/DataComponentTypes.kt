@@ -27,12 +27,12 @@ import opekope2.avm_staff.content.DataComponentTypes.FURNACE_DATA
 import opekope2.avm_staff.content.DataComponentTypes.STAFF_ITEM
 import opekope2.avm_staff.content.DataComponentTypes.TNT_DATA
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 
 /**
  * Component types added by AVM Staffs mod.
  */
-object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE) {
+object DataComponentTypes : Registrar<ComponentType<*>>(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE) {
     /**
      * Data component registered as `avm_staff:bell_data`.
      */
