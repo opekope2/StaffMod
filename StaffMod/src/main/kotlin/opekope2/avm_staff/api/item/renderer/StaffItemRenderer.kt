@@ -99,10 +99,11 @@ abstract class StaffItemRenderer {
         /**
          * Registers an entry to [REGISTRY].
          *
-         * @param key The key to associate a value with
+         * @param T     The type of the staff item renderer
+         * @param key   The key to associate a value with
          * @param value The value to register
          */
-        fun register(key: Item, value: StaffItemRenderer): StaffItemRenderer =
+        fun <T : StaffItemRenderer> register(key: Item, value: T): T =
             Registry.register(REGISTRY, key.registryId, value)
 
         /**

@@ -535,10 +535,11 @@ abstract class StaffHandler {
         /**
          * Registers an entry to [REGISTRY].
          *
-         * @param key The key to associate a value with
+         * @param T     The type of the staff handler
+         * @param key   The key to associate a value with
          * @param value The value to register
          */
-        fun register(key: Item, value: StaffHandler): StaffHandler = Registry.register(REGISTRY, key.registryId, value)
+        fun <T : StaffHandler> register(key: Item, value: T): T = Registry.register(REGISTRY, key.registryId, value)
 
         /**
          * Sends an [OverlayMessageS2CPacket] to [player].
