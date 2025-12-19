@@ -174,7 +174,7 @@ internal class BellHandler : StaffHandler() {
                 .and(EntityPredicates.EXCEPT_SPECTATOR)
                 .and { !it.isRemoved }
 
-            fun get(world: World) = if (world.gameRules.getBoolean(GameRules.BELL_STAFF_ESP)) ESP else RAID
+            fun get(world: World) = if (world.gameRules.getBoolean(GameRules.bellStaffEsp)) ESP else RAID
         }
     }
 

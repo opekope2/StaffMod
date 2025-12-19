@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -29,12 +29,12 @@ import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.content.GameRules
 
 /**
- * Dispenser behavior, which throws [cakes][CakeEntity], if [throwableCakes][GameRules.THROWABLE_CAKES] game rule is
+ * Dispenser behavior, which throws [cakes][CakeEntity], if [throwableCakes][GameRules.throwableCakes] game rule is
  * enabled.
  */
 class CakeDispenserBehavior : ItemDispenserBehavior() {
     override fun dispenseSilently(pointer: BlockPointer, stack: ItemStack): ItemStack {
-        if (!pointer.world.gameRules.getBoolean(GameRules.THROWABLE_CAKES))
+        if (!pointer.world.gameRules.getBoolean(GameRules.throwableCakes))
             return super.dispenseSilently(pointer, stack)
 
         var spawnPos = DispenserBlock.getOutputLocation(pointer, 1.0, Vec3d.ZERO)
@@ -55,7 +55,7 @@ class CakeDispenserBehavior : ItemDispenserBehavior() {
     }
 
     override fun playSound(pointer: BlockPointer) {
-        if (!pointer.world.gameRules.getBoolean(GameRules.THROWABLE_CAKES)) return super.playSound(pointer)
+        if (!pointer.world.gameRules.getBoolean(GameRules.throwableCakes)) return super.playSound(pointer)
 
         pointer.world().syncWorldEvent(WorldEvents.DISPENSER_LAUNCHES_PROJECTILE, pointer.pos(), 0)
     }

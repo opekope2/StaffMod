@@ -21,6 +21,7 @@ package opekope2.avm_staff.content
 import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.item.ItemGroup
+import net.minecraft.item.Items.COMMAND_BLOCK
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.text.Text
 import opekope2.avm_staff.content.ItemGroups.AVM_STAFF_MOD_ITEMS
@@ -31,16 +32,15 @@ import opekope2.avm_staff.util.mutableItemStackInStaff
 /**
  * Item groups added by AVM Staffs mod.
  */
+@Suppress("unused")
 object ItemGroups : Registrar<ItemGroup>(MOD_ID, RegistryKeys.ITEM_GROUP) {
     /**
      * Item group containing items added by Staff Mod.
      */
     @JvmField
-    val AVM_STAFF_MOD_ITEMS: RegistrySupplier<ItemGroup> = register("${MOD_ID}_items") {
+    val AVM_STAFF_MOD_ITEMS: RegistrySupplier<ItemGroup> = register("${MOD_ID}_items") { ->
         CreativeTabRegistry.create(Text.translatable("itemGroup.${MOD_ID}_items")) {
-            Items.royalStaff.defaultStack.apply {
-                mutableItemStackInStaff = net.minecraft.item.Items.COMMAND_BLOCK.defaultStack
-            }
+            Items.royalStaff.defaultStack.apply { mutableItemStackInStaff = COMMAND_BLOCK.defaultStack }
         }
     }
 
@@ -48,6 +48,6 @@ object ItemGroups : Registrar<ItemGroup>(MOD_ID, RegistryKeys.ITEM_GROUP) {
      * @see AVM_STAFF_MOD_ITEMS
      */
     val avmStaffModItems: ItemGroup
-        @JvmName("avmStaffModItems")
+        @JvmStatic
         get() = AVM_STAFF_MOD_ITEMS.get()
 }

@@ -41,7 +41,7 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        val allowsProjectileRapidFire = staffStack.isEnchantedWith(Enchantments.RAPID_FIRE, world.registryManager)
+        val allowsProjectileRapidFire = staffStack.isEnchantedWith(Enchantments.rapidFire, world.registryManager)
         if (!allowsProjectileRapidFire) {
             if (user is ServerPlayerEntity) overlayMessage(
                 user,
@@ -55,7 +55,7 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        val rapidFire = staffStack.getEnchantmentLevel(Enchantments.RAPID_FIRE, world.registryManager)
+        val rapidFire = staffStack.getEnchantmentLevel(Enchantments.rapidFire, world.registryManager)
         if (remainingUseTicks % getFireRateDenominator(rapidFire) != 0) return
         if (!tryShootProjectile(staffStack, world, user, ProjectileShootReason.USE)) return
 

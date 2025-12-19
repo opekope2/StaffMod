@@ -23,6 +23,8 @@ import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.Identifier
+import java.util.function.Supplier
+import kotlin.properties.PropertyDelegateProvider
 
 /**
  * Utility class to register content to Minecraft registries.
@@ -41,8 +43,39 @@ abstract class Registrar<TContent>(modId: String, registry: RegistryKey<Registry
      * @param path      The [path][Identifier.path] of the identifier of the content to register
      * @param factory   The function creating the object to be registered
      */
-    protected fun <T : TContent> register(path: String, factory: (RegistryKey<TContent>) -> T): RegistrySupplier<T> =
-        deferredRegister.register(path) { factory(registryKey(path)) }
+    protected fun <T : TContent> register(path: String, factory: Supplier<T>): RegistrySupplier<T> =
+        deferredRegister.register(path, factory)
+
+    /**
+     * Adds a content to be registered in a Minecraft registry using Architectury API.
+     *
+     * @param path      The [path][Identifier.path] of the identifier of the content to register
+     * @param factory   The function creating the object to be registered
+     */
+    protected inline fun <T : TContent> register(path: String, crossinline factory: (RegistryKey<TContent>) -> T) =
+        register(path) { -> factory(registryKey(path)) }
+
+    /**
+     * Adds a content to be registered in a Minecraft registry using Architectury API.
+     *
+     * @param path      The [path][Identifier.path] of the identifier of the content to register
+     * @param factory   The function creating the object to be registered
+     */
+    protected inline fun <T : TContent> registering(
+        path: String,
+        crossinline factory: (RegistryKey<TContent>) -> T
+    ): Lazy<T> = register(path, factory).asLazy()
+
+    /**
+     * Adds a content to be registered in a Minecraft registry using Architectury API.
+     * The [path][Identifier.getPath] is derived from the property name (converted to camel_case).
+     *
+     * @param factory   The function creating the object to be registered
+     */
+    protected inline fun <T : TContent> registering(crossinline factory: (RegistryKey<TContent>) -> T) =
+        PropertyDelegateProvider<Registrar<TContent>, Lazy<T>> { _, property ->
+            registering(toSnakeCase(property.name), factory)
+        }
 
     /**
      * @suppress

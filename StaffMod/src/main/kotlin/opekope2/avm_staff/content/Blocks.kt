@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.content
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.enums.NoteBlockInstrument
@@ -27,8 +26,6 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
 import opekope2.avm_staff.api.block.CrownBlock
 import opekope2.avm_staff.api.block.WallCrownBlock
-import opekope2.avm_staff.content.Blocks.CROWN_OF_KING_ORANGE
-import opekope2.avm_staff.content.Blocks.WALL_CROWN_OF_KING_ORANGE
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.Registrar
 
@@ -36,39 +33,29 @@ import opekope2.avm_staff.util.Registrar
  * Blocks added by AVM Staffs mod.
  */
 object Blocks : Registrar<Block>(MOD_ID, RegistryKeys.BLOCK) {
+    @JvmStatic
     private fun settings() = AbstractBlock.Settings.create()
-    private fun settings(block: RegistrySupplier<out Block>) = AbstractBlock.Settings.copy(block.get())
 
     /**
-     * Block registered as `avm_staff:crown_of_king_orange`.
+     * Creates an instance of [AbstractBlock.Settings] for a crown block.
      */
-    @JvmField
-    val CROWN_OF_KING_ORANGE = register("crown_of_king_orange") {
-        CrownBlock(
-            settings().instrument(NoteBlockInstrument.BELL).strength(1.0f).pistonBehavior(PistonBehavior.DESTROY)
-                .sounds(BlockSoundGroup.COPPER_GRATE).nonOpaque()
-        )
-    }
+    @JvmStatic
+    fun crownSettings(): AbstractBlock.Settings = settings()
+        .instrument(NoteBlockInstrument.BELL)
+        .strength(1.0f)
+        .pistonBehavior(PistonBehavior.DESTROY)
+        .sounds(BlockSoundGroup.COPPER_GRATE)
+        .nonOpaque()
 
     /**
-     * @see CROWN_OF_KING_ORANGE
+     * Crown of King Orange block.
      */
-    val crownOfKingOrange: CrownBlock
-        @JvmName("crownOfKingOrange")
-        get() = CROWN_OF_KING_ORANGE.get()
+    @JvmStatic
+    val crownOfKingOrange by registering { CrownBlock(crownSettings()) }
 
     /**
-     * Block registered as `avm_staff:wall_crown_of_king_orange`.
+     * Crown of King Orange block on the wall.
      */
-    @JvmField
-    val WALL_CROWN_OF_KING_ORANGE = register("wall_crown_of_king_orange") {
-        WallCrownBlock(settings(CROWN_OF_KING_ORANGE))
-    }
-
-    /**
-     * @see WALL_CROWN_OF_KING_ORANGE
-     */
-    val wallCrownOfKingOrange: WallCrownBlock
-        @JvmName("wallCrownOfKingOrange")
-        get() = WALL_CROWN_OF_KING_ORANGE.get()
+    @JvmStatic
+    val wallCrownOfKingOrange by registering { WallCrownBlock(crownSettings()) }
 }

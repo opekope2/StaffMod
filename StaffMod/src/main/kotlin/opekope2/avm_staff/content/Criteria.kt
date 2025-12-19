@@ -19,11 +19,11 @@
 package opekope2.avm_staff.content
 
 import net.minecraft.advancement.criterion.Criterion
+import net.minecraft.advancement.criterion.EntityHurtPlayerCriterion
+import net.minecraft.advancement.criterion.UsingItemCriterion
 import net.minecraft.registry.RegistryKeys
 import opekope2.avm_staff.api.advancement.criterion.BreakBlockWithStaffCriterion
 import opekope2.avm_staff.api.advancement.criterion.TakeDamageWhileUsingItemCriterion
-import opekope2.avm_staff.content.Criteria.DESTROY_BLOCK_WITH_STAFF
-import opekope2.avm_staff.content.Criteria.TAKE_DAMAGE_WHILE_USING_ITEM
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.Registrar
 
@@ -32,32 +32,14 @@ import opekope2.avm_staff.util.Registrar
  */
 object Criteria : Registrar<Criterion<*>>(MOD_ID, RegistryKeys.CRITERION) {
     /**
-     * Criterion registered as `avm_staff:destroy_block_with_staff`. Triggers before a block is destroyed by a staff.
+     * Criterion that triggers before a block is destroyed by a staff.
      */
-    @JvmField
-    val DESTROY_BLOCK_WITH_STAFF = register("destroy_block_with_staff") {
-        BreakBlockWithStaffCriterion()
-    }
+    @JvmStatic
+    val destroyBlockWithStaff by registering { BreakBlockWithStaffCriterion() }
 
     /**
-     * @see DESTROY_BLOCK_WITH_STAFF
+     * A fusion criterion between [UsingItemCriterion] and [EntityHurtPlayerCriterion].
      */
-    val destroyBlockWithStaff: BreakBlockWithStaffCriterion
-        @JvmName("destroyBlockWithStaff")
-        get() = DESTROY_BLOCK_WITH_STAFF.get()
-
-    /**
-     * Criterion registered as `avm_staff:get_hurt_while_using_item`.
-     */
-    @JvmField
-    val TAKE_DAMAGE_WHILE_USING_ITEM = register("get_hurt_while_using_item") {
-        TakeDamageWhileUsingItemCriterion()
-    }
-
-    /**
-     * @see TAKE_DAMAGE_WHILE_USING_ITEM
-     */
-    val takeDamageWhileUsingItem: TakeDamageWhileUsingItemCriterion
-        @JvmName("takeDamageWhileUsingItem")
-        get() = TAKE_DAMAGE_WHILE_USING_ITEM.get()
+    @JvmStatic
+    val takeDamageWhileUsingItem by registering { TakeDamageWhileUsingItemCriterion() }
 }

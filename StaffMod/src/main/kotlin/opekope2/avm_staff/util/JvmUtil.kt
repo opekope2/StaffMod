@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024-2025 opekope2
+ * Copyright (c) 2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,26 +16,11 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package opekope2.avm_staff.content
+package opekope2.avm_staff.util
 
-import net.minecraft.entity.damage.DamageType
-import net.minecraft.registry.RegistryKeys
-import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryKeyUtil
+import java.util.function.Supplier
 
 /**
- * Damage types added by AVM Staffs mod.
+ * Returns the given supplier as a [Lazy].
  */
-object DamageTypes : RegistryKeyUtil<DamageType>(MOD_ID, RegistryKeys.DAMAGE_TYPE) {
-    /**
-     * Pranked damage type.
-     */
-    @JvmStatic
-    val pranked by registryKey
-
-    /**
-     * Pranked by player damage type.
-     */
-    @JvmStatic
-    val prankedByPlayer by registryKey
-}
+fun <T> Supplier<T>.asLazy() = lazy { get() }

@@ -64,7 +64,7 @@ internal class EmeraldBlockHandler : StaffHandler() {
         val entities = world.getEntitiesByClass(
             Entity::class.java,
             DESPAWN_VOLUME.offset(user.approximateStaffItemPosition)
-        ) { it.type in EntityTypes.Tags.DEFUSABLE }
+        ) { it.type in EntityTypes.Tags.defusable }
         entities.forEach(::defuse)
         staffStack.damage(entities.size, user)
     }
@@ -77,7 +77,7 @@ internal class EmeraldBlockHandler : StaffHandler() {
         hand: Hand
     ): EventResult {
         if (world.isClient) return EventResult.pass()
-        if (target.type !in EntityTypes.Tags.DEFUSABLE) return EventResult.pass()
+        if (target.type !in EntityTypes.Tags.defusable) return EventResult.pass()
 
         defuse(target)
         staffStack.damage(entity = attacker, hand = hand)

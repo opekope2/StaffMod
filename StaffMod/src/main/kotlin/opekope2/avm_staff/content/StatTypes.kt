@@ -18,12 +18,11 @@
 
 package opekope2.avm_staff.content
 
-import net.minecraft.item.Item
 import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.stat.StatType
 import net.minecraft.text.Text
-import opekope2.avm_staff.content.StatTypes.USED_ITEM_IN_STAFF
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.Registrar
 
@@ -31,18 +30,14 @@ import opekope2.avm_staff.util.Registrar
  * Stats added by AVM Staffs mod.
  */
 object StatTypes : Registrar<StatType<*>>(MOD_ID, RegistryKeys.STAT_TYPE) {
-    /**
-     * Stat type registered as `avm_staff:used_item_in_staff`
-     */
-    @JvmField
-    val USED_ITEM_IN_STAFF = register("used_item_in_staff") { key ->
-        StatType(Registries.ITEM, Text.translatable("stat_type.${key.value.namespace}.${key.value.path}"))
+    @JvmStatic
+    private fun <T> registering(registry: Registry<T>) = registering { key ->
+        StatType(registry, Text.translatable("stat_type.${key.value.namespace}.${key.value.path}"))
     }
 
     /**
-     * @see USED_ITEM_IN_STAFF
+     * Item used in staff stat type.
      */
-    val usedItemInStaff: StatType<Item>
-        @JvmName("usedItemInStaff")
-        get() = USED_ITEM_IN_STAFF.get()
+    @JvmStatic
+    val usedItemInStaff by registering(Registries.ITEM)
 }

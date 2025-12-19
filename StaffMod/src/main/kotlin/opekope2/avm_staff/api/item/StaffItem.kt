@@ -173,7 +173,7 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
         val preBreakStaff = stack.copy()
 
         return BiConsumer { world, holder ->
-            val cohesion = preBreakStaff.getEnchantmentLevel(Enchantments.COHESION, world.registryManager)
+            val cohesion = preBreakStaff.getEnchantmentLevel(Enchantments.cohesion, world.registryManager)
             val lootTable = world.server.reloadableRegistries.getLootTable(lootTableId)
             val lootParameters = LootContextParameterSet.Builder(world)
                 .add(LootContextParameters.TOOL, preBreakStaff)

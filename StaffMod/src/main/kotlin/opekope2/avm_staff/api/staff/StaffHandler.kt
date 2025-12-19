@@ -414,7 +414,7 @@ abstract class StaffHandler {
         override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity): Int {
             val targetPos = user.targetPos
             val state = world.getBlockState(targetPos)
-            val quickDraw = staffStack.getEnchantmentLevel(Enchantments.QUICK_DRAW, world.registryManager) + 1
+            val quickDraw = staffStack.getEnchantmentLevel(Enchantments.quickDraw, world.registryManager) + 1
 
             return if (!canPickUp(staffStack, world, targetPos, state)) 0
             else 10 + (state.getHardness(world, targetPos) / quickDraw).roundToInt()

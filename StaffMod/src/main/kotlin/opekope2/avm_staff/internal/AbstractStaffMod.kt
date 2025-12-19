@@ -89,12 +89,12 @@ abstract class AbstractStaffMod {
                 builder.staffMod_addEntry(
                     ItemEntry.builder(BOOK)
                         .weight(3)
-                        .apply(enchantRandomly(Enchantments.QUICK_DRAW))
+                        .apply(enchantRandomly(Enchantments.quickDraw))
                 )
                 builder.staffMod_addEntry(
                     ItemEntry.builder(BOOK)
                         .weight(3)
-                        .apply(enchantRandomly(Enchantments.RAPID_FIRE))
+                        .apply(enchantRandomly(Enchantments.rapidFire))
                 )
             }
 

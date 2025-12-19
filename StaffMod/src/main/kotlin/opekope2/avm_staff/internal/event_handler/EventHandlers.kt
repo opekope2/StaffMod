@@ -101,7 +101,7 @@ object EventHandlers :
         if (!cake.isOf(Items.CAKE)) return CompoundEventResult.pass()
         if (spawnPos == null) return CompoundEventResult.pass()
         if (world.isClient) return CompoundEventResult.interruptTrue(cake)
-        if (!world.gameRules.getBoolean(GameRules.THROWABLE_CAKES)) return CompoundEventResult.pass()
+        if (!world.gameRules.getBoolean(GameRules.throwableCakes)) return CompoundEventResult.pass()
 
         CakeEntity.throwCake(world, spawnPos, player.rotationVector * .5 + player.velocity, player)
         cake.decrementUnlessCreative(1, player)

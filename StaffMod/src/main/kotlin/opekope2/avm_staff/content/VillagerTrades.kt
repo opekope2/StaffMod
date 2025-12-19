@@ -31,6 +31,7 @@ object VillagerTrades {
     /**
      * Expert level armorer [Items.faintScepterOfFriendshipHead] trade.
      */
+    @JvmStatic
     val armorer4_faintScepterOfFriendshipHead = SimpleTrade(
         TradedItem(net.minecraft.item.Items.EMERALD, 32),
         Optional.of(TradedItem(Items.scepterOfFriendshipIngredient, 5)),
@@ -43,6 +44,7 @@ object VillagerTrades {
     /**
      * Master level armorer [Items.faintScepterOfFriendship] trade.
      */
+    @JvmStatic
     val armorer5_faintScepterOfFriendship = SimpleTrade(
         TradedItem(Items.faintStaffRod, 2),
         Optional.of(TradedItem(Items.faintScepterOfFriendshipHead, 1)),
@@ -55,6 +57,7 @@ object VillagerTrades {
     /**
      * Master level armorer [Items.scepterOfFriendship] trade.
      */
+    @JvmStatic
     val cleric5_scepterOfFriendship = SimpleTrade(
         TradedItem(Items.faintScepterOfFriendship, 1),
         Optional.of(TradedItem(net.minecraft.item.Items.LAPIS_LAZULI, 3)),

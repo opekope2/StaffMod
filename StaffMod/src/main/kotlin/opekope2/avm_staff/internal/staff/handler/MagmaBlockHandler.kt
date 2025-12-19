@@ -54,7 +54,7 @@ internal class MagmaBlockHandler : AbstractProjectileShootingStaffHandler() {
     ): Boolean {
         if (!super.tryShootProjectile(staffStack, world, shooter, reason)) return false
 
-        return if (reason.isAttack && staffStack.isEnchantedWith(Enchantments.POWER_CHARGE, world.registryManager)) {
+        return if (reason.isAttack && staffStack.isEnchantedWith(Enchantments.powerCharge, world.registryManager)) {
             shootFireball(world, shooter, WorldEvents.GHAST_SHOOTS, EntityType.FIREBALL) {
                 FireballEntity(world, shooter, shooter.rotationVector, 1)
             }

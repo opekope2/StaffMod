@@ -62,9 +62,9 @@ abstract class AbstractStaffModClient {
 
     @MustBeInvokedByOverriders
     protected open fun registerEntityRenderers() {
-        EntityRendererRegistry.register(EntityTypes.IMPACT_TNT, ::TntEntityRenderer)
-        EntityRendererRegistry.register(EntityTypes.CAKE, ::CakeEntityRenderer)
-        EntityRendererRegistry.register(EntityTypes.CAMPFIRE_FLAME, ::EmptyEntityRenderer)
+        EntityRendererRegistry.register(EntityTypes::cake, ::CakeEntityRenderer)
+        EntityRendererRegistry.register(EntityTypes::campfireFlame, ::EmptyEntityRenderer)
+        EntityRendererRegistry.register(EntityTypes::impactTnt, ::TntEntityRenderer)
     }
 
     // TODO move to RegistryUtil

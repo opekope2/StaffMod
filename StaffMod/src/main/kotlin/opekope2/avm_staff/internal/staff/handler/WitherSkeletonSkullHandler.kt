@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -59,7 +59,7 @@ internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandl
 
         world.spawnEntity(WitherSkullEntity(world, shooter, shooter.rotationVector).apply {
             owner = shooter
-            isCharged = reason.isAttack && staffStack.isEnchantedWith(Enchantments.POWER_CHARGE, world.registryManager)
+            isCharged = reason.isAttack && staffStack.isEnchantedWith(Enchantments.powerCharge, world.registryManager)
             setPosition(spawnPos)
         })
         world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, shooter.blockPos, 0)
@@ -96,7 +96,7 @@ internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandl
     private fun addCooldown(staffStack: ItemStack, world: World, player: PlayerEntity, remainingUseTicks: Int) {
         if (player.abilities.creativeMode) return
 
-        val quickDraw = staffStack.getEnchantmentLevel(Enchantments.QUICK_DRAW, world.registryManager) + 1
+        val quickDraw = staffStack.getEnchantmentLevel(Enchantments.quickDraw, world.registryManager) + 1
         player.itemCooldownManager.set(
             staffStack.item,
             4 * (getMaxUseTime(staffStack, world, player) - remainingUseTicks) / quickDraw

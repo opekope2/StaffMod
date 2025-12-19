@@ -46,7 +46,7 @@ internal class TntHandler : StaffHandler() {
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        if (!staffStack.isEnchantedWith(Enchantments.DISTANT_DETONATION, world.registryManager)) {
+        if (!staffStack.isEnchantedWith(Enchantments.distantDetonation, world.registryManager)) {
             if (user is ServerPlayerEntity) overlayMessage(
                 user,
                 I18n.FEEDBACK_AVM_STAFF_REQUIRES_ENCHANTMENT.getText(I18n.ENCHANTMENT_AVM_STAFF_DISTANT_DETONATION.getText())

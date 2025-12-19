@@ -30,166 +30,97 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.IStaffModPlatform
-import opekope2.avm_staff.api.item.CrownItem
-import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.content.Items.CROWN_OF_KING_ORANGE
-import opekope2.avm_staff.content.Items.FAINT_SCEPTER_OF_FRIENDSHIP
-import opekope2.avm_staff.content.Items.FAINT_SCEPTER_OF_FRIENDSHIP_HEAD
-import opekope2.avm_staff.content.Items.FAINT_STAFF_ROD
-import opekope2.avm_staff.content.Items.ROYAL_STAFF
-import opekope2.avm_staff.content.Items.ROYAL_STAFF_HEAD
-import opekope2.avm_staff.content.Items.ROYAL_STAFF_ROD
-import opekope2.avm_staff.content.Items.ROYAL_STAFF_SCRAP
-import opekope2.avm_staff.content.Items.SCEPTER_OF_FRIENDSHIP
-import opekope2.avm_staff.content.Items.SCEPTER_OF_FRIENDSHIP_SCRAP
-import opekope2.avm_staff.content.Items.STAFF_INFUSION_SMITHING_TEMPLATE
+import opekope2.avm_staff.content.Items.royalStaff
+import opekope2.avm_staff.content.Items.scepterOfFriendship
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.Registrar
-import opekope2.avm_staff.util.TagKeyUtil
+import opekope2.avm_staff.util.RegistryKeyUtil
 
 /**
  * Items added by AVM Staffs mod.
  */
+@Suppress("unused")
 object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
+    @JvmStatic
     private fun settings() = Item.Settings()
 
     /**
-     * Item registered as `avm_staff:crown_of_king_orange`.
+     * Crown of King Orange item.
      */
-    @JvmField
-    val CROWN_OF_KING_ORANGE = register("crown_of_king_orange") {
+    @JvmStatic
+    val crownOfKingOrange by registering {
         IStaffModPlatform.crownItem(
-            Blocks.CROWN_OF_KING_ORANGE.get(),
-            Blocks.WALL_CROWN_OF_KING_ORANGE.get(),
+            Blocks.crownOfKingOrange,
+            Blocks.wallCrownOfKingOrange,
             settings().maxCount(1).rarity(Rarity.UNCOMMON).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS)
         )
     }
 
     /**
-     * @see CROWN_OF_KING_ORANGE
+     * Faint staff rod item.
      */
-    val crownOfKingOrange: CrownItem
-        @JvmName("crownOfKingOrange")
-        get() = CROWN_OF_KING_ORANGE.get()
+    @JvmStatic
+    val faintStaffRod by registering { Item(settings().`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS)) }
 
     /**
-     * Item registered as `avm_staff:faint_staff_rod`.
+     * Royal staff rod item.
      */
-    @JvmField
-    val FAINT_STAFF_ROD = register("faint_staff_rod") {
-        Item(settings().`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
-    }
+    @JvmStatic
+    val royalStaffRod by registering { Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS)) }
 
     /**
-     * @see FAINT_STAFF_ROD
+     * Royal staff head item.
      */
-    val faintStaffRod: Item
-        @JvmName("faintStaffRod")
-        get() = FAINT_STAFF_ROD.get()
-
-    /**
-     * Item registered as `avm_staff:royal_staff_rod`.
-     */
-    @JvmField
-    val ROYAL_STAFF_ROD = register("royal_staff_rod") {
-        Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
-    }
-
-    /**
-     * @see ROYAL_STAFF_ROD
-     */
-    val royalStaffRod: Item
-        @JvmName("royalStaffRod")
-        get() = ROYAL_STAFF_ROD.get()
-
-    /**
-     * Item registered as `avm_staff:royal_staff_head`.
-     */
-    @JvmField
-    val ROYAL_STAFF_HEAD = register("royal_staff_head") {
+    @JvmStatic
+    val royalStaffHead by registering {
         Item(settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
     }
 
     /**
-     * @see ROYAL_STAFF_HEAD
+     * Royal staff item.
      */
-    val royalStaffHead: Item
-        @JvmName("royalStaffHead")
-        get() = ROYAL_STAFF_HEAD.get()
-
-    /**
-     * Item registered as `avm_staff:royal_staff`.
-     */
-    @JvmField
-    val ROYAL_STAFF = register("royal_staff") {
+    @JvmStatic
+    val royalStaff by registering {
         IStaffModPlatform.staffItem(
             settings().maxCount(1).rarity(Rarity.EPIC).attributeModifiers(StaffHandler.Fallback.ATTRIBUTE_MODIFIERS)
                 .maxDamage(5179).component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 1))
                 .`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
-            ROYAL_STAFF_SCRAP
+            ::royalStaffIngredient
         )
     }
 
     /**
-     * @see ROYAL_STAFF
+     * Royal staff scrap item.
      */
-    val royalStaff: StaffItem
-        @JvmName("royalStaff")
-        get() = ROYAL_STAFF.get()
-
-    /**
-     * Item registered as `avm_staff:royal_staff_ingredient`.
-     */
-    @JvmField
-    val ROYAL_STAFF_SCRAP = register("royal_staff_ingredient") {
+    @JvmStatic
+    val royalStaffIngredient by registering {
         Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
     }
 
     /**
-     * @see ROYAL_STAFF_SCRAP
+     * Faint scepter of friendship item.
      */
-    val royalStaffScrap: Item
-        @JvmName("royalStaffScrap")
-        get() = ROYAL_STAFF_SCRAP.get()
-
-    /**
-     * Item registered as `avm_staff:scepter_of_friendship`.
-     */
-    @JvmField
-    val FAINT_SCEPTER_OF_FRIENDSHIP = register("faint_scepter_of_friendship") {
+    @JvmStatic
+    val faintScepterOfFriendship by registering {
         Item(settings().maxCount(1).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
             .also { if (IStaffModPlatform.isClient) IStaffModClientPlatform.renderAsStaffModel(it) }
     }
 
     /**
-     * @see FAINT_SCEPTER_OF_FRIENDSHIP
+     * Faint scepter of friendship head item.
      */
-    val faintScepterOfFriendship: Item
-        @JvmName("faintScepterOfFriendship")
-        get() = FAINT_SCEPTER_OF_FRIENDSHIP.get()
-
-    /**
-     * Item registered as `avm_staff:scepter_of_friendship`.
-     */
-    @JvmField
-    val FAINT_SCEPTER_OF_FRIENDSHIP_HEAD = register("faint_scepter_of_friendship_head") {
+    @JvmStatic
+    val faintScepterOfFriendshipHead by registering {
         Item(settings().maxCount(16).rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
     }
 
     /**
-     * @see FAINT_SCEPTER_OF_FRIENDSHIP_HEAD
+     * Scepter of friendship item.
      */
-    val faintScepterOfFriendshipHead: Item
-        @JvmName("faintScepterOfFriendshipHead")
-        get() = FAINT_SCEPTER_OF_FRIENDSHIP_HEAD.get()
-
-    /**
-     * Item registered as `avm_staff:scepter_of_friendship`.
-     */
-    @JvmField
-    val SCEPTER_OF_FRIENDSHIP = register("scepter_of_friendship") {
+    @JvmStatic
+    val scepterOfFriendship by registering {
         IStaffModPlatform.staffItem(
             settings()
                 .maxCount(1)
@@ -198,37 +129,23 @@ object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
                 .maxDamage(5179)
                 .component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 1))
                 .`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
-            SCEPTER_OF_FRIENDSHIP_SCRAP
+            ::scepterOfFriendshipIngredient
         )
     }
 
     /**
-     * @see SCEPTER_OF_FRIENDSHIP
+     * Scepter of friendship scrap item.
      */
-    val scepterOfFriendship: StaffItem
-        @JvmName("scepterOfFriendship")
-        get() = SCEPTER_OF_FRIENDSHIP.get()
-
-    /**
-     * Item registered as `avm_staff:scepter_of_friendship_ingredient`.
-     */
-    @JvmField
-    val SCEPTER_OF_FRIENDSHIP_SCRAP = register("scepter_of_friendship_ingredient") {
+    @JvmStatic
+    val scepterOfFriendshipIngredient by registering {
         Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
     }
 
     /**
-     * @see SCEPTER_OF_FRIENDSHIP_SCRAP
+     * Staff infusion smithing template item.
      */
-    val scepterOfFriendshipIngredient: Item
-        @JvmName("scepterOfFriendshipScrap")
-        get() = SCEPTER_OF_FRIENDSHIP_SCRAP.get()
-
-    /**
-     * Item registered as `avm_staff:staff_infusion_smithing_template`.
-     */
-    @JvmField
-    val STAFF_INFUSION_SMITHING_TEMPLATE = register("staff_infusion_smithing_template") {
+    @JvmStatic
+    val staffInfusionSmithingTemplate by registering {
         SmithingTemplateItem(
             Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.applies_to")
                 .formatted(ISmithingTemplateItemAccessor.descriptionFormatting()),
@@ -242,43 +159,36 @@ object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
         )
     }
 
-    /**
-     * @see STAFF_INFUSION_SMITHING_TEMPLATE
-     */
-    val staffInfusionSmithingTemplate: SmithingTemplateItem
-        @JvmName("staffInfusionSmithingTemplate")
-        get() = STAFF_INFUSION_SMITHING_TEMPLATE.get()
-
     override fun register() {
         super.register()
         // Because SmithingTemplateItem doesn't take Item.Settings in its constructor
-        CreativeTabRegistry.append(ItemGroups.AVM_STAFF_MOD_ITEMS, STAFF_INFUSION_SMITHING_TEMPLATE)
+        CreativeTabRegistry.append(ItemGroups.AVM_STAFF_MOD_ITEMS, ::staffInfusionSmithingTemplate)
         // Because arch$tab only allows one tab
-        CreativeTabRegistry.append(INGREDIENTS, ROYAL_STAFF_SCRAP)
-        CreativeTabRegistry.append(INGREDIENTS, SCEPTER_OF_FRIENDSHIP_SCRAP)
-        CreativeTabRegistry.append(INGREDIENTS, STAFF_INFUSION_SMITHING_TEMPLATE)
+        CreativeTabRegistry.append(INGREDIENTS, ::royalStaffIngredient)
+        CreativeTabRegistry.append(INGREDIENTS, ::scepterOfFriendshipIngredient)
+        CreativeTabRegistry.append(INGREDIENTS, ::staffInfusionSmithingTemplate)
     }
 
     /**
      * Item tags added by AVM Staffs mod.
      */
-    object Tags : TagKeyUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
+    object Tags : RegistryKeyUtil<Item>(MOD_ID, RegistryKeys.ITEM) {
         /**
-         * Item tag registered as `avm_staff:staffs`.
+         * Staff items. Used by data packs.
          */
-        @JvmField
-        val STAFFS = tagKey("staffs")
+        @JvmStatic
+        val staffs by tagKey
 
         /**
-         * Item tag registered as `avm_staff:enabled_in_staff/royal_staff`.
+         * Items that can be used in [royalStaff].
          */
-        @JvmField
-        val ENABLED_ROYAL_STAFF_ITEMS = tagKey("enabled_in_staff/royal_staff")
+        @JvmStatic
+        val enabledInRoyalStaff = tagKey("enabled_in_staff/royal_staff")
 
         /**
-         * Item tag registered as `avm_staff:enabled_in_staff/scepter_of_friendship`.
+         * Items that can be used in [scepterOfFriendship].
          */
-        @JvmField
-        val ENABLED_SCEPTER_OF_FRIENDSHIP_ITEMS = tagKey("enabled_in_staff/scepter_of_friendship")
+        @JvmStatic
+        val enabledInScepterOfFriendship = tagKey("enabled_in_staff/scepter_of_friendship")
     }
 }
