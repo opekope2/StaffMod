@@ -21,7 +21,6 @@
 
 package opekope2.avm_staff.internal.neoforge
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.util.ModelIdentifier
@@ -36,12 +35,13 @@ import opekope2.avm_staff.internal.neoforge.item.NeoForgeCrownItem
 import opekope2.avm_staff.internal.neoforge.item.NeoForgeStaffItem
 import opekope2.avm_staff.util.mc
 import thedarkcolour.kotlinforforge.neoforge.forge.DIST
+import java.util.function.Supplier
 
 val staffModPlatform = object : IStaffModPlatform {
     override val isClient: Boolean
         get() = DIST == Dist.CLIENT
 
-    override fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) =
+    override fun staffItem(settings: Item.Settings, repairIngredient: Supplier<out Item>?) =
         NeoForgeStaffItem(settings, repairIngredient)
 
     override fun crownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) =

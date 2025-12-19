@@ -21,7 +21,6 @@
 
 package opekope2.avm_staff.internal.fabric
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
@@ -38,12 +37,13 @@ import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
 import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
 import opekope2.avm_staff.util.mc
+import java.util.function.Supplier
 
 val staffModPlatform = object : IStaffModPlatform {
     override val isClient: Boolean
         get() = FabricLoader.getInstance().environmentType == EnvType.CLIENT
 
-    override fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) =
+    override fun staffItem(settings: Item.Settings, repairIngredient: Supplier<out Item>?) =
         FabricStaffItem(settings, repairIngredient)
 
     override fun crownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) =

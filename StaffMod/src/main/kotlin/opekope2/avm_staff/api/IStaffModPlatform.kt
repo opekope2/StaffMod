@@ -18,13 +18,13 @@
 
 package opekope2.avm_staff.api
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.staffModPlatform
+import java.util.function.Supplier
 
 /**
  * Loader-specific functionality
@@ -40,9 +40,10 @@ interface IStaffModPlatform {
     /**
      * Creates a loader-specific instance of [StaffItem].
      *
-     * @param settings  The item settings to pass to the constructor
+     * @param settings          The item settings to pass to the constructor
+     * @param repairIngredient  The item used to repair the staff or `null`, if the staff cannot be repaired
      */
-    fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?): StaffItem
+    fun staffItem(settings: Item.Settings, repairIngredient: Supplier<out Item>?): StaffItem
 
     /**
      * Creates a loader-specific instance of [CrownItem].

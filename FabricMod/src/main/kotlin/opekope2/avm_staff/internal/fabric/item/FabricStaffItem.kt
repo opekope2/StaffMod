@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.fabric.item
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.fabricmc.fabric.api.item.v1.FabricItem
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -28,8 +27,9 @@ import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.fabric.staffModPlatform
 import opekope2.avm_staff.util.staffHandlerOrFallback
+import java.util.function.Supplier
 
-class FabricStaffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) :
+class FabricStaffItem(settings: Settings, repairIngredient: Supplier<out Item>?) :
     StaffItem(settings, repairIngredient), FabricItem {
     init {
         if (staffModPlatform.isClient) IStaffModClientPlatform.renderAsStaffModel(this)

@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.api.item
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ItemEntity
@@ -47,13 +46,14 @@ import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.util.*
 import org.jetbrains.annotations.ApiStatus
 import java.util.function.BiConsumer
+import java.util.function.Supplier
 
 /**
  * Staff item dispatching functionality to [StaffHandler] without loader specific functionality.
  * Implementing loader-specific interfaces is highly recommended when extending the class to pass loader-specific
  * functionality to [StaffHandler].
  */
-abstract class StaffItem(settings: Settings, private val repairIngredientSupplier: RegistrySupplier<Item>?) :
+abstract class StaffItem(settings: Settings, private val repairIngredientSupplier: Supplier<out Item>?) :
     Item(settings) {
     override fun canRepair(stack: ItemStack, ingredient: ItemStack) =
         repairIngredientSupplier != null && ingredient.isOf(repairIngredientSupplier.get())
