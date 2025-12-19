@@ -108,6 +108,14 @@ abstract class AbstractStaffMod {
             LootTables.TRAIL_RUINS_RARE_ARCHAEOLOGY -> modifyPool(0, "main") { builder ->
                 builder.staffMod_addEntry(ItemEntry.builder(Items.scepterOfFriendshipIngredient))
             }
+
+            LootTables.WOODLAND_MANSION_CHEST -> modifyPool(0, "pool0") { builder ->
+                builder.staffMod_addEntry(
+                    ItemEntry.builder(BOOK)
+                        .weight(1)
+                        .apply(enchantRandomly(Enchantments.cohesion))
+                )
+            }
         }
     }
 
