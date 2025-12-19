@@ -549,7 +549,8 @@ abstract class StaffHandler {
          */
         @JvmStatic
         fun overlayMessage(player: ServerPlayerEntity, message: Text) {
-            player.networkHandler.sendPacket(OverlayMessageS2CPacket(message))
+            // NeoForge fucked up sendPacket method name, but Mojmap should fix this
+            player.networkHandler.send(OverlayMessageS2CPacket(message), null)
         }
     }
 }
