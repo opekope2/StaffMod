@@ -37,7 +37,6 @@ import opekope2.avm_staff.content.DataComponentTypes
  * Checks if an item is added the given staff item stack.
  */
 val ItemStack.isItemInStaff: Boolean
-    @JvmName("isItemInStaff")
     get() = DataComponentTypes.staffItem in this
 
 /**

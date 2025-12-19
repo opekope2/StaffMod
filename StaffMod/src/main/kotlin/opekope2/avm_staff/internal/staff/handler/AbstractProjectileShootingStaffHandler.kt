@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -33,7 +34,7 @@ import opekope2.avm_staff.util.*
 internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() {
     protected abstract fun getFireRateDenominator(rapidFireLevel: Int): Int
 
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override fun use(
         staffStack: ItemStack,

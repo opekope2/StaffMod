@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -36,7 +37,7 @@ import opekope2.avm_staff.content.SoundEvents
 import opekope2.avm_staff.util.*
 
 internal class CampfireHandler(private val parameters: Parameters) : StaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override fun use(
         staffStack: ItemStack,

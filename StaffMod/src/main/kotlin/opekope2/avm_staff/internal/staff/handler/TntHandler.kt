@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -38,7 +39,7 @@ import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.util.*
 
 internal class TntHandler : StaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 4 * 20
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 4 * TICKS_PER_SECOND
 
     override fun use(
         staffStack: ItemStack,

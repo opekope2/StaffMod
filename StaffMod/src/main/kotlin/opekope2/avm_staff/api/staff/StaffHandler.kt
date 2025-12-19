@@ -20,7 +20,7 @@ package opekope2.avm_staff.api.staff
 
 import com.mojang.serialization.Lifecycle
 import dev.architectury.event.EventResult
-import net.minecraft.SharedConstants
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.BlockState
 import net.minecraft.component.type.AttributeModifiersComponent
@@ -453,7 +453,7 @@ abstract class StaffHandler {
 
         override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
             if (world.isClient) {
-                val remainingSeconds = remainingUseTicks.toFloat() / SharedConstants.TICKS_PER_SECOND
+                val remainingSeconds = remainingUseTicks.toFloat() / TICKS_PER_SECOND
                 val pickupData = staffStack[DataComponentTypes.blockPickupData]
                 // FIXME Minecraft is fucking stupid and will reset the counter
                 if (DataComponentTypes.blockPickupData in staffStack && pickupData != null) mc.inGameHud.setOverlayMessage(

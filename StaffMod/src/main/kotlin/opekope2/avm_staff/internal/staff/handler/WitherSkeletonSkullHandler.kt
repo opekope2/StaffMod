@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -38,7 +39,7 @@ import opekope2.avm_staff.util.*
 internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandler() {
     override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 2 else 4
 
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 20
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = TICKS_PER_SECOND
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (attacker is PlayerEntity && attacker.itemCooldownManager.isCoolingDown(staffStack.item)) return
@@ -77,7 +78,7 @@ internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandl
         if (world.isClient) return EventResult.pass()
         if (target is LivingEntity && !target.isInvulnerableTo(world.damageSources.wither())) {
             val amplifier = if (world.difficulty == Difficulty.HARD) 1 else 0
-            target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 10 * 20, amplifier))
+            target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 10 * TICKS_PER_SECOND, amplifier))
             (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
 

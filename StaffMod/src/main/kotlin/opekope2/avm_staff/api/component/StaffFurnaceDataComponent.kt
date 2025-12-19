@@ -27,8 +27,9 @@ import net.minecraft.network.codec.PacketCodecs
 /**
  * Data components to store the state of a furnace staff.
  *
- * @param smeltedItemId         [net.minecraft.entity.ItemEntity.getId]
- * @param unsmeltableItemIds    [net.minecraft.entity.ItemEntity.getId] of the items which cannot be smelted
+ * @param smeltedItemId         The [network ID][net.minecraft.entity.ItemEntity.getId] of the item entity being smelted
+ * @param unsmeltableItemIds    The [network ID][net.minecraft.entity.ItemEntity.getId] of the item entities which
+ * cannot be smelted
  * @param smeltTicks            The ticks elapsed since the furnace started to smelt [smeltedItemId]
  */
 data class StaffFurnaceDataComponent(val smeltedItemId: Int, val unsmeltableItemIds: IntSet, val smeltTicks: Int) {

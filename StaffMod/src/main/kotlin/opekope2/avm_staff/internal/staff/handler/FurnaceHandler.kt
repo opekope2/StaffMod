@@ -21,7 +21,7 @@ package opekope2.avm_staff.internal.staff.handler
 import it.unimi.dsi.fastutil.ints.IntSet
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.SharedConstants
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
@@ -58,7 +58,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     private val smeltSound: SoundEvent,
     private val speed: Int,
 ) : StaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(8.0), AttributeModifierSlot.MAINHAND)
@@ -89,8 +89,7 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
             if (itemToSmelt == null) return
 
             val stackToSmelt = itemToSmelt.stack
-            val remainingSeconds =
-                (stackToSmelt.count - furnaceData.smeltTicks).toFloat() / speed / SharedConstants.TICKS_PER_SECOND
+            val remainingSeconds = (stackToSmelt.count - furnaceData.smeltTicks).toFloat() / speed / TICKS_PER_SECOND
             mc.inGameHud.setOverlayMessage(
                 I18n.FEEDBACK_AVM_STAFF_SMELTING.getText(stackToSmelt.name, round(remainingSeconds * 10f) / 10f),
                 false
