@@ -44,9 +44,6 @@ import opekope2.avm_staff.internal.staff.item_renderer.WitherSkeletonSkullStaffI
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.registryId
 import org.jetbrains.annotations.ApiStatus
-import org.jetbrains.annotations.MustBeInvokedByOverriders
-import java.util.function.BiConsumer
-import java.util.function.Consumer
 
 @ApiStatus.Internal
 @Environment(EnvType.CLIENT)
@@ -60,16 +57,14 @@ abstract class AbstractStaffModClient {
         registerStaffItemRenderers()
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerEntityRenderers() {
+    protected fun registerEntityRenderers() {
         EntityRendererRegistry.register(EntityTypes::cake, ::CakeEntityRenderer)
         EntityRendererRegistry.register(EntityTypes::campfireFlame, ::EmptyEntityRenderer)
         EntityRendererRegistry.register(EntityTypes::impactTnt, ::TntEntityRenderer)
     }
 
     // TODO move to RegistryUtil
-    @MustBeInvokedByOverriders
-    protected open fun registerStaffItemRenderers() {
+    protected fun registerStaffItemRenderers() {
         StaffItemRenderer.register(ANVIL, BlockStateStaffItemRenderer(Blocks.ANVIL))
         StaffItemRenderer.register(CHIPPED_ANVIL, BlockStateStaffItemRenderer(Blocks.CHIPPED_ANVIL))
         StaffItemRenderer.register(DAMAGED_ANVIL, BlockStateStaffItemRenderer(Blocks.DAMAGED_ANVIL))
@@ -125,25 +120,22 @@ abstract class AbstractStaffModClient {
         StaffItemRenderer.register(BLACK_WOOL, BlockStateStaffItemRenderer(Blocks.BLACK_WOOL))
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerModelPredicateProviders(register: BiConsumer<Identifier, ClampedModelPredicateProvider>) {
-        for ((key, value) in MODEL_PREDICATES) register.accept(key, value)
+    protected inline fun registerModelPredicateProviders(register: (id: Identifier, modelPredicate: ClampedModelPredicateProvider) -> Unit) {
+        for ((key, value) in MODEL_PREDICATES) register(key, value)
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerStaffItemModels(modelsToLoad: Consumer<Identifier>) {
+    protected inline fun registerStaffItemModels(loadModel: (modelId: Identifier) -> Unit) {
         for (item in IStaffModClientPlatform.staffModelItems) {
             val itemId = item.registryId.withPrefixedPath("item/")
-            modelsToLoad.accept(itemId.withSuffixedPath("/head"))
-            modelsToLoad.accept(itemId.withSuffixedPath("/item_transform"))
-            modelsToLoad.accept(itemId.withSuffixedPath("/rod_top"))
-            modelsToLoad.accept(itemId.withSuffixedPath("/rod_bottom"))
+            loadModel(itemId.withSuffixedPath("/head"))
+            loadModel(itemId.withSuffixedPath("/item_transform"))
+            loadModel(itemId.withSuffixedPath("/rod_top"))
+            loadModel(itemId.withSuffixedPath("/rod_bottom"))
         }
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerResourceLoaders(register: BiConsumer<Identifier, ResourceReloader>) {
-        register.accept(Identifier.of(MOD_ID, "defuse"), Defuse)
+    protected inline fun registerResourceLoaders(register: (id: Identifier, reloader: ResourceReloader) -> Unit) {
+        register(Identifier.of(MOD_ID, "defuse"), Defuse)
     }
 
     companion object {

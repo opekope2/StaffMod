@@ -43,7 +43,6 @@ import opekope2.avm_staff.internal.networking.s2c.play.StaffItemInsertRemoveSwap
 import opekope2.avm_staff.internal.staff.handler.*
 import opekope2.avm_staff.util.MOD_ID
 import org.jetbrains.annotations.ApiStatus
-import org.jetbrains.annotations.MustBeInvokedByOverriders
 import java.util.function.Consumer
 
 @ApiStatus.Internal
@@ -57,8 +56,7 @@ abstract class AbstractStaffMod {
         EventHandlers.initialize()
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerContent() {
+    protected fun registerContent() {
         Blocks.register()
         Criteria.register()
         DamageTypes.initialize()
@@ -74,27 +72,30 @@ abstract class AbstractStaffMod {
         StatTypes.register()
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun modifyLootTable(
+    // Needs to be public because of KT-22625 or KT-27441
+    fun enchantRandomly(
+        ops: RegistryOps<*>,
+        enchantment: RegistryKey<Enchantment>
+    ): EnchantRandomlyLootFunction.Builder = EnchantRandomlyLootFunction.create()
+        .option(ops.getEntryLookup(RegistryKeys.ENCHANTMENT).orElseThrow().getOrThrow(enchantment))
+
+    protected inline fun modifyLootTable(
         key: RegistryKey<LootTable>,
         addPool: (name: String) -> LootPool.Builder,
         modifyPool: (ordinal: Int, name: String, modifier: Consumer<ILootPoolBuilder>) -> Unit,
         ops: RegistryOps<*>
     ) {
-        fun enchantRandomly(enchantment: RegistryKey<Enchantment>) = EnchantRandomlyLootFunction.create()
-            .option(ops.getEntryLookup(RegistryKeys.ENCHANTMENT).orElseThrow().getOrThrow(enchantment))
-
         when (key) {
             LootTables.ANCIENT_CITY_CHEST -> modifyPool(0, "pool0") { builder ->
                 builder.staffMod_addEntry(
                     ItemEntry.builder(BOOK)
                         .weight(3)
-                        .apply(enchantRandomly(Enchantments.quickDraw))
+                        .apply(enchantRandomly(ops, Enchantments.quickDraw))
                 )
                 builder.staffMod_addEntry(
                     ItemEntry.builder(BOOK)
                         .weight(3)
-                        .apply(enchantRandomly(Enchantments.rapidFire))
+                        .apply(enchantRandomly(ops, Enchantments.rapidFire))
                 )
             }
 
@@ -113,14 +114,13 @@ abstract class AbstractStaffMod {
                 builder.staffMod_addEntry(
                     ItemEntry.builder(BOOK)
                         .weight(1)
-                        .apply(enchantRandomly(Enchantments.cohesion))
+                        .apply(enchantRandomly(ops, Enchantments.cohesion))
                 )
             }
         }
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun initializeNetworking() {
+    protected fun initializeNetworking() {
         AttackC2SPacket.registerReceiver()
         StaffItemInsertRemoveSwapC2SPacket.registerReceiver()
 
@@ -129,8 +129,7 @@ abstract class AbstractStaffMod {
     }
 
     // TODO move to RegistryUtil
-    @MustBeInvokedByOverriders
-    protected open fun registerStaffHandlers() {
+    protected fun registerStaffHandlers() {
         StaffHandler.register(ANVIL, AnvilHandler(CHIPPED_ANVIL))
         StaffHandler.register(CHIPPED_ANVIL, AnvilHandler(DAMAGED_ANVIL))
         StaffHandler.register(DAMAGED_ANVIL, AnvilHandler(null))
