@@ -13,6 +13,12 @@
     ],
     "subtitle": "subtitles.entity.avm_staff.cake.throw"
   },
+  "entity.player.celebrate_prank": {
+    "sounds": [
+      "avm_staff:entity/player/pranked"
+    ],
+    "subtitle": "subtitles.entity.player.prank.celebrate"
+  },
   "item.flamethrower.fire": {
     "sounds": [
       "mob/horse/breathe1",

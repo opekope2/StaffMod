@@ -44,6 +44,12 @@ object SoundEvents : Registrar<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) {
     val cakeThrow by registering("entity.cake.throw")
 
     /**
+     * Player celebrates prank sound event.
+     */
+    @JvmStatic
+    val celebratePrank by registering("entity.player.celebrate_prank")
+
+    /**
      * Flamethrower fire sound event.
      */
     @JvmStatic

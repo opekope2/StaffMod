@@ -22,8 +22,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
+import opekope2.avm_staff.api.sound.CelebratePrankSoundInstance;
 import opekope2.avm_staff.api.staff.Defuse;
-import opekope2.avm_staff.util.Constants;
 import opekope2.avm_staff.util.ParticleUtil;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -33,6 +33,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import static opekope2.avm_staff.util.Constants.CELEBRATE_PRANK_WORLD_EVENT;
+import static opekope2.avm_staff.util.Constants.ENTITY_DEFUSED_WORLD_EVENT;
 
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin {
@@ -45,7 +48,10 @@ public abstract class WorldRendererMixin {
 
     @Inject(method = "processWorldEvent", at = @At("TAIL"))
     private void processWorldEvent(int eventId, BlockPos pos, int data, CallbackInfo ci) {
-        if (eventId == Constants.ENTITY_DEFUSED_WORLD_EVENT) staffMod_onEntityDefused(data);
+        switch (eventId) {
+            case ENTITY_DEFUSED_WORLD_EVENT -> staffMod_onEntityDefused(data);
+            case CELEBRATE_PRANK_WORLD_EVENT -> staffMod_celebratePrank(data);
+        }
     }
 
     @Unique
@@ -65,5 +71,16 @@ public abstract class WorldRendererMixin {
                 (soundGroup.getVolume() + 1.0f) / 2.0f, soundGroup.getPitch() * 0.8f,
                 false
         );
+    }
+
+    @Unique
+    private void staffMod_celebratePrank(int id) {
+        assert world != null;
+        var entity = world.getEntityById(id);
+        if (entity == null) return;
+
+        var soundManager = client.getSoundManager();
+        var sound = new CelebratePrankSoundInstance(entity);
+        if (!soundManager.isPlaying(sound)) soundManager.play(sound);
     }
 }

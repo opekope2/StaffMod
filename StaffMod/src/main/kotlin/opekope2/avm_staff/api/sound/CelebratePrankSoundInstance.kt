@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024-2025 opekope2
+ * Copyright (c) 2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,27 +16,26 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Constants")
+package opekope2.avm_staff.api.sound
 
-package opekope2.avm_staff.util
-
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.sound.EntityTrackingSoundInstance
+import net.minecraft.entity.Entity
 import opekope2.avm_staff.content.SoundEvents
 
 /**
- * The identifier of Staff Mod.
+ * Sound instance for the [SoundEvents.celebratePrank] sound event.
+ * This implements the [equals] method so it can be used to play it once at a time per entity.
+ *
+ * @param entity    The entity this sound instance tracks (the entity pranking another one)
  */
-const val MOD_ID = "avm_staff"
-
-/**
- * Entity defused world event.
- * Also used when a cake collides and splashes.
- * Data: [net.minecraft.entity.Entity.getId]
- */
-const val ENTITY_DEFUSED_WORLD_EVENT: Int = 286782330 // AVMSTAFF0
-
-/**
- * Celebrate prank world event.
- * Used to tell clients to play the [SoundEvents.celebratePrank] sound effect when a player pranks another one.
- * Data: [net.minecraft.entity.Entity.getId]
- */
-const val CELEBRATE_PRANK_WORLD_EVENT: Int = 286782331 // AVMSTAFF1
+@Environment(EnvType.CLIENT)
+data class CelebratePrankSoundInstance(val entity: Entity) : EntityTrackingSoundInstance(
+    SoundEvents.celebratePrank,
+    entity.soundCategory,
+    1f,
+    1f,
+    entity,
+    entity.world.random.nextLong()
+)
