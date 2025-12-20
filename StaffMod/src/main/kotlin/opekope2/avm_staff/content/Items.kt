@@ -25,7 +25,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroups.INGREDIENTS
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.Rarity
 import opekope2.avm_staff.api.IStaffModClientPlatform
@@ -33,6 +32,7 @@ import opekope2.avm_staff.api.IStaffModPlatform
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.Items.royalStaff
 import opekope2.avm_staff.content.Items.scepterOfFriendship
+import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.mixin.ISmithingTemplateItemAccessor
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.Registrar
@@ -147,12 +147,12 @@ object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
     @JvmStatic
     val staffInfusionSmithingTemplate by registering {
         SmithingTemplateItem(
-            Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.applies_to")
+            I18n.ITEM_AVM_STAFF_STAFF_INFUSION_SMITHING_TEMPLATE_APPLIES_TO.getText()
                 .formatted(ISmithingTemplateItemAccessor.descriptionFormatting()),
             ISmithingTemplateItemAccessor.armorTrimIngredientsText(),
-            Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.title")
+            I18n.ITEM_AVM_STAFF_STAFF_INFUSION_SMITHING_TEMPLATE_TITLE.getText()
                 .formatted(ISmithingTemplateItemAccessor.titleFormatting()),
-            Text.translatable("item.$MOD_ID.staff_infusion_smithing_template.base_slot_description"),
+            I18n.ITEM_AVM_STAFF_STAFF_INFUSION_SMITHING_TEMPLATE_BASE_SLOT_DESCRIPTION.getText(),
             ISmithingTemplateItemAccessor.armorTrimAdditionsSlotDescriptionText(),
             listOf(Identifier.of(MOD_ID, "item/smithing_table/empty_slot_faint_staff_rod")),
             listOf(ISmithingTemplateItemAccessor.emptySlotRedstoneDustTexture())
