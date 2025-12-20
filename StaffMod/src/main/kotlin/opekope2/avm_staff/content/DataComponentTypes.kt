@@ -69,5 +69,5 @@ object DataComponentTypes : Registrar<ComponentType<*>>(MOD_ID, RegistryKeys.DAT
      * Stores the impact TNT to be detonated remotely.
      */
     @JvmStatic
-    val tntData by registeringComponentType { packetCodec(StaffTntDataComponent.NON_SYNCING_PACKET_CODEC) }
+    val tntData by registeringComponentType { packetCodec(StaffTntDataComponent.PACKET_CODEC) }
 }

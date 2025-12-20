@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,20 +20,20 @@ package opekope2.avm_staff.api.component
 
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
-import opekope2.avm_staff.api.entity.ImpactTntEntity
+import net.minecraft.network.codec.PacketCodecs
 
 /**
  * Data components to store the shot TNT in a TNT staff.
  *
- * @param tnt   The shot TNT entity. Only available server-side
+ * @param tntId The [network ID][net.minecraft.entity.ItemEntity.getId] of the shot TNT entity
  */
-data class StaffTntDataComponent(val tnt: ImpactTntEntity?) {
+data class StaffTntDataComponent(val tntId: Int) {
     companion object {
         /**
-         * [PacketCodec] for [StaffTntDataComponent], which doesn't sync its data.
+         * [PacketCodec] for [StaffTntDataComponent].
          */
         @JvmField
-        val NON_SYNCING_PACKET_CODEC: PacketCodec<RegistryByteBuf, StaffTntDataComponent> =
-            PacketCodec.of({ _, _ -> }, { StaffTntDataComponent(null) })
+        val PACKET_CODEC: PacketCodec<RegistryByteBuf, StaffTntDataComponent> =
+            PacketCodec.tuple(PacketCodecs.VAR_INT, StaffTntDataComponent::tntId, ::StaffTntDataComponent)
     }
 }

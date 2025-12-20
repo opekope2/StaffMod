@@ -52,6 +52,7 @@
   "error.avm_staff.loot_table_modifier.neoforge.registry_ops_error": "Error getting RegistryOps while modifying loot table %s",
   "error.avm_staff.loot_table_modifier.survival_obtainability": "Some AvM Staff Mod items may be unobtainable in survival mode",
   "error.avm_staff.resource_pack.file": "Invalid %s in resource pack %s: %s",
+  "feedback.avm_staff.accidental_explosion_prevented": "Accidental TNT explosion prevented",
   "feedback.avm_staff.cooldown": "%s is on cooldown",
   "feedback.avm_staff.handler.not_enabled": "%s cannot be used in %s",
   "feedback.avm_staff.inventory.full": "Inventory full",
