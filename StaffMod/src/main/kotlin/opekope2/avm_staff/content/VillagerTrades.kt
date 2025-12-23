@@ -34,7 +34,7 @@ object VillagerTrades {
     @JvmStatic
     val armorer4_faintScepterOfFriendshipHead = SimpleTrade(
         TradedItem(net.minecraft.item.Items.EMERALD, 32),
-        Optional.of(TradedItem(Items.scepterOfFriendshipIngredient, 5)),
+        Optional.of(TradedItem(Items.chromaticCrystal, 5)),
         ItemStack(Items.faintScepterOfFriendshipHead),
         3,
         15,

@@ -47,6 +47,14 @@ object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
     private fun settings() = Item.Settings()
 
     /**
+     * Chromatic crystal item.
+     */
+    @JvmStatic
+    val chromaticCrystal by registering {
+        Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+    }
+
+    /**
      * Crown of King Orange item.
      */
     @JvmStatic
@@ -129,16 +137,8 @@ object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
                 .maxDamage(5179)
                 .component(DataComponentTypes.TOOL, ToolComponent(listOf(), 1f, 1))
                 .`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS),
-            ::scepterOfFriendshipIngredient
+            ::chromaticCrystal
         )
-    }
-
-    /**
-     * Scepter of friendship scrap item.
-     */
-    @JvmStatic
-    val scepterOfFriendshipIngredient by registering {
-        Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
     }
 
     /**
@@ -165,7 +165,7 @@ object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
         CreativeTabRegistry.append(ItemGroups.AVM_STAFF_MOD_ITEMS, ::staffInfusionSmithingTemplate)
         // Because arch$tab only allows one tab
         CreativeTabRegistry.append(INGREDIENTS, ::royalStaffIngredient)
-        CreativeTabRegistry.append(INGREDIENTS, ::scepterOfFriendshipIngredient)
+        CreativeTabRegistry.append(INGREDIENTS, ::chromaticCrystal)
         CreativeTabRegistry.append(INGREDIENTS, ::staffInfusionSmithingTemplate)
     }
 

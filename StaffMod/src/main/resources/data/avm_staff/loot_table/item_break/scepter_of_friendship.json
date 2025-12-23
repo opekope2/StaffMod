@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "avm_staff:scepter_of_friendship_ingredient",
+          "name": "avm_staff:chromatic_crystal",
           "functions": [
             {
               "function": "minecraft:set_count",

@@ -102,12 +102,12 @@ abstract class AbstractStaffMod {
             LootTables.BASTION_TREASURE_CHEST ->
                 addPool("$MOD_ID:crown_of_king_orange").with(ItemEntry.builder(Items.crownOfKingOrange))
 
-            LootTables.TRIAL_CHAMBERS_REWARD_UNIQUE_CHEST -> modifyPool(0, "main") { builder ->
-                builder.staffMod_addEntry(ItemEntry.builder(Items.staffInfusionSmithingTemplate))
+            LootTables.OCEAN_RUIN_WARM_ARCHAEOLOGY -> modifyPool(0, "main") { builder ->
+                builder.staffMod_addEntry(ItemEntry.builder(Items.chromaticCrystal))
             }
 
-            LootTables.TRAIL_RUINS_RARE_ARCHAEOLOGY -> modifyPool(0, "main") { builder ->
-                builder.staffMod_addEntry(ItemEntry.builder(Items.scepterOfFriendshipIngredient))
+            LootTables.TRIAL_CHAMBERS_REWARD_UNIQUE_CHEST -> modifyPool(0, "main") { builder ->
+                builder.staffMod_addEntry(ItemEntry.builder(Items.staffInfusionSmithingTemplate))
             }
 
             LootTables.WOODLAND_MANSION_CHEST -> modifyPool(0, "pool0") { builder ->

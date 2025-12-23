@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "avm_staff:item/scepter_of_friendship_ingredient"
+    "layer0": "avm_staff:item/chromatic_crystal"
   }
 }
