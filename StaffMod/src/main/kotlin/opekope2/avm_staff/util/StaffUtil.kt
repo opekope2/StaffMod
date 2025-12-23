@@ -85,7 +85,7 @@ private val staff2enabledItemsTag = mutableMapOf<Item, TagKey<Item>>()
  */
 val ItemStack.enabledItemsInStaffTag: TagKey<Item>
     get() = staff2enabledItemsTag.getOrPut(item) {
-        TagKey.of(RegistryKeys.ITEM, item.registryId.withPrefixedPath("enabled_in_staff/"))
+        TagKey.of(RegistryKeys.ITEM, item.registryId.withPrefixedPath("enabled_in/"))
     }
 
 /**

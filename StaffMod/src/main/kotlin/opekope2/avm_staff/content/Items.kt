@@ -183,12 +183,12 @@ object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
          * Items that can be used in [royalStaff].
          */
         @JvmStatic
-        val enabledInRoyalStaff = tagKey("enabled_in_staff/royal_staff")
+        val enabledInRoyalStaff = tagKey("enabled_in/royal_staff")
 
         /**
          * Items that can be used in [scepterOfFriendship].
          */
         @JvmStatic
-        val enabledInScepterOfFriendship = tagKey("enabled_in_staff/scepter_of_friendship")
+        val enabledInScepterOfFriendship = tagKey("enabled_in/scepter_of_friendship")
     }
 }
