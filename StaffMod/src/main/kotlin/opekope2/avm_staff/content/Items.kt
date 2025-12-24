@@ -51,7 +51,7 @@ object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
      */
     @JvmStatic
     val chromaticCrystal by registering {
-        Item(settings().rarity(Rarity.RARE).`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
+        Item(settings().`arch$tab`(ItemGroups.AVM_STAFF_MOD_ITEMS))
     }
 
     /**
