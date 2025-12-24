@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -27,12 +28,13 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.Enchantments
+import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.util.*
 
 internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() {
     protected abstract fun getFireRateDenominator(rapidFireLevel: Int): Int
 
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override fun use(
         staffStack: ItemStack,
@@ -40,15 +42,21 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        val allowsProjectileRapidFire = staffStack.isEnchantedWith(Enchantments.RAPID_FIRE, world.registryManager)
-        if (!allowsProjectileRapidFire) return TypedActionResult.pass(staffStack)
+        val allowsProjectileRapidFire = staffStack.isEnchantedWith(Enchantments.rapidFire, world.registryManager)
+        if (!allowsProjectileRapidFire) {
+            if (user is ServerPlayerEntity) overlayMessage(
+                user,
+                I18n.FEEDBACK_AVM_STAFF_REQUIRES_ENCHANTMENT.getText(I18n.ENCHANTMENT_AVM_STAFF_RAPID_FIRE.getText())
+            )
+            return TypedActionResult.pass(staffStack)
+        }
 
         user.setCurrentHand(hand)
         return TypedActionResult.consume(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        val rapidFire = staffStack.getEnchantmentLevel(Enchantments.RAPID_FIRE, world.registryManager)
+        val rapidFire = staffStack.getEnchantmentLevel(Enchantments.rapidFire, world.registryManager)
         if (remainingUseTicks % getFireRateDenominator(rapidFire) != 0) return
         if (!tryShootProjectile(staffStack, world, user, ProjectileShootReason.USE)) return
 
@@ -73,7 +81,7 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
         reason: ProjectileShootReason
     ): Boolean {
         if (world.isClient) return false
-        if (!shooter.canUseStaff) return false
+        if (!shooter.canUseStaff()) return false
         if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return false
 
         return true

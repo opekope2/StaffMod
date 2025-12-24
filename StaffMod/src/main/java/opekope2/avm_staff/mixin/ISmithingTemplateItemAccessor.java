@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,17 +21,11 @@ package opekope2.avm_staff.mixin;
 import net.minecraft.item.SmithingTemplateItem;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(SmithingTemplateItem.class)
 public interface ISmithingTemplateItemAccessor {
-    @Accessor("ARMOR_TRIM_ADDITIONS_SLOT_DESCRIPTION_TEXT")
-    static Text armorTrimAdditionsSlotDescriptionText() {
-        throw new AssertionError();
-    }
-
     @Accessor("ARMOR_TRIM_INGREDIENTS_TEXT")
     static Text armorTrimIngredientsText() {
         throw new AssertionError();
@@ -39,11 +33,6 @@ public interface ISmithingTemplateItemAccessor {
 
     @Accessor("DESCRIPTION_FORMATTING")
     static Formatting descriptionFormatting() {
-        throw new AssertionError();
-    }
-
-    @Accessor("EMPTY_SLOT_REDSTONE_DUST_TEXTURE")
-    static Identifier emptySlotRedstoneDustTexture() {
         throw new AssertionError();
     }
 

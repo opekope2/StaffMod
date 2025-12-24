@@ -13,15 +13,13 @@
   },
   "criteria": {
     "using_campfire_staff": {
-      "trigger": "avm_staff:get_hurt_while_using_item",
+      "trigger": "avm_staff:take_damage_while_using_item",
       "conditions": {
         "item": {
           "items": "#avm_staff:staffs",
           "components": {
             "avm_staff:staff_item": {
-              "item": {
-                "id": "minecraft:campfire"
-              }
+              "id": "minecraft:campfire"
             }
           }
         },
@@ -36,15 +34,13 @@
       }
     },
     "using_soul_campfire_staff": {
-      "trigger": "avm_staff:get_hurt_while_using_item",
+      "trigger": "avm_staff:take_damage_while_using_item",
       "conditions": {
         "item": {
           "items": "#avm_staff:staffs",
           "components": {
             "avm_staff:staff_item": {
-              "item": {
-                "id": "minecraft:soul_campfire"
-              }
+              "id": "minecraft:soul_campfire"
             }
           }
         },

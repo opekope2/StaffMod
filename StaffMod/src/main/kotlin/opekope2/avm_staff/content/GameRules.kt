@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,16 +19,31 @@
 package opekope2.avm_staff.content
 
 import net.minecraft.world.GameRules
+import kotlin.properties.PropertyDelegateProvider
+
+private typealias TGameRules = opekope2.avm_staff.content.GameRules
 
 /**
  * Game rules added by AVM Staffs mod.
  */
 object GameRules {
+    @JvmStatic
+    private fun <T : GameRules.Rule<T>> registering(category: GameRules.Category, type: GameRules.Type<T>) =
+        PropertyDelegateProvider<TGameRules, Lazy<GameRules.Key<T>>> { _, property ->
+            lazyOf(GameRules.register(property.name, category, type))
+        }
+
     /**
-     * Throwable cakes game rule. When set to true, cakes can be thrown by right clicking, and dispensers will shoot cakes
-     * instead of dropping them as item.
+     * Throwable cakes game rule.
+     * When enabled, cakes can be thrown by right-clicking, and dispensers will shoot cakes instead of dropping them as item.
      */
-    @JvmField
-    val THROWABLE_CAKES: GameRules.Key<GameRules.BooleanRule> =
-        GameRules.register("throwableCakes", GameRules.Category.MISC, GameRules.BooleanRule.create(false))
+    @JvmStatic
+    val throwableCakes by registering(GameRules.Category.MISC, GameRules.BooleanRule.create(false))
+
+    /**
+     * Bell Staff ESP rule.
+     * When enabled, bell staff will apply the glowing effect to all living entities in a smaller range.
+     */
+    @JvmStatic
+    val bellStaffEsp by registering(GameRules.Category.MISC, GameRules.BooleanRule.create(false))
 }

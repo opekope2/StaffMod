@@ -1,6 +1,7 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
-	"parent": "avm_staff:item/faint_royal_staff",
+	"parent": "avm_staff:item/royal_staff",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [-75, 90, 0],

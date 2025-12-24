@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,40 +19,47 @@
 package opekope2.avm_staff.internal.neoforge
 
 import net.minecraft.client.item.ModelPredicateProviderRegistry
+import net.minecraft.client.util.ModelIdentifier
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.api.distmarker.OnlyIn
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
-import opekope2.avm_staff.api.particle.FlamethrowerParticle
-import opekope2.avm_staff.content.ParticleTypes
-import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
-import opekope2.avm_staff.internal.initializer.ClientInitializer
-import opekope2.avm_staff.internal.model.ModelPredicates
-import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffItemRenderers
+import net.neoforged.neoforge.client.event.ModelEvent
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent
+import opekope2.avm_staff.api.IStaffModClientPlatform
+import opekope2.avm_staff.internal.AbstractStaffModClient
+import opekope2.avm_staff.internal.neoforge.renderer.StaffRenderer
+import opekope2.avm_staff.util.MOD_ID
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
+@Mod(MOD_ID, dist = [Dist.CLIENT])
 @OnlyIn(Dist.CLIENT)
-object StaffModClient {
-    fun initializeClient() {
-        ClientInitializer
-        ClientEventHandlers
-        registerVanillaStaffItemRenderers()
+object StaffModClient : AbstractStaffModClient() {
+    init {
+        super.initialize()
+
         MOD_BUS.register(this)
     }
 
     @SubscribeEvent
     fun initializeClient(event: FMLClientSetupEvent) {
-        event.enqueueWork {
-            for ((key, value) in ModelPredicates) {
-                ModelPredicateProviderRegistry.registerGeneric(key, value)
-            }
-        }
+        event.enqueueWork { registerModelPredicateProviders(ModelPredicateProviderRegistry::registerGeneric) }
     }
 
     @SubscribeEvent
-    fun registerParticleProviders(event: RegisterParticleProvidersEvent) {
-        event.registerSpriteSet(ParticleTypes.flame, FlamethrowerParticle::Factory)
-        event.registerSpriteSet(ParticleTypes.soulFireFlame, FlamethrowerParticle::Factory)
+    fun registerStaffItemModels(event: ModelEvent.RegisterAdditional) {
+        registerStaffItemModels { event.register(ModelIdentifier.standalone(it)) }
+    }
+
+    @SubscribeEvent
+    fun registerStaffRenderers(event: RegisterClientExtensionsEvent) {
+        for (item in IStaffModClientPlatform.staffModelItems) event.registerItem(StaffRenderer, item)
+    }
+
+    @SubscribeEvent
+    fun registerResourceLoaders(event: RegisterClientReloadListenersEvent) {
+        registerResourceLoaders { _, loader -> event.registerReloadListener(loader) }
     }
 }

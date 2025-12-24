@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,7 +18,9 @@
 
 package opekope2.avm_staff.api.staff
 
+import com.mojang.serialization.Lifecycle
 import dev.architectury.event.EventResult
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.BlockState
 import net.minecraft.component.type.AttributeModifiersComponent
@@ -29,9 +31,13 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.registry.Registries
+import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.SimpleRegistry
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.stat.Stats
+import net.minecraft.text.Text
 import net.minecraft.util.*
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -39,13 +45,13 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.block.IClearableBeforeInsertedIntoStaff
 import opekope2.avm_staff.api.component.BlockPickupDataComponent
-import opekope2.avm_staff.api.registry.RegistryBase
+import opekope2.avm_staff.api.staff.StaffHandler.Companion.REGISTRY
+import opekope2.avm_staff.api.staff.StaffHandler.Companion.register
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
-import opekope2.avm_staff.util.approximateStaffItemPosition
-import opekope2.avm_staff.util.getEnchantmentLevel
-import opekope2.avm_staff.util.incrementStaffItemUseStat
-import opekope2.avm_staff.util.mutableItemStackInStaff
+import opekope2.avm_staff.internal.I18n
+import opekope2.avm_staff.util.*
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 /**
@@ -59,14 +65,41 @@ abstract class StaffHandler {
         get() = Fallback.ATTRIBUTE_MODIFIERS
 
     /**
+     * Called by Staff Mod before an item with this staff handler is removed from [staffStack] using
+     * [mutableItemStackInStaff].
+     *
+     * @param staffStack    The item stack of the staff
+     */
+    open fun beforeRemove(staffStack: ItemStack) {
+    }
+
+    /**
+     * Called by Staff Mod after an item with this staff handler is inserted into [staffStack] using
+     * [mutableItemStackInStaff].
+     *
+     * @param staffStack    The item stack of the staff
+     */
+    open fun afterInsert(staffStack: ItemStack) {
+    }
+
+    /**
      * Called on both the client and the server my Minecraft to get the number of ticks the staff can be used for using
      * the current item.
      *
      * @param staffStack    The item stack used to perform the action
      * @param world         The world the [user] is in
      * @param user          The player, which uses the staff
+     * @see Item.getMaxUseTime
      */
     open fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity): Int = 0
+
+    /**
+     * Gets the action that happens when a player uses the staff.
+     *
+     * @param staffStack    The item stack used to perform the action
+     * @see Item.getUseAction
+     */
+    open fun getUseAction(staffStack: ItemStack): UseAction = UseAction.NONE
 
     /**
      * Called on both the client and the server by Minecraft when the player uses the staff.
@@ -295,6 +328,18 @@ abstract class StaffHandler {
     open fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) = false
 
     /**
+     * Called on both the client and the server by Minecraft every tick [staffStack] is in a player's inventory.
+     *
+     * @param staffStack    The item stack of the staff
+     * @param world         The world [holder] is in
+     * @param holder        The entity holding the staff
+     * @param slot          The slot [staffStack] is in
+     * @param selected      Whether [staffStack] is in the selected hotbar slot
+     */
+    open fun tick(staffStack: ItemStack, world: World, holder: Entity, slot: Int, selected: Boolean) {
+    }
+
+    /**
      * Called on the client side by Fabric API, when the NBT of the held item gets updated.
      *
      * @param oldStaffStack The previous item stack
@@ -322,11 +367,41 @@ abstract class StaffHandler {
     ) = oldStaffStack != newStaffStack
 
     /**
-     * Default implementation of [StaffHandler]. Used for staffs with no [registered][Registry.register] handler.
+     * Returns if the staff's user is immune to lightning strikes while using the staff.
+     * Called on both the client and the server by Staff Mod.
+     *
+     * @param staffStack    The item stack of the staff
+     * @param world         The world the [user] is in
+     * @param user          The player, which holds the staff
+     * @param hand          The hand of the [user], in which the [staff][staffStack] is
+     */
+    open fun isInvulnerableToLightning(staffStack: ItemStack, world: World, user: LivingEntity, hand: Hand) = false
+
+    /**
+     * Default implementation of [StaffHandler]. Used for staffs with no [registered][register] handler.
      */
     object Fallback : StaffHandler() {
         @JvmField
         val ATTRIBUTE_MODIFIERS = StaffAttributeModifiersComponentBuilder.default()
+    }
+
+    /**
+     * A [StaffHandler] that shows an "item cannot be used in staff" overlay message to the player trying to use it.
+     */
+    object Disabled : StaffHandler() {
+        override fun use(
+            staffStack: ItemStack,
+            world: World,
+            user: LivingEntity,
+            hand: Hand
+        ): TypedActionResult<ItemStack> {
+            val stackInStaff = staffStack.itemStackInStaff
+            if (user is ServerPlayerEntity && stackInStaff != null) overlayMessage(
+                user,
+                I18n.FEEDBACK_AVM_STAFF_HANDLER_NOT_ENABLED.getText(stackInStaff.name, staffStack.name)
+            )
+            return TypedActionResult.pass(user.getStackInHand(hand))
+        }
     }
 
     /**
@@ -339,9 +414,9 @@ abstract class StaffHandler {
         override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity): Int {
             val targetPos = user.targetPos
             val state = world.getBlockState(targetPos)
-            val quickDraw = staffStack.getEnchantmentLevel(Enchantments.QUICK_DRAW, world.registryManager) + 1
+            val quickDraw = staffStack.getEnchantmentLevel(Enchantments.quickDraw, world.registryManager) + 1
 
-            return if (!canPickUp(world, targetPos, state)) 0
+            return if (!canPickUp(staffStack, world, targetPos, state)) 0
             else 10 + (state.getHardness(world, targetPos) / quickDraw).roundToInt()
         }
 
@@ -353,7 +428,7 @@ abstract class StaffHandler {
         ): TypedActionResult<ItemStack> {
             val targetPos = user.targetPos
             val state = world.getBlockState(targetPos)
-            if (!canPickUp(world, targetPos, state)) return TypedActionResult.fail(staffStack)
+            if (!canPickUp(staffStack, world, targetPos, state)) return TypedActionResult.fail(staffStack)
 
             staffStack[DataComponentTypes.blockPickupData] = BlockPickupDataComponent(targetPos, state)
 
@@ -361,9 +436,10 @@ abstract class StaffHandler {
             return TypedActionResult.consume(staffStack)
         }
 
-        private fun canPickUp(world: World, pos: BlockPos, state: BlockState) = !state.isAir &&
+        private fun canPickUp(staffStack: ItemStack, world: World, pos: BlockPos, state: BlockState) = !state.isAir &&
                 state.getHardness(world, pos) != -1f &&
-                state.block.asItem() in Registry
+                state.block.asItem().registryId in REGISTRY &&
+                state.block.asItem() in staffStack.enabledItemsInStaffTag
 
         private fun userChangedTarget(
             world: World,
@@ -376,7 +452,18 @@ abstract class StaffHandler {
         }
 
         override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-            if (!world.isClient && userChangedTarget(world, user, staffStack[DataComponentTypes.blockPickupData])) {
+            if (world.isClient) {
+                val remainingSeconds = remainingUseTicks.toFloat() / TICKS_PER_SECOND
+                val pickupData = staffStack[DataComponentTypes.blockPickupData]
+                // FIXME Minecraft is fucking stupid and will reset the counter
+                if (DataComponentTypes.blockPickupData in staffStack && pickupData != null) mc.inGameHud.setOverlayMessage(
+                    I18n.FEEDBACK_AVM_STAFF_PICKING_UP.getText(
+                        pickupData.state.block.name,
+                        round(remainingSeconds * 10f) / 10f
+                    ),
+                    false
+                )
+            } else if (userChangedTarget(world, user, staffStack[DataComponentTypes.blockPickupData])) {
                 user.stopUsingItem()
             }
         }
@@ -399,11 +486,11 @@ abstract class StaffHandler {
         }
 
         private fun tryPickUp(world: World, pos: BlockPos, state: BlockState, staffStack: ItemStack): Boolean {
-            if (!canPickUp(world, pos, state)) return false
+            if (world.isClient || !canPickUp(staffStack, world, pos, state)) return false
 
             val pickStack = state.block.getPickStack(world, pos, state)
             world.getBlockEntity(pos)?.apply {
-                val nbt = createComponentlessNbtWithIdentifyingData(world.registryManager)
+                val nbt = createComponentlessNbt(world.registryManager)
                 removeFromCopiedStackNbt(nbt)
                 BlockItem.setBlockEntityData(pickStack, type, nbt)
                 pickStack.applyComponentsFrom(createComponentMap())
@@ -431,30 +518,39 @@ abstract class StaffHandler {
         ) = selectedSlotChanged
     }
 
-    companion object Registry : RegistryBase<Identifier, StaffHandler>() {
-        private inline val Item.registryId: Identifier
-            get() = Registries.ITEM.getId(this)
+    companion object {
+        /**
+         * Registry key of [REGISTRY].
+         */
+        @JvmField
+        val REGISTRY_KEY: RegistryKey<Registry<StaffHandler>> =
+            RegistryKey.ofRegistry(Identifier.of(MOD_ID, "staff_handler"))
 
         /**
-         * Registers an entry to this registry.
+         * Registry of staff handlers.
+         */
+        @JvmField
+        val REGISTRY: Registry<StaffHandler> = SimpleRegistry(REGISTRY_KEY, Lifecycle.stable())
+
+        /**
+         * Registers an entry to [REGISTRY].
          *
-         * @param key The key to associate a value with
+         * @param T     The type of the staff handler
+         * @param key   The key to associate a value with
          * @param value The value to register
          */
-        fun register(key: Item, value: StaffHandler) = register(key.registryId, value)
+        fun <T : StaffHandler> register(key: Item, value: T): T = Registry.register(REGISTRY, key.registryId, value)
 
         /**
-         * Checks if the given key is present in the registry
+         * Sends an [OverlayMessageS2CPacket] to [player].
          *
-         * @param key The key to check
+         * @param player    The player to send an overlay message to
+         * @param message   The message to display
          */
-        operator fun contains(key: Item) = key.registryId in this
-
-        /**
-         * Gets the value associated with the given key or throws an exception, if the key is not present in this registry.
-         *
-         * @param key The key to check
-         */
-        operator fun get(key: Item) = this[key.registryId]
+        @JvmStatic
+        fun overlayMessage(player: ServerPlayerEntity, message: Text) {
+            // NeoForge fucked up sendPacket method name, but Mojmap should fix this
+            player.networkHandler.send(OverlayMessageS2CPacket(message), null)
+        }
     }
 }

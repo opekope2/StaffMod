@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "opekope2.avm_staff.mixin.neoforge",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "ItemStackMixin",
+    "LootDataTypeMixin",
+    "LootPoolMixin"
+  ]
+}

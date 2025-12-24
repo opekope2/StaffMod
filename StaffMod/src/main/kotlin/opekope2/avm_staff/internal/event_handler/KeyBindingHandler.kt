@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,12 +25,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket
-import opekope2.avm_staff.internal.networking.c2s.play.InsertItemIntoStaffC2SPacket.Companion.tryInsertItemIntoStaff
-import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket
-import opekope2.avm_staff.internal.networking.c2s.play.RemoveItemFromStaffC2SPacket.Companion.tryRemoveItemFromStaff
+import opekope2.avm_staff.internal.networking.c2s.play.StaffItemInsertRemoveSwapC2SPacket
 import opekope2.avm_staff.util.MOD_ID
 import org.lwjgl.glfw.GLFW
 
@@ -44,6 +39,7 @@ internal object KeyBindingHandler : ClientTickEvent.Client {
     )
 
     init {
+        ClientTickEvent.CLIENT_POST.register(this)
         KeyMappingRegistry.register(ADD_REMOVE_STAFF_ITEM)
     }
 
@@ -51,22 +47,7 @@ internal object KeyBindingHandler : ClientTickEvent.Client {
         if (!ADD_REMOVE_STAFF_ITEM.isPressed) return
         ADD_REMOVE_STAFF_ITEM.isPressed = false
 
-        val player = client.player ?: return
-
-        if (!player.tryInsertItemIntoStaff(KeyBindingHandler::sendInsertPacket)) {
-            player.tryRemoveItemFromStaff(KeyBindingHandler::sendRemovePacket)
-        }
-    }
-
-    @Suppress("UNUSED_PARAMETER")
-    private fun sendRemovePacket(player: PlayerEntity, staffStack: ItemStack, targetSlot: Int) {
-        RemoveItemFromStaffC2SPacket().sendToServer()
-        player.resetLastAttackedTicks()
-    }
-
-    @Suppress("UNUSED_PARAMETER")
-    private fun sendInsertPacket(player: PlayerEntity, staffStack: ItemStack, itemStackToAdd: ItemStack) {
-        InsertItemIntoStaffC2SPacket().sendToServer()
-        player.resetLastAttackedTicks()
+        if (client.player == null) return
+        StaffItemInsertRemoveSwapC2SPacket().sendToServer()
     }
 }

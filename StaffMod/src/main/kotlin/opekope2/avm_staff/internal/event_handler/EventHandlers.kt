@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,7 +20,10 @@ package opekope2.avm_staff.internal.event_handler
 
 import dev.architectury.event.CompoundEventResult
 import dev.architectury.event.EventResult
-import dev.architectury.event.events.common.*
+import dev.architectury.event.events.common.EntityEvent
+import dev.architectury.event.events.common.InteractionEvent
+import dev.architectury.event.events.common.LifecycleEvent
+import dev.architectury.event.events.common.PlayerEvent
 import net.minecraft.block.DispenserBlock
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ItemEntity
@@ -30,14 +33,8 @@ import net.minecraft.entity.mob.AbstractPiglinEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.loot.LootPool
-import net.minecraft.loot.LootTable
-import net.minecraft.loot.entry.LootTableEntry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -52,15 +49,14 @@ import opekope2.avm_staff.content.GameRules
 import opekope2.avm_staff.mixin.IPiglinBrainAccessor
 import opekope2.avm_staff.util.*
 
-object EventHandlers : EntityEvent.LivingDeath, EntityEvent.LivingHurt, InteractionEvent.LeftClickBlock,
-    InteractionEvent.RightClickItem, Runnable, LootEvent.ModifyLootTable, PlayerEvent.AttackEntity,
+object EventHandlers :
+    EntityEvent.LivingDeath,
+    EntityEvent.LivingHurt,
+    InteractionEvent.LeftClickBlock,
+    InteractionEvent.RightClickItem,
+    Runnable,
+    PlayerEvent.AttackEntity,
     PlayerEvent.DropItem {
-    private val MODIFIABLE_LOOT_TABLES = setOf(
-        Identifier.ofVanilla("chests/ancient_city"),
-        Identifier.ofVanilla("chests/bastion_other"),
-        Identifier.ofVanilla("chests/bastion_treasure"),
-        Identifier.ofVanilla("chests/trial_chambers/reward_unique"),
-    )
     private const val MAX_ANGER_DISTANCE = 16.0
 
     init {
@@ -69,7 +65,6 @@ object EventHandlers : EntityEvent.LivingDeath, EntityEvent.LivingHurt, Interact
         InteractionEvent.LEFT_CLICK_BLOCK.register(this)
         InteractionEvent.RIGHT_CLICK_ITEM.register(this)
         LifecycleEvent.SETUP.register(this)
-        LootEvent.MODIFY_LOOT_TABLE.register(this)
         PlayerEvent.ATTACK_ENTITY.register(this)
         PlayerEvent.DROP_ITEM.register(this)
     }
@@ -106,7 +101,7 @@ object EventHandlers : EntityEvent.LivingDeath, EntityEvent.LivingHurt, Interact
         if (!cake.isOf(Items.CAKE)) return CompoundEventResult.pass()
         if (spawnPos == null) return CompoundEventResult.pass()
         if (world.isClient) return CompoundEventResult.interruptTrue(cake)
-        if (!world.gameRules.getBoolean(GameRules.THROWABLE_CAKES)) return CompoundEventResult.pass()
+        if (!world.gameRules.getBoolean(GameRules.throwableCakes)) return CompoundEventResult.pass()
 
         CakeEntity.throwCake(world, spawnPos, player.rotationVector * .5 + player.velocity, player)
         cake.decrementUnlessCreative(1, player)
@@ -117,26 +112,6 @@ object EventHandlers : EntityEvent.LivingDeath, EntityEvent.LivingHurt, Interact
     // setup
     override fun run() {
         DispenserBlock.registerBehavior(Items.CAKE, CakeDispenserBehavior())
-    }
-
-    override fun modifyLootTable(
-        lootTable: RegistryKey<LootTable>,
-        context: LootEvent.LootTableModificationContext,
-        builtin: Boolean
-    ) {
-        if (!builtin) return
-        if (lootTable.value !in MODIFIABLE_LOOT_TABLES) return
-
-        context.addPool(
-            LootPool.builder().with(
-                LootTableEntry.builder(
-                    RegistryKey.of(
-                        RegistryKeys.LOOT_TABLE,
-                        Identifier.of(MOD_ID, "add_loot_pool/${lootTable.value.path}")
-                    )
-                )
-            )
-        )
     }
 
     override fun attack(

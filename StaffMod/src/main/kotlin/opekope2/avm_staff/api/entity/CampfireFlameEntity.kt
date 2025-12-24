@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -28,6 +28,8 @@ import net.minecraft.client.option.GraphicsMode
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.damage.DamageTypes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.nbt.NbtCompound
@@ -35,9 +37,9 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.particle.ParticleEffect
-import net.minecraft.particle.ParticleType
+import net.minecraft.particle.ParticleTypes
+import net.minecraft.particle.SimpleParticleType
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.state.property.Properties.LIT
@@ -50,7 +52,6 @@ import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.content.EntityTypes
-import opekope2.avm_staff.content.ParticleTypes
 import opekope2.avm_staff.util.*
 import java.util.*
 
@@ -61,9 +62,11 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
     private var currentRelativeRight: Vec3d = Vec3d.ZERO
     private var currentRelativeUp: Vec3d = Vec3d.ZERO
 
+    private val damageType = world.registryManager[RegistryKeys.DAMAGE_TYPE].entryOf(DamageTypes.IN_FIRE)
+
     private lateinit var parameters: Parameters
 
-    private lateinit var shooter: LivingEntity
+    private val shooter: LivingEntity?
 
     private var rays: BitSet
     private inline val rayResolution: Int
@@ -72,6 +75,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
     @Deprecated("This constructor is not supported on the server")
     internal constructor(type: EntityType<*>, world: World) : super(type, world) {
         require(world.isClient) { "This constructor is not supported on the server" }
+        shooter = null
         // Leave edges unset for accurate visuals
         rays = BitSet(flameParticleRayResolution * flameParticleRayResolution).apply {
             for (i in 1 until flameParticleRayResolution - 1) {
@@ -119,13 +123,9 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         val nextRelativeUp = parameters.flameConeHeight * (age.toDouble() / parameters.stepResolution)
 
         if (world.isClient) {
-            @Suppress("UNCHECKED_CAST")
-            val particleType = Registries.PARTICLE_TYPE[parameters.particleType as RegistryKey<ParticleType<*>>]
-            val particleEffect = particleType as? ParticleEffect ?: ParticleTypes.flame
-
             tickRays(nextPos, nextRelativeRight, nextRelativeUp) { start, end ->
                 val result = tickRayClient(start, end)
-                if (!result.stopsRay) spawnParticle(particleEffect, start, end)
+                if (!result.stopsRay) spawnParticle(parameters.particle, start, end)
                 result
             }
         } else {
@@ -138,7 +138,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
                 tickRayServer(start, end, parameters, entitiesToBurn, blocksToLight, blocksToSetOnFire)
             }
 
-            burnEntities(entitiesToBurn, parameters.flameFireTicks)
+            burnEntities(entitiesToBurn, parameters)
             lightBlocks(blocksToLight)
             setBlocksOnFire(blocksToSetOnFire)
         }
@@ -151,13 +151,16 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         if (!world.isClient && age >= parameters.stepResolution) discard()
     }
 
+    override fun onSwimmingStart() {
+    }
+
     @Environment(EnvType.CLIENT)
     private fun spawnParticle(particleEffect: ParticleEffect, start: Vec3d, end: Vec3d) {
         val particleOffset = (end - start) * random.nextDouble() +
                 currentRelativeRight * ((random.nextDouble() * 2 - 1) / rayResolution) +
                 currentRelativeUp * ((random.nextDouble() * 2 - 1) / rayResolution)
         val (x, y, z) = start + particleOffset
-        particleManager.addParticle(particleEffect, x, y, z, 0.0, 0.0, 0.0)!!.apply {
+        mc.particleManager.addParticle(particleEffect, x, y, z, 0.0, 0.0, 0.0)!!.apply {
             scale(random.nextFloat() - random.nextFloat() + 1f)
             maxAge = (0.25 * FLAME_MAX_AGE / (Math.random() * 0.8 + 0.2) - 0.05 * FLAME_MAX_AGE).toInt()
         }
@@ -187,7 +190,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
     @Environment(EnvType.CLIENT)
     private fun tickRayClient(start: Vec3d, end: Vec3d): HitResult.Type {
         val blockHit = raycastBlock(start, end)
-        val entityHit = raycastEntity(start, end, false)
+        val entityHit = raycastEntity(start, end)
 
         return when {
             entityHit != null && entityHit.pos.squaredDistanceTo(start) < blockHit.pos.squaredDistanceTo(start) -> HitResult.Type.ENTITY
@@ -205,7 +208,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         blocksToSetOnFire: MutableSet<BlockPos>
     ): HitResult.Type {
         val blockHit = raycastBlock(start, end)
-        val entityHit = raycastEntity(start, end, parameters.damageShooter)
+        val entityHit = raycastEntity(start, end)
 
         return when {
             entityHit != null && entityHit.pos.squaredDistanceTo(start) < blockHit.pos.squaredDistanceTo(start) -> {
@@ -238,12 +241,12 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         )
     )
 
-    private fun raycastEntity(start: Vec3d, end: Vec3d, includeShooter: Boolean) = ProjectileUtil.raycast(
+    private fun raycastEntity(start: Vec3d, end: Vec3d) = ProjectileUtil.raycast(
         this,
         start,
         end,
         Box(start, end),
-        { it != shooter || includeShooter },
+        { it != shooter },
         velocity.lengthSquared()
     )
 
@@ -277,14 +280,13 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         }
     }
 
-    private fun burnEntities(entities: Set<Entity>, flameFireTicks: Int) {
+    private fun burnEntities(entities: Set<Entity>, parameters: ServerParameters) {
+        assert(shooter != null) { "shooter was null" }
+        val source = DamageSource(damageType, parameters.origin)
         for (target in entities) {
-            if (target.isOnFire) {
-                // Technically inFire, but use onFire, because it has a more fitting death message
-                target.damage(target.damageSources.onFire(), flameFireTicks.toFloat())
-            }
-            target.fireTicks = target.fireTicks.coerceAtLeast(0) + flameFireTicks + 1
-            (target as? LivingEntity)?.attacker = shooter
+            if (!target.damage(source, parameters.fireDamage)) continue
+            target.setOnFireFor(parameters.fireSeconds)
+            if (target is LivingEntity) target.attacker = shooter
         }
     }
 
@@ -311,12 +313,10 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
 
     override fun saveAdditionalSpawnData(buf: PacketByteBuf) {
         parameters.write(buf)
-        buf.writeVarInt(shooter.id)
     }
 
     override fun loadAdditionalSpawnData(buf: PacketByteBuf) {
         parameters = Parameters(buf)
-        shooter = world.getEntityById(buf.readVarInt()) as LivingEntity
     }
 
     /**
@@ -327,7 +327,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
      * @param flameConeWidth                The width of the fire cone, points right relative to the shooter's POV
      * @param flameConeHeight               The height of the fire cone, points up relative to the shooter's POV
      * @param stepResolution                How many ticks to divide the distance between [origin] and [relativeTarget]
-     * @param particleType                  The registry key of the flame particle type in [Registries.PARTICLE_TYPE]
+     * @param particle                      The flame particle the campfire staff shoots
      */
     open class Parameters(
         val origin: Vec3d,
@@ -335,7 +335,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         val flameConeWidth: Vec3d,
         val flameConeHeight: Vec3d,
         val stepResolution: Int,
-        val particleType: RegistryKey<out ParticleType<*>>,
+        val particle: SimpleParticleType,
     ) {
         constructor(buf: PacketByteBuf) : this(
             buf.readVec3d(),
@@ -343,7 +343,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
             buf.readVec3d(),
             buf.readVec3d(),
             buf.readVarInt(),
-            buf.readRegistryKey(RegistryKeys.PARTICLE_TYPE)
+            Registries.PARTICLE_TYPE.get(buf.readIdentifier()) as? SimpleParticleType ?: ParticleTypes.FLAME
         )
 
         fun write(buf: PacketByteBuf) {
@@ -352,7 +352,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
             buf.writeVec3d(flameConeWidth)
             buf.writeVec3d(flameConeHeight)
             buf.writeVarInt(stepResolution)
-            buf.writeRegistryKey(particleType)
+            buf.writeIdentifier(checkNotNull(Registries.PARTICLE_TYPE.getId(particle)) { "Unregistered particle" })
         }
     }
 
@@ -365,11 +365,11 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
      * @param flameConeHeight               The height of the fire cone, points up relative to the shooter's POV
      * @param stepResolution                How many ticks to divide the distance between [origin] and [relativeTarget]
      * @param rayResolution                 The resolution to divide the fire cone both horizontally and vertically
-     * @param particleType                  The registry key of the flame particle type in [Registries.PARTICLE_TYPE]
+     * @param particle                      The flame particle the campfire staff shoots
      * @param flammableBlockFireChance      The chance a [flammable][BlockState.isBurnable] block is set on fire
      * @param nonFlammableBlockFireChance   The chance a [non-flammable][BlockState.isBurnable] block is set on fire
-     * @param flameFireTicks                The number of ticks an entity is additionally set on fire for
-     * @param damageShooter                 Whether the flame should damage the shooter
+     * @param fireSeconds                   The number of seconds an entity is set on fire by the flame
+     * @param fireDamage                    The damage amount dealt to an entity by the flame
      */
     class ServerParameters(
         origin: Vec3d,
@@ -377,13 +377,13 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
         flameConeWidth: Vec3d,
         flameConeHeight: Vec3d,
         stepResolution: Int,
-        particleType: RegistryKey<out ParticleType<*>>,
+        particle: SimpleParticleType,
         val rayResolution: Int,
         val flammableBlockFireChance: Double,
         val nonFlammableBlockFireChance: Double,
-        val flameFireTicks: Int,
-        val damageShooter: Boolean
-    ) : Parameters(origin, relativeTarget, flameConeWidth, flameConeHeight, stepResolution, particleType)
+        val fireSeconds: Float,
+        val fireDamage: Float,
+    ) : Parameters(origin, relativeTarget, flameConeWidth, flameConeHeight, stepResolution, particle)
 
     private companion object {
         private const val FLAME_MAX_AGE = 16
@@ -393,7 +393,7 @@ class CampfireFlameEntity : Entity, EntitySpawnExtension {
 
         private val flameParticleRayResolution: Int
             @Environment(EnvType.CLIENT)
-            get() = when (clientOptions.graphicsMode.value) {
+            get() = when (mc.options.graphicsMode.value) {
                 GraphicsMode.FABULOUS -> 6
                 GraphicsMode.FANCY -> 5
                 else -> 4

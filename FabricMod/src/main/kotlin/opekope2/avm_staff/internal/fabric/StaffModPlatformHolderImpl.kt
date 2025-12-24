@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,12 +16,56 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("StaffModPlatformHolderImpl")
-@file: Suppress("unused")
+@file:JvmName("StaffModPlatformHolderImpl")
+@file:Suppress("unused")
 
 package opekope2.avm_staff.internal.fabric
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
+import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.block.Block
+import net.minecraft.client.render.model.BakedModel
+import net.minecraft.item.Item
+import net.minecraft.particle.SimpleParticleType
+import net.minecraft.util.Identifier
+import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.IStaffModPlatform
+import opekope2.avm_staff.api.item.CrownItem
+import opekope2.avm_staff.api.item.renderer.StaffRenderer
+import opekope2.avm_staff.internal.fabric.item.FabricStaffItem
+import opekope2.avm_staff.util.mc
+import java.util.function.Supplier
 
-val staffModPlatform: IStaffModPlatform
-    get() = StaffMod
+val staffModPlatform = object : IStaffModPlatform {
+    override val isClient: Boolean
+        get() = FabricLoader.getInstance().environmentType == EnvType.CLIENT
+
+    override fun staffItem(settings: Item.Settings, repairIngredient: Supplier<out Item>?) =
+        FabricStaffItem(settings, repairIngredient)
+
+    override fun crownItem(groundBlock: Block, wallBlock: Block, settings: Item.Settings) =
+        CrownItem(groundBlock, wallBlock, settings)
+
+    override fun simpleParticleType(alwaysShow: Boolean): SimpleParticleType = FabricParticleTypes.simple(alwaysShow)
+}
+
+val staffModClientPlatform: IStaffModClientPlatform
+    @Environment(EnvType.CLIENT)
+    get() = StaffModClientPlatform
+
+// Do not create this in <clinit> because it will crash the server
+@Environment(EnvType.CLIENT)
+private object StaffModClientPlatform : IStaffModClientPlatform {
+    override val staffModelItems = mutableListOf<Item>()
+
+    override fun renderAsStaffModel(item: Item) {
+        staffModelItems += item
+        BuiltinItemRendererRegistry.INSTANCE.register(item, StaffRenderer::renderStaff)
+    }
+
+    override fun getStandaloneModel(modelId: Identifier): BakedModel =
+        mc.bakedModelManager.getModel(modelId) ?: mc.bakedModelManager.missingModel
+}

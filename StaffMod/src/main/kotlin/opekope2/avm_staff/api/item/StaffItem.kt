@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2023-2024 opekope2
+ * Copyright (c) 2023-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,10 +18,8 @@
 
 package opekope2.avm_staff.api.item
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -29,6 +27,13 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.ItemUsageContext
+import net.minecraft.loot.context.LootContextParameterSet
+import net.minecraft.loot.context.LootContextParameters
+import net.minecraft.loot.context.LootContextTypes
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -37,14 +42,18 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffHandler
+import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.util.*
+import org.jetbrains.annotations.ApiStatus
+import java.util.function.BiConsumer
+import java.util.function.Supplier
 
 /**
  * Staff item dispatching functionality to [StaffHandler] without loader specific functionality.
  * Implementing loader-specific interfaces is highly recommended when extending the class to pass loader-specific
  * functionality to [StaffHandler].
  */
-abstract class StaffItem(settings: Settings, private val repairIngredientSupplier: RegistrySupplier<Item>?) :
+abstract class StaffItem(settings: Settings, private val repairIngredientSupplier: Supplier<out Item>?) :
     Item(settings) {
     override fun canRepair(stack: ItemStack, ingredient: ItemStack) =
         repairIngredientSupplier != null && ingredient.isOf(repairIngredientSupplier.get())
@@ -56,38 +65,38 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
     }
 
     override fun postProcessComponents(stack: ItemStack) {
-        stack[DataComponentTypes.ATTRIBUTE_MODIFIERS] = stack.itemInStaff.staffHandlerOrFallback.attributeModifiers
+        stack[DataComponentTypes.ATTRIBUTE_MODIFIERS] = stack.staffHandlerOrFallback.attributeModifiers
     }
 
     override fun getMaxUseTime(stack: ItemStack, user: LivingEntity): Int {
-        return stack.itemInStaff.staffHandlerOrFallback.getMaxUseTime(stack, user.entityWorld, user)
+        return stack.staffHandlerOrFallback.getMaxUseTime(stack, user.entityWorld, user)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val staffStack = user.getStackInHand(hand)
-        return staffStack.itemInStaff.staffHandlerOrFallback.use(staffStack, world, user, hand)
+        return staffStack.staffHandlerOrFallback.use(staffStack, world, user, hand)
     }
 
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
-        stack.itemInStaff.staffHandlerOrFallback.usageTick(stack, world, user, remainingUseTicks)
+        stack.staffHandlerOrFallback.usageTick(stack, world, user, remainingUseTicks)
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        stack.itemInStaff.staffHandlerOrFallback.onStoppedUsing(stack, world, user, remainingUseTicks)
+        stack.staffHandlerOrFallback.onStoppedUsing(stack, world, user, remainingUseTicks)
     }
 
     override fun finishUsing(stack: ItemStack, world: World, user: LivingEntity): ItemStack {
-        return stack.itemInStaff.staffHandlerOrFallback.finishUsing(stack, world, user)
+        return stack.staffHandlerOrFallback.finishUsing(stack, world, user)
     }
 
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) = true
 
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
-        stack.damage(1, attacker, EquipmentSlot.MAINHAND)
+        stack.damage(1, attacker, Hand.MAIN_HAND)
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        return context.stack.itemInStaff.staffHandlerOrFallback.useOnBlock(
+        return context.stack.staffHandlerOrFallback.useOnBlock(
             context.stack,
             context.world,
             context.player ?: return ActionResult.PASS,
@@ -97,41 +106,40 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
         )
     }
 
-    override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
-        return stack.itemInStaff.staffHandlerOrFallback.useOnEntity(stack, user.world, user, entity, hand)
-    }
+    override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand) =
+        stack.staffHandlerOrFallback.useOnEntity(stack, user.world, user, entity, hand)
 
     /**
      * @see StaffHandler.attack
      */
     open fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) =
-        staffStack.itemInStaff.staffHandlerOrFallback.attack(staffStack, world, attacker, hand)
+        staffStack.staffHandlerOrFallback.attack(staffStack, world, attacker, hand)
 
     /**
      * @see StaffHandler.attackBlock
      */
     open fun attackBlock(
         staffStack: ItemStack, world: World, attacker: LivingEntity, target: BlockPos, side: Direction, hand: Hand
-    ) = staffStack.itemInStaff.staffHandlerOrFallback.attackBlock(staffStack, world, attacker, target, side, hand)
+    ) = staffStack.staffHandlerOrFallback.attackBlock(staffStack, world, attacker, target, side, hand)
 
     /**
      * @see StaffHandler.attackEntity
      */
     open fun attackEntity(
         staffStack: ItemStack, world: World, attacker: LivingEntity, target: Entity, hand: Hand
-    ) = staffStack.itemInStaff.staffHandlerOrFallback.attackEntity(staffStack, world, attacker, target, hand)
+    ) = staffStack.staffHandlerOrFallback.attackEntity(staffStack, world, attacker, target, hand)
 
     /**
      * @see StaffHandler.canSwingHand
      */
     open fun canSwingHand(staffStack: ItemStack, world: World, holder: LivingEntity, hand: Hand) =
-        staffStack.itemInStaff.staffHandlerOrFallback.canSwingHand(staffStack, world, holder, hand)
+        staffStack.staffHandlerOrFallback.canSwingHand(staffStack, world, holder, hand)
 
     /**
      * @see StaffHandler.disablesShield
      */
     open fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) =
-        staffStack.itemInStaff.staffHandlerOrFallback.disablesShield(staffStack, world, attacker, hand)
+        staffStack.staffHandlerOrFallback.disablesShield(staffStack, world, attacker, hand)
 
     override fun getName(stack: ItemStack): Text {
         val staffItem = stack.itemStackInStaff ?: return super.getName(stack)
@@ -142,4 +150,44 @@ abstract class StaffItem(settings: Settings, private val repairIngredientSupplie
     override fun getTranslationKey(stack: ItemStack): String =
         if (stack.isItemInStaff) "$translationKey.with_item"
         else super.getTranslationKey(stack)
+
+    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
+        stack.staffHandlerOrFallback.tick(stack, world, entity, slot, selected)
+    }
+
+    /**
+     * @see StaffHandler.getUseAction
+     */
+    override fun getUseAction(stack: ItemStack) = stack.staffHandlerOrFallback.getUseAction(stack)
+
+    /**
+     * @see StaffHandler.isInvulnerableToLightning
+     */
+    open fun isInvulnerableToLightning(staffStack: ItemStack, world: World, user: LivingEntity, hand: Hand) =
+        staffStack.staffHandlerOrFallback.isInvulnerableToLightning(staffStack, world, user, hand)
+
+    @ApiStatus.Internal
+    fun breakIntoPieces(stack: ItemStack): BiConsumer<ServerWorld, ServerPlayerEntity> {
+        val itemInStaff = stack.mutableItemStackInStaff
+        val lootTableId = RegistryKey.of(RegistryKeys.LOOT_TABLE, registryId.withPrefixedPath("item_break/"))
+        val preBreakStaff = stack.copy()
+
+        return BiConsumer { world, holder ->
+            val cohesion = preBreakStaff.getEnchantmentLevel(Enchantments.cohesion, world.registryManager)
+            val lootTable = world.server.reloadableRegistries.getLootTable(lootTableId)
+            val lootParameters = LootContextParameterSet.Builder(world)
+                .add(LootContextParameters.TOOL, preBreakStaff)
+                .add(LootContextParameters.ENCHANTMENT_LEVEL, cohesion)
+                .build(LootContextTypes.ENCHANTED_ITEM)
+
+            if (itemInStaff != null) giveOrDropLoot(holder, itemInStaff)
+            lootTable.generateLoot(lootParameters, world.random.nextLong()) { loot ->
+                giveOrDropLoot(holder, loot)
+            }
+        }
+    }
+
+    private fun giveOrDropLoot(player: ServerPlayerEntity, stack: ItemStack) {
+        if (!player.inventory.insertStack(stack)) player.dropItem(stack, false)
+    }
 }

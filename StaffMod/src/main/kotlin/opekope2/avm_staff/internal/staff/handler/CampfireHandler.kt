@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,7 +19,7 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
-import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -29,15 +29,15 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.MathHelper
+import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.content.DataComponentTypes
-import opekope2.avm_staff.internal.minecraftUnit
+import opekope2.avm_staff.content.SoundEvents
 import opekope2.avm_staff.util.*
 
 internal class CampfireHandler(private val parameters: Parameters) : StaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override fun use(
         staffStack: ItemStack,
@@ -45,27 +45,30 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        if (user.isSneaking && !user.isOnGround) {
-            staffStack[DataComponentTypes.rocketMode] = minecraftUnit
-        }
-
         user.setCurrentHand(hand)
         return TypedActionResult.consume(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (!user.canUseStaff) return
+        if (!user.canUseStaff(RaycastContext.FluidHandling.ANY)) return
 
         val forward = user.rotationVector
         val origin = user.approximateStaffTipPosition
         val relativeRight = user.getRotationVector(0f, MathHelper.wrapDegrees(user.yaw + 90f)).normalize()
         val relativeUp = relativeRight.crossProduct(forward).normalize()
-        val rocketMode = DataComponentTypes.rocketMode in staffStack
+        val applyThrust = !user.isOnGround && !user.isFallFlying && (user !is PlayerEntity || !user.abilities.flying)
 
-        if (rocketMode) {
-            user.addVelocity(forward * -parameters.rocketThrust)
+        if (applyThrust) {
+            user.addVelocity(forward * -calculateThrust(user))
             user.limitFallDistance()
         }
+
+        world.playSound(
+            null,
+            user.x, user.y, user.z,
+            SoundEvents.flamethrowerFire, user.soundCategory,
+            1f, 0f
+        )
 
         if (world.isClient) return
 
@@ -73,27 +76,37 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
             CampfireFlameEntity(
                 world,
                 CampfireFlameEntity.ServerParameters(
-                    origin,
+                    origin, // Added after the player -> ticked after the player -> starts to backfire over ~42.5b/s
                     forward * FLAMETHROWER_STEP_RESOLUTION.toDouble(),
                     relativeRight * FLAMETHROWER_CONE_END_WIDTH,
                     relativeUp * FLAMETHROWER_CONE_END_HEIGHT,
                     16,
-                    parameters.particleEffectSupplier.key,
+                    parameters.particle,
                     FLAMETHROWER_CONE_RAY_RESOLUTION,
                     parameters.flammableBlockFireChance,
                     parameters.nonFlammableBlockFireChance,
-                    parameters.flameFireTicks,
-                    !rocketMode
+                    parameters.fireSeconds,
+                    parameters.fireDamage,
                 ),
                 user
             )
         )
 
-        staffStack.damage(1, user, LivingEntity.getSlotForHand(user.activeHand))
+        staffStack.damage(1, user)
+    }
+
+    private fun calculateThrust(user: LivingEntity) = when {
+        !user.isSneaking -> parameters.rocketThrust
+        user.velocity.y > 0.0 -> 0.0
+        user.velocity.y < -parameters.rocketThrust -> parameters.rocketThrust
+        else -> {
+            var thrust = user.finalGravity / MathHelper.cos(parameters.rocketThrust.toFloat())
+            thrust = thrust.coerceAtMost(parameters.rocketThrust)
+            thrust
+        }
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        staffStack.remove(DataComponentTypes.rocketMode)
         (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
         (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }
@@ -110,7 +123,7 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
         target: Entity,
         hand: Hand
     ): EventResult {
-        target.setOnFireFor(parameters.attackFireSeconds)
+        target.setOnFireFor(parameters.fireSeconds)
 
         (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
 
@@ -133,10 +146,10 @@ internal class CampfireHandler(private val parameters: Parameters) : StaffHandle
     data class Parameters(
         val flammableBlockFireChance: Double,
         val nonFlammableBlockFireChance: Double,
-        val attackFireSeconds: Float,
-        val flameFireTicks: Int,
+        val fireSeconds: Float,
+        val fireDamage: Float,
         val rocketThrust: Double,
-        val particleEffectSupplier: RegistrySupplier<SimpleParticleType>
+        val particle: SimpleParticleType
     )
 
     private companion object {

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,8 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:Environment(EnvType.CLIENT)
+
 package opekope2.avm_staff.internal.model
 
 import net.fabricmc.api.EnvType
@@ -23,31 +25,17 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.item.ClampedModelPredicateProvider
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.component.StaffRendererPartComponent
-import opekope2.avm_staff.api.registry.RegistryBase
-import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.util.MOD_ID
 
-@Environment(EnvType.CLIENT)
-object ModelPredicates : RegistryBase<Identifier, ClampedModelPredicateProvider>() {
-    init {
-        register(Identifier.of(MOD_ID, "using_item")) { stack, _, entity, _ ->
-            if (entity == null || !entity.isUsingItem) return@register 0f
-            // When the item's components get changed server-side, Minecraft client is just janky with references
-            val sameItem = ItemStack.areEqual(entity.activeItem, stack) ||
-                    ItemStack.areEqual(entity.getStackInHand(entity.activeHand), stack)
-            if (sameItem) 1f
-            else 0f
+@JvmField
+val MODEL_PREDICATES = mutableMapOf<Identifier, ClampedModelPredicateProvider>(
+    Identifier.of(MOD_ID, "using_item") to ClampedModelPredicateProvider { stack, _, entity, _ ->
+        when {
+            entity == null || !entity.isUsingItem -> 0f
+            // When the item's components get changed server-side, Minecraft client is janky with references
+            ItemStack.areEqual(entity.activeItem, stack) -> 1f
+            ItemStack.areEqual(entity.getStackInHand(entity.activeHand), stack) -> 1f
+            else -> 0f
         }
-        register(Identifier.of(MOD_ID, "head"), matchStaffRendererPart(StaffRendererPartComponent.HEAD))
-        register(Identifier.of(MOD_ID, "item"), matchStaffRendererPart(StaffRendererPartComponent.ITEM))
-        register(Identifier.of(MOD_ID, "rod_top"), matchStaffRendererPart(StaffRendererPartComponent.ROD_TOP))
-        register(Identifier.of(MOD_ID, "rod_bottom"), matchStaffRendererPart(StaffRendererPartComponent.ROD_BOTTOM))
     }
-
-    private fun matchStaffRendererPart(part: StaffRendererPartComponent) =
-        ClampedModelPredicateProvider { stack, _, _, _ ->
-            if (stack[DataComponentTypes.staffRendererPart] == part) 1f
-            else 0f
-        }
-}
+)

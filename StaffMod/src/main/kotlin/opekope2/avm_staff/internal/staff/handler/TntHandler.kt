@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -34,10 +35,11 @@ import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.content.EntityTypes
+import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.util.*
 
 internal class TntHandler : StaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 4 * 20
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override fun use(
         staffStack: ItemStack,
@@ -45,26 +47,40 @@ internal class TntHandler : StaffHandler() {
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        if (!staffStack.isEnchantedWith(Enchantments.DISTANT_DETONATION, world.registryManager))
+        if (!staffStack.isEnchantedWith(Enchantments.distantDetonation, world.registryManager)) {
+            if (user is ServerPlayerEntity) overlayMessage(
+                user,
+                I18n.FEEDBACK_AVM_STAFF_REQUIRES_ENCHANTMENT.getText(I18n.ENCHANTMENT_AVM_STAFF_DISTANT_DETONATION.getText())
+            )
             return TypedActionResult.pass(staffStack)
+        }
         val tnt = tryShootTnt(world, user) ?: return TypedActionResult.pass(staffStack)
 
-        staffStack[DataComponentTypes.tntData] = StaffTntDataComponent(tnt)
+        staffStack.damage(1, user, user.activeHand)
+        if (staffStack.isEmpty) return TypedActionResult.pass(user.getStackInHand(hand))
+
+        staffStack[DataComponentTypes.tntData] = StaffTntDataComponent(tnt.id)
 
         user.setCurrentHand(hand)
         return TypedActionResult.consume(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (!world.isClient && staffStack[DataComponentTypes.tntData]?.tnt?.isRemoved == true) {
-            user.stopUsingItem() // TODO reset last attacked ticks on client
-        }
+        val tntData = staffStack[DataComponentTypes.tntData]
+        val tnt = tntData?.let { world.getEntityById(it.tntId) }
+        if (tnt == null || tnt.isRemoved) user.stopUsingItem()
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         val tntData = staffStack.remove(DataComponentTypes.tntData)
-        if (!world.isClient && tntData?.tnt?.isAlive == true) {
-            tntData.tnt.explodeLater()
+        val tnt = tntData?.let { world.getEntityById(it.tntId) as? ImpactTntEntity }
+        if (!world.isClient && tnt != null && tnt.isAlive) {
+            val useTicks = getMaxUseTime(staffStack, world, user) - remainingUseTicks
+            if (useTicks > 5) tnt.explodeLater() // Prevent TNT exploding in player's face
+            else if (user is ServerPlayerEntity) overlayMessage(
+                user,
+                I18n.FEEDBACK_AVM_STAFF_ACCIDENTAL_EXPLOSION_PREVENTED.getText()
+            )
         }
 
         (user as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
@@ -79,7 +95,7 @@ internal class TntHandler : StaffHandler() {
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (tryShootTnt(world, attacker) != null) {
-            staffStack.damage(1, attacker, LivingEntity.getSlotForHand(hand))
+            staffStack.damage(1, attacker, hand)
             (attacker as? ServerPlayerEntity)?.incrementItemUseStat(staffStack.item)
             (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
@@ -101,11 +117,10 @@ internal class TntHandler : StaffHandler() {
 
     private fun tryShootTnt(world: World, shooter: LivingEntity): ImpactTntEntity? {
         if (world.isClient) return null
-        if (!shooter.canUseStaff) return null
-        if (shooter is PlayerEntity && shooter.isAttackCoolingDown) return null
+        if (!shooter.canUseStaff()) return null
+        if (shooter is PlayerEntity && shooter.getAttackCooldownProgress(0f) < 1f) return null // Prevent immediately shooting TNT in creative mode
 
-        val spawnPos =
-            EntityTypes.impactTnt.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return null
+        val spawnPos = EntityTypes.impactTnt.getSpawnPosition(world, shooter.approximateStaffTipPosition) ?: return null
         val (x, y, z) = spawnPos
 
         val tnt = ImpactTntEntity(world, x, y, z, shooter.rotationVector + shooter.velocity, shooter)

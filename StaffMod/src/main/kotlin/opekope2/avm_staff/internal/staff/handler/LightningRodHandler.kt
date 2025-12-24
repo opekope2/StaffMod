@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -36,10 +37,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
-import opekope2.avm_staff.util.incrementStaffItemUseStat
-import opekope2.avm_staff.util.interactionRange
-import opekope2.avm_staff.util.isItemCoolingDown
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.*
 
 internal class LightningRodHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
@@ -60,7 +58,7 @@ internal class LightningRodHandler : StaffHandler() {
         val lightningPos = Vec3d.add(target.offset(side), 0.5, 0.0, 0.5)
         val result = tryStrike(staffStack, world, user, lightningPos)
 
-        if (result.isAccepted) staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
+        if (result.isAccepted) staffStack.damage(1, user, hand)
         if (result.shouldIncrementStat()) {
             (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
@@ -77,7 +75,7 @@ internal class LightningRodHandler : StaffHandler() {
     ): ActionResult {
         val result = tryStrike(staffStack, world, user, target.pos)
 
-        if (result.isAccepted) staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
+        if (result.isAccepted) staffStack.damage(1, user, hand)
         if (result.shouldIncrementStat()) {
             (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
@@ -98,7 +96,7 @@ internal class LightningRodHandler : StaffHandler() {
 
     private fun tryStrike(staffStack: ItemStack, world: World, user: LivingEntity, lightningPos: Vec3d): ActionResult {
         if (canStrike(world, user, staffStack.item) && strike(world, lightningPos)) {
-            (user as? PlayerEntity)?.itemCooldownManager?.set(staffStack.item, 4 * 20)
+            (user as? PlayerEntity)?.itemCooldownManager?.set(staffStack.item, 4 * TICKS_PER_SECOND)
             return ActionResult.SUCCESS
         }
         return ActionResult.FAIL

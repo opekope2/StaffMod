@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,6 +21,7 @@ package opekope2.avm_staff.util.destruction
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.OperatorBlock
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
@@ -28,9 +29,11 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.stat.Stats
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import opekope2.avm_staff.api.block.IBlockAfterDestroyHandler
 import opekope2.avm_staff.internal.networking.s2c.play.MassDestructionS2CPacket
+import opekope2.avm_staff.util.damage
 import opekope2.avm_staff.util.dropcollector.IBlockDropCollector
 import java.util.function.BiPredicate
 
@@ -141,7 +144,7 @@ private fun destroyBlock(
         world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(destroyer, state))
     }
 
-    tool.item.postMine(tool, world, breakState, pos, destroyer)
+    postMine(tool, world, breakState, pos, destroyer)
 
     if (!broke) return false
 
@@ -160,4 +163,11 @@ private fun destroyBlock(
     }
 
     return true
+}
+
+private fun postMine(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: LivingEntity) {
+    val toolComponent = stack[DataComponentTypes.TOOL] ?: return
+    if (state.getHardness(world, pos) != 0.0f && toolComponent.damagePerBlock() > 0) {
+        stack.damage(toolComponent.damagePerBlock(), miner, miner.activeHand)
+    }
 }

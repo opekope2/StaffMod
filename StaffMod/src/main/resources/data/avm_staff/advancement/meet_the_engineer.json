@@ -17,18 +17,12 @@
     "description": {
       "translate": "advancements.avm_staff.meet_the_engineer.description",
       "with": [
-        [
-          "a ",
-          {
-            "translate": "block.minecraft.cake"
-          }
-        ],
-        [
-          "an ",
-          {
-            "translate": "entity.avm_staff.impact_tnt"
-          }
-        ]
+        {
+          "translate": "block.minecraft.cake"
+        },
+        {
+          "translate": "entity.avm_staff.impact_tnt"
+        }
       ]
     },
     "hidden": true

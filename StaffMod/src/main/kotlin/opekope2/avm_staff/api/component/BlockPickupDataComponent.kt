@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,10 +18,11 @@
 
 package opekope2.avm_staff.api.component
 
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
+import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.util.math.BlockPos
 
 /**
@@ -33,10 +34,15 @@ import net.minecraft.util.math.BlockPos
 data class BlockPickupDataComponent(val pos: BlockPos, val state: BlockState) {
     companion object {
         /**
-         * [PacketCodec] for [BlockPickupDataComponent], which doesn't sync its data.
+         * [PacketCodec] for [BlockPickupDataComponent].
          */
         @JvmField
-        val NON_SYNCING_PACKET_CODEC: PacketCodec<RegistryByteBuf, BlockPickupDataComponent> =
-            PacketCodec.of({ _, _ -> }, { BlockPickupDataComponent(BlockPos.ORIGIN, Blocks.AIR.defaultState) })
+        val PACKET_CODEC: PacketCodec<RegistryByteBuf, BlockPickupDataComponent> = PacketCodec.tuple(
+            BlockPos.PACKET_CODEC,
+            BlockPickupDataComponent::pos,
+            PacketCodecs.entryOf(Block.STATE_IDS),
+            BlockPickupDataComponent::state,
+            ::BlockPickupDataComponent
+        )
     }
 }

@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * AvM Staff Mod
  * Copyright (c) 2024 opekope2
@@ -82,11 +85,14 @@ allprojects {
         compileOnly(rootProject.libs.kotlin.stdlib)
     }
 
-    kotlin.target.compilations.all {
-        kotlinOptions.jvmTarget = javaVersion
+    tasks.withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(javaVersion))
+            freeCompilerArgs = listOf("-Xjvm-default=all")
+        }
     }
 
-    tasks.withType<JavaCompile> {
+    tasks.withType<JavaCompile>().configureEach {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion

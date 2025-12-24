@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2023-2024 opekope2
+ * Copyright (c) 2023-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,7 +16,7 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file: JvmName("StaffUtil")
+@file:JvmName("StaffUtil")
 
 package opekope2.avm_staff.util
 
@@ -24,6 +24,8 @@ import net.minecraft.component.ComponentChanges
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
@@ -35,7 +37,6 @@ import opekope2.avm_staff.content.DataComponentTypes
  * Checks if an item is added the given staff item stack.
  */
 val ItemStack.isItemInStaff: Boolean
-    @JvmName("isItemInStaff")
     get() = DataComponentTypes.staffItem in this
 
 /**
@@ -62,43 +63,45 @@ val ItemStack.itemStackInStaff: ItemStack?
 var ItemStack.mutableItemStackInStaff: ItemStack?
     get() = itemStackInStaff?.copy()
     set(value) {
+        staffHandlerOrFallback.beforeRemove(this)
+
         val changes = ComponentChanges.builder()
 
-        if (value == null || value.isEmpty) {
-            changes.remove(DataComponentTypes.staffItem)
-        } else {
-            changes.add(DataComponentTypes.staffItem, StaffItemComponent(value.copy()))
-        }
+        if (value == null || value.isEmpty) changes.remove(DataComponentTypes.staffItem)
+        else changes.add(
+            DataComponentTypes.staffItem,
+            StaffItemComponent(value.copy()).validate().getOrThrow(::IllegalArgumentException)
+        )
 
         applyChanges(changes.build())
+
+        staffHandlerOrFallback.afterInsert(this)
+    }
+
+private val staff2enabledItemsTag = mutableMapOf<Item, TagKey<Item>>()
+
+/**
+ * Returns the [item tag][TagKey] representing the enabled items in the given staff [ItemStack].
+ */
+val ItemStack.enabledItemsInStaffTag: TagKey<Item>
+    get() = staff2enabledItemsTag.getOrPut(item) {
+        TagKey.of(RegistryKeys.ITEM, item.registryId.withPrefixedPath("enabled_in/"))
     }
 
 /**
- * Returns if the given item has a registered handler when inserted into a staff.
+ * Returns the registered staff handler of the item in the given staff [ItemStack] if available, [StaffHandler.Fallback]
+ * otherwise.
  */
-val Item.hasStaffHandler: Boolean
-    @JvmName("hasStaffHandler")
-    get() = this in StaffHandler.Registry
-
-/**
- * Returns the registered staff handler of the given item if available.
- */
-val Item?.staffHandler: StaffHandler?
-    get() = when {
-        this == null -> StaffHandler.Empty
-        !hasStaffHandler -> null
-        else -> StaffHandler.Registry[this]
+val ItemStack.staffHandlerOrFallback: StaffHandler
+    get() = when (val itemInStaff = this.itemInStaff) {
+        null -> StaffHandler.Empty
+        in enabledItemsInStaffTag -> StaffHandler.REGISTRY[itemInStaff.registryId] ?: StaffHandler.Fallback
+        else -> StaffHandler.Disabled
     }
-
-/**
- * Returns the registered staff handler of the given item if available, [StaffHandler.Fallback] otherwise.
- */
-val Item?.staffHandlerOrFallback: StaffHandler
-    get() = staffHandler ?: StaffHandler.Fallback
 
 private const val STAFF_MODEL_LENGTH = 40.0 / 16.0
 private const val STAFF_MODEL_ITEM_POSITION_CENTER = 33.5 / 16.0
-private const val STAFF_MODEL_SCALE = 0.85
+const val STAFF_MODEL_SCALE = 0.85
 
 /**
  * Gets the approximate position of the staff's tip, when held by an entity.
@@ -114,14 +117,15 @@ val Entity.approximateStaffItemPosition: Vec3d
 
 /**
  * Checks if the user has sufficient space in front to use the staff.
+ *
+ * @param fluidHandling Fluids that obstruct staff usage, [none][RaycastContext.FluidHandling.NONE] by default
  */
-val Entity.canUseStaff: Boolean
-    get() = world.raycast(
-        RaycastContext(
-            eyePos,
-            eyePos + rotationVector * STAFF_MODEL_LENGTH,
-            RaycastContext.ShapeType.COLLIDER,
-            RaycastContext.FluidHandling.NONE,
-            this
-        )
-    ).type == HitResult.Type.MISS
+fun Entity.canUseStaff(fluidHandling: RaycastContext.FluidHandling = RaycastContext.FluidHandling.NONE) = world.raycast(
+    RaycastContext(
+        eyePos,
+        eyePos + rotationVector * STAFF_MODEL_LENGTH,
+        RaycastContext.ShapeType.COLLIDER,
+        fluidHandling,
+        this
+    )
+).type == HitResult.Type.MISS

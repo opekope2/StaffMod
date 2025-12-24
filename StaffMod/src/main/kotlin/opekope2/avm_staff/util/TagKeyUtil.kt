@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,37 +18,36 @@
 
 package opekope2.avm_staff.util
 
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.damage.DamageType
+import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.Identifier
 
 /**
- * Utility class to create [Identifier]s and [TagKey]s using a specified [namespace][Identifier.namespace] and registry.
- *
- * @param TContent  The type of the content to register
- * @param modId     The [namespace][Identifier.namespace] of the content to register.
- * @param registry  The registry the content is registered in
+ * @see BlockState.isIn
  */
-open class TagKeyUtil<TContent>(
-    protected val modId: String,
-    protected val registry: RegistryKey<Registry<TContent>>
-) {
-    init {
-        require(Identifier.isNamespaceValid(modId)) { "Mod ID is not a valid namespace" }
-    }
+operator fun TagKey<Block>.contains(state: BlockState) = state.isIn(this)
 
-    /**
-     * Creates an [Identifier] from the namespace specified in the constructor and a given path.
-     *
-     * @param path  The path of the [Identifier] to create
-     */
-    fun id(path: String): Identifier = Identifier.of(modId, path)
+/**
+ * @see ItemStack.isIn
+ */
+operator fun TagKey<Item>.contains(stack: ItemStack) = stack.isIn(this)
 
-    /**
-     * Creates a [TagKey] from the registry and namespace specified in the constructor and a given path.
-     *
-     * @param path  The path of the [Identifier] to create a tag key from
-     */
-    fun tagKey(path: String): TagKey<TContent> = TagKey.of(registry, id(path))
-}
+/**
+ * @see ItemStack.isIn
+ */
+operator fun TagKey<Item>.contains(item: Item) = item.registryEntry.isIn(this)
+
+/**
+ * @see DamageSource.isIn
+ */
+operator fun TagKey<DamageType>.contains(source: DamageSource) = source.isIn(this)
+
+/**
+ * @see EntityType.isIn
+ */
+operator fun TagKey<EntityType<*>>.contains(type: EntityType<*>) = type.isIn(this)

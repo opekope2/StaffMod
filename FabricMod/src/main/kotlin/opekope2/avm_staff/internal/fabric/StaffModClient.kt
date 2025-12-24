@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2023-2024 opekope2
+ * Copyright (c) 2023-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,31 +22,23 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.render.RenderLayer
-import opekope2.avm_staff.api.particle.FlamethrowerParticle
+import net.minecraft.resource.ResourceType
 import opekope2.avm_staff.content.Blocks
-import opekope2.avm_staff.content.ParticleTypes
-import opekope2.avm_staff.internal.initializer.ClientInitializer
-import opekope2.avm_staff.internal.model.ModelPredicates
-import opekope2.avm_staff.internal.staff.handler.registerVanillaStaffItemRenderers
+import opekope2.avm_staff.internal.AbstractStaffModClient
 
-@Suppress("unused")
 @Environment(EnvType.CLIENT)
-object StaffModClient : ClientModInitializer {
+object StaffModClient : AbstractStaffModClient(), ClientModInitializer {
     override fun onInitializeClient() {
-        ClientInitializer
-        registerVanillaStaffItemRenderers()
+        super.initialize()
 
-        registerParticleFactories(ParticleFactoryRegistry.getInstance())
         registerBlockRenderLayers()
-        registerModelPredicateProviders()
-    }
-
-    private fun registerParticleFactories(particleFactoryRegistry: ParticleFactoryRegistry) {
-        particleFactoryRegistry.register(ParticleTypes.flame, FlamethrowerParticle::Factory)
-        particleFactoryRegistry.register(ParticleTypes.soulFireFlame, FlamethrowerParticle::Factory)
+        registerModelPredicateProviders(ModelPredicateProviderRegistry::register)
+        ModelLoadingPlugin.register { registerStaffItemModels(it::addModels) }
+        registerResourceLoaders(ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES))
     }
 
     private fun registerBlockRenderLayers() {
@@ -57,9 +49,9 @@ object StaffModClient : ClientModInitializer {
         )
     }
 
-    private fun registerModelPredicateProviders() {
-        for ((key, value) in ModelPredicates) {
-            ModelPredicateProviderRegistry.register(key, value)
+    private fun registerResourceLoaders(manager: ResourceManagerHelper) {
+        registerResourceLoaders { id, loader ->
+            manager.registerReloadListener(FabricResourceReloadListener(id, loader))
         }
     }
 }

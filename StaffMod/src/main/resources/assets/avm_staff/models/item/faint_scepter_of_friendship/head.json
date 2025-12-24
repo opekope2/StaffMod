@@ -1,0 +1,7 @@
+{
+  "parent": "avm_staff:item/scepter_of_friendship/head",
+  "textures": {
+    "particle": "avm_staff:item/faint_scepter_of_friendship/head",
+    "head": "avm_staff:item/faint_scepter_of_friendship/head"
+  }
+}

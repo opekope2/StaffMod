@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.event_handler
 
-import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.InteractionEvent
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -30,11 +29,11 @@ import opekope2.avm_staff.internal.networking.c2s.play.AttackC2SPacket
 @Environment(EnvType.CLIENT)
 object ClientEventHandlers : InteractionEvent.ClientLeftClickAir {
     init {
-        ClientTickEvent.CLIENT_POST.register(KeyBindingHandler)
         InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(this)
     }
 
     override fun click(player: PlayerEntity, hand: Hand) {
+        if (player.isSpectator) return
         val staffStack = player.getStackInHand(hand)
         val staffItem = staffStack.item as? StaffItem ?: return
 

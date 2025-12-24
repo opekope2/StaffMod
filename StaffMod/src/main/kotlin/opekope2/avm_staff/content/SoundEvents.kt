@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,35 +21,37 @@ package opekope2.avm_staff.content
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.SoundEvent
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 
 /**
  * Sound events added by AVM Staffs mod.
  */
-object SoundEvents : RegistryUtil<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) {
-    /**
-     * Sound event registered as `avm_staff:entity.cake.splash`.
-     */
-    @JvmField
-    val CAKE_SPLASH = register("entity.cake.splash") { SoundEvent.of(it.value) }
+@Suppress("unused")
+object SoundEvents : Registrar<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) {
+    @JvmStatic
+    private fun registering(path: String) = registering(path) { key -> SoundEvent.of(key.value)!! }
 
     /**
-     * @see CAKE_SPLASH
+     * Cake splashing sound event.
      */
-    val cakeSplash: SoundEvent
-        @JvmName("cakeSplash")
-        get() = CAKE_SPLASH.get()
+    @JvmStatic
+    val cakeSplash by registering("entity.cake.splash")
 
     /**
-     * Sound event registered as `avm_staff:entity.cake.throw`.
+     * Cake thrown sound event.
      */
-    @JvmField
-    val CAKE_THROW = register("entity.cake.throw") { SoundEvent.of(it.value) }
+    @JvmStatic
+    val cakeThrow by registering("entity.cake.throw")
 
     /**
-     * @see CAKE_THROW
+     * Player celebrates prank sound event.
      */
-    val cakeThrow: SoundEvent
-        @JvmName("cakeThrow")
-        get() = CAKE_THROW.get()
+    @JvmStatic
+    val celebratePrank by registering("entity.player.celebrate_prank")
+
+    /**
+     * Flamethrower fire sound event.
+     */
+    @JvmStatic
+    val flamethrowerFire by registering("item.flamethrower.fire")
 }

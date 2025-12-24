@@ -17,23 +17,17 @@
     "description": {
       "translate": "advancements.avm_staff.bazeboze.description",
       "with": [
-        [
-          "a ",
-          {
-            "translate": "entity.minecraft.bat"
-          }
-        ],
-        [
-          "a ",
-          {
-            "translate": "item.avm_staff.staff.with_item",
-            "with": [
-              {
-                "translate": "block.minecraft.netherite_block"
-              }
-            ]
-          }
-        ]
+        {
+          "translate": "entity.minecraft.bat"
+        },
+        {
+          "translate": "item.avm_staff.staff.with_item",
+          "with": [
+            {
+              "translate": "block.minecraft.netherite_block"
+            }
+          ]
+        }
       ]
     }
   },

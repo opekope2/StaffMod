@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:enchanted_item",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "avm_staff:chromatic_crystal",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": {
+                  "type": "minecraft:enchantment_level",
+                  "amount": {
+                    "type": "minecraft:linear",
+                    "base": 1,
+                    "per_level_above_first": 1
+                  }
+                },
+                "max": 5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "avm_staff:faint_staff_rod",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

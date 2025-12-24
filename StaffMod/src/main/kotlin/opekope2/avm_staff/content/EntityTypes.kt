@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,86 +18,88 @@
 
 package opekope2.avm_staff.content
 
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.util.Identifier
 import opekope2.avm_staff.api.entity.CakeEntity
 import opekope2.avm_staff.api.entity.CampfireFlameEntity
 import opekope2.avm_staff.api.entity.ImpactTntEntity
 import opekope2.avm_staff.mixin.ICakeBlockAccessor
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
+import opekope2.avm_staff.util.RegistryKeyUtil
 import kotlin.math.max
+import kotlin.properties.PropertyDelegateProvider
 
 /**
  * Entity types added by AVM Staffs mod.
  */
-object EntityTypes : RegistryUtil<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYPE) {
-    /**
-     * Entity registered as `avm_staff:cake`
-     */
-    @JvmField
-    val CAKE = register("cake") {
-        val cakeBox = ICakeBlockAccessor.bitesToShape()[0].boundingBox
-        val cakeSize = max(cakeBox.lengthX, max(cakeBox.lengthY, cakeBox.lengthZ))
+object EntityTypes : Registrar<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYPE) {
+    @JvmStatic
+    private inline fun <T : Entity> registeringEntityType(
+        constructor: EntityType.EntityFactory<T>,
+        spawnGroup: SpawnGroup,
+        crossinline factory: EntityType.Builder<T>.(RegistryKey<EntityType<*>>) -> EntityType.Builder<T>
+    ) =
+        PropertyDelegateProvider<Registrar<EntityType<*>>, Lazy<EntityType<T>>> { _, property ->
+            registering(toSnakeCase(property.name)) { key ->
+                factory(EntityType.Builder.create(constructor, spawnGroup), key).build(key.value.toString())
+            }
+        }
 
-        EntityType.Builder.create(::CakeEntity, SpawnGroup.MISC)
-            .dimensions(cakeSize.toFloat(), cakeSize.toFloat())
+    /**
+     * Cake entity type.
+     */
+    @JvmStatic
+    val cake by registeringEntityType(::CakeEntity, SpawnGroup.MISC) {
+        val cakeBox = ICakeBlockAccessor.bitesToShape()[0].boundingBox
+        val cakeSize = max(cakeBox.lengthX, max(cakeBox.lengthY, cakeBox.lengthZ)).toFloat()
+
+        this
+            .dimensions(cakeSize, cakeSize)
             .maxTrackingRange(EntityType.FALLING_BLOCK.maxTrackDistance)
             .trackingTickInterval(EntityType.FALLING_BLOCK.trackTickInterval)
-            .build(Identifier.of(MOD_ID, "cake").toString())
     }
 
     /**
-     * @see CAKE
+     * Technical campfire flame entity type.
      */
-    val cake: EntityType<CakeEntity>
-        @JvmName("cake")
-        get() = CAKE.get()
-
-    /**
-     * Technical entity registered as `avm_staff:campfire_flame`
-     */
-    @JvmField
-    val CAMPFIRE_FLAME = register("campfire_flame") {
-        EntityType.Builder.create(::CampfireFlameEntity, SpawnGroup.MISC)
+    @JvmStatic
+    val campfireFlame by registeringEntityType(::CampfireFlameEntity, SpawnGroup.MISC) {
+        this
             .dimensions(0f, 0f)
+            .disableSaving()
+            .disableSummon()
+            .makeFireImmune()
             .maxTrackingRange(EntityType.AREA_EFFECT_CLOUD.maxTrackDistance)
             // Don't send existing entities (the ones entering tracking distance) to the client
             // The tracking distance is high enough compared to the max age of the flame
             .trackingTickInterval(Int.MAX_VALUE)
-            .disableSaving()
-            .disableSummon()
-            .makeFireImmune()
-            .build(Identifier.of(MOD_ID, "campfire_flame").toString())
     }
 
     /**
-     * @see CAMPFIRE_FLAME
+     * Impact TNT entity type.
      */
-    val campfireFlame: EntityType<CampfireFlameEntity>
-        @JvmName("campfireFlame")
-        get() = CAMPFIRE_FLAME.get()
-
-    /**
-     * Entity registered as `avm_staff:impact_tnt`.
-     */
-    @JvmField
-    val IMPACT_TNT = register("impact_tnt") {
-        EntityType.Builder.create(::ImpactTntEntity, SpawnGroup.MISC)
-            .makeFireImmune()
+    @JvmStatic
+    val impactTnt by registeringEntityType(::ImpactTntEntity, SpawnGroup.MISC) {
+        this
             .dimensions(EntityType.TNT.dimensions.width, EntityType.TNT.dimensions.height)
             .eyeHeight(EntityType.TNT.dimensions.eyeHeight)
+            .makeFireImmune()
             .maxTrackingRange(EntityType.TNT.maxTrackDistance)
             .trackingTickInterval(EntityType.TNT.trackTickInterval)
-            .build(Identifier.of(MOD_ID, "impact_tnt").toString())
     }
 
     /**
-     * @see IMPACT_TNT
+     * Entity type tags added by AVM Staffs mod.
      */
-    val impactTnt: EntityType<ImpactTntEntity>
-        @JvmName("impactTnt")
-        get() = IMPACT_TNT.get()
+    object Tags : RegistryKeyUtil<EntityType<*>>(MOD_ID, RegistryKeys.ENTITY_TYPE) {
+        /**
+         * Entities that can be defused by an emerald block staff.
+         */
+        @JvmStatic
+        val defusable by tagKey
+    }
 }

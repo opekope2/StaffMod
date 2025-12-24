@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,16 +18,24 @@
 
 package opekope2.avm_staff.api.item.renderer
 
+import com.mojang.serialization.Lifecycle
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.SimpleRegistry
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.registry.RegistryBase
+import opekope2.avm_staff.api.item.renderer.StaffItemRenderer.Companion.REGISTRY
+import opekope2.avm_staff.util.MOD_ID
+import opekope2.avm_staff.util.registryId
+import kotlin.math.max
 
 /**
  * A renderer for an item, which can be placed into a staff.
@@ -40,6 +48,8 @@ abstract class StaffItemRenderer {
      * Renders an item.
      *
      * @param staffStack        The staff item stack
+     * @param itemTransform     The transformation of the item in the staff. Use [ModelTransformationMode.FIXED] to
+     *   render the item inside the staff or [ModelTransformationMode.HEAD] to render the item on top of the staff
      * @param mode              The transformation the staff is rendered in. You likely want to pass
      *   [ModelTransformationMode.NONE] to rendering calls
      * @param matrices          Matrix stack for rendering calls
@@ -49,6 +59,7 @@ abstract class StaffItemRenderer {
      */
     abstract fun renderItemInStaff(
         staffStack: ItemStack,
+        itemTransform: ModelTransformation,
         mode: ModelTransformationMode,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
@@ -56,31 +67,59 @@ abstract class StaffItemRenderer {
         overlay: Int
     )
 
+    /**
+     * Transforms a matrix stack
+     *
+     * @param itemTransform     The `itemTransform` from [renderItemInStaff]
+     * @param itemTransformMode [ModelTransformationMode.FIXED] to render the item inside the staff or
+     *   [ModelTransformationMode.HEAD] to render the item on top of the staff
+     */
+    protected fun MatrixStack.transform(
+        itemTransform: ModelTransformation,
+        itemTransformMode: ModelTransformationMode
+    ) {
+        itemTransform.getTransformation(itemTransformMode).apply(false, this)
+    }
+
     @Environment(EnvType.CLIENT)
-    companion object Registry : RegistryBase<Identifier, StaffItemRenderer>() {
-        private inline val Item.registryId: Identifier
-            get() = Registries.ITEM.getId(this)
+    companion object {
+        /**
+         * Registry key of [REGISTRY].
+         */
+        @JvmField
+        val REGISTRY_KEY: RegistryKey<Registry<StaffItemRenderer>> =
+            RegistryKey.ofRegistry(Identifier.of(MOD_ID, "staff_item_renderer"))
 
         /**
-         * Registers an entry to this registry.
+         * Registry of staff item renderers.
+         */
+        @JvmField
+        val REGISTRY: Registry<StaffItemRenderer> = SimpleRegistry(REGISTRY_KEY, Lifecycle.stable())
+
+        /**
+         * Registers an entry to [REGISTRY].
          *
-         * @param key The key to associate a value with
+         * @param T     The type of the staff item renderer
+         * @param key   The key to associate a value with
          * @param value The value to register
          */
-        fun register(key: Item, value: StaffItemRenderer) = register(key.registryId, value)
+        fun <T : StaffItemRenderer> register(key: Item, value: T): T =
+            Registry.register(REGISTRY, key.registryId, value)
 
         /**
-         * Checks if the given key is present in the registry
+         * Calculates a new light parameter value.
          *
-         * @param key The key to check
+         * @param light     The [packed][LightmapTextureManager.pack] light value
+         * @param luminance The [luminance][net.minecraft.block.BlockState.getLuminance] of a block state
+         * @return A new light value where the block light is [luminance] if it's greater than the previous block light
+         *   value
          */
-        operator fun contains(key: Item) = key.registryId in this
+        @JvmStatic
+        protected fun getLight(light: Int, luminance: Int): Int {
+            val blockLight = LightmapTextureManager.getBlockLightCoordinates(light)
+            val skyLight = LightmapTextureManager.getSkyLightCoordinates(light)
 
-        /**
-         * Gets the value associated with the given key or throws an exception, if the key is not present in this registry.
-         *
-         * @param key The key to check
-         */
-        operator fun get(key: Item) = this[key.registryId]
+            return LightmapTextureManager.pack(max(blockLight, luminance and 0xFFFF), skyLight)
+        }
     }
 }

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "avm_staff:staff_infusion_smithing_template"
+  },
+  "base": {
+    "item": "avm_staff:faint_staff_rod"
+  },
+  "addition": {
+    "item": "avm_staff:royal_staff_ingredient"
+  },
+  "result": {
+    "id": "avm_staff:royal_staff_rod"
+  }
+}

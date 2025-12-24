@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,13 +18,7 @@
 
 package opekope2.avm_staff.api.entity
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.advancement.criterion.Criteria
-import net.minecraft.block.Blocks
-import net.minecraft.client.option.GraphicsMode
-import net.minecraft.client.particle.BlockDustParticle
-import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.*
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
@@ -34,10 +28,8 @@ import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import opekope2.avm_staff.content.DamageTypes
 import opekope2.avm_staff.content.EntityTypes
@@ -93,49 +85,6 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     override fun initDataTracker(builder: DataTracker.Builder) {
     }
 
-    override fun onRemoved() {
-        world.playSound(
-            x, y, z,
-            SoundEvents.cakeSplash, SoundCategory.BLOCKS,
-            (CAKE_STATE.soundGroup.volume + 1f) / 2f, CAKE_STATE.soundGroup.pitch * .8f,
-            false
-        )
-        addCakeSplashParticles()
-    }
-
-    @Environment(EnvType.CLIENT)
-    private fun addCakeSplashParticles() {
-        val rng = Random.create(CAKE_STATE.getRenderingSeed(startPos))
-        val particlePerSide = particlePerSide - 1
-        val width = type.dimensions.width
-        val height = type.dimensions.height
-
-        for (i in 0..particlePerSide) {
-            for (j in 0..particlePerSide) {
-                for (k in 0..particlePerSide) {
-                    val offsetX = i * width / particlePerSide - width / 2
-                    val offsetY = j * height / particlePerSide
-                    val offsetZ = k * width / particlePerSide - width / 2
-                    val velocityScale = rng.nextDouble() * .25 + .25
-                    val velocityX = offsetX * velocityScale
-                    val velocityY = (offsetY - height / 2) * velocityScale
-                    val velocityZ = offsetZ * velocityScale
-
-                    particleManager.addParticle(
-                        BlockDustParticle(
-                            world as ClientWorld,
-                            x + offsetX, y + offsetY, z + offsetZ,
-                            velocityX, velocityY, velocityZ,
-                            CAKE_STATE, blockPos
-                        ).apply {
-                            setVelocity(velocityX, velocityY, velocityZ)
-                        }
-                    )
-                }
-            }
-        }
-    }
-
     override fun canHit() = !isRemoved
 
     override fun getGravity() = 0.04
@@ -165,6 +114,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     private fun splashOnImpact() {
         if (horizontalCollision || verticalCollision) {
             damageCollidingEntities()
+            world.syncWorldEvent(ENTITY_DEFUSED_WORLD_EVENT, blockPos, id)
             discard()
             return
         }
@@ -176,6 +126,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
 
         if (collisions.isNotEmpty()) {
             damageCollidingEntities()
+            world.syncWorldEvent(ENTITY_DEFUSED_WORLD_EVENT, blockPos, id)
             discard()
         }
     }
@@ -184,11 +135,15 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         val damageables = EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.and(EntityPredicates.VALID_LIVING_ENTITY)
         val thrower = thrower
         val damageSource =
-            if (thrower == null) world.damageSource(DamageTypes.PRANKED)
-            else world.damageSource(DamageTypes.PRANKED_BY_PLAYER, this, thrower)
+            if (thrower == null) world.damageSource(DamageTypes.pranked)
+            else world.damageSource(DamageTypes.prankedByPlayer, this, thrower)
 
-        world.getOtherEntities(this, boundingBox, damageables).forEach {
-            it.damage(damageSource, 1f)
+        val entities = world.getOtherEntities(this, boundingBox, damageables)
+        entities.forEach { it.damage(damageSource, 1f) }
+
+        val owner = owner
+        if (owner != null && entities.any { it.isPlayer && it != owner }) {
+            world.syncWorldEvent(CELEBRATE_PRANK_WORLD_EVENT, blockPos, owner.id)
         }
     }
 
@@ -203,7 +158,7 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
             redirectedByImpactTnt = true
         }
 
-        if (!isRemoved && !isInvulnerableTo(source) && !source.isIn(DamageTypeTags.IS_EXPLOSION)) {
+        if (!isRemoved && !isInvulnerableTo(source) && source !in DamageTypeTags.IS_EXPLOSION) {
             discard()
 
             val attacker = source.attacker
@@ -246,14 +201,6 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
     companion object {
         private const val TIME_KEY = "Time"
         private const val REDIRECTED_BY_IMPACT_TNT_KEY = "EngineeredAttack"
-        private val CAKE_STATE = Blocks.CAKE.defaultState
-        private val particlePerSide: Int
-            @Environment(EnvType.CLIENT)
-            get() = when (clientOptions.graphicsMode.value) {
-                GraphicsMode.FABULOUS -> 6
-                GraphicsMode.FANCY -> 5
-                else -> 4
-            }
 
         /**
          * Creates a new [CakeEntity] and throws it.

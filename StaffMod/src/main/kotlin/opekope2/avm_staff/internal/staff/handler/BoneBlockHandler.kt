@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -40,7 +40,7 @@ import opekope2.avm_staff.util.*
 internal class BoneBlockHandler : StaffHandler() {
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(5.0), AttributeModifierSlot.MAINHAND)
-        .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(2.0), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
         .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
         .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
         .build()
@@ -56,13 +56,12 @@ internal class BoneBlockHandler : StaffHandler() {
         if (!useOnFertilizable(world, user, target)) {
             return if (useOnGround(world, user, target, side)) {
                 (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
-                staffStack.damage(1, user, LivingEntity.getSlotForHand(hand))
+                staffStack.damage(1, user, hand)
                 ActionResult.SUCCESS
             } else ActionResult.PASS
         }
 
-        val range =
-            0.5 + staffStack.getEnchantmentLevel(Enchantments.EFFICIENCY, world.registryManager).coerceAtMost(5) / 2.0
+        val range = 0.5 + staffStack.getEnchantmentLevel(Enchantments.EFFICIENCY, world.registryManager) / 2.0
         val rangeSquare = range * range
         var uses = 0
 

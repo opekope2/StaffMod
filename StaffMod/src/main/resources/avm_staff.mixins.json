@@ -10,11 +10,13 @@
     "BipedEntityModelMixin",
     "IMinecraftClientAccessor",
     "IParticleManagerAccessor",
-    "IParticleMixin"
+    "IParticleMixin",
+    "WorldRendererMixin"
   ],
   "mixins": [
     "AbstractFurnaceBlockEntityMixin",
     "BeehiveBlockMixin",
+    "EntityMixin",
     "IAbstractFurnaceBlockEntityAccessor",
     "IAnvilBlockAccessor",
     "IBeehiveBlockEntityAccessor",
@@ -22,6 +24,7 @@
     "ICakeBlockAccessor",
     "IPiglinBrainAccessor",
     "ISmithingTemplateItemAccessor",
+    "PlayerEntityMixin",
     "SculkShriekerBlockEntityMixin",
     "TurtleEggBlockMixin"
   ]

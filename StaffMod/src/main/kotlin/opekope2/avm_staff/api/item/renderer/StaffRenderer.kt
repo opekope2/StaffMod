@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,16 +21,15 @@ package opekope2.avm_staff.api.item.renderer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import opekope2.avm_staff.api.component.StaffRendererPartComponent
-import opekope2.avm_staff.content.DataComponentTypes
-import opekope2.avm_staff.util.bakedModelManager
-import opekope2.avm_staff.util.itemRenderer
+import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.util.itemStackInStaff
+import opekope2.avm_staff.util.mc
 import opekope2.avm_staff.util.push
+import opekope2.avm_staff.util.registryId
 
 /**
  * Builtin model item renderer for staffs.
@@ -55,100 +54,49 @@ object StaffRenderer {
         light: Int,
         overlay: Int
     ) {
-        when (mode) {
-            ModelTransformationMode.GUI -> renderInventoryStaff(
-                staffStack, mode, matrices, vertexConsumers, light, overlay
-            )
-
-            ModelTransformationMode.FIXED -> renderItemFrameStaff(
-                staffStack, mode, matrices, vertexConsumers, light, overlay
-            )
-
-            else -> renderFullStaff(
-                staffStack, mode, matrices, vertexConsumers, light, overlay
+        fun StaffModelPart.render() {
+            mc.itemRenderer.renderItem(
+                staffStack,
+                ModelTransformationMode.NONE,
+                false,
+                matrices,
+                vertexConsumers,
+                light,
+                overlay,
+                getModel(staffStack.item)
             )
         }
-    }
 
-    private fun renderFullStaff(
-        staffStack: ItemStack,
-        mode: ModelTransformationMode,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
-        light: Int,
-        overlay: Int
-    ) {
         matrices.push {
-            translate(0.5f, 0.5f, 0.5f)
+            when (mode) {
+                ModelTransformationMode.GUI -> translate(8f / 16f, -8f / 16f, 8f / 16f)
+                ModelTransformationMode.FIXED -> translate(8f / 16f, 1f / 16f, 8f / 16f)
+                else -> translate(8f / 16f, 8f / 16f, 8f / 16f)
+            }
 
             // Head
             push {
                 translate(0f, 16f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
+                StaffModelPart.HEAD.render()
 
                 // Item
                 renderItem(staffStack, mode, this, light, overlay, vertexConsumers)
             }
 
-            // Rod (top)
-            push {
-                translate(0f, 2f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.ROD_TOP)
+            if (mode != ModelTransformationMode.GUI) { // Inventory
+                // Rod (top)
+                push {
+                    translate(0f, 2f / 16f, 0f)
+                    StaffModelPart.ROD_TOP.render()
+                }
             }
 
-            // Rod (bottom)
-            push {
-                translate(0f, -12f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.ROD_BOTTOM)
-            }
-        }
-    }
-
-    private fun renderInventoryStaff(
-        staffStack: ItemStack,
-        mode: ModelTransformationMode,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
-        light: Int,
-        overlay: Int
-    ) {
-        matrices.push {
-            translate(0.5f, 0.5f, 0.5f)
-
-            // Head
-            push {
-                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
-
-                // Item
-                renderItem(staffStack, mode, this, light, overlay, vertexConsumers)
-            }
-        }
-    }
-
-    private fun renderItemFrameStaff(
-        staffStack: ItemStack,
-        mode: ModelTransformationMode,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
-        light: Int,
-        overlay: Int
-    ) {
-        matrices.push {
-            translate(0.5f, 0.5f, 0.5f)
-
-            // Head
-            push {
-                translate(0f, 9f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.HEAD)
-
-                // Item
-                renderItem(staffStack, mode, this, light, overlay, vertexConsumers)
-            }
-
-            // Rod (top)
-            push {
-                translate(0f, -5f / 16f, 0f)
-                renderPart(staffStack, this, vertexConsumers, light, overlay, StaffRendererPartComponent.ROD_TOP)
+            if (mode != ModelTransformationMode.GUI && mode != ModelTransformationMode.FIXED) { // Inventory, item frame
+                // Rod (bottom)
+                push {
+                    translate(0f, -12f / 16f, 0f)
+                    StaffModelPart.ROD_BOTTOM.render()
+                }
             }
         }
     }
@@ -162,44 +110,32 @@ object StaffRenderer {
         vertexConsumers: VertexConsumerProvider
     ) {
         matrices.push {
-            safeGetModel(staffStack, StaffRendererPartComponent.ITEM).transformation.fixed.apply(false, this)
-
             staffStack.itemStackInStaff?.let { itemInStaff ->
                 val staffItemRenderer =
-                    if (itemInStaff.item !in StaffItemRenderer.Registry) MissingModelStaffItemRenderer
-                    else StaffItemRenderer.Registry[itemInStaff.item]
-                staffItemRenderer.renderItemInStaff(staffStack, mode, matrices, vertexConsumers, light, overlay)
+                    StaffItemRenderer.REGISTRY[itemInStaff.item.registryId] ?: MissingModelStaffItemRenderer
+
+                staffItemRenderer.renderItemInStaff(
+                    staffStack,
+                    StaffModelPart.ITEM_TRANSFORM.getModel(staffStack.item).transformation,
+                    mode,
+                    matrices,
+                    vertexConsumers,
+                    light,
+                    overlay
+                )
             }
         }
     }
 
-    private fun renderPart(
-        staffStack: ItemStack,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
-        light: Int,
-        overlay: Int,
-        part: StaffRendererPartComponent
-    ) {
-        itemRenderer.renderItem(
-            staffStack,
-            ModelTransformationMode.NONE,
-            false,
-            matrices,
-            vertexConsumers,
-            light,
-            overlay,
-            safeGetModel(staffStack, part)
+    @Environment(EnvType.CLIENT)
+    private enum class StaffModelPart(private val suffix: String) {
+        HEAD("/head"),
+        ITEM_TRANSFORM("/item_transform"),
+        ROD_TOP("/rod_top"),
+        ROD_BOTTOM("/rod_bottom");
+
+        fun getModel(item: Item) = IStaffModClientPlatform.getStandaloneModel(
+            item.registryId.withPrefixedPath("item/").withSuffixedPath(suffix)
         )
-    }
-
-    private fun safeGetModel(staffStack: ItemStack, part: StaffRendererPartComponent): BakedModel {
-        staffStack[DataComponentTypes.staffRendererPart] = part
-        val model = itemRenderer.getModel(staffStack, null, null, 0)
-        staffStack.remove(DataComponentTypes.staffRendererPart)
-
-        // Prevent StackOverflowError if an override is missing
-        return if (!model.isBuiltin) model
-        else bakedModelManager.missingModel
     }
 }

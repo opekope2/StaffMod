@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,30 +18,30 @@
 
 package opekope2.avm_staff.internal.neoforge.item
 
-import dev.architectury.registry.registries.RegistrySupplier
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.item.BuiltinModelItemRenderer
-import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
+import net.minecraft.util.UseAction
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.neoforge.common.ItemAbilities
+import net.neoforged.neoforge.common.ItemAbility
 import net.neoforged.neoforge.common.extensions.IItemExtension
+import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.api.item.renderer.StaffRenderer
-import opekope2.avm_staff.util.blockEntityRenderDispatcher
-import opekope2.avm_staff.util.entityModelLoader
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.util.isStaff
 import opekope2.avm_staff.util.staffHandlerOrFallback
-import java.util.function.Consumer
+import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
+import java.util.function.Supplier
 
-class NeoForgeStaffItem(settings: Item.Settings, repairIngredientSupplier: RegistrySupplier<Item>?) :
+class NeoForgeStaffItem(settings: Settings, repairIngredientSupplier: Supplier<out Item>?) :
     StaffItem(settings, repairIngredientSupplier), IItemExtension {
-    @Suppress("RemoveExplicitSuperQualifier") // Required because StaffItem apparently also has canDisableShield
+    init {
+        runWhenOn(Dist.CLIENT) { IStaffModClientPlatform.renderAsStaffModel(this) }
+    }
+
     override fun canDisableShield(stack: ItemStack, shield: ItemStack, entity: LivingEntity, attacker: LivingEntity) =
         disablesShield(stack, attacker.entityWorld, attacker, Hand.MAIN_HAND) ||
                 super<IItemExtension>.canDisableShield(stack, shield, entity, attacker)
@@ -56,34 +56,17 @@ class NeoForgeStaffItem(settings: Item.Settings, repairIngredientSupplier: Regis
         else Hand.OFF_HAND
     )
 
+    override fun canPerformAction(stack: ItemStack, itemAbility: ItemAbility) =
+        itemAbility == ItemAbilities.SHIELD_BLOCK && stack.isStaff && (stack.item as StaffItem).getUseAction(stack) == UseAction.BLOCK
+
     override fun onLeftClickEntity(stack: ItemStack, player: PlayerEntity, entity: Entity) =
         attackEntity(stack, player.entityWorld, player, entity, Hand.MAIN_HAND).interruptsFurtherEvaluation()
 
     override fun shouldCauseReequipAnimation(oldStack: ItemStack, newStack: ItemStack, slotChanged: Boolean): Boolean {
-        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
-        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
+        val oldHandler = oldStack.staffHandlerOrFallback
+        val newHandler = newStack.staffHandlerOrFallback
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowReequipAnimation(oldStack, newStack, slotChanged)
-    }
-
-    // Calm down IDEA, this is beyond your understanding
-    override fun initializeClient(consumer: Consumer<IClientItemExtensions>) {
-        consumer.accept(object : IClientItemExtensions {
-            override fun getCustomRenderer() = Renderer
-        })
-    }
-
-    object Renderer : BuiltinModelItemRenderer(blockEntityRenderDispatcher, entityModelLoader) {
-        override fun render(
-            stack: ItemStack,
-            mode: ModelTransformationMode,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
-        ) {
-            StaffRenderer.renderStaff(stack, mode, matrices, vertexConsumers, light, overlay)
-        }
     }
 }

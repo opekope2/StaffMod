@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,8 +18,10 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
+import it.unimi.dsi.fastutil.ints.IntSet
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
@@ -29,6 +31,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.recipe.AbstractCookingRecipe
+import net.minecraft.recipe.RecipeEntry
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.input.SingleStackRecipeInput
 import net.minecraft.server.network.ServerPlayerEntity
@@ -44,19 +47,22 @@ import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.DataComponentTypes
+import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityAccessor
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
+import kotlin.math.round
 
 internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     private val recipeType: RecipeType<TRecipe>,
-    private val smeltSound: SoundEvent
+    private val smeltSound: SoundEvent,
+    private val speed: Int,
 ) : StaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
-        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(10.0), AttributeModifierSlot.MAINHAND)
-        .add(EntityAttributes.GENERIC_ATTACK_SPEED, attackSpeed(1.25), AttributeModifierSlot.MAINHAND)
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(8.0), AttributeModifierSlot.MAINHAND)
+        .addDefault(EntityAttributes.GENERIC_ATTACK_SPEED)
         .addDefault(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE)
         .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
         .build()
@@ -67,31 +73,48 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        staffStack[DataComponentTypes.furnaceData] = StaffFurnaceDataComponent(0)
+        StaffFurnaceDataComponent().saveTo(staffStack)
 
         user.setCurrentHand(hand)
         return TypedActionResult.pass(staffStack)
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        if (!user.canUseStaff) return
+        if (!user.canUseStaff()) return
 
-        val itemToSmelt = findItemToSmelt(world, user.approximateStaffItemPosition)
-            ?: findItemToSmelt(world, user.approximateStaffTipPosition)
+        var furnaceData = staffStack[DataComponentTypes.furnaceData]!!
+        var itemToSmelt = world.getEntityById(furnaceData.smeltedItemId) as? ItemEntity
 
         if (world.isClient) {
-            playSmeltingEffects(world, itemToSmelt ?: return)
+            if (itemToSmelt == null) return
+
+            val stackToSmelt = itemToSmelt.stack
+            val remainingSeconds = (stackToSmelt.count - furnaceData.smeltTicks).toFloat() / speed / TICKS_PER_SECOND
+            mc.inGameHud.setOverlayMessage(
+                I18n.FEEDBACK_AVM_STAFF_SMELTING.getText(stackToSmelt.name, round(remainingSeconds * 10f) / 10f),
+                false
+            )
+            playSmeltingEffects(world, itemToSmelt)
+
             return
         }
 
-        val furnaceData = staffStack[DataComponentTypes.furnaceData]!!
-        furnaceData.burnTicks++
+        val findNewItemToSmelt = itemToSmelt == null ||
+                !isInSmeltingVolume(itemToSmelt, user.approximateStaffItemPosition) &&
+                !isInSmeltingVolume(itemToSmelt, user.approximateStaffTipPosition)
+        if (findNewItemToSmelt) {
+            furnaceData = furnaceData.copy(smeltedItemId = -1, smeltTicks = 0).saveTo(staffStack)
+            itemToSmelt = findItemToSmelt(world, user.approximateStaffItemPosition, furnaceData.unsmeltableItemIds)
+                ?: findItemToSmelt(world, user.approximateStaffTipPosition, furnaceData.unsmeltableItemIds) ?: return
+        }
 
-        val stackToSmelt = itemToSmelt?.stack ?: return
-        if (furnaceData.burnTicks < stackToSmelt.count) return
+        furnaceData = furnaceData.copy(smeltedItemId = itemToSmelt.id, smeltTicks = furnaceData.smeltTicks + speed)
+            .saveTo(staffStack)
 
-        val recipeInput = SingleStackRecipeInput(itemToSmelt.stack)
-        val recipe = world.recipeManager.getFirstMatch(recipeType, recipeInput, world).getOrNull()?.value ?: return
+        val stackToSmelt = itemToSmelt.stack
+        if (furnaceData.smeltTicks < stackToSmelt.count) return
+
+        val recipe = getRecipe(stackToSmelt, world)!!.value
         val resultItem = recipe.getResult(world.registryManager).copyWithCount(stackToSmelt.count)
 
         val (vx, vy, vz) = itemToSmelt.velocity
@@ -101,16 +124,32 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         )
         itemToSmelt.discard()
 
-        furnaceData.burnTicks -= stackToSmelt.count
-
-        staffStack.damage(stackToSmelt.count, user, LivingEntity.getSlotForHand(user.activeHand))
+        furnaceData.copy(smeltedItemId = -1, smeltTicks = 0).saveTo(staffStack)
+        staffStack.damage(stackToSmelt.count, user)
         (user as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
     }
 
-    private fun findItemToSmelt(world: World, smeltingPosition: Vec3d): ItemEntity? {
-        val items = world.getEntitiesByClass(ItemEntity::class.java, SMELTING_VOLUME.offset(smeltingPosition)) { true }
-        val closest = items.minByOrNull { (smeltingPosition - it.pos).lengthSquared() }
-        return closest
+    private fun isInSmeltingVolume(item: ItemEntity, smeltingPosition: Vec3d) =
+        SMELTING_VOLUME.offset(smeltingPosition).intersects(item.boundingBox)
+
+    private fun getRecipe(stack: ItemStack, world: World): RecipeEntry<TRecipe>? {
+        val recipeInput = SingleStackRecipeInput(stack)
+        return world.recipeManager.getFirstMatch(recipeType, recipeInput, world).getOrNull()
+    }
+
+    private fun findItemToSmelt(world: World, smeltingPosition: Vec3d, excluded: IntSet): ItemEntity? {
+        val items = world.getEntitiesByClass(
+            ItemEntity::class.java,
+            SMELTING_VOLUME.offset(smeltingPosition)
+        ) { it.id !in excluded }
+        val itr = items.listIterator()
+        for (item in itr) {
+            if (getRecipe(item.stack, world) != null) continue
+            excluded.add(item.id) // Do not use += because it boxes primitives
+            itr.remove()
+        }
+
+        return items.minByOrNull { (smeltingPosition - it.pos).lengthSquared() }
     }
 
     @Environment(EnvType.CLIENT)
@@ -124,8 +163,8 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val ry = Math.random() * 0.5
         val rz = Math.random() * 0.25 - 0.25 / 2
 
-        particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
-        particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        mc.particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        mc.particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
@@ -156,5 +195,10 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         private val SMELTING_VOLUME = Box(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).contract(
             ITEM_DIMENSIONS.width / 2.0, ITEM_DIMENSIONS.height / 2.0, ITEM_DIMENSIONS.width / 2.0
         )
+
+        private fun StaffFurnaceDataComponent.saveTo(stack: ItemStack): StaffFurnaceDataComponent {
+            stack[DataComponentTypes.furnaceData] = this
+            return this
+        }
     }
 }

@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,26 +18,21 @@
 
 package opekope2.avm_staff.internal.fabric.item
 
-import dev.architectury.registry.registries.RegistrySupplier
-import net.fabricmc.api.EnvType
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.item.v1.FabricItem
-import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
+import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.item.StaffItem
-import opekope2.avm_staff.api.item.renderer.StaffRenderer
-import opekope2.avm_staff.util.itemInStaff
+import opekope2.avm_staff.internal.fabric.staffModPlatform
 import opekope2.avm_staff.util.staffHandlerOrFallback
+import java.util.function.Supplier
 
-class FabricStaffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) :
+class FabricStaffItem(settings: Settings, repairIngredient: Supplier<out Item>?) :
     StaffItem(settings, repairIngredient), FabricItem {
     init {
-        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
-            BuiltinItemRendererRegistry.INSTANCE.register(this, StaffRenderer::renderStaff)
-        }
+        if (staffModPlatform.isClient) IStaffModClientPlatform.renderAsStaffModel(this)
     }
 
     override fun allowComponentsUpdateAnimation(
@@ -46,8 +41,8 @@ class FabricStaffItem(settings: Item.Settings, repairIngredient: RegistrySupplie
         oldStack: ItemStack,
         newStack: ItemStack
     ): Boolean {
-        val oldHandler = oldStack.itemInStaff.staffHandlerOrFallback
-        val newHandler = newStack.itemInStaff.staffHandlerOrFallback
+        val oldHandler = oldStack.staffHandlerOrFallback
+        val newHandler = newStack.staffHandlerOrFallback
 
         return if (oldHandler !== newHandler) true
         else oldHandler.allowComponentsUpdateAnimation(oldStack, newStack, player, hand)

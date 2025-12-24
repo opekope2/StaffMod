@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,14 +18,13 @@
 
 package opekope2.avm_staff.api
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.particle.SimpleParticleType
-import opekope2.avm_staff.api.IStaffModPlatform.Instance
 import opekope2.avm_staff.api.item.CrownItem
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.internal.staffModPlatform
+import java.util.function.Supplier
 
 /**
  * Loader-specific functionality
@@ -34,18 +33,17 @@ import opekope2.avm_staff.internal.staffModPlatform
  */
 interface IStaffModPlatform {
     /**
-     * Creates a loader-specific instance of [StaffItem].
-     *
-     * @param settings  The item settings to pass to the constructor
+     * Checks if Minecraft is running client-side.
      */
-    fun staffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?): StaffItem
+    val isClient: Boolean
 
     /**
-     * Creates an item, which is rendered like a staff.
+     * Creates a loader-specific instance of [StaffItem].
      *
-     * @param settings  The item settings to pass to the constructor
+     * @param settings          The item settings to pass to the constructor
+     * @param repairIngredient  The item used to repair the staff or `null`, if the staff cannot be repaired
      */
-    fun itemWithStaffRenderer(settings: Item.Settings): Item
+    fun staffItem(settings: Item.Settings, repairIngredient: Supplier<out Item>?): StaffItem
 
     /**
      * Creates a loader-specific instance of [CrownItem].
