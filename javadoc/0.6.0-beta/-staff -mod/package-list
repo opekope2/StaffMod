@@ -1,0 +1,60 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:opekope2.avm_staff.api.initializer////PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.initializer/index.html
+$dokka.location:opekope2.avm_staff.api.initializer/IStaffModInitializationContext///PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.initializer/-i-staff-mod-initialization-context/index.html
+$dokka.location:opekope2.avm_staff.api.initializer/IStaffModInitializationContext/registerStaffItemHandler/#net.minecraft.util.Identifier#opekope2.avm_staff.api.item.StaffItemHandler/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.initializer/-i-staff-mod-initialization-context/register-staff-item-handler.html
+$dokka.location:opekope2.avm_staff.api.initializer/IStaffModInitializer///PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.initializer/-i-staff-mod-initializer/index.html
+$dokka.location:opekope2.avm_staff.api.initializer/IStaffModInitializer/onInitializeStaffMod/#opekope2.avm_staff.api.initializer.IStaffModInitializationContext/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.initializer/-i-staff-mod-initializer/on-initialize-staff-mod.html
+$dokka.location:opekope2.avm_staff.api.item////PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/index.html
+$dokka.location:opekope2.avm_staff.api.item/IAdvancedStaffItemHandler///PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-i-advanced-staff-item-handler/index.html
+$dokka.location:opekope2.avm_staff.api.item/IAdvancedStaffItemHandler/disablesShield/#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-i-advanced-staff-item-handler/disables-shield.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem///PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/index.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/StaffItem/#net.minecraft.item.Item.Settings/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/-staff-item.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/finishUsing/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/finish-using.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/getAttributeModifiers/#net.minecraft.item.ItemStack#net.minecraft.entity.EquipmentSlot/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/get-attribute-modifiers.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/getMaxUseTime/#net.minecraft.item.ItemStack/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/get-max-use-time.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/getName/#net.minecraft.item.ItemStack/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/get-name.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/getTranslationKey/#net.minecraft.item.ItemStack/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/get-translation-key.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/onItemEntityDestroyed/#net.minecraft.entity.ItemEntity/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/on-item-entity-destroyed.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/onStoppedUsing/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity#kotlin.Int/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/on-stopped-using.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/usageTick/#net.minecraft.world.World#net.minecraft.entity.LivingEntity#net.minecraft.item.ItemStack#kotlin.Int/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/usage-tick.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/use/#net.minecraft.world.World#net.minecraft.entity.player.PlayerEntity#net.minecraft.util.Hand/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/use.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/useOnBlock/#net.minecraft.item.ItemUsageContext/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/use-on-block.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItem/useOnEntity/#net.minecraft.item.ItemStack#net.minecraft.entity.player.PlayerEntity#net.minecraft.entity.LivingEntity#net.minecraft.util.Hand/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item/use-on-entity.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler///PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/index.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/StaffItemHandler/#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/-staff-item-handler.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/attack/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity#net.minecraft.util.Hand/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/attack.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/attackBlock/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity#net.minecraft.util.math.BlockPos#net.minecraft.util.math.Direction#net.minecraft.util.Hand/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/attack-block.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/attackEntity/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity#net.minecraft.entity.Entity#net.minecraft.util.Hand/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/attack-entity.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/finishUsing/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/finish-using.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/getAttributeModifiers/#net.minecraft.item.ItemStack#net.minecraft.entity.EquipmentSlot/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/get-attribute-modifiers.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/getMaxUseTime/#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/get-max-use-time.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/onStoppedUsing/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity#kotlin.Int/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/on-stopped-using.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/usageTick/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity#kotlin.Int/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/usage-tick.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/use/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.player.PlayerEntity#net.minecraft.util.Hand/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/use.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/useOnBlock/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity#net.minecraft.util.math.BlockPos#net.minecraft.util.math.Direction#net.minecraft.util.Hand/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/use-on-block.html
+$dokka.location:opekope2.avm_staff.api.item/StaffItemHandler/useOnEntity/#net.minecraft.item.ItemStack#net.minecraft.world.World#net.minecraft.entity.LivingEntity#net.minecraft.entity.LivingEntity#net.minecraft.util.Hand/PointingToDeclaration/-staff -mod/opekope2.avm_staff.api.item/-staff-item-handler/use-on-entity.html
+$dokka.location:opekope2.avm_staff.util////PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/index.html
+$dokka.location:opekope2.avm_staff.util/AttributeUtil///PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-attribute-util/index.html
+$dokka.location:opekope2.avm_staff.util/AttributeUtil/attackDamage/#kotlin.Double/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-attribute-util/attack-damage.html
+$dokka.location:opekope2.avm_staff.util/AttributeUtil/attackSpeed/#kotlin.Double/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-attribute-util/attack-speed.html
+$dokka.location:opekope2.avm_staff.util/AttributeUtil/equipTime/#kotlin.Double/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-attribute-util/equip-time.html
+$dokka.location:opekope2.avm_staff.util/DfuUtil///PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-dfu-util/index.html
+$dokka.location:opekope2.avm_staff.util/DfuUtil/component1/com.mojang.datafixers.util.Either[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-dfu-util/component1.html
+$dokka.location:opekope2.avm_staff.util/DfuUtil/component1/com.mojang.datafixers.util.Pair[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-dfu-util/component1.html
+$dokka.location:opekope2.avm_staff.util/DfuUtil/component2/com.mojang.datafixers.util.Either[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-dfu-util/component2.html
+$dokka.location:opekope2.avm_staff.util/DfuUtil/component2/com.mojang.datafixers.util.Pair[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-dfu-util/component2.html
+$dokka.location:opekope2.avm_staff.util/StaffUtil///PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-staff-util/index.html
+$dokka.location:opekope2.avm_staff.util/StaffUtil/getHandlerOfItem/net.minecraft.item.ItemStack#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-staff-util/get-handler-of-item.html
+$dokka.location:opekope2.avm_staff.util/StaffUtil/getItemInStaff/net.minecraft.item.ItemStack#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-staff-util/get-item-in-staff.html
+$dokka.location:opekope2.avm_staff.util/StaffUtil/hasHandlerOfStaff/net.minecraft.item.ItemStack#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-staff-util/has-handler-of-staff.html
+$dokka.location:opekope2.avm_staff.util/StaffUtil/isItemInStaff/net.minecraft.item.ItemStack#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-staff-util/is-item-in-staff.html
+$dokka.location:opekope2.avm_staff.util/StaffUtil/setItemInStaff/net.minecraft.item.ItemStack#net.minecraft.item.ItemStack?/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-staff-util/set-item-in-staff.html
+$dokka.location:opekope2.avm_staff.util/VectorUtil///PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-vector-util/index.html
+$dokka.location:opekope2.avm_staff.util/VectorUtil/component1/net.minecraft.util.math.Vec3d#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-vector-util/component1.html
+$dokka.location:opekope2.avm_staff.util/VectorUtil/component2/net.minecraft.util.math.Vec3d#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-vector-util/component2.html
+$dokka.location:opekope2.avm_staff.util/VectorUtil/component3/net.minecraft.util.math.Vec3d#/PointingToDeclaration/-staff -mod/opekope2.avm_staff.util/-vector-util/component3.html
+opekope2.avm_staff.api.initializer
+opekope2.avm_staff.api.item
+opekope2.avm_staff.util
+

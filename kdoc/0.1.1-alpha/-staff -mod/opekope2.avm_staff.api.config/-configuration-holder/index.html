@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ConfigurationHolder</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Staff Mod
+                    </a>
+            </div>
+            <div class="library-version">
+0.1.1-alpha            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":StaffMod:dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Staff Mod::opekope2.avm_staff.api.config/ConfigurationHolder///PointingToDeclaration//-1660635063">
+  <div class="breadcrumbs"><a href="../../../index.html">Staff Mod</a><span class="delimiter">/</span><a href="../index.html">opekope2.avm_staff.api.config</a><span class="delimiter">/</span><span class="current">ConfigurationHolder</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Configuration</span><wbr></wbr><span><span>Holder</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">ConfigurationHolder</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/opekope2/StaffMod/tree/0.1.1-alpha/StaffMod/src/main/kotlin/opekope2/avm_staff/api/config/ConfigurationHolder.kt#L13">source</a>)</span></span></div><p class="paragraph">Holds the current configurations.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-952026808%2FProperties%2F-1660635063" anchor-label="currentConfiguration" id="-952026808%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="current-configuration.html"><span>current</span><wbr></wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-952026808%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword"></span><span class="token keyword">val </span><a href="current-configuration.html">currentConfiguration</a><span class="token operator">: </span><a href="../-configuration/index.html">Configuration</a></div><div class="brief "><p class="paragraph"><a href="remote-configuration.html">remoteConfiguration</a> if the client is currently connected to a server, <a href="local-configuration.html">localConfiguration</a> otherwise.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-103813190%2FProperties%2F-1660635063" anchor-label="localConfiguration" id="-103813190%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="local-configuration.html"><span>local</span><wbr></wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-103813190%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword"></span><span class="token keyword">var </span><a href="local-configuration.html">localConfiguration</a><span class="token operator">: </span><a href="../-configuration/index.html">Configuration</a></div><div class="brief "><p class="paragraph">The currently loaded local configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="574506263%2FProperties%2F-1660635063" anchor-label="localConfigurationLoadException" id="574506263%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="local-configuration-load-exception.html"><span>local</span><wbr></wbr><span>Configuration</span><wbr></wbr><span>Load</span><wbr></wbr><span><span>Exception</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="574506263%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword"></span><span class="token keyword">var </span><a href="local-configuration-load-exception.html">localConfigurationLoadException</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html">Exception</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The error occurred during the ast <a href="try-load-local-configuration.html">configuration load</a>. Will be <code class="lang-kotlin">null</code> if it was successful.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1081356165%2FProperties%2F-1660635063" anchor-label="remoteConfiguration" id="1081356165%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="remote-configuration.html"><span>remote</span><wbr></wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1081356165%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div><div class="block"><span class="token annotation builtin">@get:</span><span data-unresolved-link="net.fabricmc.api/Environment///PointingToDeclaration/"><span class="token annotation builtin">Environment</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span data-unresolved-link="net.fabricmc.api/EnvType.CLIENT///PointingToDeclaration/">EnvType.CLIENT</span></span><wbr></wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@set:</span><span data-unresolved-link="net.fabricmc.api/Environment///PointingToDeclaration/"><span class="token annotation builtin">Environment</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span data-unresolved-link="net.fabricmc.api/EnvType.CLIENT///PointingToDeclaration/">EnvType.CLIENT</span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword"></span><span class="token keyword">var </span><a href="remote-configuration.html">remoteConfiguration</a><span class="token operator">: </span><a href="../-configuration/index.html">Configuration</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The configuration of remote server the client is currently connected to, or <code class="lang-kotlin">null</code>, if the client is not connected to a server. It is the configuration of the integrated server, if running.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1840888599%2FFunctions%2F-1660635063" anchor-label="tryLoadLocalConfiguration" id="-1840888599%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="try-load-local-configuration.html"><span>try</span><wbr></wbr><span>Load</span><wbr></wbr><span>Local</span><wbr></wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1840888599%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="try-load-local-configuration.html"><span class="token function">tryLoadLocalConfiguration</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Tries to load the local configuration from disk into <a href="local-configuration.html">localConfiguration</a>. If the load fails, <a href="local-configuration.html">localConfiguration</a> won't be changed, and the error can be found in <a href="local-configuration-load-exception.html">localConfigurationLoadException</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023-2024 opekope2. AvM Staff Mod is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

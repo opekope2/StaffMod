@@ -1,0 +1,38 @@
+article li,
+article p {
+    text-align: justify;
+}
+
+#avm-staff-mod + p {
+    text-align: left;
+}
+
+.center {
+    display: block;
+    text-align: center;
+}
+
+img.x16 {
+    width: 16px;
+    image-rendering: crisp-edges;
+}
+
+img.x32 {
+    width: 32px;
+    image-rendering: crisp-edges;
+}
+
+.twemoji.x32 {
+    height: 32px;
+    vertical-align: inherit;
+}
+
+.youtube-container {
+    position: relative;
+    padding-bottom: calc(900% / 16);
+}
+.youtube-container > iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}

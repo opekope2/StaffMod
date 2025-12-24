@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>VanillaBlockDropCollector</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Staff Mod
+                    </a>
+            </div>
+            <div class="library-version">
+0.18.3            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":StaffMod:dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Staff Mod::opekope2.avm_staff.util.dropcollector/VanillaBlockDropCollector///PointingToDeclaration//-1660635063">
+  <div class="breadcrumbs"><a href="../../../index.html">Staff Mod</a><span class="delimiter">/</span><a href="../index.html">opekope2.avm_staff.util.dropcollector</a><span class="delimiter">/</span><span class="current">VanillaBlockDropCollector</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Vanilla</span><wbr></wbr><span>Block</span><wbr></wbr><span>Drop</span><wbr></wbr><span><span>Collector</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">VanillaBlockDropCollector</a> : <a href="../-i-block-drop-collector/index.html">IBlockDropCollector</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/opekope2/StaffMod/tree/0.18.3/StaffMod/src/main/kotlin/opekope2/avm_staff/util/dropcollector/VanillaBlockDropCollector.kt#L30">source</a>)</span></span></div><p class="paragraph">A block drop collector that drops the items without merging, just like vanilla Minecraft.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1570884963%2FConstructors%2F-1660635063" anchor-label="VanillaBlockDropCollector" id="1570884963%2FConstructors%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-vanilla-block-drop-collector.html"><span>Vanilla</span><wbr></wbr><span>Block</span><wbr></wbr><span>Drop</span><wbr></wbr><span><span>Collector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1570884963%2FConstructors%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-715415162%2FFunctions%2F-1660635063" anchor-label="collect" id="-715415162%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="collect.html"><span><span>collect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-715415162%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="collect.html"><span class="token function">collect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pos<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/BlockPos.html">BlockPos</a><span class="token punctuation">, </span></span><span class="parameter ">state<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/block/BlockState.html">BlockState</a><span class="token punctuation">, </span></span><span class="parameter ">tool<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token punctuation">, </span></span><span class="parameter ">droppedStacks<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/ItemStack.html">ItemStack</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Stores the dropped items of a broken block.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-841819901%2FFunctions%2F-1660635063" anchor-label="dropAll" id="-841819901%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="drop-all.html"><span>drop</span><wbr></wbr><span><span>All</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-841819901%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="drop-all.html"><span class="token function">dropAll</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/server/world/ServerWorld.html">ServerWorld</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Drops all collected items into the world.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Inherited functions</h2>
+        <div class="table"><a data-name="-1098901545%2FFunctions%2F-1660635063" anchor-label="collect" id="-1098901545%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-i-block-drop-collector/collect.html"><span><span>collect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1098901545%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-i-block-drop-collector/collect.html"><span class="token function">collect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">world<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/server/world/ServerWorld.html">ServerWorld</a><span class="token punctuation">, </span></span><span class="parameter ">pos<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/BlockPos.html">BlockPos</a><span class="token punctuation">, </span></span><span class="parameter ">state<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/block/BlockState.html">BlockState</a><span class="token punctuation">, </span></span><span class="parameter ">blockEntity<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/block/entity/BlockEntity.html">BlockEntity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">destroyer<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/entity/Entity.html">Entity</a><span class="token punctuation">, </span></span><span class="parameter ">tool<span class="token operator">: </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/item/ItemStack.html">ItemStack</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Stores the dropped items of a broken block.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023-2024 opekope2. AvM Staff Mod is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

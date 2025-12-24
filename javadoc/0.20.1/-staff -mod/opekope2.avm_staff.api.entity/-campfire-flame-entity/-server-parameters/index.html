@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ServerParameters</title>
+    <link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../../images/logo-icon.svg">
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../../index.html">
+                            Staff Mod
+                    </a>
+            </div>
+            <div class="library-version">
+0.20.1-1.21            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":StaffMod:dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Staff Mod::opekope2.avm_staff.api.entity/CampfireFlameEntity.ServerParameters///PointingToDeclaration//-1660635063">
+  <div class="breadcrumbs"><a href="../../../../index.html">Staff Mod</a><span class="delimiter">/</span><a href="../../index.html">opekope2.avm_staff.api.entity</a><span class="delimiter">/</span><a href="../index.html">CampfireFlameEntity</a><span class="delimiter">/</span><span class="current">ServerParameters</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Server</span><wbr></wbr><span><span>Parameters</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span class="token keyword">class </span><a href="index.html">ServerParameters</a><span class="token keyword"> extends </span><a href="../-parameters/index.html">CampfireFlameEntity.Parameters</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/opekope2/StaffMod/tree/0.20.1-1.21/StaffMod/src/main/kotlin/opekope2/avm_staff/api/entity/CampfireFlameEntity.kt#L374">source</a>)</span></span></div><p class="paragraph">Server-side parameters of a <a href="../index.html">CampfireFlameEntity</a>.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>origin</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Starting position of the entity</p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>relative</span><wbr></wbr><span><span>Target</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The position towards the fire goes relative to <span data-unresolved-link="opekope2.avm_staff.api.entity/CampfireFlameEntity.ServerParameters/origin/#/PointingToDeclaration/">origin</span></p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>flame</span><wbr></wbr><span>Cone</span><wbr></wbr><span><span>Width</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The width of the fire cone, points right relative to the shooter's POV</p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>flame</span><wbr></wbr><span>Cone</span><wbr></wbr><span><span>Height</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The height of the fire cone, points up relative to the shooter's POV</p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>step</span><wbr></wbr><span><span>Resolution</span></span></u></div></span></div><div><div class="title"><p class="paragraph">How many ticks to divide the distance between <span data-unresolved-link="opekope2.avm_staff.api.entity/CampfireFlameEntity.ServerParameters/origin/#/PointingToDeclaration/">origin</span> and <span data-unresolved-link="opekope2.avm_staff.api.entity/CampfireFlameEntity.ServerParameters/relativeTarget/#/PointingToDeclaration/">relativeTarget</span></p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>ray</span><wbr></wbr><span><span>Resolution</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The resolution to divide the fire cone both horizontally and vertically</p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>particle</span><wbr></wbr><span><span>Type</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The registry key of the flame particle type in <a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/registry/Registries.html#PARTICLE_TYPE()">Registries.PARTICLE_TYPE</a></p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>flammable</span><wbr></wbr><span>Block</span><wbr></wbr><span>Fire</span><wbr></wbr><span><span>Chance</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The chance a <a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/block/BlockState.html#isBurnable()">flammable</a> block is set on fire</p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>non</span><wbr></wbr><span>Flammable</span><wbr></wbr><span>Block</span><wbr></wbr><span>Fire</span><wbr></wbr><span><span>Chance</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The chance a <a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/block/BlockState.html#isBurnable()">non-flammable</a> block is set on fire</p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>flame</span><wbr></wbr><span>Fire</span><wbr></wbr><span><span>Ticks</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The number of ticks an entity is additionally set on fire for</p></div></div></div></div><div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>damage</span><wbr></wbr><span><span>Shooter</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Whether the flame should damage the shooter</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1939969994%2FConstructors%2F-1660635063" anchor-label="CampfireFlameEntity.ServerParameters" id="1939969994%2FConstructors%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-campfire-flame-entity.-server-parameters.html"><span>Campfire</span><wbr></wbr><span>Flame</span><wbr></wbr><span>Entity.</span><wbr></wbr><span>Server</span><wbr></wbr><span><span>Parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1939969994%2FConstructors%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">CampfireFlameEntity.ServerParameters</a> <a href="-campfire-flame-entity.-server-parameters.html"><span class="token function">CampfireFlameEntity.ServerParameters</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> origin<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> relativeTarget<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> flameConeWidth<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> flameConeHeight<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html">Integer</a> stepResolution<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/registry/RegistryKey.html">RegistryKey</a><span class="token operator">&lt;</span><span class="token keyword">? extends </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/particle/ParticleType.html">ParticleType</a><span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span> particleType<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html">Integer</a> rayResolution<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html">Double</a> flammableBlockFireChance<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html">Double</a> nonFlammableBlockFireChance<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html">Integer</a> flameFireTicks<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html">Boolean</a> damageShooter</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="39232137%2FProperties%2F-1660635063" anchor-label="damageShooter" id="39232137%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#39232137%2FProperties%2F-1660635063"><span>damage</span><wbr></wbr><span><span>Shooter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="39232137%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html">Boolean</a> <a href="index.html#39232137%2FProperties%2F-1660635063">damageShooter</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1093902649%2FProperties%2F-1660635063" anchor-label="flameFireTicks" id="-1093902649%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1093902649%2FProperties%2F-1660635063"><span>flame</span><wbr></wbr><span>Fire</span><wbr></wbr><span><span>Ticks</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1093902649%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html">Integer</a> <a href="index.html#-1093902649%2FProperties%2F-1660635063">flameFireTicks</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="927950322%2FProperties%2F-1660635063" anchor-label="flammableBlockFireChance" id="927950322%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#927950322%2FProperties%2F-1660635063"><span>flammable</span><wbr></wbr><span>Block</span><wbr></wbr><span>Fire</span><wbr></wbr><span><span>Chance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="927950322%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html">Double</a> <a href="index.html#927950322%2FProperties%2F-1660635063">flammableBlockFireChance</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1238690839%2FProperties%2F-1660635063" anchor-label="nonFlammableBlockFireChance" id="1238690839%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1238690839%2FProperties%2F-1660635063"><span>non</span><wbr></wbr><span>Flammable</span><wbr></wbr><span>Block</span><wbr></wbr><span>Fire</span><wbr></wbr><span><span>Chance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1238690839%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html">Double</a> <a href="index.html#1238690839%2FProperties%2F-1660635063">nonFlammableBlockFireChance</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="284884688%2FProperties%2F-1660635063" anchor-label="rayResolution" id="284884688%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#284884688%2FProperties%2F-1660635063"><span>ray</span><wbr></wbr><span><span>Resolution</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="284884688%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html">Integer</a> <a href="index.html#284884688%2FProperties%2F-1660635063">rayResolution</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Inherited properties</h2>
+        <div class="table"><a data-name="975024812%2FProperties%2F-1660635063" anchor-label="flameConeHeight" id="975024812%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#975024812%2FProperties%2F-1660635063"><span>flame</span><wbr></wbr><span>Cone</span><wbr></wbr><span><span>Height</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="975024812%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> <a href="index.html#975024812%2FProperties%2F-1660635063">flameConeHeight</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-760222783%2FProperties%2F-1660635063" anchor-label="flameConeWidth" id="-760222783%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-760222783%2FProperties%2F-1660635063"><span>flame</span><wbr></wbr><span>Cone</span><wbr></wbr><span><span>Width</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-760222783%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> <a href="index.html#-760222783%2FProperties%2F-1660635063">flameConeWidth</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1737084981%2FProperties%2F-1660635063" anchor-label="origin" id="-1737084981%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1737084981%2FProperties%2F-1660635063"><span><span>origin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1737084981%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> <a href="index.html#-1737084981%2FProperties%2F-1660635063">origin</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-165724591%2FProperties%2F-1660635063" anchor-label="particleType" id="-165724591%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-165724591%2FProperties%2F-1660635063"><span>particle</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-165724591%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/registry/RegistryKey.html">RegistryKey</a><span class="token operator">&lt;</span><span class="token keyword">? extends </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/particle/ParticleType.html">ParticleType</a><span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="index.html#-165724591%2FProperties%2F-1660635063">particleType</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1599232852%2FProperties%2F-1660635063" anchor-label="relativeTarget" id="1599232852%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1599232852%2FProperties%2F-1660635063"><span>relative</span><wbr></wbr><span><span>Target</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1599232852%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> <a href="index.html#1599232852%2FProperties%2F-1660635063">relativeTarget</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-956333415%2FProperties%2F-1660635063" anchor-label="stepResolution" id="-956333415%2FProperties%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-956333415%2FProperties%2F-1660635063"><span>step</span><wbr></wbr><span><span>Resolution</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-956333415%2FProperties%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html">Integer</a> <a href="index.html#-956333415%2FProperties%2F-1660635063">stepResolution</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-723470515%2FFunctions%2F-1660635063" anchor-label="getDamageShooter" id="-723470515%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-damage-shooter.html"><span>get</span><wbr></wbr><span>Damage</span><wbr></wbr><span><span>Shooter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-723470515%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html">Boolean</a> <a href="get-damage-shooter.html"><span class="token function">getDamageShooter</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1032118915%2FFunctions%2F-1660635063" anchor-label="getFlameFireTicks" id="1032118915%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-flame-fire-ticks.html"><span>get</span><wbr></wbr><span>Flame</span><wbr></wbr><span>Fire</span><wbr></wbr><span><span>Ticks</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1032118915%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html">Integer</a> <a href="get-flame-fire-ticks.html"><span class="token function">getFlameFireTicks</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="259223214%2FFunctions%2F-1660635063" anchor-label="getFlammableBlockFireChance" id="259223214%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-flammable-block-fire-chance.html"><span>get</span><wbr></wbr><span>Flammable</span><wbr></wbr><span>Block</span><wbr></wbr><span>Fire</span><wbr></wbr><span><span>Chance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="259223214%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html">Double</a> <a href="get-flammable-block-fire-chance.html"><span class="token function">getFlammableBlockFireChance</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-752264741%2FFunctions%2F-1660635063" anchor-label="getNonFlammableBlockFireChance" id="-752264741%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-non-flammable-block-fire-chance.html"><span>get</span><wbr></wbr><span>Non</span><wbr></wbr><span>Flammable</span><wbr></wbr><span>Block</span><wbr></wbr><span>Fire</span><wbr></wbr><span><span>Chance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-752264741%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html">Double</a> <a href="get-non-flammable-block-fire-chance.html"><span class="token function">getNonFlammableBlockFireChance</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-477817964%2FFunctions%2F-1660635063" anchor-label="getRayResolution" id="-477817964%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-ray-resolution.html"><span>get</span><wbr></wbr><span>Ray</span><wbr></wbr><span><span>Resolution</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-477817964%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html">Integer</a> <a href="get-ray-resolution.html"><span class="token function">getRayResolution</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Inherited functions</h2>
+        <div class="table"><a data-name="-1923624822%2FFunctions%2F-1660635063" anchor-label="getFlameConeHeight" id="-1923624822%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-parameters/get-flame-cone-height.html"><span>get</span><wbr></wbr><span>Flame</span><wbr></wbr><span>Cone</span><wbr></wbr><span><span>Height</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1923624822%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> <a href="../-parameters/get-flame-cone-height.html"><span class="token function">getFlameConeHeight</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="116103715%2FFunctions%2F-1660635063" anchor-label="getFlameConeWidth" id="116103715%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-parameters/get-flame-cone-width.html"><span>get</span><wbr></wbr><span>Flame</span><wbr></wbr><span>Cone</span><wbr></wbr><span><span>Width</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="116103715%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> <a href="../-parameters/get-flame-cone-width.html"><span class="token function">getFlameConeWidth</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2125422637%2FFunctions%2F-1660635063" anchor-label="getOrigin" id="2125422637%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-parameters/get-origin.html"><span>get</span><wbr></wbr><span><span>Origin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2125422637%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> <a href="../-parameters/get-origin.html"><span class="token function">getOrigin</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-120120013%2FFunctions%2F-1660635063" anchor-label="getParticleType" id="-120120013%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-parameters/get-particle-type.html"><span>get</span><wbr></wbr><span>Particle</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-120120013%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/registry/RegistryKey.html">RegistryKey</a><span class="token operator">&lt;</span><span class="token keyword">? extends </span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/particle/ParticleType.html">ParticleType</a><span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span> <a href="../-parameters/get-particle-type.html"><span class="token function">getParticleType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1819407946%2FFunctions%2F-1660635063" anchor-label="getRelativeTarget" id="-1819407946%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-parameters/get-relative-target.html"><span>get</span><wbr></wbr><span>Relative</span><wbr></wbr><span><span>Target</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1819407946%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/util/math/Vec3d.html">Vec3d</a> <a href="../-parameters/get-relative-target.html"><span class="token function">getRelativeTarget</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-80006917%2FFunctions%2F-1660635063" anchor-label="getStepResolution" id="-80006917%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-parameters/get-step-resolution.html"><span>get</span><wbr></wbr><span>Step</span><wbr></wbr><span><span>Resolution</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-80006917%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html">Integer</a> <a href="../-parameters/get-step-resolution.html"><span class="token function">getStepResolution</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="593490855%2FFunctions%2F-1660635063" anchor-label="write" id="593490855%2FFunctions%2F-1660635063" data-filterable-set=":StaffMod:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":StaffMod:dokkaHtml/main" data-filterable-set=":StaffMod:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-parameters/write.html"><span><span>write</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="593490855%2FFunctions%2F-1660635063"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":StaffMod:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a> <a href="../-parameters/write.html"><span class="token function">write</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://maven.fabricmc.net/docs/yarn-1.21+build.9/net/minecraft/network/PacketByteBuf.html">PacketByteBuf</a> buf</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023-2024 opekope2. AvM Staff Mod is not an official Minecraft product. Not associated with or endorsed by Mojang Studios.</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

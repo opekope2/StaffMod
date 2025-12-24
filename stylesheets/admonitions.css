@@ -1,0 +1,31 @@
+/* Render */
+.md-typeset .admonition.render,
+.md-typeset details.render {
+    border-color: #00bfa5;
+}
+.md-typeset .render > .admonition-title,
+.md-typeset .render > summary {
+    background-color: #00bfa51a;
+}
+.md-typeset .render > .admonition-title::before,
+.md-typeset .render > summary::before {
+    background-color: #00bfa5;
+    -webkit-mask-image: var(--md-admonition-icon--render);
+    mask-image: var(--md-admonition-icon--render);
+}
+
+/* Hidden */
+.md-typeset .admonition.hidden,
+.md-typeset details.hidden {
+    border-color: #9e9e9e;
+}
+.md-typeset .hidden > .admonition-title,
+.md-typeset .hidden > summary {
+    background-color: #9e9e9e1a;
+}
+.md-typeset .hidden > .admonition-title::before,
+.md-typeset .hidden > summary::before {
+    background-color: #9e9e9e;
+    -webkit-mask-image: var(--md-admonition-icon--hidden);
+    mask-image: var(--md-admonition-icon--hidden);
+}
