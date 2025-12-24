@@ -77,6 +77,7 @@
   "item.avm_staff.staff": "Staff",
   "item.avm_staff.staff.with_item": "Staff with %s",
   "item.avm_staff.staff_infusion_smithing_template": "Smithing Template",
+  "item.avm_staff.staff_infusion_smithing_template.additions_slot_description": "Add staff scrap",
   "item.avm_staff.staff_infusion_smithing_template.applies_to": "Faint staff rod",
   "item.avm_staff.staff_infusion_smithing_template.base_slot_description": "Add faint staff rod",
   "item.avm_staff.staff_infusion_smithing_template.title": "Staff Infusion Template",

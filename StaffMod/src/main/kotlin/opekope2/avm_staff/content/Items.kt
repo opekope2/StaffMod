@@ -153,9 +153,9 @@ object Items : Registrar<Item>(MOD_ID, RegistryKeys.ITEM) {
             I18n.ITEM_AVM_STAFF_STAFF_INFUSION_SMITHING_TEMPLATE_TITLE.getText()
                 .formatted(ISmithingTemplateItemAccessor.titleFormatting()),
             I18n.ITEM_AVM_STAFF_STAFF_INFUSION_SMITHING_TEMPLATE_BASE_SLOT_DESCRIPTION.getText(),
-            ISmithingTemplateItemAccessor.armorTrimAdditionsSlotDescriptionText(),
+            I18n.ITEM_AVM_STAFF_STAFF_INFUSION_SMITHING_TEMPLATE_ADDITIONS_SLOT_DESCRIPTION.getText(),
             listOf(Identifier.of(MOD_ID, "item/smithing_table/empty_slot_faint_staff_rod")),
-            listOf(ISmithingTemplateItemAccessor.emptySlotRedstoneDustTexture())
+            listOf(Identifier.of(MOD_ID, "item/empty_slot_royal_staff_ingredient"))
         )
     }
 
