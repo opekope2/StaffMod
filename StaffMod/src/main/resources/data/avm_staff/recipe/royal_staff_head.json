@@ -2,15 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "II",
-    "SI",
+    " I",
     "II"
   ],
   "key": {
     "I": {
       "item": "avm_staff:royal_staff_ingredient"
-    },
-    "S": {
-      "item": "minecraft:nether_star"
     }
   },
   "result": {

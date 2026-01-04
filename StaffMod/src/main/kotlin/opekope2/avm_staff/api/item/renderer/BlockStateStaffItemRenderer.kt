@@ -28,8 +28,7 @@ import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
-import opekope2.avm_staff.util.bakedModelManager
-import opekope2.avm_staff.util.itemRenderer
+import opekope2.avm_staff.util.mc
 import opekope2.avm_staff.util.push
 
 /**
@@ -61,7 +60,7 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() 
     ) {
         matrices.push {
             transform(itemTransform, ModelTransformationMode.FIXED)
-            itemRenderer.renderItem(
+            mc.itemRenderer.renderItem(
                 blockItem,
                 ModelTransformationMode.NONE,
                 false,
@@ -69,7 +68,7 @@ class BlockStateStaffItemRenderer(blockState: BlockState) : StaffItemRenderer() 
                 vertexConsumers,
                 getLight(light, luminance),
                 overlay,
-                bakedModelManager.getModel(blockStateId)
+                mc.bakedModelManager.getModel(blockStateId)
             )
         }
     }

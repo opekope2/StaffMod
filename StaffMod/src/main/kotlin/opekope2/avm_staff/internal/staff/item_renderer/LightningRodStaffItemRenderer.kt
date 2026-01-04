@@ -29,8 +29,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import opekope2.avm_staff.api.item.renderer.StaffItemRenderer
-import opekope2.avm_staff.util.bakedModelManager
-import opekope2.avm_staff.util.itemRenderer
+import opekope2.avm_staff.util.mc
 import opekope2.avm_staff.util.push
 
 @Environment(EnvType.CLIENT)
@@ -53,7 +52,7 @@ class LightningRodStaffItemRenderer : StaffItemRenderer() {
             } else {
                 transform(itemTransform, ModelTransformationMode.HEAD)
             }
-            itemRenderer.renderItem(
+            mc.itemRenderer.renderItem(
                 blockItem,
                 ModelTransformationMode.NONE,
                 false,
@@ -61,7 +60,7 @@ class LightningRodStaffItemRenderer : StaffItemRenderer() {
                 vertexConsumers,
                 getLight(light, LIGHTNING_ROD.defaultState.luminance),
                 overlay,
-                bakedModelManager.getModel(blockStateId)
+                mc.bakedModelManager.getModel(blockStateId)
             )
         }
     }

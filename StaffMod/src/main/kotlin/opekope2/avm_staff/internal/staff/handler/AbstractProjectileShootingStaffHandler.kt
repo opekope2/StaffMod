@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.internal.staff.handler
 
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -33,7 +34,7 @@ import opekope2.avm_staff.util.*
 internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() {
     protected abstract fun getFireRateDenominator(rapidFireLevel: Int): Int
 
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override fun use(
         staffStack: ItemStack,
@@ -41,7 +42,7 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
         user: LivingEntity,
         hand: Hand
     ): TypedActionResult<ItemStack> {
-        val allowsProjectileRapidFire = staffStack.isEnchantedWith(Enchantments.RAPID_FIRE, world.registryManager)
+        val allowsProjectileRapidFire = staffStack.isEnchantedWith(Enchantments.rapidFire, world.registryManager)
         if (!allowsProjectileRapidFire) {
             if (user is ServerPlayerEntity) overlayMessage(
                 user,
@@ -55,7 +56,7 @@ internal abstract class AbstractProjectileShootingStaffHandler : StaffHandler() 
     }
 
     override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        val rapidFire = staffStack.getEnchantmentLevel(Enchantments.RAPID_FIRE, world.registryManager)
+        val rapidFire = staffStack.getEnchantmentLevel(Enchantments.rapidFire, world.registryManager)
         if (remainingUseTicks % getFireRateDenominator(rapidFire) != 0) return
         if (!tryShootProjectile(staffStack, world, user, ProjectileShootReason.USE)) return
 

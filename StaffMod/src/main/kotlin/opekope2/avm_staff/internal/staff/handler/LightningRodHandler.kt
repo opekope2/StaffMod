@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -95,7 +96,7 @@ internal class LightningRodHandler : StaffHandler() {
 
     private fun tryStrike(staffStack: ItemStack, world: World, user: LivingEntity, lightningPos: Vec3d): ActionResult {
         if (canStrike(world, user, staffStack.item) && strike(world, lightningPos)) {
-            (user as? PlayerEntity)?.itemCooldownManager?.set(staffStack.item, 4 * 20)
+            (user as? PlayerEntity)?.itemCooldownManager?.set(staffStack.item, 4 * TICKS_PER_SECOND)
             return ActionResult.SUCCESS
         }
         return ActionResult.FAIL

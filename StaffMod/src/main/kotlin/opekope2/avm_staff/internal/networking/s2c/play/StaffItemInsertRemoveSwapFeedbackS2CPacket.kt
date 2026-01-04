@@ -26,7 +26,7 @@ import net.minecraft.util.Identifier
 import opekope2.avm_staff.internal.networking.IS2CPacket
 import opekope2.avm_staff.internal.networking.PacketRegistrarAndReceiver
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.inGameHud
+import opekope2.avm_staff.util.mc
 
 internal class StaffItemInsertRemoveSwapFeedbackS2CPacket(val success: Boolean, val feedback: Text?) : IS2CPacket {
     constructor(buf: PacketByteBuf) : this(
@@ -51,7 +51,7 @@ internal class StaffItemInsertRemoveSwapFeedbackS2CPacket(val success: Boolean, 
             context: NetworkManager.PacketContext
         ) {
             if (packet.success) context.player.resetLastAttackedTicks()
-            if (packet.feedback != null) inGameHud.setOverlayMessage(packet.feedback, false)
+            if (packet.feedback != null) mc.inGameHud.setOverlayMessage(packet.feedback, false)
         }
     }
 }

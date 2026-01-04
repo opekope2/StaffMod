@@ -18,6 +18,8 @@
 
 package opekope2.avm_staff.api.staff
 
+import com.mojang.serialization.Lifecycle
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.block.BlockState
 import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.LivingEntity
@@ -27,6 +29,9 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.SimpleRegistry
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.*
@@ -34,12 +39,14 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import opekope2.avm_staff.api.block.IClearableBeforeInsertedIntoStaff
 import opekope2.avm_staff.api.component.BlockPickupDataComponent
-import opekope2.avm_staff.api.registry.RegistryBase
+import opekope2.avm_staff.api.staff.StaffHandler.Companion.REGISTRY
+import opekope2.avm_staff.api.staff.StaffHandler.Companion.register
 import opekope2.avm_staff.content.DataComponentTypes
 import opekope2.avm_staff.content.Enchantments
 import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.internal.networking.c2s.play.StaffMenuC2SPacket
 import opekope2.avm_staff.util.*
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 /**
@@ -51,6 +58,24 @@ abstract class StaffHandler : IItemHandler {
      */
     open val attributeModifiers: AttributeModifiersComponent
         get() = Fallback.ATTRIBUTE_MODIFIERS
+
+    /**
+     * Called by Staff Mod before an item with this staff handler is removed from [staffStack] using
+     * [mutableItemStackInStaff].
+     *
+     * @param staffStack    The item stack of the staff
+     */
+    open fun beforeRemove(staffStack: ItemStack) {
+    }
+
+    /**
+     * Called by Staff Mod after an item with this staff handler is inserted into [staffStack] using
+     * [mutableItemStackInStaff].
+     *
+     * @param staffStack    The item stack of the staff
+     */
+    open fun afterInsert(staffStack: ItemStack) {
+    }
 
     /**
      * Gets the action that happens when a player uses the staff.
@@ -83,6 +108,18 @@ abstract class StaffHandler : IItemHandler {
     open fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) = false
 
     /**
+     * Called on both the client and the server by Minecraft every tick [staffStack] is in a player's inventory.
+     *
+     * @param staffStack    The item stack of the staff
+     * @param world         The world [holder] is in
+     * @param holder        The entity holding the staff
+     * @param slot          The slot [staffStack] is in
+     * @param selected      Whether [staffStack] is in the selected hotbar slot
+     */
+    open fun tick(staffStack: ItemStack, world: World, holder: Entity, slot: Int, selected: Boolean) {
+    }
+
+    /**
      * Called on the client side by Fabric API, when the NBT of the held item gets updated.
      *
      * @param oldStaffStack The previous item stack
@@ -113,7 +150,7 @@ abstract class StaffHandler : IItemHandler {
      * Returns if the staff's user is immune to lightning strikes while using the staff.
      * Called on both the client and the server by Staff Mod.
      *
-     * @param staffStack    The item stack used to perform the action
+     * @param staffStack    The item stack of the staff
      * @param world         The world the [user] is in
      * @param user          The player, which holds the staff
      * @param hand          The hand of the [user], in which the [staff][staffStack] is
@@ -133,7 +170,7 @@ abstract class StaffHandler : IItemHandler {
     }
 
     /**
-     * Default implementation of [StaffHandler]. Used for staffs with no [registered][Registry.register] handler.
+     * Default implementation of [StaffHandler]. Used for staffs with no [registered][register] handler.
      */
     object Fallback : StaffHandler() {
         @JvmField
@@ -169,7 +206,7 @@ abstract class StaffHandler : IItemHandler {
         override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity): Int {
             val targetPos = user.targetPos
             val state = world.getBlockState(targetPos)
-            val quickDraw = staffStack.getEnchantmentLevel(Enchantments.QUICK_DRAW, world.registryManager) + 1
+            val quickDraw = staffStack.getEnchantmentLevel(Enchantments.quickDraw, world.registryManager) + 1
 
             return if (!canPickUp(staffStack, world, targetPos, state)) 0
             else 10 + (state.getHardness(world, targetPos) / quickDraw).roundToInt()
@@ -193,7 +230,8 @@ abstract class StaffHandler : IItemHandler {
 
         private fun canPickUp(staffStack: ItemStack, world: World, pos: BlockPos, state: BlockState) = !state.isAir &&
                 state.getHardness(world, pos) != -1f &&
-                state.block.asItem().let { it in Registry && it in staffStack.enabledItemsInStaffTag }
+                state.block.asItem().registryId in REGISTRY &&
+                state.block.asItem() in staffStack.enabledItemsInStaffTag
 
         private fun userChangedTarget(
             world: World,
@@ -206,7 +244,18 @@ abstract class StaffHandler : IItemHandler {
         }
 
         override fun usageTick(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-            if (!world.isClient && userChangedTarget(world, user, staffStack[DataComponentTypes.blockPickupData])) {
+            if (world.isClient) {
+                val remainingSeconds = remainingUseTicks.toFloat() / TICKS_PER_SECOND
+                val pickupData = staffStack[DataComponentTypes.blockPickupData]
+                // FIXME Minecraft is fucking stupid and will reset the counter
+                if (DataComponentTypes.blockPickupData in staffStack && pickupData != null) mc.inGameHud.setOverlayMessage(
+                    I18n.FEEDBACK_AVM_STAFF_PICKING_UP.getText(
+                        pickupData.state.block.name,
+                        round(remainingSeconds * 10f) / 10f
+                    ),
+                    false
+                )
+            } else if (userChangedTarget(world, user, staffStack[DataComponentTypes.blockPickupData])) {
                 user.stopUsingItem()
             }
         }
@@ -229,7 +278,7 @@ abstract class StaffHandler : IItemHandler {
         }
 
         private fun tryPickUp(world: World, pos: BlockPos, state: BlockState, staffStack: ItemStack): Boolean {
-            if (!canPickUp(staffStack, world, pos, state)) return false
+            if (world.isClient || !canPickUp(staffStack, world, pos, state)) return false
 
             val pickStack = state.block.getPickStack(world, pos, state)
             world.getBlockEntity(pos)?.apply {
@@ -261,28 +310,28 @@ abstract class StaffHandler : IItemHandler {
         ) = selectedSlotChanged
     }
 
-    companion object Registry : RegistryBase<Identifier, StaffHandler>() {
+    companion object {
         /**
-         * Registers an entry to this registry.
+         * Registry key of [REGISTRY].
+         */
+        @JvmField
+        val REGISTRY_KEY: RegistryKey<Registry<StaffHandler>> =
+            RegistryKey.ofRegistry(Identifier.of(MOD_ID, "staff_handler"))
+
+        /**
+         * Registry of staff handlers.
+         */
+        @JvmField
+        val REGISTRY: Registry<StaffHandler> = SimpleRegistry(REGISTRY_KEY, Lifecycle.stable())
+
+        /**
+         * Registers an entry to [REGISTRY].
          *
-         * @param key The key to associate a value with
+         * @param T     The type of the staff handler
+         * @param key   The key to associate a value with
          * @param value The value to register
          */
-        fun register(key: Item, value: StaffHandler) = register(key.registryId, value)
-
-        /**
-         * Checks if the given key is present in the registry
-         *
-         * @param key The key to check
-         */
-        operator fun contains(key: Item) = key.registryId in this
-
-        /**
-         * Gets the value associated with the given key or throws an exception, if the key is not present in this registry.
-         *
-         * @param key The key to check
-         */
-        fun getValue(key: Item) = getValue(key.registryId)
+        fun <T : StaffHandler> register(key: Item, value: T): T = Registry.register(REGISTRY, key.registryId, value)
 
         /**
          * Sends an [OverlayMessageS2CPacket] to [player].
@@ -292,7 +341,8 @@ abstract class StaffHandler : IItemHandler {
          */
         @JvmStatic
         fun overlayMessage(player: ServerPlayerEntity, message: Text) {
-            player.networkHandler.sendPacket(OverlayMessageS2CPacket(message))
+            // NeoForge fucked up sendPacket method name, but Mojmap should fix this
+            player.networkHandler.send(OverlayMessageS2CPacket(message), null)
         }
     }
 }

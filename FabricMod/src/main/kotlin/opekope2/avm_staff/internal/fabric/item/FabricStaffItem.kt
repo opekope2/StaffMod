@@ -18,24 +18,21 @@
 
 package opekope2.avm_staff.internal.fabric.item
 
-import dev.architectury.registry.registries.RegistrySupplier
-import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.item.v1.FabricItem
-import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 import opekope2.avm_staff.api.IStaffModClientPlatform
 import opekope2.avm_staff.api.item.StaffItem
+import opekope2.avm_staff.internal.fabric.staffModPlatform
 import opekope2.avm_staff.util.staffHandlerOrFallback
+import java.util.function.Supplier
 
-class FabricStaffItem(settings: Item.Settings, repairIngredient: RegistrySupplier<Item>?) :
+class FabricStaffItem(settings: Settings, repairIngredient: Supplier<out Item>?) :
     StaffItem(settings, repairIngredient), FabricItem {
     init {
-        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
-            IStaffModClientPlatform.renderAsStaffModel(this)
-        }
+        if (staffModPlatform.isClient) IStaffModClientPlatform.renderAsStaffModel(this)
     }
 
     override fun allowComponentsUpdateAnimation(

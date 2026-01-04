@@ -20,6 +20,8 @@
 
 package opekope2.avm_staff.util
 
+import opekope2.avm_staff.content.SoundEvents
+
 /**
  * The identifier of Staff Mod.
  */
@@ -31,3 +33,10 @@ const val MOD_ID = "avm_staff"
  * Data: [net.minecraft.entity.Entity.getId]
  */
 const val ENTITY_DEFUSED_WORLD_EVENT: Int = 286782330 // AVMSTAFF0
+
+/**
+ * Celebrate prank world event.
+ * Used to tell clients to play the [SoundEvents.celebratePrank] sound effect when a player pranks another one.
+ * Data: [net.minecraft.entity.Entity.getId]
+ */
+const val CELEBRATE_PRANK_WORLD_EVENT: Int = 286782331 // AVMSTAFF1

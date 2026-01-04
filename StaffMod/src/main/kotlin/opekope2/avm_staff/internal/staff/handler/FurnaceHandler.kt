@@ -21,6 +21,7 @@ package opekope2.avm_staff.internal.staff.handler
 import it.unimi.dsi.fastutil.ints.IntSet
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
@@ -46,16 +47,18 @@ import opekope2.avm_staff.api.component.StaffFurnaceDataComponent
 import opekope2.avm_staff.api.staff.StaffAttributeModifiersComponentBuilder
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.DataComponentTypes
+import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.mixin.IAbstractFurnaceBlockEntityAccessor
 import opekope2.avm_staff.util.*
 import kotlin.jvm.optionals.getOrNull
+import kotlin.math.round
 
 internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
     private val recipeType: RecipeType<TRecipe>,
     private val smeltSound: SoundEvent,
     private val speed: Int,
 ) : StaffHandler() {
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override val attributeModifiers = StaffAttributeModifiersComponentBuilder()
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage(8.0), AttributeModifierSlot.MAINHAND)
@@ -83,7 +86,16 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         var itemToSmelt = world.getEntityById(furnaceData.smeltedItemId) as? ItemEntity
 
         if (world.isClient) {
-            playSmeltingEffects(world, itemToSmelt ?: return)
+            if (itemToSmelt == null) return
+
+            val stackToSmelt = itemToSmelt.stack
+            val remainingSeconds = (stackToSmelt.count - furnaceData.smeltTicks).toFloat() / speed / TICKS_PER_SECOND
+            mc.inGameHud.setOverlayMessage(
+                I18n.FEEDBACK_AVM_STAFF_SMELTING.getText(stackToSmelt.name, round(remainingSeconds * 10f) / 10f),
+                false
+            )
+            playSmeltingEffects(world, itemToSmelt)
+
             return
         }
 
@@ -151,8 +163,8 @@ internal class FurnaceHandler<TRecipe : AbstractCookingRecipe>(
         val ry = Math.random() * 0.5
         val rz = Math.random() * 0.25 - 0.25 / 2
 
-        particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
-        particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        mc.particleManager.addParticle(ParticleTypes.FLAME, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
+        mc.particleManager.addParticle(ParticleTypes.SMOKE, x + rx, y + ry, z + rz, 0.0, 0.0, 0.0)
     }
 
     override fun onStoppedUsing(staffStack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {

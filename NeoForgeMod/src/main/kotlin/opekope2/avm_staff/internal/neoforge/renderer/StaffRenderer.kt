@@ -25,10 +25,9 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions
 import opekope2.avm_staff.api.item.renderer.StaffRenderer
-import opekope2.avm_staff.util.blockEntityRenderDispatcher
-import opekope2.avm_staff.util.entityModelLoader
+import opekope2.avm_staff.util.mc
 
-object StaffRenderer : BuiltinModelItemRenderer(blockEntityRenderDispatcher, entityModelLoader),
+object StaffRenderer : BuiltinModelItemRenderer(mc.blockEntityRenderDispatcher, mc.entityModelLoader),
     IClientItemExtensions {
     override fun render(
         stack: ItemStack,

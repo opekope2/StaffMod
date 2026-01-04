@@ -47,7 +47,6 @@ import opekope2.avm_staff.internal.staff.command.NoOpCommand
 import opekope2.avm_staff.internal.staff.handler.*
 import opekope2.avm_staff.util.MOD_ID
 import org.jetbrains.annotations.ApiStatus
-import org.jetbrains.annotations.MustBeInvokedByOverriders
 import java.util.function.Consumer
 
 @ApiStatus.Internal
@@ -62,8 +61,7 @@ abstract class AbstractStaffMod {
         EventHandlers.initialize()
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerContent() {
+    protected fun registerContent() {
         Blocks.register()
         Criteria.register()
         DamageTypes.initialize()
@@ -79,49 +77,55 @@ abstract class AbstractStaffMod {
         StatTypes.register()
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun modifyLootTable(
+    // Needs to be public because of KT-22625 or KT-27441
+    fun enchantRandomly(
+        ops: RegistryOps<*>,
+        enchantment: RegistryKey<Enchantment>
+    ): EnchantRandomlyLootFunction.Builder = EnchantRandomlyLootFunction.create()
+        .option(ops.getEntryLookup(RegistryKeys.ENCHANTMENT).orElseThrow().getOrThrow(enchantment))
+
+    protected inline fun modifyLootTable(
         key: RegistryKey<LootTable>,
         addPool: (name: String) -> LootPool.Builder,
         modifyPool: (ordinal: Int, name: String, modifier: Consumer<ILootPoolBuilder>) -> Unit,
         ops: RegistryOps<*>
     ) {
-        fun enchantRandomly(enchantment: RegistryKey<Enchantment>) = EnchantRandomlyLootFunction.create()
-            .option(ops.getEntryLookup(RegistryKeys.ENCHANTMENT).orElseThrow().getOrThrow(enchantment))
-
         when (key) {
             LootTables.ANCIENT_CITY_CHEST -> modifyPool(0, "pool0") { builder ->
                 builder.staffMod_addEntry(
                     ItemEntry.builder(BOOK)
                         .weight(3)
-                        .apply(enchantRandomly(Enchantments.SPECTRE))
+                        .apply(enchantRandomly(ops, Enchantments.quickDraw))
                 )
                 builder.staffMod_addEntry(
                     ItemEntry.builder(BOOK)
                         .weight(3)
-                        .apply(enchantRandomly(Enchantments.RAPID_FIRE))
-                )
-            }
-
-            LootTables.BASTION_OTHER_CHEST -> modifyPool(0, "pool0") { builder ->
-                builder.staffMod_addEntry(
-                    ItemEntry.builder(BOOK)
-                        .weight(10)
-                        .apply(enchantRandomly(Enchantments.SPECTRE))
+                        .apply(enchantRandomly(ops, Enchantments.rapidFire))
                 )
             }
 
             LootTables.BASTION_TREASURE_CHEST ->
                 addPool("$MOD_ID:crown_of_king_orange").with(ItemEntry.builder(Items.crownOfKingOrange))
 
+            LootTables.OCEAN_RUIN_WARM_ARCHAEOLOGY -> modifyPool(0, "main") { builder ->
+                builder.staffMod_addEntry(ItemEntry.builder(Items.chromaticCrystal))
+            }
+
             LootTables.TRIAL_CHAMBERS_REWARD_UNIQUE_CHEST -> modifyPool(0, "main") { builder ->
                 builder.staffMod_addEntry(ItemEntry.builder(Items.staffInfusionSmithingTemplate))
+            }
+
+            LootTables.WOODLAND_MANSION_CHEST -> modifyPool(0, "pool0") { builder ->
+                builder.staffMod_addEntry(
+                    ItemEntry.builder(BOOK)
+                        .weight(1)
+                        .apply(enchantRandomly(ops, Enchantments.cohesion))
+                )
             }
         }
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun initializeNetworking() {
+    protected fun initializeNetworking() {
         AttackC2SPacket.registerReceiver()
         StaffItemInsertRemoveSwapC2SPacket.registerReceiver()
         StaffMenuC2SPacket.registerReceiver()
@@ -130,8 +134,8 @@ abstract class AbstractStaffMod {
         StaffItemInsertRemoveSwapFeedbackS2CPacket.registerReceiver()
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerStaffHandlers() {
+    // TODO move to RegistryUtil
+    protected fun registerStaffHandlers() {
         StaffHandler.register(ANVIL, AnvilHandler(CHIPPED_ANVIL))
         StaffHandler.register(CHIPPED_ANVIL, AnvilHandler(DAMAGED_ANVIL))
         StaffHandler.register(DAMAGED_ANVIL, AnvilHandler(null))

@@ -18,7 +18,6 @@
 
 package opekope2.avm_staff.internal.neoforge.item
 
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -35,8 +34,9 @@ import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.util.isStaff
 import opekope2.avm_staff.util.staffHandlerOrFallback
 import thedarkcolour.kotlinforforge.neoforge.forge.runWhenOn
+import java.util.function.Supplier
 
-class NeoForgeStaffItem(settings: Item.Settings, repairIngredientSupplier: RegistrySupplier<Item>?) :
+class NeoForgeStaffItem(settings: Settings, repairIngredientSupplier: Supplier<out Item>?) :
     StaffItem(settings, repairIngredientSupplier), IItemExtension {
     init {
         runWhenOn(Dist.CLIENT) { IStaffModClientPlatform.renderAsStaffModel(this) }

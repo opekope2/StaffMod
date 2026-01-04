@@ -19,104 +19,70 @@
 package opekope2.avm_staff.content
 
 import net.minecraft.component.ComponentType
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import opekope2.avm_staff.api.component.*
 import opekope2.avm_staff.api.staff.StaffCommand
-import opekope2.avm_staff.content.DataComponentTypes.BLOCK_PICKUP_DATA
-import opekope2.avm_staff.content.DataComponentTypes.FURNACE_DATA
-import opekope2.avm_staff.content.DataComponentTypes.STAFF_COMMAND
-import opekope2.avm_staff.content.DataComponentTypes.STAFF_ITEM
-import opekope2.avm_staff.content.DataComponentTypes.TNT_DATA
+import opekope2.avm_staff.content.DataComponentTypes.staffCommand
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
+import kotlin.properties.PropertyDelegateProvider
 
 /**
  * Component types added by AVM Staffs mod.
  */
-object DataComponentTypes : RegistryUtil<ComponentType<*>>(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE) {
-    /**
-     * Data component registered as `avm_staff:block_pickup_data`.
-     */
-    @JvmField
-    val BLOCK_PICKUP_DATA = register("block_pickup_data") {
-        ComponentType.builder<BlockPickupDataComponent>()
-            .packetCodec(BlockPickupDataComponent.NON_SYNCING_PACKET_CODEC)
-            .build()
-    }
+object DataComponentTypes : Registrar<ComponentType<*>>(MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE) {
+    @JvmStatic
+    private inline fun <T> registeringComponentType(crossinline factory: ComponentType.Builder<T>.(RegistryKey<ComponentType<*>>) -> ComponentType.Builder<T>) =
+        PropertyDelegateProvider<Registrar<ComponentType<*>>, Lazy<ComponentType<T>>> { _, property ->
+            registering(toSnakeCase(property.name)) { factory(ComponentType.builder(), it).build() }
+        }
 
     /**
-     * @see BLOCK_PICKUP_DATA
+     * Bell data component type.
+     * Stores when to apply the glowing effect.
      */
-    val blockPickupData: ComponentType<BlockPickupDataComponent>
-        @JvmName("blockPickupData")
-        get() = BLOCK_PICKUP_DATA.get()
+    @JvmStatic
+    val bellData by registeringComponentType { packetCodec(StaffBellDataComponent.PACKET_CODEC) }
 
     /**
-     * Data component registered as `avm_staff:furnace_data`. If this is present, the furnace is lit.
+     * Block pickup data component type.
+     * Stores info about to block to be picked up from the world.
      */
-    @JvmField
-    val FURNACE_DATA = register("furnace_data") {
-        ComponentType.builder<StaffFurnaceDataComponent>()
-            .packetCodec(StaffFurnaceDataComponent.PACKET_CODEC)
-            .build()
-    }
+    @JvmStatic
+    val blockPickupData by registeringComponentType { packetCodec(BlockPickupDataComponent.PACKET_CODEC) }
 
     /**
-     * @see FURNACE_DATA
+     * Furnace data component type.
+     * If present, the furnace is rendered lit.
      */
-    val furnaceData: ComponentType<StaffFurnaceDataComponent>
-        @JvmName("furnaceData")
-        get() = FURNACE_DATA.get()
+    @JvmStatic
+    val furnaceData by registeringComponentType { packetCodec(StaffFurnaceDataComponent.PACKET_CODEC) }
 
     /**
-     * Data component registered as `avm_staff:staff_command`. Stores the configured command and its arguments.
+     * Staff command component type.
+     * Stores the configured command and its arguments.
      */
-    @JvmField
-    val STAFF_COMMAND = register("staff_command") {
-        ComponentType.builder<StaffCommandComponent<*>>()
-            .codec(StaffCommandComponent.CODEC)
-            .packetCodec(StaffCommandComponent.PACKET_CODEC)
-            .build()
-    }
+    @JvmStatic
+    val staffCommand by registeringComponentType { codec(StaffCommandComponent.CODEC).packetCodec(StaffCommandComponent.PACKET_CODEC) }
 
     /**
-     * @see STAFF_COMMAND
+     * @see staffCommand
      */
     fun <T : StaffCommand.IArgs> staffCommand(): ComponentType<StaffCommandComponent<T>> =
-        STAFF_COMMAND.get() as ComponentType<StaffCommandComponent<T>>
+        staffCommand as ComponentType<StaffCommandComponent<T>>
 
     /**
-     * Data component registered as `avm_staff:staff_item`. Stores the item inserted into the staff.
+     * Staff item component type.
+     * Stores the item inserted into the staff.
      */
-    @JvmField
-    val STAFF_ITEM = register("staff_item") {
-        ComponentType.builder<StaffItemComponent>()
-            .codec(StaffItemComponent.VALIDATED_CODEC)
-            .packetCodec(StaffItemComponent.PACKET_CODEC)
-            .build()
-    }
+    @JvmStatic
+    val staffItem by registeringComponentType { codec(StaffItemComponent.VALIDATED_CODEC).packetCodec(StaffItemComponent.PACKET_CODEC) }
 
     /**
-     * @see STAFF_ITEM
+     * TNT data component type.
+     * Stores the impact TNT to be detonated remotely.
      */
-    val staffItem: ComponentType<StaffItemComponent>
-        @JvmName("staffItem")
-        get() = STAFF_ITEM.get()
-
-    /**
-     * Data component registered as `avm_staff:tnt_data`.
-     */
-    @JvmField
-    val TNT_DATA = register("tnt_data") {
-        ComponentType.builder<StaffTntDataComponent>()
-            .packetCodec(StaffTntDataComponent.NON_SYNCING_PACKET_CODEC)
-            .build()
-    }
-
-    /**
-     * @see TNT_DATA
-     */
-    val tntData: ComponentType<StaffTntDataComponent>
-        @JvmName("tntData")
-        get() = TNT_DATA.get()
+    @JvmStatic
+    val tntData by registeringComponentType { packetCodec(StaffTntDataComponent.PACKET_CODEC) }
 }

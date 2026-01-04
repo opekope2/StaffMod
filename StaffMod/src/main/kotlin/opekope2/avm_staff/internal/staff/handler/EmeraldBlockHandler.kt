@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -44,7 +45,7 @@ internal class EmeraldBlockHandler : StaffHandler() {
         .addDefault(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)
         .build()
 
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 72000
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 3600 * TICKS_PER_SECOND
 
     override fun getUseAction(staffStack: ItemStack) = UseAction.BLOCK
 
@@ -64,7 +65,7 @@ internal class EmeraldBlockHandler : StaffHandler() {
         val entities = world.getEntitiesByClass(
             Entity::class.java,
             DESPAWN_VOLUME.offset(user.approximateStaffItemPosition)
-        ) { it.type in EntityTypes.Tags.DEFUSABLE }
+        ) { it.type in EntityTypes.Tags.defusable }
         entities.forEach(::defuse)
         staffStack.damage(entities.size, user)
     }
@@ -77,7 +78,7 @@ internal class EmeraldBlockHandler : StaffHandler() {
         hand: Hand
     ): EventResult {
         if (world.isClient) return EventResult.pass()
-        if (target.type !in EntityTypes.Tags.DEFUSABLE) return EventResult.pass()
+        if (target.type !in EntityTypes.Tags.defusable) return EventResult.pass()
 
         defuse(target)
         staffStack.damage(entity = attacker, hand = hand)

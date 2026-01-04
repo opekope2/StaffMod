@@ -37,7 +37,6 @@ import opekope2.avm_staff.content.DataComponentTypes
  * Checks if an item is added the given staff item stack.
  */
 val ItemStack.isItemInStaff: Boolean
-    @JvmName("isItemInStaff")
     get() = DataComponentTypes.staffItem in this
 
 /**
@@ -64,6 +63,8 @@ val ItemStack.itemStackInStaff: ItemStack?
 var ItemStack.mutableItemStackInStaff: ItemStack?
     get() = itemStackInStaff?.copy()
     set(value) {
+        staffHandlerOrFallback.beforeRemove(this)
+
         val changes = ComponentChanges.builder()
 
         if (value == null || value.isEmpty) changes.remove(DataComponentTypes.staffItem)
@@ -73,6 +74,8 @@ var ItemStack.mutableItemStackInStaff: ItemStack?
         )
 
         applyChanges(changes.build())
+
+        staffHandlerOrFallback.afterInsert(this)
     }
 
 private val staff2enabledItemsTag = mutableMapOf<Item, TagKey<Item>>()
@@ -82,7 +85,7 @@ private val staff2enabledItemsTag = mutableMapOf<Item, TagKey<Item>>()
  */
 val ItemStack.enabledItemsInStaffTag: TagKey<Item>
     get() = staff2enabledItemsTag.getOrPut(item) {
-        TagKey.of(RegistryKeys.ITEM, item.registryId.withPrefixedPath("enabled_in_staff/"))
+        TagKey.of(RegistryKeys.ITEM, item.registryId.withPrefixedPath("enabled_in/"))
     }
 
 /**
@@ -92,8 +95,7 @@ val ItemStack.enabledItemsInStaffTag: TagKey<Item>
 val ItemStack.staffHandlerOrFallback: StaffHandler
     get() = when (val itemInStaff = this.itemInStaff) {
         null -> StaffHandler.Empty
-        !in StaffHandler.Registry -> StaffHandler.Fallback
-        in enabledItemsInStaffTag -> StaffHandler.Registry.getValue(itemInStaff)
+        in enabledItemsInStaffTag -> StaffHandler.REGISTRY[itemInStaff.registryId] ?: StaffHandler.Fallback
         else -> StaffHandler.Disabled
     }
 

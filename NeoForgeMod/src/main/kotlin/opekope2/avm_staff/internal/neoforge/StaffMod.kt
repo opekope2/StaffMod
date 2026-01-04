@@ -22,11 +22,14 @@ import net.minecraft.loot.LootPool
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryOps
+import net.minecraft.village.VillagerProfession
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.event.LootTableLoadEvent
+import net.neoforged.neoforge.event.village.VillagerTradesEvent
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
 import opekope2.avm_staff.api.staff.StaffCommand
+import opekope2.avm_staff.content.VillagerTrades
 import opekope2.avm_staff.internal.AbstractStaffMod
 import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.internal.loot.ILootPoolBuilder
@@ -49,12 +52,26 @@ object StaffMod : AbstractStaffMod() {
         super.initialize()
 
         MOD_BUS.register(this)
+        FORGE_BUS.addListener(::registerVillagerTrades)
         FORGE_BUS.addListener(::modifyLootTables)
     }
 
     @SubscribeEvent
     fun registerDynamicRegistries(event: DataPackRegistryEvent.NewRegistry) {
         event.dataPackRegistry(StaffCommand.REGISTRY_KEY, StaffCommand.CODEC, StaffCommand.CODEC)
+    }
+
+    fun registerVillagerTrades(event: VillagerTradesEvent) {
+        when (event.type) {
+            VillagerProfession.ARMORER -> {
+                event.trades.get(4) += VillagerTrades.armorer4_faintScepterOfFriendshipHead
+                event.trades.get(5) += VillagerTrades.armorer5_faintScepterOfFriendship
+            }
+
+            VillagerProfession.CLERIC -> {
+                event.trades.get(5) += VillagerTrades.cleric5_scepterOfFriendship
+            }
+        }
     }
 
     fun modifyLootTables(event: LootTableLoadEvent) {

@@ -16,26 +16,11 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("IdentifierUtil")
-
 package opekope2.avm_staff.util
 
-import net.minecraft.entity.EntityType
-import net.minecraft.item.Item
-import net.minecraft.registry.DefaultedRegistry
-import net.minecraft.registry.Registries
-import net.minecraft.util.Identifier
+import java.util.function.Supplier
 
 /**
- * @see Registries.ITEM
- * @see DefaultedRegistry.getId
+ * Returns the given supplier as a [Lazy].
  */
-inline val Item.registryId: Identifier
-    get() = Registries.ITEM.getId(this)
-
-/**
- * @see Registries.ENTITY_TYPE
- * @see DefaultedRegistry.getId
- */
-inline val EntityType<*>.registryId: Identifier
-    get() = Registries.ENTITY_TYPE.getId(this)
+fun <T> Supplier<T>.asLazy() = lazy { get() }

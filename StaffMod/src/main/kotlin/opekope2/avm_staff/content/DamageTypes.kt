@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -28,14 +28,14 @@ import opekope2.avm_staff.util.RegistryKeyUtil
  */
 object DamageTypes : RegistryKeyUtil<DamageType>(MOD_ID, RegistryKeys.DAMAGE_TYPE) {
     /**
-     * `avm_staff:pranked` damage type.
+     * Pranked damage type.
      */
-    @JvmField
-    val PRANKED = registryKey("pranked")
+    @JvmStatic
+    val pranked by registryKey
 
     /**
-     * `avm_staff:pranked_by_player` damage type.
+     * Pranked by player damage type.
      */
-    @JvmField
-    val PRANKED_BY_PLAYER = registryKey("pranked_by_player")
+    @JvmStatic
+    val prankedByPlayer by registryKey
 }

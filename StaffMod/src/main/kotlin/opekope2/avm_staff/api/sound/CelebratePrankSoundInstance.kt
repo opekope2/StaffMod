@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024-2025 opekope2
+ * Copyright (c) 2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,16 +16,26 @@
  * along with this mod. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:Environment(EnvType.CLIENT)
-
-package opekope2.avm_staff.util
+package opekope2.avm_staff.api.sound
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.sound.EntityTrackingSoundInstance
+import net.minecraft.entity.Entity
+import opekope2.avm_staff.content.SoundEvents
 
 /**
- * @see MinecraftClient.getInstance
+ * Sound instance for the [SoundEvents.celebratePrank] sound event.
+ * This implements the [equals] method so it can be used to play it once at a time per entity.
+ *
+ * @param entity    The entity this sound instance tracks (the entity pranking another one)
  */
-inline val mc: MinecraftClient
-    get() = MinecraftClient.getInstance()
+@Environment(EnvType.CLIENT)
+data class CelebratePrankSoundInstance(val entity: Entity) : EntityTrackingSoundInstance(
+    SoundEvents.celebratePrank,
+    entity.soundCategory,
+    1f,
+    1f,
+    entity,
+    entity.world.random.nextLong()
+)

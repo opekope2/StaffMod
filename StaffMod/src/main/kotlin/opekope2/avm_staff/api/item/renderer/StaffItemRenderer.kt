@@ -18,6 +18,7 @@
 
 package opekope2.avm_staff.api.item.renderer
 
+import com.mojang.serialization.Lifecycle
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.LightmapTextureManager
@@ -27,8 +28,12 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.SimpleRegistry
 import net.minecraft.util.Identifier
-import opekope2.avm_staff.api.registry.RegistryBase
+import opekope2.avm_staff.api.item.renderer.StaffItemRenderer.Companion.REGISTRY
+import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.registryId
 import kotlin.math.max
 
@@ -77,28 +82,29 @@ abstract class StaffItemRenderer {
     }
 
     @Environment(EnvType.CLIENT)
-    companion object Registry : RegistryBase<Identifier, StaffItemRenderer>() {
+    companion object {
         /**
-         * Registers an entry to this registry.
+         * Registry key of [REGISTRY].
+         */
+        @JvmField
+        val REGISTRY_KEY: RegistryKey<Registry<StaffItemRenderer>> =
+            RegistryKey.ofRegistry(Identifier.of(MOD_ID, "staff_item_renderer"))
+
+        /**
+         * Registry of staff item renderers.
+         */
+        @JvmField
+        val REGISTRY: Registry<StaffItemRenderer> = SimpleRegistry(REGISTRY_KEY, Lifecycle.stable())
+
+        /**
+         * Registers an entry to [REGISTRY].
          *
-         * @param key The key to associate a value with
+         * @param T     The type of the staff item renderer
+         * @param key   The key to associate a value with
          * @param value The value to register
          */
-        fun register(key: Item, value: StaffItemRenderer) = register(key.registryId, value)
-
-        /**
-         * Checks if the given key is present in the registry
-         *
-         * @param key The key to check
-         */
-        operator fun contains(key: Item) = key.registryId in this
-
-        /**
-         * Gets the value associated with the given key or throws an exception, if the key is not present in this registry.
-         *
-         * @param key The key to check
-         */
-        operator fun get(key: Item) = getValue(key.registryId)
+        fun <T : StaffItemRenderer> register(key: Item, value: T): T =
+            Registry.register(REGISTRY, key.registryId, value)
 
         /**
          * Calculates a new light parameter value.

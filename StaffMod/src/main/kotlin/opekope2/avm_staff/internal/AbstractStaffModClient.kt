@@ -36,7 +36,7 @@ import opekope2.avm_staff.api.staff.Defuse
 import opekope2.avm_staff.content.EntityTypes
 import opekope2.avm_staff.internal.event_handler.ClientEventHandlers
 import opekope2.avm_staff.internal.event_handler.KeyBindingHandler
-import opekope2.avm_staff.internal.model.ModelPredicates
+import opekope2.avm_staff.internal.model.MODEL_PREDICATES
 import opekope2.avm_staff.internal.staff.item_renderer.BellStaffItemRenderer
 import opekope2.avm_staff.internal.staff.item_renderer.FurnaceStaffItemRenderer
 import opekope2.avm_staff.internal.staff.item_renderer.LightningRodStaffItemRenderer
@@ -44,9 +44,6 @@ import opekope2.avm_staff.internal.staff.item_renderer.WitherSkeletonSkullStaffI
 import opekope2.avm_staff.util.MOD_ID
 import opekope2.avm_staff.util.registryId
 import org.jetbrains.annotations.ApiStatus
-import org.jetbrains.annotations.MustBeInvokedByOverriders
-import java.util.function.BiConsumer
-import java.util.function.Consumer
 
 @ApiStatus.Internal
 @Environment(EnvType.CLIENT)
@@ -60,15 +57,14 @@ abstract class AbstractStaffModClient {
         registerStaffItemRenderers()
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerEntityRenderers() {
-        EntityRendererRegistry.register(EntityTypes.IMPACT_TNT, ::TntEntityRenderer)
-        EntityRendererRegistry.register(EntityTypes.CAKE, ::CakeEntityRenderer)
-        EntityRendererRegistry.register(EntityTypes.CAMPFIRE_FLAME, ::EmptyEntityRenderer)
+    protected fun registerEntityRenderers() {
+        EntityRendererRegistry.register(EntityTypes::cake, ::CakeEntityRenderer)
+        EntityRendererRegistry.register(EntityTypes::campfireFlame, ::EmptyEntityRenderer)
+        EntityRendererRegistry.register(EntityTypes::impactTnt, ::TntEntityRenderer)
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerStaffItemRenderers() {
+    // TODO move to RegistryUtil
+    protected fun registerStaffItemRenderers() {
         StaffItemRenderer.register(ANVIL, BlockStateStaffItemRenderer(Blocks.ANVIL))
         StaffItemRenderer.register(CHIPPED_ANVIL, BlockStateStaffItemRenderer(Blocks.CHIPPED_ANVIL))
         StaffItemRenderer.register(DAMAGED_ANVIL, BlockStateStaffItemRenderer(Blocks.DAMAGED_ANVIL))
@@ -124,25 +120,22 @@ abstract class AbstractStaffModClient {
         StaffItemRenderer.register(BLACK_WOOL, BlockStateStaffItemRenderer(Blocks.BLACK_WOOL))
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerModelPredicateProviders(register: BiConsumer<Identifier, ClampedModelPredicateProvider>) {
-        for ((key, value) in ModelPredicates) register.accept(key, value)
+    protected inline fun registerModelPredicateProviders(register: (id: Identifier, modelPredicate: ClampedModelPredicateProvider) -> Unit) {
+        for ((key, value) in MODEL_PREDICATES) register(key, value)
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerStaffItemModels(modelsToLoad: Consumer<Identifier>) {
+    protected inline fun registerStaffItemModels(loadModel: (modelId: Identifier) -> Unit) {
         for (item in IStaffModClientPlatform.staffModelItems) {
             val itemId = item.registryId.withPrefixedPath("item/")
-            modelsToLoad.accept(itemId.withSuffixedPath("/head"))
-            modelsToLoad.accept(itemId.withSuffixedPath("/item_transform"))
-            modelsToLoad.accept(itemId.withSuffixedPath("/rod_top"))
-            modelsToLoad.accept(itemId.withSuffixedPath("/rod_bottom"))
+            loadModel(itemId.withSuffixedPath("/head"))
+            loadModel(itemId.withSuffixedPath("/item_transform"))
+            loadModel(itemId.withSuffixedPath("/rod_top"))
+            loadModel(itemId.withSuffixedPath("/rod_bottom"))
         }
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerResourceLoaders(register: BiConsumer<Identifier, ResourceReloader>) {
-        register.accept(Identifier.of(MOD_ID, "defuse"), Defuse)
+    protected inline fun registerResourceLoaders(register: (id: Identifier, reloader: ResourceReloader) -> Unit) {
+        register(Identifier.of(MOD_ID, "defuse"), Defuse)
     }
 
     companion object {

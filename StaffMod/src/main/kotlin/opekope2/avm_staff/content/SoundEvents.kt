@@ -20,51 +20,38 @@ package opekope2.avm_staff.content
 
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.SoundEvent
-import opekope2.avm_staff.content.SoundEvents.CAKE_SPLASH
-import opekope2.avm_staff.content.SoundEvents.CAKE_THROW
-import opekope2.avm_staff.content.SoundEvents.FLAMETHROWER_FIRE
 import opekope2.avm_staff.util.MOD_ID
-import opekope2.avm_staff.util.RegistryUtil
+import opekope2.avm_staff.util.Registrar
 
 /**
  * Sound events added by AVM Staffs mod.
  */
-object SoundEvents : RegistryUtil<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) {
-    /**
-     * Sound event registered as `avm_staff:entity.cake.splash`.
-     */
-    @JvmField
-    val CAKE_SPLASH = register("entity.cake.splash") { SoundEvent.of(it.value) }
+@Suppress("unused")
+object SoundEvents : Registrar<SoundEvent>(MOD_ID, RegistryKeys.SOUND_EVENT) {
+    @JvmStatic
+    private fun registering(path: String) = registering(path) { key -> SoundEvent.of(key.value)!! }
 
     /**
-     * @see CAKE_SPLASH
+     * Cake splashing sound event.
      */
-    val cakeSplash: SoundEvent
-        @JvmName("cakeSplash")
-        get() = CAKE_SPLASH.get()
+    @JvmStatic
+    val cakeSplash by registering("entity.cake.splash")
 
     /**
-     * Sound event registered as `avm_staff:entity.cake.throw`.
+     * Cake thrown sound event.
      */
-    @JvmField
-    val CAKE_THROW = register("entity.cake.throw") { SoundEvent.of(it.value) }
+    @JvmStatic
+    val cakeThrow by registering("entity.cake.throw")
 
     /**
-     * @see CAKE_THROW
+     * Player celebrates prank sound event.
      */
-    val cakeThrow: SoundEvent
-        @JvmName("cakeThrow")
-        get() = CAKE_THROW.get()
+    @JvmStatic
+    val celebratePrank by registering("entity.player.celebrate_prank")
 
     /**
-     * Sound event registered as `avm_staff:item.staff.throw_flame`
+     * Flamethrower fire sound event.
      */
-    @JvmField
-    val FLAMETHROWER_FIRE = register("item.flamethrower.fire") { SoundEvent.of(it.value) }
-
-    /**
-     * @see FLAMETHROWER_FIRE
-     */
-    val flamethrowerFire: SoundEvent
-        get() = FLAMETHROWER_FIRE.get()
+    @JvmStatic
+    val flamethrowerFire by registering("item.flamethrower.fire")
 }

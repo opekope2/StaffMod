@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024 opekope2
+ * Copyright (c) 2024-2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,6 +19,7 @@
 package opekope2.avm_staff.internal.staff.handler
 
 import dev.architectury.event.EventResult
+import net.minecraft.SharedConstants.TICKS_PER_SECOND
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -38,7 +39,7 @@ import opekope2.avm_staff.util.*
 internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandler() {
     override fun getFireRateDenominator(rapidFireLevel: Int) = if (rapidFireLevel >= 2) 2 else 4
 
-    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = 20
+    override fun getMaxUseTime(staffStack: ItemStack, world: World, user: LivingEntity) = TICKS_PER_SECOND
 
     override fun attack(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) {
         if (attacker is PlayerEntity && attacker.itemCooldownManager.isCoolingDown(staffStack.item)) return
@@ -59,7 +60,7 @@ internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandl
 
         world.spawnEntity(WitherSkullEntity(world, shooter, shooter.rotationVector).apply {
             owner = shooter
-            isCharged = reason.isAttack && staffStack.isEnchantedWith(Enchantments.POWER_CHARGE, world.registryManager)
+            isCharged = reason.isAttack && staffStack.isEnchantedWith(Enchantments.powerCharge, world.registryManager)
             setPosition(spawnPos)
         })
         world.syncWorldEvent(WorldEvents.WITHER_SHOOTS, shooter.blockPos, 0)
@@ -77,7 +78,7 @@ internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandl
         if (world.isClient) return EventResult.pass()
         if (target is LivingEntity && !target.isInvulnerableTo(world.damageSources.wither())) {
             val amplifier = if (world.difficulty == Difficulty.HARD) 1 else 0
-            target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 10 * 20, amplifier))
+            target.addStatusEffect(StatusEffectInstance(StatusEffects.WITHER, 10 * TICKS_PER_SECOND, amplifier))
             (attacker as? ServerPlayerEntity)?.incrementStaffItemUseStat(staffStack.itemInStaff!!)
         }
 
@@ -96,7 +97,7 @@ internal class WitherSkeletonSkullHandler : AbstractProjectileShootingStaffHandl
     private fun addCooldown(staffStack: ItemStack, world: World, player: PlayerEntity, remainingUseTicks: Int) {
         if (player.abilities.creativeMode) return
 
-        val quickDraw = staffStack.getEnchantmentLevel(Enchantments.QUICK_DRAW, world.registryManager) + 1
+        val quickDraw = staffStack.getEnchantmentLevel(Enchantments.quickDraw, world.registryManager) + 1
         player.itemCooldownManager.set(
             staffStack.item,
             4 * (getMaxUseTime(staffStack, world, player) - remainingUseTicks) / quickDraw

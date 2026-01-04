@@ -1,12 +1,28 @@
 {
-  "type": "minecraft:empty",
+  "type": "minecraft:enchanted_item",
   "pools": [
     {
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "avm_staff:faint_scepter_of_friendship_head"
+          "name": "avm_staff:chromatic_crystal",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": {
+                  "type": "minecraft:enchantment_level",
+                  "amount": {
+                    "type": "minecraft:linear",
+                    "base": 1,
+                    "per_level_above_first": 1
+                  }
+                },
+                "max": 5
+              }
+            }
+          ]
         }
       ]
     },

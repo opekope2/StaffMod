@@ -135,11 +135,15 @@ class CakeEntity(entityType: EntityType<CakeEntity>, world: World) : Entity(enti
         val damageables = EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.and(EntityPredicates.VALID_LIVING_ENTITY)
         val thrower = thrower
         val damageSource =
-            if (thrower == null) world.damageSource(DamageTypes.PRANKED)
-            else world.damageSource(DamageTypes.PRANKED_BY_PLAYER, this, thrower)
+            if (thrower == null) world.damageSource(DamageTypes.pranked)
+            else world.damageSource(DamageTypes.prankedByPlayer, this, thrower)
 
-        world.getOtherEntities(this, boundingBox, damageables).forEach {
-            it.damage(damageSource, 1f)
+        val entities = world.getOtherEntities(this, boundingBox, damageables)
+        entities.forEach { it.damage(damageSource, 1f) }
+
+        val owner = owner
+        if (owner != null && entities.any { it.isPlayer && it != owner }) {
+            world.syncWorldEvent(CELEBRATE_PRANK_WORLD_EVENT, blockPos, owner.id)
         }
     }
 

@@ -23,6 +23,7 @@ import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents
 import net.fabricmc.fabric.api.loot.v3.LootTableSource
+import net.fabricmc.fabric.api.`object`.builder.v1.trade.TradeOfferHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.loot.LootPool
@@ -34,9 +35,11 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.dynamic.NullOps
 import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.village.VillagerProfession
 import net.minecraft.world.World
 import opekope2.avm_staff.api.item.StaffItem
 import opekope2.avm_staff.api.staff.StaffCommand
+import opekope2.avm_staff.content.VillagerTrades
 import opekope2.avm_staff.internal.AbstractStaffMod
 import opekope2.avm_staff.internal.I18n
 import opekope2.avm_staff.internal.loot.ILootPoolBuilder
@@ -50,12 +53,25 @@ object StaffMod : AbstractStaffMod(), ModInitializer, AttackEntityCallback, Loot
         super.initialize()
 
         registerDynamicRegistries()
+        registerVillagerTrades()
         AttackEntityCallback.EVENT.register(this)
         LootTableEvents.MODIFY.register(this)
     }
 
     private fun registerDynamicRegistries() {
         DynamicRegistries.registerSynced(StaffCommand.REGISTRY_KEY, StaffCommand.CODEC)
+    }
+
+    private fun registerVillagerTrades() {
+        TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 4) { trades ->
+            trades += VillagerTrades.armorer4_faintScepterOfFriendshipHead
+        }
+        TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 5) { trades ->
+            trades += VillagerTrades.armorer5_faintScepterOfFriendship
+        }
+        TradeOfferHelper.registerVillagerOffers(VillagerProfession.CLERIC, 5) { trades, rebalance ->
+            if (!rebalance) trades += VillagerTrades.cleric5_scepterOfFriendship
+        }
     }
 
     override fun interact(

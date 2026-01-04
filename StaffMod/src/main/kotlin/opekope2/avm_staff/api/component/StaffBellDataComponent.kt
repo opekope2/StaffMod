@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024-2025 opekope2
+ * Copyright (c) 2025 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,19 +21,26 @@ package opekope2.avm_staff.api.component
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
+import opekope2.avm_staff.mixin.IBellBlockEntityAccessor
 
 /**
- * Data components to store the shot TNT in a TNT staff.
+ * Data component to store bell data.
  *
- * @param tntId The [network ID][net.minecraft.entity.ItemEntity.getId] of the shot TNT entity
+ * @param lastRingTime  [World time][net.minecraft.world.World.getTime] when the bell staff was rang.
  */
-data class StaffTntDataComponent(val tntId: Int) {
+data class StaffBellDataComponent(val lastRingTime: Long) {
+    /**
+     * Gets the [world time][net.minecraft.world.World.getTime] when the glow effect should be applied to nearby entities
+     */
+    val applyGlowTime: Long
+        get() = lastRingTime + IBellBlockEntityAccessor.maxResonatingTicks()
+
     companion object {
         /**
-         * [PacketCodec] for [StaffTntDataComponent].
+         * [PacketCodec] for [StaffBellDataComponent].
          */
         @JvmField
-        val PACKET_CODEC: PacketCodec<RegistryByteBuf, StaffTntDataComponent> =
-            PacketCodec.tuple(PacketCodecs.VAR_INT, StaffTntDataComponent::tntId, ::StaffTntDataComponent)
+        val PACKET_CODEC: PacketCodec<RegistryByteBuf, StaffBellDataComponent> =
+            PacketCodec.tuple(PacketCodecs.VAR_LONG, StaffBellDataComponent::lastRingTime, ::StaffBellDataComponent)
     }
 }
