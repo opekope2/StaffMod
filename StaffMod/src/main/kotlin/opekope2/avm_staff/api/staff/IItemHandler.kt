@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2025 opekope2
+ * Copyright (c) 2025-2026 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -32,12 +32,31 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import opekope2.avm_staff.util.mutableItemStackInStaff
 
 /**
  * Base interface for [Item]-related use and attack methods for [staff handlers][StaffHandler] and
  * [staff commands][StaffCommand].
  */
 interface IItemHandler {
+    /**
+     * Called by Staff Mod before an item with this staff handler is removed from [staffStack] using
+     * [mutableItemStackInStaff].
+     *
+     * @param staffStack    The item stack of the staff
+     */
+    fun beforeRemove(staffStack: ItemStack) {
+    }
+
+    /**
+     * Called by Staff Mod after an item with this staff handler is inserted into [staffStack] using
+     * [mutableItemStackInStaff].
+     *
+     * @param staffStack    The item stack of the staff
+     */
+    fun afterInsert(staffStack: ItemStack) {
+    }
+
     /**
      * Called on both the client and the server my Minecraft to get the number of ticks the staff can be used for using
      * the current item.
@@ -251,4 +270,16 @@ interface IItemHandler {
     fun attackEntity(
         staffStack: ItemStack, world: World, attacker: LivingEntity, target: Entity, hand: Hand
     ): EventResult = EventResult.pass()
+
+    /**
+     * Called on both the client and the server by Minecraft every tick [staffStack] is in a player's inventory.
+     *
+     * @param staffStack    The item stack of the staff
+     * @param world         The world [holder] is in
+     * @param holder        The entity holding the staff
+     * @param slot          The slot [staffStack] is in
+     * @param selected      Whether [staffStack] is in the selected hotbar slot
+     */
+    fun tick(staffStack: ItemStack, world: World, holder: Entity, slot: Int, selected: Boolean) {
+    }
 }

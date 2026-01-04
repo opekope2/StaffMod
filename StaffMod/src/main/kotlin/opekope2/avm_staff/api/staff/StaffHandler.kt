@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2024-2025 opekope2
+ * Copyright (c) 2024-2026 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -60,24 +60,6 @@ abstract class StaffHandler : IItemHandler {
         get() = Fallback.ATTRIBUTE_MODIFIERS
 
     /**
-     * Called by Staff Mod before an item with this staff handler is removed from [staffStack] using
-     * [mutableItemStackInStaff].
-     *
-     * @param staffStack    The item stack of the staff
-     */
-    open fun beforeRemove(staffStack: ItemStack) {
-    }
-
-    /**
-     * Called by Staff Mod after an item with this staff handler is inserted into [staffStack] using
-     * [mutableItemStackInStaff].
-     *
-     * @param staffStack    The item stack of the staff
-     */
-    open fun afterInsert(staffStack: ItemStack) {
-    }
-
-    /**
      * Gets the action that happens when a player uses the staff.
      *
      * @param staffStack    The item stack used to perform the action
@@ -106,18 +88,6 @@ abstract class StaffHandler : IItemHandler {
      * @param hand          The hand of [attacker], in which the [staff][staffStack] is
      */
     open fun disablesShield(staffStack: ItemStack, world: World, attacker: LivingEntity, hand: Hand) = false
-
-    /**
-     * Called on both the client and the server by Minecraft every tick [staffStack] is in a player's inventory.
-     *
-     * @param staffStack    The item stack of the staff
-     * @param world         The world [holder] is in
-     * @param holder        The entity holding the staff
-     * @param slot          The slot [staffStack] is in
-     * @param selected      Whether [staffStack] is in the selected hotbar slot
-     */
-    open fun tick(staffStack: ItemStack, world: World, holder: Entity, slot: Int, selected: Boolean) {
-    }
 
     /**
      * Called on the client side by Fabric API, when the NBT of the held item gets updated.
