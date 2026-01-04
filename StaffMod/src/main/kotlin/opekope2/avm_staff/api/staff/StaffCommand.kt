@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2025 opekope2
+ * Copyright (c) 2025-2026 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -55,7 +55,7 @@ abstract class StaffCommand<TArgs : StaffCommand.IArgs> : IItemHandler {
      */
     protected fun getArgs(staffStack: ItemStack) =
         requireNotNull(staffStack[DataComponentTypes.staffCommand<TArgs>()]) {
-            I18n.ERROR_AVM_STAFF_MISSING_COMPONENT.getText(DataComponentTypes.STAFF_COMMAND.id, staffStack)
+            I18n.ERROR_AVM_STAFF_MISSING_COMPONENT.getText(DataComponentTypes.staffCommand, staffStack)
         }.args
 
     /**

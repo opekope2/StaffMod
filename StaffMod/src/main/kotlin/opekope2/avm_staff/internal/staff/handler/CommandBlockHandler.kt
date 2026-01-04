@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2025 opekope2
+ * Copyright (c) 2025-2026 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -70,5 +70,5 @@ internal class CommandBlockHandler : StaffHandler() {
     }
 
     private fun getCommand(staffStack: ItemStack) =
-        staffStack.getOrDefault(DataComponentTypes.STAFF_COMMAND.get(), NoOpCommand.component).command.value()
+        staffStack.getOrDefault(DataComponentTypes.staffCommand, NoOpCommand.component).command.value()
 }
