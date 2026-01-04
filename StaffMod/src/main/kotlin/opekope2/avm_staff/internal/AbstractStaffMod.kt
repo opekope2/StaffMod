@@ -1,6 +1,6 @@
 /*
  * AvM Staff Mod
- * Copyright (c) 2025 opekope2
+ * Copyright (c) 2025-2026 opekope2
  *
  * This mod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -33,6 +33,8 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryOps
 import net.minecraft.sound.SoundEvents.*
+import net.minecraft.util.Identifier
+import opekope2.avm_staff.api.staff.StaffCommand
 import opekope2.avm_staff.api.staff.StaffHandler
 import opekope2.avm_staff.content.*
 import opekope2.avm_staff.internal.event_handler.EventHandlers
@@ -197,8 +199,7 @@ abstract class AbstractStaffMod {
         StaffHandler.register(BLACK_WOOL, WoolHandler(BLACK_WOOL, BLACK_CARPET))
     }
 
-    @MustBeInvokedByOverriders
-    protected open fun registerStaffCommands() {
+    protected fun registerStaffCommands() {
         Registry.register(StaffCommand.Type.REGISTRY, Identifier.of(MOD_ID, "no_op"), NoOpCommand.type)
         Registry.register(StaffCommand.Type.REGISTRY, Identifier.of(MOD_ID, "greet"), GreetCommand.TYPE)
     }
